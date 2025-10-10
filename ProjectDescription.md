@@ -27,6 +27,9 @@ The goal of the game is partially open-ended but should include a focus on destr
 
 The design of the monster and the environment is also left up to the developers.
 
+An AI generated reference picture for what it COULD look like (do not anchor yourself to this it is just an example):
+<img width="1536" height="1024" alt="RampagePic" src="https://github.com/user-attachments/assets/cf906020-2342-417b-a477-f65c8ee31c3d" />
+
 There should be a way to track score and an overarching goal and direction of gameplay that the player is encouraged to hit.
 
 The goal of this is project is to leverage TrackIR to create a game that shows off head tracking in a fun and modern way that can be used to demonstrate interactive functionality at trade shows.
