@@ -36,10 +36,10 @@ public class movement : MonoBehaviour
 
         forward.Normalize();
         right.Normalize();
-
+        // Calculate the move direction based on camera orientation
         Vector3 moveDirection = forward * moveZ + right * moveX;
         controller.Move(moveDirection * speed * Time.deltaTime);
-
+        // Rotate the player to face the move direction
         if(ShouldFaceMoveDirection && moveDirection.sqrMagnitude > 0.001f)
         {
             Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
@@ -47,11 +47,11 @@ public class movement : MonoBehaviour
         }
 
 
-        // Move relative to the player's orientation
+        // Move relative to the player's orientation (not camera)
         //Vector3 move = transform.right * moveX + transform.forward * moveZ;
         //controller.Move(move * speed * Time.deltaTime);
 
-        // Ensure a small downward velocity when grounded so CharacterController stays snapped to ground
+        // Keep player grounded
         if (controller.isGrounded && velocity.y < 0f)
         {
             velocity.y = -2f;
