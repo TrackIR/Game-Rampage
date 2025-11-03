@@ -75,13 +75,14 @@ Reviews should be done by another team member
 Link to pipeline definitions, list mandatory jobs, how to view logs/re-run jobs,
 and what must pass before merge/release.
 
-
+No jobs/actions made yet.
 
 ## Security & Secrets
 State how to report vulnerabilities, prohibited patterns (hard-coded secrets),
 dependency update policy, and scanning tools.
 
-
+To report vulnerabilities: Create and issue in github tagged "vulnerability"/"risk" and mention it in the discord.
+Private information should not be uploaded to the Github repository directly and when using private information all group members should be made aware of it.
 
 ## Documentation Expectations
 Specify what must be updated (README, docs/, API refs, CHANGELOG) and
@@ -97,15 +98,17 @@ The following documentation should be up to date:
 Describe versioning scheme, tagging, changelog generation, packaging/publishing
 steps, and rollback process.
 
-
+The version will start at 0.1 and will increased depending on the size of the update merged to main. 
+The release tags will match the version number.
+Publishing will use Unity's built in "build" feature that exports the unity project into an executable file.
 
 ## Support & Contact
 Provide maintainer contact channel, expected response windows, and where to ask
 questions.
 
 Maintainers: All team members
-
-Email:
+Questions can be sent to any of our emails.
+Expected response window: 72 business hours.
 
 Quinn – rothq@oregonstate.edu
 
