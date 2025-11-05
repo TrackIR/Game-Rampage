@@ -1,4 +1,6 @@
 using System;
+using System.IO.Compression;
+using Unity.Cinemachine;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -11,7 +13,7 @@ public class cameraMovement3D : MonoBehaviour
     public float defaultHight = 8;
     public float horizontalOffectWeight = 20;
     public float verticalOffectWeight = 20;
-    public float depthOffectWeight = 5;
+    public float depthOffectWeight = 15;
 
 
     // moves the camera target's empty
@@ -22,12 +24,9 @@ public class cameraMovement3D : MonoBehaviour
                                      cameraObject.transform.rotation.y,
                                      cameraObject.transform.rotation.z);
 
-        // target pos
-        Vector3 basePos = new Vector3(0f, defaultHight, distance);
-        Vector3 targetPos = basePos;
+        Vector3 basePos = new Vector3(0f, defaultHight, distance);  // default pos for camera
+        Vector3 targetPos = basePos;                                // target pos for camera
 
-
-        // rot to pos math
 
         // x pos change with left/right head movement
         targetPos.x = basePos.x - (camRot.y * horizontalOffectWeight);
@@ -39,6 +38,8 @@ public class cameraMovement3D : MonoBehaviour
         // scretch goal to cast a ray down so it never goes below ground/debris
         Math.Clamp(targetPos.y, 0.1f, math.INFINITY);
 
+        // z pos change tied to up/down head movement
+        targetPos.z = basePos.z + (camRot.x * depthOffectWeight);
 
         transform.localPosition = targetPos;
         Debug.Log(camRot);
