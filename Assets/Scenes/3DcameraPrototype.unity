@@ -165,7 +165,28 @@ MonoBehaviour:
   speed: 10
   jumpPower: 6
   cameraTransform: {fileID: 1348361837}
-  ShouldFaceMoveDirection: 1
+  ShouldFaceMoveDirection: 0
+  headZThreshhold: 10
+--- !u!4 &162374357 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5343599236601147752, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+  m_PrefabInstance: {fileID: 17487671676369494}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &162374358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162374346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 151b29f58ae5e5b4482530a6aa2c63e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrackIRComponent
+  AssignedApplicationId: 1000
+  TrackingLostTimeoutSeconds: 3
+  TrackingLostRecenterDurationSeconds: 1
 --- !u!1 &300924384
 GameObject:
   m_ObjectHideFlags: 0
@@ -1077,12 +1098,12 @@ Transform:
   m_GameObject: {fileID: 1348361832}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -1.051051, z: 0}
+  m_LocalScale: {x: 0.3003003, y: 0.3003003, z: 0.3003003}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 330585546}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 162374357}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1348361838
 MonoBehaviour:
@@ -1096,14 +1117,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d82fadd09f0cde4d8b61f7f70d16cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  is_3rd_person: 1
+  is3rdPerson: 1
   playerObject: {fileID: 162374346}
   cameraObject: {fileID: 330585543}
-  distance: -12
-  defaultHight: 8
-  horizontalOffectWeight: 20
-  verticalOffectWeight: 20
-  depthOffectWeight: 25
+  distance: -3
+  defaultHight: 1.5
+  horizontalOffectWeight: 5
+  verticalOffectWeight: 4
+  depthOffectWeight: 5
 --- !u!1 &1549025713
 GameObject:
   m_ObjectHideFlags: 0
@@ -1542,7 +1563,10 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 3790752787202407133, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 5343599236601147752, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1348361837}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6933993760005083412, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       insertIndex: -1
@@ -1550,6 +1574,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6933993760005083412, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       insertIndex: -1
       addedObject: {fileID: 162374353}
+    - targetCorrespondingSourceObject: {fileID: 6933993760005083412, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 162374358}
   m_SourcePrefab: {fileID: 100100000, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -1560,4 +1587,3 @@ SceneRoots:
   - {fileID: 300924388}
   - {fileID: 1549025714}
   - {fileID: 17487671676369494}
-  - {fileID: 1348361837}
