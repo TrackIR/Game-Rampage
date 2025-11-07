@@ -164,29 +164,19 @@ MonoBehaviour:
   gravity: -60
   speed: 10
   jumpPower: 6
+  TrackIRRoot: {fileID: 1105732967}
   cameraTransform: {fileID: 1348361837}
   ShouldFaceMoveDirection: 0
-  headZThreshhold: 10
+  debugON: 1
+  headZThreshhold: 0.1
+  headXThreshold: 0.1
+  headRollThreshold: 0.25
+  rotationSpeed: 100
 --- !u!4 &162374357 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5343599236601147752, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
   m_PrefabInstance: {fileID: 17487671676369494}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &162374358
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 162374346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 151b29f58ae5e5b4482530a6aa2c63e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TrackIRComponent
-  AssignedApplicationId: 1000
-  TrackingLostTimeoutSeconds: 3
-  TrackingLostRecenterDurationSeconds: 1
 --- !u!1 &300924384
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,6 +553,7 @@ MonoBehaviour:
   AssignedApplicationId: 1000
   TrackingLostTimeoutSeconds: 3
   TrackingLostRecenterDurationSeconds: 1
+  DriveTransform: 1
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -845,6 +836,54 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1105732967
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1105732969}
+  - component: {fileID: 1105732968}
+  m_Layer: 0
+  m_Name: TrackIRRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1105732968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105732967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 151b29f58ae5e5b4482530a6aa2c63e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrackIRComponent
+  AssignedApplicationId: 1000
+  TrackingLostTimeoutSeconds: 3
+  TrackingLostRecenterDurationSeconds: 1
+  DriveTransform: 1
+--- !u!4 &1105732969
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105732967}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.68068, y: 0.47648, z: 0.68068}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1574,9 +1613,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6933993760005083412, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       insertIndex: -1
       addedObject: {fileID: 162374353}
-    - targetCorrespondingSourceObject: {fileID: 6933993760005083412, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 162374358}
   m_SourcePrefab: {fileID: 100100000, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -1587,3 +1623,4 @@ SceneRoots:
   - {fileID: 300924388}
   - {fileID: 1549025714}
   - {fileID: 17487671676369494}
+  - {fileID: 1105732969}
