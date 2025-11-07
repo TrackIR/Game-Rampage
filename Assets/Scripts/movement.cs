@@ -30,19 +30,69 @@ public class movement : MonoBehaviour
     [SerializeField] private float headZThreshhold = 0.1f; // meters toward screen from neutral position to trigger forward movement
     [SerializeField] private float headXThreshold = 0.1f; // meters to the side from neutral position to trigger lateral movement
     [SerializeField] private float headRollThreshold = 23.0f; // degrees from neutral position to trigger roll movement
-
     [SerializeField] private float rollSpeed = 50.0f; // degrees per second when rolling
+    [SerializeField] private bool invertRotation = false;
 
     Vector3 velocity;
     // store last computed head movement so other methods (OnGUI/UI) can read it
-    Vector3 headPos;
+    private Vector3 headPos;
 
-    Quaternion headRot;
+    private Quaternion headRot;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
         trackIR = TrackIRRoot.GetComponent<TrackIRComponent>();
+    }
+
+    void zMove()
+    {
+        //when head moves forward past threshhold, move player forward
+        if (Mathf.Abs(headPos.z) > headZThreshhold)
+        {
+            // Determine forward direction relative to player's orientation
+            Vector3 forward = transform.forward;
+            forward.y = 0; // keep movement horizontal
+            forward.Normalize();
+
+            forward = headPos.z > 0 ? forward : -forward; // if head is forward, move forward else move backward
+
+            Vector3 move = forward * speed * Time.deltaTime;
+            controller.Move(move);
+
+        }
+    }
+
+    void xMove()
+    {
+        //when head moves to the side past threshhold, move player sideways
+        if (Mathf.Abs(headPos.x) > headXThreshold)
+        {
+            // Determine right direction relative to player's orientation
+            Vector3 right = transform.right;
+            right.y = 0; // keep movement horizontal
+            right.Normalize();
+
+            right = headPos.x < 0 ? -right : right; // if head is to left, move left else move right
+
+            Vector3 move = right * speed * Time.deltaTime;
+            controller.Move(move);
+        }
+
+    }
+    
+    void rotPlayer()
+    {
+        // rotate player when head is rolled past threshold
+        if (Mathf.Abs(headRot.z) > headRollThreshold)
+        {
+            // Determine rotation direction based on head roll and invert setting
+            float rotDirection = (invertRotation ? -1f : 1f) * (headRot.z > 0 ? 1f : -1f);
+
+            float rotAmount = rotDirection * rollSpeed * Time.deltaTime;
+
+            transform.Rotate(0f, rotAmount, 0f);
+        }
     }
 
     // Update is called once per frame
@@ -52,60 +102,19 @@ public class movement : MonoBehaviour
 
         headRot = trackIR.LatestPoseOrientation;
 
+        zMove();
 
-        //when head moves forward past threshhold, move player forward
-        if (Mathf.Abs(headPos.z) > headZThreshhold)
-        {
-            // Determine forward direction relative to player's orientation
-            Vector3 forward = transform.forward;
-            forward.y = 0; // keep movement horizontal
-            forward.Normalize();
+        xMove();
 
-            if(headPos.z < 0) // if head is pulled back, reverse movement direction
-            {
-                forward = -forward;
-            }
-            Vector3 move = forward * speed * Time.deltaTime;
-            controller.Move(move);
-
-        }
-        
-        if (Mathf.Abs(headPos.x) > headXThreshold)
-        {
-            // Determine right direction relative to player's orientation
-            Vector3 right = transform.right;
-            right.y = 0; // keep movement horizontal
-            right.Normalize();
-            if (headPos.x < 0) // if head is to left, move left
-            {
-                right = -right;
-            }
-            Vector3 move = right * speed * Time.deltaTime;
-            controller.Move(move);
-        }
-        // rotate player when head is rolled past threshold
-        if (Mathf.Abs(headRot.z) > headRollThreshold)
-        {
-            float rotDirection = headRot.z > 0 ? 1f : -1f;
-            float rotAmount = rotDirection * rollSpeed * Time.deltaTime;
-
-            transform.Rotate(0f, rotAmount, 0f);
-        }
-        
-
-
+        rotPlayer();
 
         bool jumpPressed = Input.GetKeyDown(KeyCode.Space);
-        // Move relative to the player's orientation (not camera)
-        //Vector3 move = transform.right * moveX + transform.forward * moveZ;
-        //controller.Move(move * speed * Time.deltaTime);
 
         // Keep player grounded
         if (controller.isGrounded && velocity.y < 0f)
         {
             velocity.y = -2f;
         }       
-
         // Apply gravity
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
