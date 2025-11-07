@@ -6,10 +6,14 @@ using UnityEngine;
 
 public class cameraMovement3D : MonoBehaviour
 {
+    [Header("Camera Settings")]
+    // trackIR componments
+    TrackIRComponent trackIR;
+    public GameObject trackIRRoot;
 
-    public bool is3rdPerson = true;
     public GameObject playerObject;
     public GameObject cameraObject;
+    public bool is3rdPerson = true;
 
     [Header("3rd Person Settings")]
     public float distance = 5;
@@ -23,33 +27,40 @@ public class cameraMovement3D : MonoBehaviour
     public float yOffset;
     public float zOffset;
 
+    void Start()
+    {
+        trackIR = trackIRRoot.GetComponent<TrackIRComponent>();
+    }
 
     // moves the camera target's empty
     void Move3rdCamTargetPosition()
     {
-        // camera's rotation
-        Vector3 camRot = new Vector3(cameraObject.transform.rotation.x,
-                                     cameraObject.transform.rotation.y,
-                                     cameraObject.transform.rotation.z);
+        // Extract raw Euler angles (0–360)
+        Vector3 headRot = trackIR.LatestPoseOrientation.eulerAngles;
 
-        Vector3 basePos = new Vector3(0f, defaultHight, distance);  // default pos for camera
-        Vector3 targetPos = basePos;                                // target pos for camera
+        // Convert each axis to -180–180
+        if (headRot.x > 180f) headRot.x -= 360f;
+        if (headRot.y > 180f) headRot.y -= 360f;
+        if (headRot.z > 180f) headRot.z -= 360f;
 
+        Vector3 basePos = new Vector3(0f, defaultHight, distance);
+        Vector3 targetPos = basePos;
 
-        // x pos change with left/right head movement
-        targetPos.x = basePos.x - (camRot.y * horizontalOffectWeight);
+        // Horizontal movement: use signed yaw
+        targetPos.x = basePos.x - (headRot.y * horizontalOffectWeight);
 
-        // y pos change with up/down head movement
-        targetPos.y = basePos.y + (camRot.x * verticalOffectWeight);
+        // Vertical movement: use signed pitch
+        targetPos.y = basePos.y + (headRot.x * verticalOffectWeight);
 
-        Math.Clamp(targetPos.y, 1f, math.INFINITY); // clamp targetPos.y so it never goes below ground level; scretch goal to cast a ray down so it never goes below ground/debris
+        // Clamp so camera target never dips below ground
+        targetPos.y = Mathf.Clamp(targetPos.y, 1f, float.PositiveInfinity);
 
-        // z pos change tied to up/down head movement
-        targetPos.z = basePos.z + (camRot.x * depthOffectWeight);
+        // Depth movement: also based on pitch
+        targetPos.z = basePos.z + (headRot.x * depthOffectWeight);
 
-        // set empty's position to target position
         transform.localPosition = targetPos;
     }
+
 
     void Move1stCamTargetPosition()
     {

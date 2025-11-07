@@ -51,6 +51,34 @@ public class TrackIRComponent : MonoBehaviour
     public float TrackingLostRecenterDurationSeconds = 1.0f;
 
     /// <summary>
+    /// If true, this component will write the latest pose into its GameObject transform.
+    /// If false, it will only expose the pose data for other scripts to read.
+    /// If this component is attached to a GameObject that appears to be the player root
+    /// (contains a CharacterController or movement script), the component will attempt
+    /// to create a dedicated TrackIR source GameObject and disable DriveTransform on
+    /// the player-attached component to avoid driving the player transform directly.
+    /// </summary>
+    public bool DriveTransform = true;
+
+    // internal flag: this instance has been converted into a non-driving proxy because
+    // we created a separate source GameObject to host the actual TrackIR client.
+    bool m_isProxyInstance = false;
+
+    // Internal backing fields for latest pose. Access via the public properties below
+    Vector3 m_latestPosePosition = Vector3.zero;
+    Quaternion m_latestPoseOrientation = Quaternion.identity;
+
+    // If this instance was turned into a proxy (because it lived on the player root),
+    // this points at the real source component that receives TrackIR data.
+    TrackIRComponent m_sourceComponent = null;
+
+    // Expose the latest computed pose so other scripts can read it without relying on this
+    // component's GameObject transform being updated. If this is a proxy instance, forward
+    // to the real source component.
+    public Vector3 LatestPosePosition => (m_isProxyInstance && m_sourceComponent != null) ? m_sourceComponent.LatestPosePosition : m_latestPosePosition;
+    public Quaternion LatestPoseOrientation => (m_isProxyInstance && m_sourceComponent != null) ? m_sourceComponent.LatestPoseOrientation : m_latestPoseOrientation;
+
+    /// <summary>
     /// Keeps track of how long it's been since we last got new head tracking data during an update.
     /// </summary>
     float m_staleDataDuration;
@@ -60,11 +88,52 @@ public class TrackIRComponent : MonoBehaviour
     /// </summary>
     NaturalPoint.TrackIR.Client m_trackirClient;
 
+    // (properties defined earlier)
+
+
 
     /// MonoBehaviour message.
+    void Awake()
+    {
+        // If this component appears to be attached to a player/physics root, automatically
+        // create a dedicated TrackIR source GameObject and mark this instance as a proxy
+        // (it will no longer drive transforms).
+        bool looksLikePlayerRoot = (GetComponent<CharacterController>() != null) || (GetComponent("movement") != null);
+        if (looksLikePlayerRoot && DriveTransform)
+        {
+            // create a new GameObject to host the TrackIR client
+            GameObject src = new GameObject("TrackIR_Source");
+            // copy transform so it's in the same place initially
+            src.transform.position = transform.position;
+            src.transform.rotation = transform.rotation;
+
+            TrackIRComponent newComp = src.AddComponent<TrackIRComponent>();
+            // copy configuration
+            newComp.AssignedApplicationId = this.AssignedApplicationId;
+            newComp.TrackingLostTimeoutSeconds = this.TrackingLostTimeoutSeconds;
+            newComp.TrackingLostRecenterDurationSeconds = this.TrackingLostRecenterDurationSeconds;
+            newComp.DriveTransform = true;
+
+            // mark this instance as proxy (do not initialize a client here)
+            m_isProxyInstance = true;
+            this.DriveTransform = false;
+
+            // initialize the new instance immediately
+            newComp.InitializeTrackIR();
+
+            // set this instance up as a proxy that forwards pose data from the new source
+            m_isProxyInstance = true;
+            this.DriveTransform = false;
+            this.m_sourceComponent = newComp;
+            return;
+        }
+    }
+
     void Start()
     {
-        InitializeTrackIR();
+        // only initialize here if we weren't turned into a proxy during Awake
+        if (!m_isProxyInstance)
+            InitializeTrackIR();
     }
 
 #if UNITY_EDITOR
@@ -169,22 +238,30 @@ public class TrackIRComponent : MonoBehaviour
 
             if ( bNewPoseAvailable )
             {
-                // New data was available, apply it directly here.
-                transform.localPosition = posePosition;
-                transform.localRotation = poseOrientation;
+                // New data was available, cache it and apply to transform only if allowed.
+                m_latestPosePosition = posePosition;
+                m_latestPoseOrientation = poseOrientation;
+                if (DriveTransform)
+                {
+                    transform.localPosition = posePosition;
+                    transform.localRotation = poseOrientation;
+                }
                 m_staleDataDuration = 0.0f;
             }
             else
             {
-                // Data was stale. If it's been stale for too long, smoothly recenter the camera.
+                // Data was stale. If it's been stale for too long, smoothly recenter the camera (only if we drive transforms).
                 m_staleDataDuration += Time.deltaTime;
 
                 if ( m_staleDataDuration > TrackingLostTimeoutSeconds )
                 {
                     float recenterFraction = Mathf.Clamp01( (m_staleDataDuration - TrackingLostTimeoutSeconds) / TrackingLostRecenterDurationSeconds );
                     recenterFraction = Mathf.SmoothStep( 0.0f, 1.0f, recenterFraction );
-                    transform.localPosition = Vector3.Lerp( posePosition, Vector3.zero, recenterFraction );
-                    transform.localRotation = Quaternion.Slerp( poseOrientation, Quaternion.identity, recenterFraction );
+                    if (DriveTransform)
+                    {
+                        transform.localPosition = Vector3.Lerp( posePosition, Vector3.zero, recenterFraction );
+                        transform.localRotation = Quaternion.Slerp( poseOrientation, Quaternion.identity, recenterFraction );
+                    }
                 }
             }
         }
@@ -262,5 +339,4 @@ internal static class TrackIRNativeMethods
 
 
 }
-
 
