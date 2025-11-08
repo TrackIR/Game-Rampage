@@ -19,6 +19,7 @@ public class cameraMovement3D : MonoBehaviour
     public float horizontalOffsetWeight = 20;
     public float verticalOffsetWeight = 20;
     public float depthOffsetWeight = 25;
+    public float smoothing = 5;
 
     [Header("1st Person Settings")]
     public float xOffset;
@@ -60,10 +61,16 @@ public class cameraMovement3D : MonoBehaviour
         Vector3 orbitOffset = new Vector3(xOffset, verticalOffset, zOffset);
 
         // transforms the target position into proper rotated world space
-        Vector3 rotatedHeadOffset = playerObject.transform.rotation * targetPos;
+        targetPos = playerObject.transform.rotation * targetPos;
 
-        // get orbit position data
-        transform.position = playerObject.transform.position + orbitOffset + rotatedHeadOffset;
+        // take into account player's position in the world
+        targetPos = playerObject.transform.position + targetPos;
+
+        // smoothly lerp position to target position
+        Vector3 smoothPos = Vector3.Lerp(transform.position, targetPos + orbitOffset, smoothing * Time.deltaTime);
+
+        // set position to smoothed position
+        transform.position = smoothPos;
 
         // copies player's y axis rotation to camera rotation
         transform.rotation = Quaternion.Euler(0f, playerObject.transform.rotation.eulerAngles.y, 0f);
