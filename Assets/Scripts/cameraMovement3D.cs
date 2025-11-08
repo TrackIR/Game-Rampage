@@ -1,4 +1,5 @@
 using System;
+using Mono.Cecil;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ public class cameraMovement3D : MonoBehaviour
 
     [Header("3rd Person Settings")]
     public float distance = 5;
-    public float heightOffset = 8;
+    public float verticalOffset = 8;
     public float horizontalOffsetWeight = 20;
     public float verticalOffsetWeight = 20;
     public float depthOffsetWeight = 25;
@@ -24,25 +25,20 @@ public class cameraMovement3D : MonoBehaviour
     public float yOffset;
     public float zOffset;
 
-    void Start()
-    {
+    void Start() {
         trackIR = trackIRRoot.GetComponent<TrackIRComponent>();
     }
 
     // turns '0 to 360' degrees into '-180 to 180'
-    float WrapAngle(float angle)
-    {
-        if (angle > 180f)
-        {
+    float WrapAngle(float angle) {
+        if (angle > 180f) {
             angle -= 360f;
         }
-
         return angle;
     }
 
     // moves the camera target's empty
-    void Move3rdCamTargetTransform()
-    {
+    void Move3rdCamTargetTransform() {
         Vector3 headRot = trackIR.LatestPoseOrientation.eulerAngles; // data from trackIR
         Vector3 targetPos;                                           // target position for camera
 
@@ -51,22 +47,17 @@ public class cameraMovement3D : MonoBehaviour
         headRot.y = WrapAngle(trackIRRoot.transform.rotation.y);
         headRot.z = WrapAngle(trackIRRoot.transform.rotation.z);
 
-
         // move target position based on head rotation
         targetPos.x = -headRot.y * horizontalOffsetWeight; // horizonal
         targetPos.y = headRot.x * verticalOffsetWeight;    // vertical
         targetPos.z = headRot.x * depthOffsetWeight;       // depth
 
-        targetPos.y += heightOffset;
-
-        // clamp so camera target never dips below ground; stretch goal to took a ray so it doesn't go below debris
-        Debug.Log(targetPos);
-
         // orbit position offset
         float yawRads = math.radians(playerObject.transform.eulerAngles.y); // get y axis rotation in radians
         float xOffset = math.sin(yawRads) * distance;
         float zOffset = math.cos(yawRads) * distance;
-        Vector3 orbitOffset = new Vector3(xOffset, 0f, zOffset);
+
+        Vector3 orbitOffset = new Vector3(xOffset, verticalOffset, zOffset);
 
         // transforms the target position into proper rotated world space
         Vector3 rotatedHeadOffset = playerObject.transform.rotation * targetPos;
@@ -75,22 +66,19 @@ public class cameraMovement3D : MonoBehaviour
         transform.position = playerObject.transform.position + orbitOffset + rotatedHeadOffset;
 
         // copies player's y axis rotation to camera rotation
-        transform.rotation = Quaternion.Euler(0f, playerObject.transform.eulerAngles.y, 0f);
+        transform.rotation = Quaternion.Euler(0f, playerObject.transform.rotation.eulerAngles.y, 0f);
     }
 
 
-    void Move1stCamTargetTransform()
-    {
+    void Move1stCamTargetTransform() {
         Vector3 targetPos = new Vector3(xOffset, yOffset, zOffset);
         transform.position = playerObject.transform.position + targetPos;
     }
 
-    void Update()
-    {
+    void Update() {
         if (is3rdPerson) {
             Move3rdCamTargetTransform();
-        } else
-        {
+        } else {
             Move1stCamTargetTransform();
         }
     }
