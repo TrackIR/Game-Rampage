@@ -1,6 +1,4 @@
 using System;
-using System.IO.Compression;
-using Unity.Cinemachine;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -12,15 +10,14 @@ public class cameraMovement3D : MonoBehaviour
     public GameObject trackIRRoot;
 
     public GameObject playerObject;
-    public GameObject cameraObject;
     public bool is3rdPerson = true;
 
     [Header("3rd Person Settings")]
     public float distance = 5;
-    public float defaultHight = 8;
-    public float horizontalOffectWeight = 20;
-    public float verticalOffectWeight = 20;
-    public float depthOffectWeight = 25;
+    public float heightOffset = 8;
+    public float horizontalOffsetWeight = 20;
+    public float verticalOffsetWeight = 20;
+    public float depthOffsetWeight = 25;
 
     [Header("1st Person Settings")]
     public float xOffset;
@@ -32,49 +29,69 @@ public class cameraMovement3D : MonoBehaviour
         trackIR = trackIRRoot.GetComponent<TrackIRComponent>();
     }
 
-    // moves the camera target's empty
-    void Move3rdCamTargetPosition()
+    // turns '0 to 360' degrees into '-180 to 180'
+    float WrapAngle(float angle)
     {
-        // Extract raw Euler angles (0–360)
-        Vector3 headRot = trackIR.LatestPoseOrientation.eulerAngles;
+        if (angle > 180f)
+        {
+            angle -= 360f;
+        }
 
-        // Convert each axis to -180–180
-        if (headRot.x > 180f) headRot.x -= 360f;
-        if (headRot.y > 180f) headRot.y -= 360f;
-        if (headRot.z > 180f) headRot.z -= 360f;
+        return angle;
+    }
 
-        Vector3 basePos = new Vector3(0f, defaultHight, distance);
-        Vector3 targetPos = basePos;
+    // moves the camera target's empty
+    void Move3rdCamTargetTransform()
+    {
+        Vector3 headRot = trackIR.LatestPoseOrientation.eulerAngles; // data from trackIR
+        Vector3 targetPos;                                           // target position for camera
 
-        // Horizontal movement: use signed yaw
-        targetPos.x = basePos.x - (headRot.y * horizontalOffectWeight);
+        // wrap all angles from trackIR to (-180, 180)
+        headRot.x = WrapAngle(trackIRRoot.transform.rotation.x);
+        headRot.y = WrapAngle(trackIRRoot.transform.rotation.y);
+        headRot.z = WrapAngle(trackIRRoot.transform.rotation.z);
 
-        // Vertical movement: use signed pitch
-        targetPos.y = basePos.y + (headRot.x * verticalOffectWeight);
 
-        // Clamp so camera target never dips below ground
-        targetPos.y = Mathf.Clamp(targetPos.y, 1f, float.PositiveInfinity);
+        // move target position based on head rotation
+        targetPos.x = -headRot.y * horizontalOffsetWeight; // horizonal
+        targetPos.y = headRot.x * verticalOffsetWeight;    // vertical
+        targetPos.z = headRot.x * depthOffsetWeight;       // depth
 
-        // Depth movement: also based on pitch
-        targetPos.z = basePos.z + (headRot.x * depthOffectWeight);
+        targetPos.y += heightOffset;
 
-        transform.localPosition = targetPos;
+        // clamp so camera target never dips below ground; stretch goal to took a ray so it doesn't go below debris
+        Debug.Log(targetPos);
+
+        // orbit position offset
+        float yawRads = math.radians(playerObject.transform.eulerAngles.y); // get y axis rotation in radians
+        float xOffset = math.sin(yawRads) * distance;
+        float zOffset = math.cos(yawRads) * distance;
+        Vector3 orbitOffset = new Vector3(xOffset, 0f, zOffset);
+
+        // transforms the target position into proper rotated world space
+        Vector3 rotatedHeadOffset = playerObject.transform.rotation * targetPos;
+
+        // get orbit position data
+        transform.position = playerObject.transform.position + orbitOffset + rotatedHeadOffset;
+
+        // copies player's y axis rotation to camera rotation
+        transform.rotation = Quaternion.Euler(0f, playerObject.transform.eulerAngles.y, 0f);
     }
 
 
-    void Move1stCamTargetPosition()
+    void Move1stCamTargetTransform()
     {
         Vector3 targetPos = new Vector3(xOffset, yOffset, zOffset);
-        transform.localPosition = playerObject.transform.position + targetPos;
+        transform.position = playerObject.transform.position + targetPos;
     }
 
     void Update()
     {
         if (is3rdPerson) {
-            Move3rdCamTargetPosition();
+            Move3rdCamTargetTransform();
         } else
         {
-            Move1stCamTargetPosition();
+            Move1stCamTargetTransform();
         }
     }
 }
