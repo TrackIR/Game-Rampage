@@ -57,17 +57,22 @@ public class cameraMovement3D : MonoBehaviour
         float yawRads = math.radians(playerObject.transform.eulerAngles.y); // get y axis rotation in radians
         float xOffset = math.sin(yawRads) * distance;
         float zOffset = math.cos(yawRads) * distance;
-
         Vector3 orbitOffset = new Vector3(xOffset, verticalOffset, zOffset);
 
-        // transforms the target position into proper rotated world space
-        targetPos = playerObject.transform.rotation * targetPos;
+        // add the orbit offset to the transform
+        targetPos += orbitOffset;
 
         // take into account player's position in the world
         targetPos = playerObject.transform.position + targetPos;
 
+        // transforms the target position into proper rotated world space
+        targetPos = playerObject.transform.rotation * targetPos;
+
+        // clamp target position above ground
+        targetPos.y = Mathf.Clamp(targetPos.y, 0.1f, float.PositiveInfinity);
+
         // smoothly lerp position to target position
-        Vector3 smoothPos = Vector3.Lerp(transform.position, targetPos + orbitOffset, smoothing * Time.deltaTime);
+        Vector3 smoothPos = Vector3.Lerp(transform.position, targetPos, smoothing * Time.deltaTime);
 
         // set position to smoothed position
         transform.position = smoothPos;
@@ -80,6 +85,7 @@ public class cameraMovement3D : MonoBehaviour
     void Move1stCamTargetTransform() {
         Vector3 targetPos = new Vector3(xOffset, yOffset, zOffset);
         transform.position = playerObject.transform.position + targetPos;
+        transform.rotation = playerObject.transform.rotation;
     }
 
     void Update() {
