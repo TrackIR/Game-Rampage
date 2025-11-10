@@ -23,7 +23,6 @@ public class Projectile : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision)
-    S
     {
         // TODO: Check if player was hit
         // if (collision.gameObject.CompareTag("Player"))
@@ -33,5 +32,5 @@ public class Projectile : MonoBehaviour
 
         // 4. Destroy the projectile on impact with anything (building or player)
         Destroy(gameObject);
-}
+    }
 }
