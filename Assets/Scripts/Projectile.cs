@@ -24,7 +24,6 @@ public class Projectile : MonoBehaviour
 
      void OnCollisionEnter(Collision collision)
      {
-
           // TODO: Check if player was hit
           // if (collision.gameObject.CompareTag("Player"))
           // {

@@ -13,7 +13,7 @@ public class EnemyAI : MonoBehaviour
 
      // Private
      private float fireCooldownTimer = 0f;
-     //
+
      void Update()
      {
           // 1. Always count down the cooldown timer
@@ -35,7 +35,7 @@ public class EnemyAI : MonoBehaviour
           {
                // If in range, perform actions
 
-               // TODO: Add  aiming logic here (basic implementation done)
+               // TODO: Add aiming logic here (basic implementation done)
                transform.LookAt(playerTarget);
 
                // If cooldown is ready, shoot
