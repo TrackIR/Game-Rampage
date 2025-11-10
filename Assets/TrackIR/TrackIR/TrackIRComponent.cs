@@ -176,9 +176,9 @@ public class TrackIRComponent : MonoBehaviour
     {
         try
         {
-            m_trackirClient = new NaturalPoint.TrackIR.Client( AssignedApplicationId, TrackIRNativeMethods.GetUnityHwnd() );
+            m_trackirClient = new NaturalPoint.TrackIR.Client(AssignedApplicationId, TrackIRNativeMethods.GetUnityHwnd());
         }
-        catch ( NaturalPoint.TrackIR.TrackIRException ex )
+        catch (NaturalPoint.TrackIR.TrackIRException ex)
         {
 
             UnityEngine.Debug.LogWarning("TrackIR Enhanced API not available.");
@@ -199,7 +199,7 @@ public class TrackIRComponent : MonoBehaviour
     /// </remarks>
     private void UpdateTrackIR()
     {
-        if ( m_trackirClient != null )
+        if (m_trackirClient != null)
         {
             bool bNewPoseAvailable = false;
 
@@ -207,13 +207,13 @@ public class TrackIRComponent : MonoBehaviour
             // This should be rare. We'll treat it as non-recoverable.
             try
             {
-				
+
                 bNewPoseAvailable = m_trackirClient.UpdatePose();
             }
-            catch ( NaturalPoint.TrackIR.TrackIRException ex )
+            catch (NaturalPoint.TrackIR.TrackIRException ex)
             {
-                UnityEngine.Debug.LogError( "TrackIR.Client.UpdatePose threw an exception." );
-                UnityEngine.Debug.LogException( ex );
+                UnityEngine.Debug.LogError("TrackIR.Client.UpdatePose threw an exception.");
+                UnityEngine.Debug.LogException(ex);
 
                 m_trackirClient.Disconnect();
                 m_trackirClient = null;
@@ -236,7 +236,7 @@ public class TrackIRComponent : MonoBehaviour
                 pose.Orientation.W
             );
 
-            if ( bNewPoseAvailable )
+            if (bNewPoseAvailable)
             {
                 // New data was available, cache it and apply to transform only if allowed.
                 m_latestPosePosition = posePosition;
@@ -253,14 +253,14 @@ public class TrackIRComponent : MonoBehaviour
                 // Data was stale. If it's been stale for too long, smoothly recenter the camera (only if we drive transforms).
                 m_staleDataDuration += Time.deltaTime;
 
-                if ( m_staleDataDuration > TrackingLostTimeoutSeconds )
+                if (m_staleDataDuration > TrackingLostTimeoutSeconds)
                 {
-                    float recenterFraction = Mathf.Clamp01( (m_staleDataDuration - TrackingLostTimeoutSeconds) / TrackingLostRecenterDurationSeconds );
-                    recenterFraction = Mathf.SmoothStep( 0.0f, 1.0f, recenterFraction );
+                    float recenterFraction = Mathf.Clamp01((m_staleDataDuration - TrackingLostTimeoutSeconds) / TrackingLostRecenterDurationSeconds);
+                    recenterFraction = Mathf.SmoothStep(0.0f, 1.0f, recenterFraction);
                     if (DriveTransform)
                     {
-                        transform.localPosition = Vector3.Lerp( posePosition, Vector3.zero, recenterFraction );
-                        transform.localRotation = Quaternion.Slerp( poseOrientation, Quaternion.identity, recenterFraction );
+                        transform.localPosition = Vector3.Lerp(posePosition, Vector3.zero, recenterFraction);
+                        transform.localRotation = Quaternion.Slerp(poseOrientation, Quaternion.identity, recenterFraction);
                     }
                 }
             }
@@ -273,7 +273,7 @@ public class TrackIRComponent : MonoBehaviour
     /// </summary>
     private void ShutDownTrackIR()
     {
-        if ( m_trackirClient != null )
+        if (m_trackirClient != null)
         {
             m_trackirClient.Disconnect();
         }
@@ -283,16 +283,16 @@ public class TrackIRComponent : MonoBehaviour
 
 internal static class TrackIRNativeMethods
 {
-    [DllImport( "kernel32.dll" )]
+    [DllImport("kernel32.dll")]
     public static extern UInt32 GetCurrentThreadId();
 
-    public delegate bool EnumThreadWindowsCallbackDelegate( IntPtr hwnd, IntPtr lParamContext );
+    public delegate bool EnumThreadWindowsCallbackDelegate(IntPtr hwnd, IntPtr lParamContext);
 
-    [DllImport( "user32.dll" )]
-    public static extern bool EnumThreadWindows( UInt32 dwThreadId, EnumThreadWindowsCallbackDelegate lpfn, IntPtr lParam );
+    [DllImport("user32.dll")]
+    public static extern bool EnumThreadWindows(UInt32 dwThreadId, EnumThreadWindowsCallbackDelegate lpfn, IntPtr lParam);
 
-    [DllImport( "user32.dll", CharSet = CharSet.Auto, SetLastError = true )]
-    public static extern Int32 GetClassName( IntPtr hWnd, StringBuilder lpClassName, Int32 nMaxCount );
+    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+    public static extern Int32 GetClassName(IntPtr hWnd, StringBuilder lpClassName, Int32 nMaxCount);
 
 
     /// <summary>
@@ -304,18 +304,18 @@ internal static class TrackIRNativeMethods
     {
         IntPtr foundHwnd = IntPtr.Zero;
 
-        StringBuilder outClassnameBuilder = new StringBuilder( 32 );
+        StringBuilder outClassnameBuilder = new StringBuilder(32);
 
         // Search all windows belonging to the current thread, and filter down by looking for known Unity window
         // class names.
-        EnumThreadWindowsCallbackDelegate enumCallback = ( IntPtr hwnd, IntPtr lParamContext ) =>
+        EnumThreadWindowsCallbackDelegate enumCallback = (IntPtr hwnd, IntPtr lParamContext) =>
         {
             // Clear the string builder's contents with each iteration.
             outClassnameBuilder.Length = 0;
 
-            GetClassName( hwnd, outClassnameBuilder, outClassnameBuilder.Capacity );
+            GetClassName(hwnd, outClassnameBuilder, outClassnameBuilder.Capacity);
             string hwndClass = outClassnameBuilder.ToString();
-            if ( hwndClass == "UnityWndClass" || hwndClass == "UnityContainerWndClass" )
+            if (hwndClass == "UnityWndClass" || hwndClass == "UnityContainerWndClass")
             {
                 // We found the right window; stop enumerating.
                 foundHwnd = hwnd;
@@ -327,11 +327,11 @@ internal static class TrackIRNativeMethods
         };
 
         IntPtr enumCallbackContext = IntPtr.Zero;
-        EnumThreadWindows( GetCurrentThreadId(), enumCallback, enumCallbackContext );
+        EnumThreadWindows(GetCurrentThreadId(), enumCallback, enumCallbackContext);
 
-        if ( foundHwnd == IntPtr.Zero )
+        if (foundHwnd == IntPtr.Zero)
         {
-            UnityEngine.Debug.LogError( "Unable to retrieve Unity window handle." );
+            UnityEngine.Debug.LogError("Unable to retrieve Unity window handle.");
         }
 
         return foundHwnd;
