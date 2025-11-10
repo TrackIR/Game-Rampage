@@ -26,15 +26,15 @@ public class cameraMovement3D : MonoBehaviour
     public float yOffset;
     public float zOffset;
 
-    void Start() 
+    void Start()
     {
         trackIR = trackIRRoot.GetComponent<TrackIRComponent>();
     }
 
     // turns '0 to 360' degrees into '-180 to 180'
-    float WrapAngle(float angle) 
+    float WrapAngle(float angle)
     {
-        if (angle > 180f) 
+        if (angle > 180f)
         {
             angle -= 360f;
         }
@@ -42,7 +42,7 @@ public class cameraMovement3D : MonoBehaviour
     }
 
     // moves the camera target's empty
-    void Move3rdCamTargetTransform() 
+    void Move3rdCamTargetTransform()
     {
         Vector3 headRot = trackIR.LatestPoseOrientation.eulerAngles; // data from trackIR
         Vector3 targetPos;                                           // target position for camera
@@ -86,18 +86,20 @@ public class cameraMovement3D : MonoBehaviour
     }
 
 
-    void Move1stCamTargetTransform() 
+    void Move1stCamTargetTransform()
     {
         Vector3 targetPos = new Vector3(xOffset, yOffset, zOffset);
         transform.position = playerObject.transform.position + targetPos;
         transform.rotation = playerObject.transform.rotation;
     }
 
-    void Update() 
+    void Update()
     {
-        if (is3rdPerson) {
+        if (is3rdPerson)
+        {
             Move3rdCamTargetTransform();
-        } else {
+        } else
+        {
             Move1stCamTargetTransform();
         }
     }
