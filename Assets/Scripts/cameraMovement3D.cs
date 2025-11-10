@@ -11,7 +11,6 @@ public class cameraMovement3D : MonoBehaviour
     public GameObject playerObject;
     public GameObject cameraObject;
     public GameObject trackIRRoot;
-    
     TrackIRComponent trackIR;
 
     public float distance = 5;
