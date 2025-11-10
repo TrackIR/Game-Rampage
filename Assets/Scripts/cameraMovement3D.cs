@@ -98,7 +98,8 @@ public class cameraMovement3D : MonoBehaviour
         if (is3rdPerson)
         {
             Move3rdCamTargetTransform();
-        } else
+        }
+        else
         {
             Move1stCamTargetTransform();
         }
