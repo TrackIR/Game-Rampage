@@ -25,7 +25,7 @@ public class Generate_Area : MonoBehaviour
                     Vector3 position = new Vector3(x * spacing, 0, z * spacing); // Add spacing to tiles
                     GameObject obj = Instantiate(roadPrefab, position, Quaternion.identity, transform); // Put down a road
                 }
-                else 
+                else
                 {
                     Vector3 position = new Vector3(x * spacing, 0, z * spacing); // Add spacing to tiles
                     GameObject obj = Instantiate(tilePrefab, position, Quaternion.identity, transform); // Put down a building tile
@@ -34,7 +34,7 @@ public class Generate_Area : MonoBehaviour
         }
 
         // Put an object on the grid space
-       PlaceObject placeObject = GetComponent<PlaceObject>();
+        PlaceObject placeObject = GetComponent<PlaceObject>();
         if (placeObject != null)
         {
             placeObject.place_object();
