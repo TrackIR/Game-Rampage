@@ -1,5 +1,3 @@
-// Test
-
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -24,8 +22,7 @@ public class Projectile : MonoBehaviour
           Destroy(gameObject, lifeTime);
      }
 
-     void OnCollisionEnter(Collision collision)
-     {
+     void OnCollisionEnter(Collision collision){
           // TODO: Check if player was hit
           // if (collision.gameObject.CompareTag("Player"))
           // {
