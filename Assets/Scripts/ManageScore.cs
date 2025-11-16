@@ -6,6 +6,7 @@ public class ManageScore : MonoBehaviour
 
 
     public TMP_Text scoreObject;
+    public AudioSource scoreAudio;
     private int score = 0;
 
 
@@ -27,6 +28,7 @@ public class ManageScore : MonoBehaviour
     {
         score += amount;
 
+        scoreAudio.Play(0);
 
         string scoreString = "Score: " + score;
 
