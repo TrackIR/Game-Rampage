@@ -53,7 +53,7 @@ public class ManageHealth : MonoBehaviour
         float healthPercent = (float)health / (float)maxHealth;
 
         Vector2 size = healthBarObjectFill.sizeDelta;
-        size.x = healthBarObject.sizeDelta.x * healthPercent;
+        size.y = healthBarObject.sizeDelta.y * healthPercent;
         healthBarObjectFill.sizeDelta = size;
     }
 }
