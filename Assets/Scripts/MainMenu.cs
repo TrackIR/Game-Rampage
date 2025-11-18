@@ -12,4 +12,10 @@ public class MainMenu : MonoBehaviour
         string sceneName = gameScene.name;
         SceneManager.LoadScene(sceneName);
     }
+
+    public void QuitGame()
+    {
+        Debug.Log("Game Quit");
+        Application.Quit();
+    }
 }
