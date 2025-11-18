@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class TrackIRMenuNav : MonoBehaviour
@@ -30,5 +31,8 @@ public class TrackIRMenuNav : MonoBehaviour
         float normHorizontal = (WrapAngle(headRot.y) + 90) / 180;
         float normVertical = 1 - (WrapAngle(headRot.x) + 90) / 180;
 
+        Vector2 cursorPos = new Vector2(normHorizontal * Screen.width, normVertical * Screen.height);
+
+        Debug.Log(cursorPos);
     }
 }
