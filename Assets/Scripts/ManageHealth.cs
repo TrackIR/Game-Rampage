@@ -22,12 +22,6 @@ public class ManageHealth : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     void ChangeHealth(int amount)
     {
         health += amount;
