@@ -20,7 +20,7 @@ public class ManageScore : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
 
