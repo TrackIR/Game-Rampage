@@ -7,11 +7,13 @@ using TMPro; //Using this to update text
 public class ManageUI : MonoBehaviour
 {
 
-    // Audio Sources
+    // Audio Sources and Settings
     [Header("Audio")]
     public AudioSource scoreAudio; // Listing them like this so only one header is displayed in the editor
     public AudioSource healthGainAudio, healthLostAudio;
 
+    [Range(0f, 1f)]
+    public float volume = 1f; // Change the sound of the audio sources
 
     // Health Variables
     [Header("Health  Variables")]
@@ -31,6 +33,8 @@ public class ManageUI : MonoBehaviour
     // Timer Variables
     [Header("Timer Variables")]
     public TMP_Text timerObject;
+    [Range(1f, 10f)]
+    public float difficulty; // Not yet implemented, potentially used to make enemies spawn quicker
 
     [HideInInspector]
     public float timer = 0f;
@@ -53,6 +57,12 @@ public class ManageUI : MonoBehaviour
         }
     }
 
+    public void SetVolunm(float amount)
+    {
+        print("Setting the volume to " + amount + "\n");
+        volume = amount;
+    }
+
 
     public void ChangeHealth(int amount)
     {
@@ -69,10 +79,12 @@ public class ManageUI : MonoBehaviour
 
         if (amount > 0) // Play the sound for gaining health
         {
+            healthGainAudio.volume = volume;
             healthGainAudio.Play(0);
         }
         else if (amount < 0) // Play the sound for losing health
         {
+            healthLostAudio.volume = volume;
             healthLostAudio.Play(0);
         }
 
@@ -102,6 +114,7 @@ public class ManageUI : MonoBehaviour
     {
         score += amount;
 
+        scoreAudio.volume = volume;
         scoreAudio.Play(0);
 
         string scoreString = "Score: " + score;
@@ -146,6 +159,11 @@ public class ManageUI : MonoBehaviour
         timer = 0f;
         StartTimer();
         UpdateTimerUI();
+    }
+
+    public void SetDifficulty(float amount)
+    {
+        difficulty = amount;
     }
 
 
