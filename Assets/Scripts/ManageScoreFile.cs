@@ -6,7 +6,7 @@ public class ManageScoreFile : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        WriteScoreFile(25);
+        WriteScoreFile(10000);
     }
 
     // Update is called once per frame
@@ -24,7 +24,7 @@ public class ManageScoreFile : MonoBehaviour
             File.WriteAllText(path, "Score Log:\n\n");
         }
 
-        string content = "Score of run on " + System.DateTime.Now + ": " + score;
+        string content = "Score of run on " + System.DateTime.Now + ": " + score + "\n";
 
         File.AppendAllText(path, content);
     }
