@@ -47,7 +47,7 @@ public class FollowCam : MonoBehaviour
 
     void Update()
     {
-        if(mFirstPersonFollowTarget == null)
+        if (mFirstPersonFollowTarget == null)
         {
             return;
         }
@@ -85,7 +85,8 @@ public class FollowCam : MonoBehaviour
             newRotation.eulerAngles = new Vector3(0f, newRotation.eulerAngles.y, 0f);
             transform.rotation = newRotation;
 
-        }else if(!isThirdPerson)
+        }
+        else if (!isThirdPerson)
         {
             Vector3 targetPosition = mFirstPersonFollowTarget.position + firstPersonCameraOffest;
             transform.position = targetPosition;

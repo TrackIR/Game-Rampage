@@ -58,14 +58,14 @@ namespace NaturalPoint.TrackIR
     /// To be consistent with the TrackIR 5 software viewport, they should be applied in the order z-y'-x'' (R-Y-P).
     /// The values range from -16383.0f to 16383.0f, and map to a range of -180 degrees to +180 degrees.
     /// </remarks>
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct TrackIRData
     {
-        public UInt16 Status; 				// Tells us whether or not the TrackIR camera is in mouse-emulation (cursor control) mode or not 
-											// Status = 0 means the remote interface is enabled (ie no mouse-emulation)
-											// Status = 1 means we are in mouse-emulation mode
-											// (this could result in weird behavior in the game, its best to not update the position when this is enabled)
-											
+        public UInt16 Status;               // Tells us whether or not the TrackIR camera is in mouse-emulation (cursor control) mode or not 
+                                            // Status = 0 means the remote interface is enabled (ie no mouse-emulation)
+                                            // Status = 1 means we are in mouse-emulation mode
+                                            // (this could result in weird behavior in the game, its best to not update the position when this is enabled)
+
         public UInt16 FrameSignature;		// Incrementing frame number coming from the TrackIR app used to verify if the incoming frame is new. Ranges from 1 to 32766
         public UInt32 IOData;				// only used for hash key encryption on a few games. It is likely you won't need to use this.
 
@@ -77,8 +77,8 @@ namespace NaturalPoint.TrackIR
         public float Z;
 
         // This approach renders the struct non-blittable and leads to GC alloc during marshalling...
-//      [MarshalAs( UnmanagedType.ByValArray, ArraySubType = UnmanagedType.R4, SizeConst = 9 )]
-//      private float[] Reserved;
+        //      [MarshalAs( UnmanagedType.ByValArray, ArraySubType = UnmanagedType.R4, SizeConst = 9 )]
+        //      private float[] Reserved;
 
         // ...whereas this more verbose approach avoids generating any garbage.
         private float Reserved1;
@@ -97,13 +97,13 @@ namespace NaturalPoint.TrackIR
     /// This structure contains strings set by both the TrackIR Enhanced DLL and the TrackIR application itself. Used
     /// for integrity checking.
     /// </summary>
-    [StructLayout( LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi)]
     public struct TrackIRSignature
     {
-        [MarshalAs( UnmanagedType.ByValTStr, SizeConst = 200 )]
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 200)]
         public string DllSignature;
 
-        [MarshalAs( UnmanagedType.ByValTStr, SizeConst = 200 )]
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 200)]
         public string AppSignature;
     }
 
@@ -117,34 +117,34 @@ namespace NaturalPoint.TrackIR
     /// </remarks>
     public class NativeClientLibrary
     {
-        [UnmanagedFunctionPointer( CallingConvention.StdCall )]
-        public delegate NPResult NP_RegisterWindowHandle_Delegate( IntPtr hwnd );
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate NPResult NP_RegisterWindowHandle_Delegate(IntPtr hwnd);
 
-        [UnmanagedFunctionPointer( CallingConvention.StdCall )]
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate NPResult NP_UnregisterWindowHandle_Delegate();
 
-        [UnmanagedFunctionPointer( CallingConvention.StdCall )]
-        public delegate NPResult NP_RegisterProgramProfileID_Delegate( UInt16 ppid );
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate NPResult NP_RegisterProgramProfileID_Delegate(UInt16 ppid);
 
-        [UnmanagedFunctionPointer( CallingConvention.StdCall )]
-        public delegate NPResult NP_QueryVersion_Delegate( out UInt16 version );
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate NPResult NP_QueryVersion_Delegate(out UInt16 version);
 
-        [UnmanagedFunctionPointer( CallingConvention.StdCall )]
-        public delegate NPResult NP_GetSignature_Delegate( ref TrackIRSignature signature );
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate NPResult NP_GetSignature_Delegate(ref TrackIRSignature signature);
 
-        [UnmanagedFunctionPointer( CallingConvention.StdCall )]
-        public delegate NPResult NP_GetData_Delegate( ref TrackIRData data );
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate NPResult NP_GetData_Delegate(ref TrackIRData data);
 
-        [UnmanagedFunctionPointer( CallingConvention.StdCall )]
-        public delegate NPResult NP_GetDataEX_Delegate( ref TrackIRData data, UInt32 AppKeyHigh, UInt32 AppKeyLow );
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate NPResult NP_GetDataEX_Delegate(ref TrackIRData data, UInt32 AppKeyHigh, UInt32 AppKeyLow);
 
-        [UnmanagedFunctionPointer( CallingConvention.StdCall )]
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate NPResult NP_ReCenter_Delegate();
 
-        [UnmanagedFunctionPointer( CallingConvention.StdCall )]
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate NPResult NP_StartDataTransmission_Delegate();
 
-        [UnmanagedFunctionPointer( CallingConvention.StdCall )]
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate NPResult NP_StopDataTransmission_Delegate();
 
 
@@ -165,10 +165,10 @@ namespace NaturalPoint.TrackIR
         public NativeClientLibrary()
         {
             // Load TrackIR Enhanced client dynamic library.
-            m_hLibrary = NativeMethods.LoadLibrary( GetLibraryLocation() );
-            if ( m_hLibrary == IntPtr.Zero )
+            m_hLibrary = NativeMethods.LoadLibrary(GetLibraryLocation());
+            if (m_hLibrary == IntPtr.Zero)
             {
-                throw new TrackIRException( "Error loading TrackIR client library.", new Win32Exception( Marshal.GetLastWin32Error() ) );
+                throw new TrackIRException("Error loading TrackIR client library.", new Win32Exception(Marshal.GetLastWin32Error()));
             }
 
             // Find exported functions in loaded library.
@@ -178,11 +178,11 @@ namespace NaturalPoint.TrackIR
 
         ~NativeClientLibrary()
         {
-            if ( m_hLibrary != IntPtr.Zero )
+            if (m_hLibrary != IntPtr.Zero)
             {
-                if ( ! NativeMethods.FreeLibrary( m_hLibrary ) )
+                if (!NativeMethods.FreeLibrary(m_hLibrary))
                 {
-                    Console.WriteLine( "Error unloading client library: {0}", new Win32Exception( Marshal.GetLastWin32Error() ).Message );
+                    Console.WriteLine("Error unloading client library: {0}", new Win32Exception(Marshal.GetLastWin32Error()).Message);
                 }
             }
         }
@@ -190,7 +190,7 @@ namespace NaturalPoint.TrackIR
 
         private string GetLibraryLocation()
         {
-			// NOTE: Imports the DLL from registered directory. Program Files (x86) by default.
+            // NOTE: Imports the DLL from registered directory. Program Files (x86) by default.
             const string kLibraryLocationRegistryKey = "HKEY_CURRENT_USER\\Software\\NaturalPoint\\NaturalPoint\\NPClient Location";
             const string kLibraryLocationSubkey = "Path";
 
@@ -198,11 +198,11 @@ namespace NaturalPoint.TrackIR
 
             try
             {
-                libraryPath = (string)Microsoft.Win32.Registry.GetValue( kLibraryLocationRegistryKey, kLibraryLocationSubkey, "" );
+                libraryPath = (string)Microsoft.Win32.Registry.GetValue(kLibraryLocationRegistryKey, kLibraryLocationSubkey, "");
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
-                throw new TrackIRException( "Exception trying to read client library location from registry.", ex );
+                throw new TrackIRException("Exception trying to read client library location from registry.", ex);
             }
 
             libraryPath += "\\";
@@ -215,36 +215,36 @@ namespace NaturalPoint.TrackIR
         private void FindAllLibraryFunctions()
         {
             // This code is more verbose/less generic than I would like, largely owing to the fact that System.Delegate cannot be used as a generic constraint on FindLibraryFunction<T>.
-            NP_RegisterWindowHandle = (NP_RegisterWindowHandle_Delegate)FindLibraryFunction<NP_RegisterWindowHandle_Delegate>( "NP_RegisterWindowHandle" );
-            NP_UnregisterWindowHandle = (NP_UnregisterWindowHandle_Delegate)FindLibraryFunction<NP_UnregisterWindowHandle_Delegate>( "NP_UnregisterWindowHandle" );
-            NP_RegisterProgramProfileID = (NP_RegisterProgramProfileID_Delegate)FindLibraryFunction<NP_RegisterProgramProfileID_Delegate>( "NP_RegisterProgramProfileID" );
-            NP_QueryVersion = (NP_QueryVersion_Delegate)FindLibraryFunction<NP_QueryVersion_Delegate>( "NP_QueryVersion" );
-            NP_GetSignature = (NP_GetSignature_Delegate)FindLibraryFunction<NP_GetSignature_Delegate>( "NP_GetSignature" );
-            NP_GetData = (NP_GetData_Delegate)FindLibraryFunction<NP_GetData_Delegate>( "NP_GetData" );
+            NP_RegisterWindowHandle = (NP_RegisterWindowHandle_Delegate)FindLibraryFunction<NP_RegisterWindowHandle_Delegate>("NP_RegisterWindowHandle");
+            NP_UnregisterWindowHandle = (NP_UnregisterWindowHandle_Delegate)FindLibraryFunction<NP_UnregisterWindowHandle_Delegate>("NP_UnregisterWindowHandle");
+            NP_RegisterProgramProfileID = (NP_RegisterProgramProfileID_Delegate)FindLibraryFunction<NP_RegisterProgramProfileID_Delegate>("NP_RegisterProgramProfileID");
+            NP_QueryVersion = (NP_QueryVersion_Delegate)FindLibraryFunction<NP_QueryVersion_Delegate>("NP_QueryVersion");
+            NP_GetSignature = (NP_GetSignature_Delegate)FindLibraryFunction<NP_GetSignature_Delegate>("NP_GetSignature");
+            NP_GetData = (NP_GetData_Delegate)FindLibraryFunction<NP_GetData_Delegate>("NP_GetData");
             try
             {
-                NP_GetDataEX = (NP_GetDataEX_Delegate)FindLibraryFunction< NP_GetDataEX_Delegate > ("NP_GetDataEX");
+                NP_GetDataEX = (NP_GetDataEX_Delegate)FindLibraryFunction<NP_GetDataEX_Delegate>("NP_GetDataEX");
             }
-            catch(TrackIRException)
+            catch (TrackIRException)
             {
                 Console.WriteLine("NP_GetDataEX not found. Must be using old version of SDK. This function is not available to use.");
             }
-            NP_ReCenter = (NP_ReCenter_Delegate)FindLibraryFunction<NP_ReCenter_Delegate>( "NP_ReCenter" );
-            NP_StartDataTransmission = (NP_StartDataTransmission_Delegate)FindLibraryFunction<NP_StartDataTransmission_Delegate>( "NP_StartDataTransmission" );
-            NP_StopDataTransmission = (NP_StopDataTransmission_Delegate)FindLibraryFunction<NP_StopDataTransmission_Delegate>( "NP_StopDataTransmission" );
+            NP_ReCenter = (NP_ReCenter_Delegate)FindLibraryFunction<NP_ReCenter_Delegate>("NP_ReCenter");
+            NP_StartDataTransmission = (NP_StartDataTransmission_Delegate)FindLibraryFunction<NP_StartDataTransmission_Delegate>("NP_StartDataTransmission");
+            NP_StopDataTransmission = (NP_StopDataTransmission_Delegate)FindLibraryFunction<NP_StopDataTransmission_Delegate>("NP_StopDataTransmission");
         }
 
 
-        private Delegate FindLibraryFunction<T>( string functionName )
+        private Delegate FindLibraryFunction<T>(string functionName)
         {
-            IntPtr pfn = NativeMethods.GetProcAddress( m_hLibrary, functionName );
-            if ( pfn == IntPtr.Zero )
+            IntPtr pfn = NativeMethods.GetProcAddress(m_hLibrary, functionName);
+            if (pfn == IntPtr.Zero)
             {
-                throw new TrackIRException( "Error locating client library function " + functionName + ".", new Win32Exception( Marshal.GetLastWin32Error() ) );
+                throw new TrackIRException("Error locating client library function " + functionName + ".", new Win32Exception(Marshal.GetLastWin32Error()));
             }
             else
             {
-                return Marshal.GetDelegateForFunctionPointer( pfn, typeof( T ) );
+                return Marshal.GetDelegateForFunctionPointer(pfn, typeof(T));
             }
         }
     }
@@ -252,13 +252,13 @@ namespace NaturalPoint.TrackIR
 
     internal static class NativeMethods
     {
-        [DllImport( "kernel32.dll", SetLastError = true )]
-        public static extern IntPtr LoadLibrary( string fileName );
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern IntPtr LoadLibrary(string fileName);
 
-        [DllImport( "kernel32.dll", SetLastError = true )]
-        public static extern IntPtr GetProcAddress( IntPtr hModule, string procedureName );
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
 
-        [DllImport( "kernel32.dll", SetLastError = true )]
-        public static extern bool FreeLibrary( IntPtr hModule );
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern bool FreeLibrary(IntPtr hModule);
     }
 }

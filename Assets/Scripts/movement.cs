@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 using Unity.Mathematics;
 using NaturalPoint.TrackIR;
 using Unity.VisualScripting;
+using System.Collections;
+using System.Collections.Generic;
 
 
 
@@ -30,14 +32,19 @@ public class movement : MonoBehaviour
     [SerializeField] private float headZThreshhold = 0.1f; // meters toward screen from neutral position to trigger forward movement
     [SerializeField] private float headXThreshold = 0.1f; // meters to the side from neutral position to trigger lateral movement
     [SerializeField] private float headRollThreshold = 23.0f; // degrees from neutral position to trigger roll movement
+    [SerializeField] private float headYawThreshold = 0.50f; // radians from neutral position to trigger yaw movement
     [SerializeField] private float rollSpeed = 50.0f; // degrees per second when rolling
     [SerializeField] private bool invertRotation = false;
+    [SerializeField] private bool rotateWithYaw = true;
+    [SerializeField] private float jumpStartAngleThreshold = -5.0f; //must start below this angle to initiate jump
+    [SerializeField] private float jumpEndAngleThreshold = -25.0f; //must exceed this angle to trigger jump
+    [SerializeField] private float jumpYawThreshold = 10.0f; // degrees within neutral position for jump to be valid
 
     Vector3 velocity;
-    // store last computed head movement so other methods (OnGUI/UI) can read it
     private Vector3 headPos;
-
     private Quaternion headRot;
+    private Queue<Quaternion> headRotQueue = new Queue<Quaternion>();
+
 
     void Start()
     {
@@ -80,18 +87,74 @@ public class movement : MonoBehaviour
         }
 
     }
-    
+
     void rotPlayer()
     {
-        // rotate player when head is rolled past threshold
-        if (Mathf.Abs(headRot.z) > headRollThreshold)
+        if (rotateWithYaw)
         {
-            // Determine rotation direction based on head roll and invert setting
-            float rotDirection = (invertRotation ? -1f : 1f) * (headRot.z > 0 ? 1f : -1f);
+            // rotate player when head is yawed past threshold
+            if (Mathf.Abs(headRot.y) > headYawThreshold)
+            {
+                // Determine rotation direction based on head yaw and invert setting
+                float rotDirection = headRot.y > 0 ? 1f : -1f;
 
-            float rotAmount = rotDirection * rollSpeed * Time.deltaTime;
+                float rotAmount = rotDirection * rollSpeed * Time.deltaTime;
 
-            transform.Rotate(0f, rotAmount, 0f);
+                transform.Rotate(0f, rotAmount, 0f);
+            }
+        }
+        else
+        {
+            // rotate player when head is rolled past threshold
+            if (Mathf.Abs(headRot.z) > headRollThreshold)
+            {
+                // Determine rotation direction based on head roll and invert setting
+                float rotDirection = (invertRotation ? -1f : 1f) * (headRot.z > 0 ? 1f : -1f);
+
+                float rotAmount = rotDirection * rollSpeed * Time.deltaTime;
+
+                transform.Rotate(0f, rotAmount, 0f);
+            }
+        }
+
+    }
+
+    void jump()
+    {
+        // save head rotation data from last 60 frames to determine jump gesture
+        headRotQueue.Enqueue(headRot);
+        if (headRotQueue.Count >= 30)
+        {
+            headRotQueue.Dequeue();
+        }
+        if (headRotQueue.Count > 20)
+        {
+            // check if jump gesture is made
+            bool canJump = false;
+            foreach (Quaternion rot in headRotQueue)
+            {
+                float pitch = rot.x * Mathf.Rad2Deg;
+                float yaw = rot.y * Mathf.Rad2Deg;
+                if (Mathf.Abs(yaw) > jumpYawThreshold)
+                { //can't jump if looking to side too much
+                    break;
+                }
+                if (pitch > jumpStartAngleThreshold)
+                {
+                    Debug.Log("can jump");
+                    canJump = true; //head was down enough to start jump
+                }
+                if (canJump && pitch < jumpEndAngleThreshold)
+                {
+                    // trigger jump
+                    if (controller.isGrounded)
+                    {
+                        velocity.y = Mathf.Sqrt(jumpPower * -2f * gravity);
+                    }
+                    headRotQueue.Clear(); //reset queue after jump
+                    break; //exit loop after jump because we don't need to keep checking
+                }
+            }
         }
     }
 
@@ -108,13 +171,15 @@ public class movement : MonoBehaviour
 
         rotPlayer();
 
+        jump();
+
         bool jumpPressed = Input.GetKeyDown(KeyCode.Space);
 
         // Keep player grounded
         if (controller.isGrounded && velocity.y < 0f)
         {
             velocity.y = -2f;
-        }       
+        }
         // Apply gravity
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
@@ -125,8 +190,6 @@ public class movement : MonoBehaviour
             velocity.y = Mathf.Sqrt(jumpPower * -2f * gravity);
         }
 
-        Debug.Log($"Head Z: {trackIR.LatestPosePosition.z:F3} m");
-            
     }
 
     // Quick on-screen debug display (shows in Game view when Play is running)
