@@ -198,6 +198,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &52426212
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 52426214}
+  - component: {fileID: 52426213}
+  m_Layer: 0
+  m_Name: Score Writer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &52426213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 52426212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bc9c38ba6ccd82469d3dd5e37c83602, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ManageScoreFile
+--- !u!4 &52426214
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 52426212}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 610.8779, y: 250.34499, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &628696335
 GameObject:
   m_ObjectHideFlags: 0
@@ -696,6 +740,7 @@ MonoBehaviour:
   healthBarObjectFill: {fileID: 1062581219}
   maxHealth: 100
   scoreObject: {fileID: 1626646311}
+  score: 0
   timerObject: {fileID: 1984112081}
   timer: 0
 --- !u!1 &1062581218
@@ -1868,3 +1913,4 @@ SceneRoots:
   - {fileID: 1173542325}
   - {fileID: 953163475}
   - {fileID: 6125127}
+  - {fileID: 52426214}
