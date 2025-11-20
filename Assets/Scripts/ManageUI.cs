@@ -1,9 +1,6 @@
 using UnityEngine;
 using TMPro; //Using this to update text
 
-
-
-
 public class ManageUI : MonoBehaviour
 {
 
@@ -22,7 +19,7 @@ public class ManageUI : MonoBehaviour
     public int maxHealth = 100;
 
     [HideInInspector] // Can be used by other scripts, but doesnt show up
-    private int health = 0;
+    private int health = 100;
 
     // Score Variables
     [Header("Score Variables")]
@@ -45,6 +42,8 @@ public class ManageUI : MonoBehaviour
     void Start()
     {
         StartTimer();
+        UpdateHealthBar();
+        ChangeScore(0);
     }
 
     // Update is called once per frame
@@ -88,18 +87,15 @@ public class ManageUI : MonoBehaviour
             healthLostAudio.Play(0);
         }
 
-
-        string healthString = "Health: " + health + "/" + maxHealth;
-
-        healthObject.text = healthString;
-
-
-
         UpdateHealthBar();
     }
 
     private void UpdateHealthBar()
     {
+
+        string healthString = health + "/" + maxHealth;
+
+        healthObject.text = healthString;
 
         float healthPercent = (float)health / (float)maxHealth;
 
@@ -114,8 +110,11 @@ public class ManageUI : MonoBehaviour
     {
         score += amount;
 
-        scoreAudio.volume = volume;
-        scoreAudio.Play(0);
+        if (amount != 0)
+        {
+            scoreAudio.volume = volume;
+            scoreAudio.Play(0);
+        }
 
         string scoreString = "Score: " + score;
         scoreObject.text = scoreString;
@@ -127,7 +126,7 @@ public class ManageUI : MonoBehaviour
     {
         if (timerObject != null)
         {
-            timerObject.text = "Time: " + timer.ToString("0.00");
+            timerObject.text = "Round Time: " +  ((int)timer);
         }
     }
 
