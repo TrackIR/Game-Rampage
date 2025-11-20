@@ -5,13 +5,13 @@ using TMPro; //Using this to update text
 
 
 public class ManageUI : MonoBehaviour
-{ 
+{
 
     // Audio Sources
     [Header("Audio")]
     public AudioSource scoreAudio; // Listing them like this so only one header is displayed in the editor
     public AudioSource healthGainAudio, healthLostAudio;
-    
+
 
     // Health Variables
     [Header("Health  Variables")]
