@@ -126,7 +126,7 @@ public class ManageUI : MonoBehaviour
     {
         if (timerObject != null)
         {
-            timerObject.text = "Round Time: " +  ((int)timer);
+            timerObject.text = "Round Time: " + ((int)timer);
         }
     }
 
