@@ -529,8 +529,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlaceObject
   prefabs:
   - {fileID: 2130288534}
-  placeChance: 0.1
-  randomOffset: 0.1
+  placeChance: 0.75
+  randomOffset: 1
   yOffset: 1
 --- !u!114 &1568598709
 MonoBehaviour:
@@ -546,8 +546,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Generate_Area
   tilePrefab: {fileID: 1012257782}
   roadPrefab: {fileID: 1795343807}
-  rows: 100
-  columns: 100
+  rows: 25
+  columns: 50
   spacing: 4
   blockSize: 3
 --- !u!135 &1568598710
