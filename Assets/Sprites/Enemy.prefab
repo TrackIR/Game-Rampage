@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 747386369671831897}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.99983394, z: -0, w: -0.01822398}
+  m_LocalRotation: {x: -0, y: -0.999834, z: 0, w: -0.018220069}
   m_LocalPosition: {x: -1.05, y: 3.4, z: 36.55}
   m_LocalScale: {x: 3.33, y: 3.33, z: 3.33}
   m_ConstrainProportionsScale: 1
@@ -128,9 +128,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b6ffbd3f7c633947a0e827cfbeea837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  playerTarget: {fileID: 0}
+  playerTarget: {fileID: 2834931430190571472, guid: 4b85430e36925a145bad8664fedc18b7, type: 3}
   detectionRange: 50
-  fireRate: 2
+  fireRate: 1
+  rotationSpeed: 5
+  speed: 20
   projectilePrefab: {fileID: 7964181993821892393, guid: 626e8df7709f7e0428cbfefbce313429, type: 3}
   firePoint: {fileID: 340802733606060789}
 --- !u!1 &6419752174191427399
