@@ -16,13 +16,19 @@ public class movement : MonoBehaviour
 
     TrackIRComponent trackIR;
 
+    public Camera trackIRCam;
+
+    public Camera normal3rdCam;
+
     public float gravity = -9.81f;
     public float speed = 10.0f;
     public float jumpPower = 2.0f;
 
     public GameObject TrackIRRoot;
 
-    [SerializeField] private Transform cameraTransform;
+    // TODO: first or third person toggle needs to be scene or just moved to be better
+
+    private Transform cameraTransform;
     [SerializeField] private bool ShouldFaceMoveDirection = false;
     [SerializeField] private bool useTrackIR = true;
     [SerializeField] private bool debugON = true;
@@ -47,6 +53,7 @@ public class movement : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         trackIR = TrackIRRoot.GetComponent<TrackIRComponent>();
+        
     }
 
     void zMove()
@@ -174,6 +181,14 @@ public class movement : MonoBehaviour
             Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);
         }
+        // Keep player grounded
+        if (controller.isGrounded && velocity.y < 0f)
+        {
+            velocity.y = -2f;
+        }
+        // Apply gravity
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
 
         if (jumpPressed && controller.isGrounded)
         {
@@ -185,7 +200,13 @@ public class movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        trackIRCam.enabled = useTrackIR;
+        normal3rdCam.enabled = !useTrackIR;
+
+        cameraTransform = Camera.main.transform;
+        
         if (useTrackIR){
+
             headPos = trackIR.LatestPosePosition;
 
             headRot = trackIR.LatestPoseOrientation;
@@ -195,21 +216,21 @@ public class movement : MonoBehaviour
             xMove();
 
             rotPlayer();
-
+            // Keep player grounded
+            if (controller.isGrounded && velocity.y < 0f)
+            {
+                velocity.y = -2f;
+            }
+            // Apply gravity
+            velocity.y += gravity * Time.deltaTime;
+            controller.Move(velocity * Time.deltaTime);
             jump();
         }
         else
         {
             wasdMove();
         }
-        // Keep player grounded
-        if (controller.isGrounded && velocity.y < 0f)
-        {
-            velocity.y = -2f;
-        }
-        // Apply gravity
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+
     }
 
     // on-screen debug display (shows in Game view when Play is running)
