@@ -8,6 +8,8 @@ public class BuildingDestruction : MonoBehaviour
     {
         health--; // Subtract 1 from health
 
+        Debug.Log("Building hit! Remaining Health: " + health);
+
         // Flash red so you know building was hit
         GetComponent<Renderer>().material.color = Color.red;
         Invoke("ResetColor", 0.5f); // Reset color after 0.5 seconds

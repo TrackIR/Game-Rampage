@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b6ffbd3f7c633947a0e827cfbeea837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  playerTarget: {fileID: 2834931430190571472, guid: 4b85430e36925a145bad8664fedc18b7, type: 3}
+  playerTarget: {fileID: 0}
   detectionRange: 50
   fireRate: 1
   rotationSpeed: 5
