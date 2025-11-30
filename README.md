@@ -20,6 +20,11 @@ A simple Rampage-esque game utilizing TrackIR functionality head-tracking.
 
 <img width="400" height="267" alt="Untitled" src="https://github.com/user-attachments/assets/0589deb6-9491-4761-8152-942183c4b22e" />
 
+ ## Gameplay Loop
+ 
+ Flowchart of gameplay
+
+<img width="400" alt="gameplayflowchart" src="https://github.com/user-attachments/assets/f8e1468f-8727-4ce1-827f-5bf06457e5a7" />
 
 
 <!-- GETTING STARTED -->
