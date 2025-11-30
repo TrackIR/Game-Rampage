@@ -1,9 +1,16 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEditor;
+
 
 public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 100;
     private int currentHealth;
+
+    public bool isAlive = true;
+
+    public SceneAsset gameScene;    
 
     void Start()
     {
@@ -29,8 +36,8 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         Debug.Log(gameObject.name + " has died!");
-
-        // For now, player object is destroyed (will add animation)
-        Destroy(gameObject);
+        isAlive = false;
+        string sceneName = gameScene.name;
+        SceneManager.LoadScene(sceneName);
     }
 }
