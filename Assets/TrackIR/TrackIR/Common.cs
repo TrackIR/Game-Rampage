@@ -36,9 +36,9 @@ namespace NaturalPoint.TrackIR
             public float Y;
             public float Z;
 
-            public static readonly Quaternion Identity = new Quaternion( 1.0f, 0.0f, 0.0f, 0.0f );
+            public static readonly Quaternion Identity = new Quaternion(1.0f, 0.0f, 0.0f, 0.0f);
 
-            public Quaternion( float w, float x, float y, float z )
+            public Quaternion(float w, float x, float y, float z)
             {
                 W = w;
                 X = x;
@@ -47,21 +47,21 @@ namespace NaturalPoint.TrackIR
             }
 
             // Returns a quaternion representing Tait-Bryan intrinsic rotation angles in z-y'-x'' sequence.
-            public static Quaternion FromTaitBryanIntrinsicZYX( float zRadians, float yRadians, float xRadians )
+            public static Quaternion FromTaitBryanIntrinsicZYX(float zRadians, float yRadians, float xRadians)
             {
-                double sz = Math.Sin( zRadians * 0.5f );
-                double cz = Math.Cos( zRadians * 0.5f );
-                double sy = Math.Sin( yRadians * 0.5f );
-                double cy = Math.Cos( yRadians * 0.5f );
-                double sx = Math.Sin( xRadians * 0.5f );
-                double cx = Math.Cos( xRadians * 0.5f );
+                double sz = Math.Sin(zRadians * 0.5f);
+                double cz = Math.Cos(zRadians * 0.5f);
+                double sy = Math.Sin(yRadians * 0.5f);
+                double cy = Math.Cos(yRadians * 0.5f);
+                double sx = Math.Sin(xRadians * 0.5f);
+                double cx = Math.Cos(xRadians * 0.5f);
 
                 return new Quaternion
                 {
-                    W = (float)(  (cx * cy * cz) + (sx * sy * sz) ),
-                    X = (float)(  (sx * cy * cz) - (cx * sy * sz) ),
-                    Y = (float)(  (cx * sy * cz) + (sx * cy * sz) ),
-                    Z = (float)( -(sx * sy * cz) + (cx * cy * sz) ),
+                    W = (float)((cx * cy * cz) + (sx * sy * sz)),
+                    X = (float)((sx * cy * cz) - (cx * sy * sz)),
+                    Y = (float)((cx * sy * cz) + (sx * cy * sz)),
+                    Z = (float)(-(sx * sy * cz) + (cx * cy * sz)),
                 };
             }
         }
@@ -73,9 +73,9 @@ namespace NaturalPoint.TrackIR
             public float Y;
             public float Z;
 
-            public static readonly Vector3 Zero = new Vector3( 0.0f, 0.0f, 0.0f );
+            public static readonly Vector3 Zero = new Vector3(0.0f, 0.0f, 0.0f);
 
-            public Vector3( float x, float y, float z )
+            public Vector3(float x, float y, float z)
             {
                 X = x;
                 Y = y;
@@ -94,13 +94,13 @@ namespace NaturalPoint.TrackIR
         {
         }
 
-        public TrackIRException( string message )
-            : base( message )
+        public TrackIRException(string message)
+            : base(message)
         {
         }
 
-        public TrackIRException( string message, Exception inner )
-            : base( message, inner )
+        public TrackIRException(string message, Exception inner)
+            : base(message, inner)
         {
         }
     }

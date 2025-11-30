@@ -85,16 +85,16 @@ namespace NaturalPoint.TrackIR
         /// </summary>
         /// <param name="applicationId">Your NaturalPoint-assigned application ID.</param>
         /// <param name="hwnd">The handle for the foreground window of your application.</param>
-        public Client( UInt16 applicationId, IntPtr hwnd )
+        public Client(UInt16 applicationId, IntPtr hwnd)
         {
-            if ( applicationId == 0 )
+            if (applicationId == 0)
             {
-                throw new ArgumentException( "Application ID cannot be zero." );
+                throw new ArgumentException("Application ID cannot be zero.");
             }
 
-            if ( hwnd == IntPtr.Zero )
+            if (hwnd == IntPtr.Zero)
             {
-                throw new ArgumentException( "hwnd cannot be zero." );
+                throw new ArgumentException("hwnd cannot be zero.");
             }
 
             m_appId = applicationId;
@@ -124,23 +124,23 @@ namespace NaturalPoint.TrackIR
         /// </summary>
         public void Disconnect()
         {
-            if ( m_bDataTransmitting )
+            if (m_bDataTransmitting)
             {
                 NPResult stopDataResult = m_clientLib.NP_StopDataTransmission();
-                if ( stopDataResult != NPResult.OK )
+                if (stopDataResult != NPResult.OK)
                 {
-                    Console.WriteLine( "WARNING: NP_StopDataTransmission returned " + stopDataResult.ToString() + "." );
+                    Console.WriteLine("WARNING: NP_StopDataTransmission returned " + stopDataResult.ToString() + ".");
                 }
 
                 m_bDataTransmitting = false;
             }
 
-            if ( m_bRegisteredWindowHandle )
+            if (m_bRegisteredWindowHandle)
             {
                 NPResult unregisterResult = m_clientLib.NP_UnregisterWindowHandle();
-                if ( unregisterResult != NPResult.OK )
+                if (unregisterResult != NPResult.OK)
                 {
-                    Console.WriteLine( "WARNING: NP_UnregisterWindowHandle returned " + unregisterResult.ToString() + "." );
+                    Console.WriteLine("WARNING: NP_UnregisterWindowHandle returned " + unregisterResult.ToString() + ".");
                 }
 
                 m_bRegisteredWindowHandle = false;
@@ -170,11 +170,11 @@ namespace NaturalPoint.TrackIR
         /// <returns>True if new data was available, false otherwise.</returns>
         public bool UpdatePose()
         {
-            
-            if ( m_bPendingReconnect )
+
+            if (m_bPendingReconnect)
             {
                 // Note: This call could throw.
-                if ( InternalConnect() )
+                if (InternalConnect())
                 {
                     // Successfully reconnected; clear the flag and continue normally.
                     m_bPendingReconnect = false;
@@ -186,8 +186,8 @@ namespace NaturalPoint.TrackIR
                     return false;
                 }
             }
-            
-            NPResult getDataResult = m_clientLib.NP_GetData( ref m_trackirData );
+
+            NPResult getDataResult = m_clientLib.NP_GetData(ref m_trackirData);
             if (m_trackirData.Status == 0)
             {
                 if (getDataResult == NPResult.OK)
@@ -245,19 +245,19 @@ namespace NaturalPoint.TrackIR
             // Clear this flag. Most exit paths from this function represent errors we can't recover from, and we
             // shouldn't keep trying repeatedly; the only exception is waiting for ERR_DEVICE_NOT_PRESENT to resolve.
             m_bPendingReconnect = false;
-			m_clientLib.NP_UnregisterWindowHandle();
+            m_clientLib.NP_UnregisterWindowHandle();
             // Retrieve host software version.
             UInt16 version;
-            NPResult queryVersionResult = m_clientLib.NP_QueryVersion( out version );
-            if ( queryVersionResult == NPResult.ERR_DEVICE_NOT_PRESENT )
+            NPResult queryVersionResult = m_clientLib.NP_QueryVersion(out version);
+            if (queryVersionResult == NPResult.ERR_DEVICE_NOT_PRESENT)
             {
                 // Don't go any further; we'll try to connect again next time UpdatePose is called.
                 m_bPendingReconnect = true;
                 return false;
             }
-            else if ( queryVersionResult != NPResult.OK )
+            else if (queryVersionResult != NPResult.OK)
             {
-                Console.WriteLine( "WARNING: NP_QueryVersion returned " + queryVersionResult.ToString() + "." );
+                Console.WriteLine("WARNING: NP_QueryVersion returned " + queryVersionResult.ToString() + ".");
             }
 
             HostSoftwareVersionMajor = (version >> 8);
@@ -265,49 +265,49 @@ namespace NaturalPoint.TrackIR
 
             // Retrieve signature object and validate that signature strings match expected values.
             TrackIRSignature signature = new TrackIRSignature();
-            NPResult getSignatureResult = m_clientLib.NP_GetSignature( ref signature );
+            NPResult getSignatureResult = m_clientLib.NP_GetSignature(ref signature);
 
-            if ( getSignatureResult != NPResult.OK )
+            if (getSignatureResult != NPResult.OK)
             {
-                throw new TrackIRException( "NP_GetSignature returned " + getSignatureResult.ToString() + "." );
+                throw new TrackIRException("NP_GetSignature returned " + getSignatureResult.ToString() + ".");
             }
 
             const string kExpectedAppSignature = "hardware camera\n software processing data\n track user movement\n\n Copyright EyeControl Technologies";
             const string kExpectedDllSignature = "precise head tracking\n put your head into the game\n now go look around\n\n Copyright EyeControl Technologies";
 
-            if ( signature.AppSignature != kExpectedAppSignature || signature.DllSignature != kExpectedDllSignature )
+            if (signature.AppSignature != kExpectedAppSignature || signature.DllSignature != kExpectedDllSignature)
             {
-                throw new TrackIRException( "Unable to verify TrackIR Enhanced signature values." );
+                throw new TrackIRException("Unable to verify TrackIR Enhanced signature values.");
             }
             //m_clientLib.NP_UnregisterWindowHandle();
             // Register the application window for liveness checks. This allows the TrackIR software to
             // detect situations where e.g. your application crashes and fails to shut down cleanly.
-            NPResult registerHwndResult = m_clientLib.NP_RegisterWindowHandle( m_appHwnd );
-            if ( registerHwndResult == NPResult.OK )
+            NPResult registerHwndResult = m_clientLib.NP_RegisterWindowHandle(m_appHwnd);
+            if (registerHwndResult == NPResult.OK)
             {
                 m_bRegisteredWindowHandle = true;
             }
             else
             {
-                throw new TrackIRException( "NP_RegisterWindowHandle returned " + registerHwndResult.ToString() + "." );
+                throw new TrackIRException("NP_RegisterWindowHandle returned " + registerHwndResult.ToString() + ".");
             }
 
             // Register the application by its NaturalPoint-assigned ID.
-            NPResult registerIdResult = m_clientLib.NP_RegisterProgramProfileID( m_appId );
-            if ( registerIdResult != NPResult.OK )
+            NPResult registerIdResult = m_clientLib.NP_RegisterProgramProfileID(m_appId);
+            if (registerIdResult != NPResult.OK)
             {
-                throw new TrackIRException( "NP_RegisterProgramProfileID returned " + registerIdResult.ToString() + "." );
+                throw new TrackIRException("NP_RegisterProgramProfileID returned " + registerIdResult.ToString() + ".");
             }
 
             // Signal that we want to start receiving tracking data.
             NPResult startDataResult = m_clientLib.NP_StartDataTransmission();
-            if ( startDataResult == NPResult.OK )
+            if (startDataResult == NPResult.OK)
             {
                 m_bDataTransmitting = true;
             }
             else
             {
-                throw new TrackIRException( "NP_StartDataTransmission returned " + startDataResult.ToString() + "." );
+                throw new TrackIRException("NP_StartDataTransmission returned " + startDataResult.ToString() + ".");
             }
 
             return true;
@@ -316,5 +316,5 @@ namespace NaturalPoint.TrackIR
 
 
 
-    
+
 } // namespace NaturalPoint.TrackIR
