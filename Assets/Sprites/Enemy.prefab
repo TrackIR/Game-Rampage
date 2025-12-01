@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1279442435723504336}
   - component: {fileID: 8800831443222038644}
   - component: {fileID: 539653869173804224}
-  - component: {fileID: 8419394151384225058}
+  - component: {fileID: 4997285358200883062}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Player
@@ -129,14 +129,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b6ffbd3f7c633947a0e827cfbeea837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  playerTarget: {fileID: 2834931430190571472, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+  playerTarget: {fileID: 0}
   detectionRange: 50
   fireRate: 1
-  rotationSpeed: 5
+  rotationSpeed: 10
   speed: 20
   projectilePrefab: {fileID: 7964181993821892393, guid: 626e8df7709f7e0428cbfefbce313429, type: 3}
   firePoint: {fileID: 340802733606060789}
---- !u!54 &8419394151384225058
+--- !u!54 &4997285358200883062
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

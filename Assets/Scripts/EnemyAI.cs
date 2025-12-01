@@ -14,7 +14,19 @@ public class EnemyAI : MonoBehaviour
     public Transform firePoint;
 
     private float fireCooldownTimer = 0f;
-
+    
+    void Start()
+    {
+        // Optionally find the player by tag if not assigned
+        if (playerTarget == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                playerTarget = playerObj.transform;
+            }
+        }
+    }
     void Update()
     {
         // Always count down the cooldown timer

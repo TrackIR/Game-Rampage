@@ -2,33 +2,51 @@ using UnityEngine;
 
 public class BuildingDestruction : MonoBehaviour
 {
-    public int health = 3; // How many hits it takes to destroy a building
+    public int maxHealth = 3;
+    private int currentHealth;
+
+    public int scoreReward = 10; // How many points a building is worth
+
+    void Start()
+    {
+        currentHealth = maxHealth;
+    }
 
     public void TakeDamage()
     {
-        health--; // Subtract 1 from health
+        currentHealth -= 1;
 
-        // Flash red so you know building was hit
+        // VISUAL: Flash red
         GetComponent<Renderer>().material.color = Color.red;
-        Invoke("ResetColor", 0.5f); // Reset color after 0.5 seconds
+        Invoke("ResetColor", 0.1f);
 
-        // Check if destroyed
-        if (health <= 0)
+        if (currentHealth <= 0)
         {
             Collapse();
-            Debug.Log("Destroyed a building");
         }
     }
 
     void ResetColor()
     {
-        // Return to original color
-        GetComponent<Renderer>().material.color = Color.gray;
+        GetComponent<Renderer>().material.color = Color.white;
     }
 
     void Collapse()
     {
-        // Destroy the building game object
+
+        // Find the ManageUI script in the scene
+        ManageUI uiManager = FindFirstObjectByType<ManageUI>();
+
+        if (uiManager != null)
+        {
+            uiManager.ChangeScore(scoreReward);
+        }
+        else
+        {
+            Debug.LogWarning("ManageUI script not found in scene! Score not added.");
+        }
+
+        // 3. Destroy the building
         Destroy(gameObject);
     }
 }
