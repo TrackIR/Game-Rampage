@@ -48,6 +48,7 @@ public class EnemyAI : MonoBehaviour
         if (distanceToPlayer > detectionRange)
         {
             // If not in range, move towards player
+            AimAtPlayer();
             transform.position += transform.forward * speed * Time.deltaTime;
 
         }
