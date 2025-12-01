@@ -1121,7 +1121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   curserObject: {fileID: 402534306}
-  sensitivity: 0
+  sensitivity: 1
 --- !u!1 &940999252
 GameObject:
   m_ObjectHideFlags: 0

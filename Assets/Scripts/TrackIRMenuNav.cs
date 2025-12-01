@@ -36,15 +36,17 @@ public class TrackIRMenuNav : MonoBehaviour
         float normVertical = 1 - (WrapAngle(headRot.x) + 90) / 180;
 
         // convert normalized data into screen space
-        Vector2 screenPos = new Vector2(
-            Mathf.Clamp01(normHorizontal) * Screen.width * sensitivity,
-            Mathf.Clamp01(normVertical) * Screen.height * sensitivity
+         Vector2 screenPos = new Vector2(
+            normHorizontal * Screen.width,
+            normVertical * Screen.height
         );
 
         // actually move the cursor object to screenPos
         curserObject.transform.position = screenPos;
 
         // click UI elements
+
+        
 
     }
 }
