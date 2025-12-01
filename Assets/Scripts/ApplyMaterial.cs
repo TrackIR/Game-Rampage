@@ -22,7 +22,7 @@ public class ApplyMaterial : MonoBehaviour
 
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
 
-       
+
         foreach (Renderer r in renderers)
         {
             r.material = material;  // Apply the material to the object's children
