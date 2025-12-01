@@ -4,7 +4,7 @@ using UnityEngine;
 public class TrackIRMenuNav : MonoBehaviour
 {
     public GameObject curserObject;
-    public float sensitivity;
+    public float sensitivity = 1;
 
     // private variables
     TrackIRComponent trackIR;
@@ -26,13 +26,17 @@ public class TrackIRMenuNav : MonoBehaviour
 
     void Update()
     {
+        // cursor movement
         Vector3 headRot = trackIR.LatestPoseOrientation.eulerAngles;
         
         float normHorizontal = (WrapAngle(headRot.y) + 90) / 180;
         float normVertical = 1 - (WrapAngle(headRot.x) + 90) / 180;
 
-        Vector2 cursorPos = new Vector2(normHorizontal * Screen.width, normVertical * Screen.height);
+        Vector2 screenPos = new Vector2(
+            Mathf.Clamp01(normHorizontal) * Screen.width * sensitivity,
+            Mathf.Clamp01(normVertical) * Screen.height * sensitivity
+        );
 
-        Debug.Log(cursorPos);
+        // click UI elements
     }
 }
