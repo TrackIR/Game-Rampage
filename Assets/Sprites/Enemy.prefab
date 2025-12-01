@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1279442435723504336}
   - component: {fileID: 8800831443222038644}
   - component: {fileID: 539653869173804224}
+  - component: {fileID: 8419394151384225058}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Player
@@ -128,13 +129,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b6ffbd3f7c633947a0e827cfbeea837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  playerTarget: {fileID: 2834931430190571472, guid: 4b85430e36925a145bad8664fedc18b7, type: 3}
+  playerTarget: {fileID: 2834931430190571472, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
   detectionRange: 50
   fireRate: 1
   rotationSpeed: 5
   speed: 20
   projectilePrefab: {fileID: 7964181993821892393, guid: 626e8df7709f7e0428cbfefbce313429, type: 3}
   firePoint: {fileID: 340802733606060789}
+--- !u!54 &8419394151384225058
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747386369671831897}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &6419752174191427399
 GameObject:
   m_ObjectHideFlags: 0

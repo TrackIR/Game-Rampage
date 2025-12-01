@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 1834022335383002648}
   - component: {fileID: 4116139787227352715}
   - component: {fileID: 68029961686482171}
-  - component: {fileID: 7814206488654747937}
+  - component: {fileID: 2062249895776592315}
   m_Layer: 6
   m_Name: Cylinder
   m_TagString: Untagged
@@ -450,6 +450,19 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &2062249895776592315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7972065128275990072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e541a44f78b074a42bab0a5fec67ea4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingDestruction
+  health: 3
 --- !u!1 &8766398183184208564
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,7 +473,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8496404715334157036}
   - component: {fileID: 7578860907921908137}
-  m_Layer: 0
+  - component: {fileID: 3924098107014544433}
+  m_Layer: 6
   m_Name: Sign
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -499,6 +513,19 @@ MonoBehaviour:
   - {fileID: 2100000, guid: f96821bbefeea864b9b418af4b8615ac, type: 2}
   - {fileID: 2100000, guid: 4f1ef37ae953c484bbc5d5e4049147e5, type: 2}
   - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+--- !u!114 &3924098107014544433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8766398183184208564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e541a44f78b074a42bab0a5fec67ea4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingDestruction
+  health: 3
 --- !u!1001 &7954504821022778439
 PrefabInstance:
   m_ObjectHideFlags: 0

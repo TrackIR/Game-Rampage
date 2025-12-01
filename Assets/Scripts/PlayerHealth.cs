@@ -8,6 +8,8 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth = 100;
     private int currentHealth;
 
+    public GameObject Canvas;
+    private Canvas UImanager;
     public bool isAlive = true;
 
     public SceneAsset gameScene;    
@@ -16,6 +18,7 @@ public class PlayerHealth : MonoBehaviour
     {
         // Set health at the start
         currentHealth = maxHealth;
+        UImanager = Canvas.GetComponent<Canvas>();
     }
 
     // function that other scripts can call
@@ -23,7 +26,7 @@ public class PlayerHealth : MonoBehaviour
     {
         // Reduce health
         currentHealth -= damage;
-
+        UImanager.GetComponent<ManageUI>().ChangeHealth(-damage);
         Debug.Log(gameObject.name + " health: " + currentHealth);
 
         // Check if the player is dead
