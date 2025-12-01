@@ -1,14 +1,18 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public float attackRange = 5f; // How far you can reach
-    public Transform attackPoint;  // An empty object where the attack happens
-    public LayerMask buildingLayer; // To make sure only buildings are hit
+    public float attackRange = 3f;
+    public Transform attackPoint;
+
+    // Using a LayerMask allows for multiple layers (Buildings AND Enemies)
+    public LayerMask targetLayers;
+
+    public int hitDamage = 25; // How much damage a hit does to an enemy
 
     void Update()
     {
-        // Check for Left Mouse Button
         if (Input.GetButtonDown("Fire1"))
         {
             Attack();
@@ -17,21 +21,41 @@ public class PlayerAttack : MonoBehaviour
 
     void Attack()
     {
+        Collider[] hitObjects = Physics.OverlapSphere(attackPoint.position, attackRange, targetLayers);
 
-        // Detect buildings in range (damaging enemies is next goal)
-        // creates a sphere at the attackPoint and gathers everything it touches
-        Collider[] hitObjects = Physics.OverlapSphere(attackPoint.position, attackRange, buildingLayer);
+        // create a temporary list to track unique enemies hit in this swing
+        List<EnemyHealth> enemiesHit = new List<EnemyHealth>();
 
-        // Damage them
         foreach (Collider hit in hitObjects)
         {
-            // Check if the object hit has the Building script
+            // building destruction
             BuildingDestruction building = hit.GetComponent<BuildingDestruction>();
             if (building != null)
             {
                 building.TakeDamage();
-                Debug.Log("Hit a building");
+            }
+
+            // enemy attack
+            EnemyHealth enemy = hit.GetComponentInParent<EnemyHealth>();
+
+            if (enemy != null)
+            {
+                // Have the player already hit this specific enemy instance
+                if (!enemiesHit.Contains(enemy))
+                {
+                    // If not, damage them
+                    enemy.TakeDamage(hitDamage);
+
+                    // Add them to the list so it doesn't hit them again this frame
+                    enemiesHit.Add(enemy);
+                }
             }
         }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null) return;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }

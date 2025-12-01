@@ -356,7 +356,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1092364068989501268
+--- !u!114 &9170016066220637218
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -369,7 +369,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
   attackRange: 5
-  attackPoint: {fileID: 8960888037886871217}
-  buildingLayer:
+  attackPoint: {fileID: 3848403309439990088}
+  targetLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 192
+  hitDamage: 25
