@@ -38,7 +38,7 @@ public class movement : MonoBehaviour
     [SerializeField] private float headYawThreshold = 0.50f; // radians from neutral position to trigger yaw movement
     [SerializeField] private float rollSpeed = 50.0f; // degrees per second when rolling
     [SerializeField] private bool invertRotation = false;
-    [SerializeField] private bool rotateWithYaw = true;
+    [SerializeField] private bool rotateWithYaw;
     [SerializeField] private float jumpStartAngleThreshold = -5.0f; //must start below this angle to initiate jump
     [SerializeField] private float jumpEndAngleThreshold = -25.0f; //must exceed this angle to trigger jump
     [SerializeField] private float jumpYawThreshold = 10.0f; // degrees within neutral position for jump to be valid

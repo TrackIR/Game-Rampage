@@ -1117,6 +1117,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1586749822}
     - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: headRollThreshold
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: ShouldFaceMoveDirection
       value: 0
       objectReference: {fileID: 0}
