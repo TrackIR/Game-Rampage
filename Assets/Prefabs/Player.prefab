@@ -158,7 +158,7 @@ GameObject:
   - component: {fileID: 5422387770691132287}
   - component: {fileID: 2169317586527919222}
   - component: {fileID: 4326945373178735993}
-  - component: {fileID: 1092364068989501268}
+  - component: {fileID: 9170016066220637218}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -299,14 +299,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09e7a2b246d978a4bbacd34d65ba90d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::movement
+  trackIRCam: {fileID: 0}
+  normal3rdCam: {fileID: 0}
   gravity: -60
   speed: 10
   jumpPower: 6
   TrackIRRoot: {fileID: 0}
-  cameraTransform: {fileID: 0}
   ShouldFaceMoveDirection: 0
+  useTrackIR: 1
   debugON: 1
-  headZThreshhold: 0.1
+  headZThreshold: 0.1
   headXThreshold: 0.1
   headRollThreshold: 23
   headYawThreshold: 0.5
@@ -329,6 +331,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   maxHealth: 100
+  Canvas: {fileID: 0}
+  isAlive: 1
+  gameScene: {fileID: 0}
 --- !u!54 &4326945373178735993
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -369,7 +374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
   attackRange: 5
-  attackPoint: {fileID: 3848403309439990088}
+  attackPoint: {fileID: 8960888037886871217}
   targetLayers:
     serializedVersion: 2
     m_Bits: 192

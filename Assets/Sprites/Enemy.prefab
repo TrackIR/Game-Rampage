@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 8800831443222038644}
   - component: {fileID: 539653869173804224}
   - component: {fileID: 4997285358200883062}
-  m_Layer: 0
+  - component: {fileID: 5721115517733800789}
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -163,6 +164,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5721115517733800789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747386369671831897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f55ff89e90c1cf43aa2a302bffddd3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  maxHealth: 100
 --- !u!1 &6419752174191427399
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 340802733606060789}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,7 +220,7 @@ GameObject:
   - component: {fileID: 7267056869063238624}
   - component: {fileID: 207334934009172091}
   - component: {fileID: 719350684442495966}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Nose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
