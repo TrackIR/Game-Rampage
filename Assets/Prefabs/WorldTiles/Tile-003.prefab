@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 2123416049060552110}
   - component: {fileID: 4837118497929375070}
   - component: {fileID: 8053990301698922170}
-  m_Layer: 0
+  - component: {fileID: 5613022266707617380}
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,6 +112,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5613022266707617380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7770849002745797454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e541a44f78b074a42bab0a5fec67ea4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingDestruction
+  health: 3
 --- !u!1 &7841338100460035295
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,7 +134,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4030625864788975297}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tile-003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +150,7 @@ Transform:
   m_GameObject: {fileID: 7841338100460035295}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.05, y: 0, z: -0.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -192,9 +206,53 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1726201413233585384, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300242510239927187, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2599220001754910703, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4424588034859069575, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5915972530802634816, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6070684238816692394, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6863176552238832940, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7122000890277551207, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7508464332793814828, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8509724276736496390, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8937178996608835749, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
       propertyPath: m_Name
       value: Tile-001
+      objectReference: {fileID: 0}
+    - target: {fileID: 8937178996608835749, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

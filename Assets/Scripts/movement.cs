@@ -202,6 +202,9 @@ public class movement : MonoBehaviour
     {
         trackIRCam.enabled = useTrackIR;
         normal3rdCam.enabled = !useTrackIR;
+        trackIRCam.GetComponent<AudioListener>().enabled = useTrackIR;
+        normal3rdCam.GetComponent<AudioListener>().enabled = !useTrackIR;
+        
 
         cameraTransform = Camera.main.transform;
         
