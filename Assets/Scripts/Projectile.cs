@@ -6,7 +6,7 @@ public class Projectile : MonoBehaviour
     // Basic Settings
     public float speed = 75f;   // speed of projectile
     public float lifeTime = 5f; // How long it lives before destroying itself
-    public int damage = 10;     // How much damage to deal
+    public int damage = 5;     // How much damage to deal
 
 
     private bool hasHit = false; // flag ensures the projectile only deals damage once
