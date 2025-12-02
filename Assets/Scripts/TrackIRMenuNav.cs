@@ -38,9 +38,9 @@ public class TrackIRMenuNav : MonoBehaviour
 
         // get head rotation data
         Vector3 headRot = trackIR.LatestPoseOrientation.eulerAngles;
-        
+
         // normalize rotation
-        float normHorizontal = ((WrapAngle(headRot.y) * sensitivity ) + 90) / 180;
+        float normHorizontal = ((WrapAngle(headRot.y) * sensitivity) + 90) / 180;
         float normVertical = 1 - ((WrapAngle(headRot.x) * sensitivity) + 90) / 180;
 
         // convert normalized data into screen space
