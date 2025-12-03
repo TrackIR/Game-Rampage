@@ -6,8 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Main Menu.unity
+    guid: ebecc7f51371de8449ece440ab3c9031
+  - enabled: 1
     path: Assets/Scenes/EnemyBehavior.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/3DcameraPrototype.unity
+    guid: 66242ab6d02fbae46aeaa385baa813e5
+  - enabled: 1
+    path: Assets/Scenes/basic hud.unity
+    guid: f64d5687d5bb1e2488aeafa4afa9a962
+  - enabled: 1
+    path: Assets/Scenes/Level Generator.unity
+    guid: cfd902d473722fe46baa2f140fb0175d
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 2e789c191ab6e194a8a897e791acfa41, type: 2}
   m_UseUCBPForAssetBundles: 0
