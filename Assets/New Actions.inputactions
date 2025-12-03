@@ -1,0 +1,55 @@
+{
+    "version": 1,
+    "name": "New Actions",
+    "maps": [
+        {
+            "name": "Menu",
+            "id": "52189d37-20d3-48b9-869a-fcbb6705c08f",
+            "actions": [
+                {
+                    "name": "Point",
+                    "type": "Value",
+                    "id": "254b8354-9a96-4c4a-825c-de22989d1c04",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Click",
+                    "type": "Button",
+                    "id": "946e4e57-cfd1-4cd5-bbc8-129236a637be",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d062224f-cc36-45a2-b0a9-3d558a63d05d",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Point",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0e64a11a-5537-45fe-a0d9-b449795930d7",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
