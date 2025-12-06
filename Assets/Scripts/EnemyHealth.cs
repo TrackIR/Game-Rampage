@@ -16,7 +16,7 @@ public class EnemyHealth : MonoBehaviour
         currentHealth -= damage;
 
         Debug.Log("Enemy hit for " + damage + " damage! Remaining Health: " + currentHealth);
-        
+
         //Play Damage sound
         enemyDamageSound.Play(0);
 

@@ -20,7 +20,7 @@ public class BuildingDestruction : MonoBehaviour
     {
         currentHealth -= 1;
         DamageVisual();
-       
+
 
         if (currentHealth <= 0)
         {

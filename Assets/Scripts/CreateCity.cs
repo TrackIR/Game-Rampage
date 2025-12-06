@@ -52,7 +52,7 @@ public class CreateCity : MonoBehaviour
         int buildingStart = 0; // First tile of the building 3x3
         int buildingEnd = blockSize - 1; // Last tile of the building 3x3
 
-        
+
         int roadStart = buildingStart - roadLayers; // First tile of the road
         int roadEnd = buildingEnd + roadLayers; // Last tile of the surrounding road
 
