@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     public int maxHealth = 100;
+    public AudioSource enemyDamageSound;
     private int currentHealth;
 
     void Start()
@@ -15,6 +16,9 @@ public class EnemyHealth : MonoBehaviour
         currentHealth -= damage;
 
         Debug.Log("Enemy hit for " + damage + " damage! Remaining Health: " + currentHealth);
+        
+        //Play Damage sound
+        enemyDamageSound.Play(0);
 
         // flashes red
         GetComponent<Renderer>().material.color = Color.red;
