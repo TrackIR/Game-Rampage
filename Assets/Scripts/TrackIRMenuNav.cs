@@ -27,7 +27,7 @@ public class TrackIRMenuNav : MonoBehaviour
     void Update()
     {
         Vector3 headRot = trackIR.LatestPoseOrientation.eulerAngles;
-        
+
         float normHorizontal = (WrapAngle(headRot.y) + 90) / 180;
         float normVertical = 1 - (WrapAngle(headRot.x) + 90) / 180;
 

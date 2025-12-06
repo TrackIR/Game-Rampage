@@ -12,7 +12,7 @@ public class PlayerHealth : MonoBehaviour
     private Canvas UImanager;
     public bool isAlive = true;
 
-    public SceneAsset gameScene;    
+    public SceneAsset gameScene;
 
     void Start()
     {
