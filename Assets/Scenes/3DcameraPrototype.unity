@@ -119,65 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &162374346 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6933993760005083412, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-  m_PrefabInstance: {fileID: 17487671676369494}
-  m_PrefabAsset: {fileID: 0}
---- !u!143 &162374352
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 162374346}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &162374353
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 162374346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09e7a2b246d978a4bbacd34d65ba90d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::movement
-  gravity: -60
-  speed: 10
-  jumpPower: 6
-  TrackIRRoot: {fileID: 2143571711}
-  cameraTransform: {fileID: 1348361837}
-  ShouldFaceMoveDirection: 0
-  debugON: 1
-  headZThreshhold: 0.1
-  headXThreshold: 0.1
-  headRollThreshold: 0.25
-  headYawThreshold: 0.7
-  rollSpeed: 50
-  invertRotation: 0
-  rotateWithYaw: 1
-  jumpStartAngleThreshold: 15
-  jumpEndAngleThreshold: 35
-  jumpYawThreshold: 10
 --- !u!1 &300924384
 GameObject:
   m_ObjectHideFlags: 0
@@ -1155,7 +1096,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   trackIRRoot: {fileID: 2143571711}
-  playerObject: {fileID: 162374346}
+  playerObject: {fileID: 0}
   is3rdPerson: 1
   distance: -10
   verticalOffset: 5
@@ -1645,6 +1586,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: trackIRCam
+      value: 
+      objectReference: {fileID: 330585545}
+    - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: TrackIRRoot
+      value: 
+      objectReference: {fileID: 2143571711}
+    - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: normal3rdCam
+      value: 
+      objectReference: {fileID: 330585545}
     - target: {fileID: 6933993760005083412, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1653,13 +1606,7 @@ PrefabInstance:
     - {fileID: 3790752787202407133, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6933993760005083412, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 162374352}
-    - targetCorrespondingSourceObject: {fileID: 6933993760005083412, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 162374353}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
