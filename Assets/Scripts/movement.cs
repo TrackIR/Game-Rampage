@@ -53,7 +53,7 @@ public class movement : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         trackIR = TrackIRRoot.GetComponent<TrackIRComponent>();
-        
+
     }
 
     void zMove()
@@ -176,7 +176,7 @@ public class movement : MonoBehaviour
         Vector3 moveDirection = forward * moveZ + right * moveX;
         controller.Move(moveDirection * speed * Time.deltaTime);
 
-        if(ShouldFaceMoveDirection && moveDirection.sqrMagnitude > 0.001f)
+        if (ShouldFaceMoveDirection && moveDirection.sqrMagnitude > 0.001f)
         {
             Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);
@@ -204,11 +204,12 @@ public class movement : MonoBehaviour
         normal3rdCam.enabled = !useTrackIR;
         trackIRCam.GetComponent<AudioListener>().enabled = useTrackIR;
         normal3rdCam.GetComponent<AudioListener>().enabled = !useTrackIR;
-        
+
 
         cameraTransform = Camera.main.transform;
-        
-        if (useTrackIR){
+
+        if (useTrackIR)
+        {
 
             headPos = trackIR.LatestPosePosition;
 
