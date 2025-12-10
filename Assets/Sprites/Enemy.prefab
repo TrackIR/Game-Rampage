@@ -13,7 +13,9 @@ GameObject:
   - component: {fileID: 1279442435723504336}
   - component: {fileID: 8800831443222038644}
   - component: {fileID: 539653869173804224}
-  m_Layer: 0
+  - component: {fileID: 4997285358200883062}
+  - component: {fileID: 5721115517733800789}
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -28,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 747386369671831897}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.99983394, z: -0, w: -0.01822398}
+  m_LocalRotation: {x: -0, y: -0.999834, z: 0, w: -0.018220069}
   m_LocalPosition: {x: -1.05, y: 3.4, z: 36.55}
   m_LocalScale: {x: 3.33, y: 3.33, z: 3.33}
   m_ConstrainProportionsScale: 1
@@ -130,9 +132,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   playerTarget: {fileID: 0}
   detectionRange: 50
-  fireRate: 2
+  fireRate: 1
+  rotationSpeed: 10
+  speed: 20
   projectilePrefab: {fileID: 7964181993821892393, guid: 626e8df7709f7e0428cbfefbce313429, type: 3}
   firePoint: {fileID: 340802733606060789}
+--- !u!54 &4997285358200883062
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747386369671831897}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &5721115517733800789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747386369671831897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f55ff89e90c1cf43aa2a302bffddd3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  maxHealth: 100
 --- !u!1 &6419752174191427399
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,7 +186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 340802733606060789}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +220,7 @@ GameObject:
   - component: {fileID: 7267056869063238624}
   - component: {fileID: 207334934009172091}
   - component: {fileID: 719350684442495966}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Nose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
