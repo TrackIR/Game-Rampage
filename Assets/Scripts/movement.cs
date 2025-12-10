@@ -51,7 +51,7 @@ public class movement : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        
+
         if (TrackIRRoot != null)
         {
             trackIR = TrackIRRoot.GetComponent<TrackIRComponent>();
@@ -180,7 +180,7 @@ public class movement : MonoBehaviour
 
         Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
         transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);
-        
+
         // Keep player grounded
         if (controller.isGrounded && velocity.y < 0f)
         {

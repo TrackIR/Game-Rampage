@@ -4,8 +4,8 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
 
-    public string demoSceneName = "demo";    
-    
+    public string demoSceneName = "demo";
+
     public void PlayGame()
     {
         Time.timeScale = 1f;
