@@ -29,7 +29,6 @@ public class movement : MonoBehaviour
     // TODO: first or third person toggle needs to be scene or just moved to be better
 
     private Transform cameraTransform;
-    [SerializeField] private bool ShouldFaceMoveDirection = false;
     [SerializeField] private bool useTrackIR = true;
     [SerializeField] private bool debugON = true;
     [SerializeField] private float headZThreshold = 0.1f; // meters toward screen from neutral position to trigger forward movement
@@ -176,11 +175,9 @@ public class movement : MonoBehaviour
         Vector3 moveDirection = forward * moveZ + right * moveX;
         controller.Move(moveDirection * speed * Time.deltaTime);
 
-        if (ShouldFaceMoveDirection && moveDirection.sqrMagnitude > 0.001f)
-        {
-            Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);
-        }
+        Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+        transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);
+        
         // Keep player grounded
         if (controller.isGrounded && velocity.y < 0f)
         {
