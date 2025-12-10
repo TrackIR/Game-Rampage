@@ -51,8 +51,11 @@ public class movement : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        trackIR = TrackIRRoot.GetComponent<TrackIRComponent>();
-
+        
+        if (TrackIRRoot != null)
+        {
+            trackIR = TrackIRRoot.GetComponent<TrackIRComponent>();
+        }
     }
 
     void zMove()
@@ -205,17 +208,21 @@ public class movement : MonoBehaviour
 
         cameraTransform = Camera.main.transform;
 
-        if (useTrackIR)
+        if (useTrackIR && trackIR != null)
         {
-
-            headPos = trackIR.LatestPosePosition;
-
-            headRot = trackIR.LatestPoseOrientation;
+            try
+            {
+                headPos = trackIR.LatestPosePosition;
+                headRot = trackIR.LatestPoseOrientation;
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"TrackIR read failed, falling back to WASD: {e.Message}");
+                useTrackIR = false;
+            }
 
             zMove();
-
             xMove();
-
             rotPlayer();
             // Keep player grounded
             if (controller.isGrounded && velocity.y < 0f)
@@ -231,7 +238,6 @@ public class movement : MonoBehaviour
         {
             wasdMove();
         }
-
     }
 
     // on-screen debug display (shows in Game view when Play is running)
