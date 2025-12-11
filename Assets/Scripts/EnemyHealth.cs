@@ -1,0 +1,39 @@
+using UnityEngine;
+
+public class EnemyHealth : MonoBehaviour
+{
+    public int maxHealth = 100;
+    private int currentHealth;
+
+    void Start()
+    {
+        currentHealth = maxHealth;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+
+        Debug.Log("Enemy hit for " + damage + " damage! Remaining Health: " + currentHealth);
+
+        // flashes red
+        GetComponent<Renderer>().material.color = Color.red;
+        Invoke("ResetColor", 0.2f);
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    void ResetColor()
+    {
+        GetComponent<Renderer>().material.color = Color.gray;
+    }
+
+    void Die()
+    {
+        Debug.Log("Enemy killed");
+        Destroy(gameObject);
+    }
+}
