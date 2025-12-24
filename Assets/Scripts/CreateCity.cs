@@ -14,7 +14,6 @@ public class CreateCity : MonoBehaviour
     private float offset;
     [Range(3f, 100f)] public int blockSize = 9; // Number of tiles per block (should be a perfect square)
     private float roadWidth = 4f; // Width of a road tile
-
     private int tileSize = 4;
 
 
@@ -41,8 +40,10 @@ public class CreateCity : MonoBehaviour
 
     void PlaceBlock(Vector3 origin)
     {
-        for (int i = 0; i < blockSize; i++){
-            for (int j = 0; j < blockSize; j++){
+        for (int i = 0; i < blockSize; i++)
+        {
+            for (int j = 0; j < blockSize; j++)
+            {
                 Vector3 tilePos = new Vector3(origin.x + i * tileSize, 0, origin.z + j * tileSize);
                 Instantiate(tilePrefab, tilePos, Quaternion.identity, transform);
             }
@@ -52,8 +53,10 @@ public class CreateCity : MonoBehaviour
     // Places down a prefab from the list.
     void PlaceBuilding(Vector3 origin)
     {
-        for(int i = 0; i < math.sqrt(blockSize); i++){
-            for (int j = 0; j < math.sqrt(blockSize); j++){
+        for (int i = 0; i < math.sqrt(blockSize); i++)
+        {
+            for (int j = 0; j < math.sqrt(blockSize); j++)
+            {
                 Vector3 newOrigin = new Vector3(origin.x + i * math.sqrt(blockSize) * tileSize, 0, origin.z + j * math.sqrt(blockSize) * tileSize);
                 GameObject prefab = blockPrefabs[UnityEngine.Random.Range(0, blockPrefabs.Length)]; // Grab prefab from list
                 GameObject block = Instantiate(prefab, newOrigin, Quaternion.identity, transform); // Place the prefab down
