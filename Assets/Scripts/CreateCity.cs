@@ -12,7 +12,7 @@ public class CreateCity : MonoBehaviour
     [Range(1, 3)] public int roadLayers = 1;
 
     private float offset;
-    [Range(3f, 20f)] public int blockSize = 9; // Number of tiles per block (should be a perfect square)
+    [Range(3f, 100f)] public int blockSize = 9; // Number of tiles per block (should be a perfect square)
     private float roadWidth = 4f; // Width of a road tile
 
     private int tileSize = 4;
