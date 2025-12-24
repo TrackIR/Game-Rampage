@@ -1591,6 +1591,7 @@ MonoBehaviour:
   roadPrefab: {fileID: 8266933577447027309, guid: 78432ca779b940544adad502bef58355, type: 3}
   rows: 34
   columns: 18
+  roadLayers: 2
 --- !u!1 &1701272660
 GameObject:
   m_ObjectHideFlags: 0

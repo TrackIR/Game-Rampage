@@ -7,8 +7,8 @@ public class CreateCity : MonoBehaviour
     public GameObject roadPrefab; // In Assets/Prefabs/Worldtiles
     [Range(3f, 50f)] public int rows = 4;
     [Range(3f, 50f)] public int columns = 4;
+    [Range(1, 3)] public int roadLayers = 1;
 
-    private float cityBlockSize; //Size of a full city block, including roads
     private float offset;
     private int blockSize = 3; // Prefabs should use the tile-001 as a base, which is 3x3 tiles
     private float tileSpacing = 4f; // Roads are 4 units by 4 units
@@ -16,13 +16,12 @@ public class CreateCity : MonoBehaviour
 
     void Start()
     {
-        cityBlockSize = blockSize * tileSpacing;
         GenerateCity();
     }
 
     void GenerateCity()
     {
-        offset = (cityBlockSize + tileSpacing);
+        offset = (blockSize + roadLayers * 2) * tileSpacing;
 
         for (int i = 0; i < rows; i++)
         {
@@ -50,19 +49,23 @@ public class CreateCity : MonoBehaviour
     // Places down a border of roads around a block
     void PlaceRoad(Vector3 origin)
     {
-        for (int i = -1; i <= blockSize; i++)
-        {
-            for (int j = -1; j <= blockSize; j++)
-            {
-                bool border = i == -1 || i == blockSize || j == -1 || j == blockSize;
+        int buildingStart = 0; // First tile of the building 3x3
+        int buildingEnd = blockSize - 1; // Last tile of the building 3x3
 
-                if (!border)
-                {
-                    continue;  // If not a border, move on
-                }
+
+        int roadStart = buildingStart - roadLayers; // First tile of the road
+        int roadEnd = buildingEnd + roadLayers; // Last tile of the surrounding road
+
+        for (int i = roadStart; i <= roadEnd; i++)
+        {
+            for (int j = roadStart; j <= roadEnd; j++)
+            {
+                bool isRoad = i < buildingStart || i > buildingEnd || j < buildingStart || j > buildingEnd; //Making sure that roads are not being placed on building tiles
+
+                if (!isRoad)
+                    continue;
 
                 Vector3 pos = new Vector3(origin.x + i * tileSpacing, 0, origin.z + j * tileSpacing);
-
                 Instantiate(roadPrefab, pos, Quaternion.identity, transform);
             }
         }

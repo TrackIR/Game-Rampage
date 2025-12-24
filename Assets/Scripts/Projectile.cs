@@ -8,6 +8,8 @@ public class Projectile : MonoBehaviour
     public float lifeTime = 5f; // How long it lives before destroying itself
     public int damage = 5;     // How much damage to deal
 
+    public AudioSource shootSound;
+
 
     private bool hasHit = false; // flag ensures the projectile only deals damage once
 
@@ -15,6 +17,9 @@ public class Projectile : MonoBehaviour
     {
         // Get the Rigidbody component
         Rigidbody rb = GetComponent<Rigidbody>();
+
+        // Play shoot sound
+        shootSound.Play(0);
 
         // Make it move forward
         if (rb != null)
