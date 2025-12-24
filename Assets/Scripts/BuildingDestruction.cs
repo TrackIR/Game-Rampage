@@ -7,10 +7,11 @@ public class BuildingDestruction : MonoBehaviour
 
     public int scoreReward = 10; // How many points a building is worth
 
-    private Renderer[] childRenderers;
+    private Color materialcolor;
 
     void Start()
     {
+        materialcolor = GetComponent<Renderer>().material.color;   
         currentHealth = maxHealth;
 
         childRenderers = GetComponentsInChildren<Renderer>(); // Get all children of object renderers (for red flash)
@@ -40,10 +41,9 @@ public class BuildingDestruction : MonoBehaviour
 
     void ResetColor()
     {
-        foreach (Renderer r in childRenderers)
-        {
-            r.material.color = Color.white; //Todo: Reset color back to original, rather than white
-        }
+        
+
+        GetComponent<Renderer>().material.color = materialcolor;
     }
 
     void Collapse()
