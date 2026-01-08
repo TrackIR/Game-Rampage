@@ -15,8 +15,20 @@ EditorBuildSettings:
     path: Assets/Scenes/EnemyBehavior.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
+    path: Assets/Scenes/basic hud.unity
+    guid: f64d5687d5bb1e2488aeafa4afa9a962
+  - enabled: 1
+    path: Assets/Scenes/EnemyBehavior.unity
+    guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Game Pause Menu.unity
+    guid: 8ebdad2ba8d22444dbe770b64ea0957e
+  - enabled: 1
     path: Assets/Scenes/Level Generator.unity
     guid: cfd902d473722fe46baa2f140fb0175d
+  - enabled: 1
+    path: Assets/Scenes/demo.unity
+    guid: c4be97ea96af23347a132d99bd55784e
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 2e789c191ab6e194a8a897e791acfa41, type: 2}
   m_UseUCBPForAssetBundles: 0
