@@ -163,6 +163,7 @@ public class ManageUI : MonoBehaviour
     public void SetDifficulty(float amount)
     {
         difficulty = amount;
+
     }
 
 
