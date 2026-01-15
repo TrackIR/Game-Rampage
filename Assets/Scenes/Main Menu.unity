@@ -579,7 +579,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1131131863}
         m_TargetAssemblyTypeName: ReadLeaderboardFile, Assembly-CSharp
-        m_MethodName: UpdateLeaderboard
+        m_MethodName: ReadFull
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2278,7 +2278,7 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
+  m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
@@ -4846,7 +4846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c375ecfdfa8b95c4094c4622025e5fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  gameScene: {fileID: 102900000, guid: c4be97ea96af23347a132d99bd55784e, type: 3}
+  gameScene: {fileID: 102900000, guid: 8ebdad2ba8d22444dbe770b64ea0957e, type: 3}
 --- !u!1 &1942027622
 GameObject:
   m_ObjectHideFlags: 0
