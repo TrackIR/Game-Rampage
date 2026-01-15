@@ -9,22 +9,16 @@ public class ManageScoreFile : MonoBehaviour
         WriteScoreFile(10000); // Temp value to test, use function in other scripts in practice
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void WriteScoreFile(int score)
     {
-        string path = Application.dataPath + "/score.txt";
+        string path = Application.dataPath + "/leaderboard.csv";
 
         if (!File.Exists(path))
         {
-            File.WriteAllText(path, $"time, score");
+            File.WriteAllText(path, $"time,score");
         }
 
-        string content = $"{System.DateTime.Now}, {score}";
+        string content = $"{System.DateTime.Now},{score}";
 
         File.AppendAllText(path, content);
     }
