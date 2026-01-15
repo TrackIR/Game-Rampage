@@ -33,6 +33,7 @@ public class PauseMenu : MonoBehaviour
     {
         Debug.Log("Exit to menu");
 
+        Time.timeScale = 1f;
         string sceneName = mainMenuScene.name;
         SceneManager.LoadScene(sceneName);
     }
