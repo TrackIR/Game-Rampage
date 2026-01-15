@@ -9,8 +9,8 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-        int current = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(current + 1);
+        string sceneName = gameScene.name;
+        SceneManager.LoadScene(sceneName);
     }
 
     public void QuitGame()
