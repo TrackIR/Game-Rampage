@@ -8,19 +8,53 @@ public class ReadLeaderboardFile : MonoBehaviour
     public TextMeshProUGUI leaderboardTxt;
     public TextAsset leaderboardFile;
 
-    public void UpdateLeaderboard()
+    public void ReadLatest()
     {
-        if (leaderboardFile == null)
+        var entries = ReadEntries();
+
+        if (entries == null || entries.Count == 0)
         {
-            leaderboardTxt.text = "No leaderboard found";
+            leaderboardTxt.text = "No scores available";
             return;
         }
 
+        // Latest = last valid entry in file order
+        var latest = entries[entries.Count - 1];
+        leaderboardTxt.text = $"{latest.score} at {latest.time}";
+    }
+
+    public void ReadFull()
+    {
+        var entries = ReadEntries();
+
+        if (entries == null || entries.Count == 0)
+        {
+            leaderboardTxt.text = "No scores available";
+            return;
+        }
+
+        // Sort by score descending
+        entries.Sort((a, b) => b.score.CompareTo(a.score));
+
+        StringBuilder output = new StringBuilder();
+        foreach (var entry in entries)
+        {
+            output.AppendLine($"{entry.score} at {entry.time}");
+        }
+
+        leaderboardTxt.text = output.ToString();
+    }
+
+    // reads and parses the CSV
+    private List<(int score, string time)> ReadEntries()
+    {
+        if (leaderboardFile == null)
+            return null;
+
+        var entries = new List<(int, string)>();
         string[] lines = leaderboardFile.text.Split('\n');
 
-        List<(int score, string time)> entries = new List<(int, string)>();
-
-        // skip header
+        // Skip header
         for (int i = 1; i < lines.Length; i++)
         {
             string line = lines[i].Trim();
@@ -31,23 +65,13 @@ public class ReadLeaderboardFile : MonoBehaviour
             if (values.Length != 2)
                 continue;
 
-            string time = values[0].Trim();
-
             if (int.TryParse(values[1].Trim(), out int score))
             {
+                string time = values[0].Trim();
                 entries.Add((score, time));
             }
         }
 
-        // sort by score descending
-        entries.Sort((a, b) => b.score.CompareTo(a.score));
-
-        StringBuilder output = new StringBuilder();
-        foreach (var entry in entries)
-        {
-            output.AppendLine($"{entry.score} at {entry.time}");
-        }
-
-        leaderboardTxt.text = output.ToString();
+        return entries;
     }
 }
