@@ -18,7 +18,7 @@ public class ManageScoreFile : MonoBehaviour
             File.WriteAllText(path, $"time,score");
         }
 
-        string content = $"{System.DateTime.Now},{score}";
+        string content = $"\n{System.DateTime.Now},{score}";
 
         File.AppendAllText(path, content);
     }
