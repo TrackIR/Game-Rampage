@@ -53,13 +53,16 @@ public class CreateCity : MonoBehaviour
     // Places down a prefab from the list.
     void PlaceBuilding(Vector3 origin)
     {
+        quaternion ranRotation = quaternion.EulerXYZ(0, math.radians(90 * UnityEngine.Random.Range(0, 4)), 0);
         for (int i = 0; i < math.sqrt(blockSize); i++)
         {
             for (int j = 0; j < math.sqrt(blockSize); j++)
             {
+                // TODO: Currently places buildings too spread
+                // Also: make new tile003 that isn't ass
                 Vector3 newOrigin = new Vector3(origin.x + i * math.sqrt(blockSize) * tileSize, 0, origin.z + j * math.sqrt(blockSize) * tileSize);
                 GameObject prefab = blockPrefabs[UnityEngine.Random.Range(0, blockPrefabs.Length)]; // Grab prefab from list
-                GameObject block = Instantiate(prefab, newOrigin, Quaternion.identity, transform); // Place the prefab down
+                GameObject block = Instantiate(prefab, newOrigin, ranRotation, transform); // Place the prefab down
                 block.name = "Building_" + origin.x + "_" + newOrigin.z; // Name the prefab
             }
         }

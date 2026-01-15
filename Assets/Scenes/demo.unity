@@ -494,7 +494,6 @@ MonoBehaviour:
   - {fileID: 2033733394254717240, guid: 2d000db42bcc13f4ebe7ede2ab303e37, type: 3}
   - {fileID: 7841338100460035295, guid: f287d24842f66b543a933cdf7385dc0f, type: 3}
   - {fileID: 8889924073569422389, guid: 3c922f8721af8af4dbb9e752122564e5, type: 3}
-  - {fileID: 4721827613419649729, guid: 6e2eaf5daa2be054da50c38ef38ff46a, type: 3}
   roadPrefab: {fileID: 8266933577447027309, guid: 78432ca779b940544adad502bef58355, type: 3}
   tilePrefab: {fileID: 8009150481110687551, guid: d9f8b368947b2ee478de0e31fe133bb3, type: 3}
   rows: 10

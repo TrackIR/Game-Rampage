@@ -9,6 +9,8 @@ public class BuildingDestruction : MonoBehaviour
 
     private Color materialcolor;
 
+    private Renderer[] childRenderers;
+
     void Start()
     {
         materialcolor = GetComponent<Renderer>().material.color;   
