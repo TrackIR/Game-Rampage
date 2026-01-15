@@ -21,10 +21,10 @@ public class ManageScoreFile : MonoBehaviour
 
         if (!File.Exists(path))
         {
-            File.WriteAllText(path, "Score Log:\n\n");
+            File.WriteAllText(path, $"time, score");
         }
 
-        string content = "Score of run on " + System.DateTime.Now + ": " + score + "\n";
+        string content = $"{System.DateTime.Now}, {score}";
 
         File.AppendAllText(path, content);
     }
