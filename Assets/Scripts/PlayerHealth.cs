@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 
 public class PlayerHealth : MonoBehaviour
@@ -10,7 +11,8 @@ public class PlayerHealth : MonoBehaviour
     private Canvas UImanager;
     public bool isAlive = true;
 
-    public string gameSceneName = "Main Menu";
+    public GameObject deathMenu;
+    public GameObject playMenu;
 
     void Start()
     {
@@ -38,6 +40,8 @@ public class PlayerHealth : MonoBehaviour
     {
         Debug.Log(gameObject.name + " has died!");
         isAlive = false;
-        SceneManager.LoadScene(gameSceneName);
+
+        playMenu.SetActive(false);
+        deathMenu.SetActive(true);
     }
 }
