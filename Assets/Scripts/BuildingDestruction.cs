@@ -7,8 +7,11 @@ public class BuildingDestruction : MonoBehaviour
 
     public int scoreReward = 10; // How many points a building is worth
 
+    private Color materialcolor;
+
     void Start()
     {
+        materialcolor = GetComponent<Renderer>().material.color;   
         currentHealth = maxHealth;
     }
 
@@ -28,7 +31,9 @@ public class BuildingDestruction : MonoBehaviour
 
     void ResetColor()
     {
-        GetComponent<Renderer>().material.color = Color.white;
+        
+
+        GetComponent<Renderer>().material.color = materialcolor;
     }
 
     void Collapse()
