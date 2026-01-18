@@ -1,0 +1,476 @@
+fileFormatVersion: 2
+guid: dccf5421bd8428a489fba75c3fb1ccb1
+ModelImporter:
+  serializedVersion: 24200
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Idle
+      internalID: -3100369314251171874
+      firstFrame: 0
+      lastFrame: 120
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Punch
+      takeName: Punch
+      internalID: 2353680664591731088
+      firstFrame: 0
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Damage
+      takeName: Damage
+      internalID: 3651350446308603674
+      firstFrame: 0
+      lastFrame: 10
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Walk
+      takeName: Walk
+      internalID: 2667949614841947897
+      firstFrame: 0
+      lastFrame: 120
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: PlayerCharacter(Clone)
+      parentName: 
+      position: {x: 0.052828126, y: 4.32079, z: 0.060205624}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Head
+      parentName: PlayerCharacter(Clone)
+      position: {x: -0.052828126, y: 1.5356925, z: -0.032125}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Jaw
+      parentName: Head
+      position: {x: -0, y: 0.31944686, z: 0.14674312}
+      rotation: {x: 0.8608591, y: -0, z: -0, w: 0.5088435}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Jaw_1
+      parentName: Jaw
+      position: {x: -0, y: -0.30092937, z: -0.23732373}
+      rotation: {x: -0.15212339, y: 0, z: -0, w: 0.98836154}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Skull
+      parentName: Head
+      position: {x: -0, y: 0.2685175, z: -0.028080625}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Screw L
+      parentName: Head
+      position: {x: -0.625, y: 0.2685175, z: 0.09691937}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Screw R
+      parentName: Head
+      position: {x: 0.625, y: 0.2685175, z: 0.09691937}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Arm L
+      parentName: PlayerCharacter(Clone)
+      position: {x: -0.844495, y: 1.14796, z: -0.060205624}
+      rotation: {x: 0, y: 0, z: 0.57357645, w: 0.81915206}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Bicep
+      parentName: Arm L
+      position: {x: 0.010416875, y: -0.046875, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Forearm
+      parentName: Bicep
+      position: {x: -0.65625, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0.087155744, w: 0.9961947}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Fist
+      parentName: Forearm
+      position: {x: -0.875, y: 0.046875, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Fist L
+      parentName: Fist
+      position: {x: -0.125, y: -0.09375, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Forearm L
+      parentName: Forearm
+      position: {x: -0.4375, y: -0.046875, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Bicep L
+      parentName: Bicep
+      position: {x: -0.28125, y: -0.046875, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Arm R
+      parentName: PlayerCharacter(Clone)
+      position: {x: 0.780505, y: 1.14796, z: -0.060205624}
+      rotation: {x: 0.57357645, y: 0.81915206, z: -8.5280025e-17, w: 1.5037169e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Bicep2
+      parentName: Arm R
+      position: {x: 0.041666873, y: -0.046875, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Forearm2
+      parentName: Bicep2
+      position: {x: -0.71875, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0.087155744, w: 0.9961947}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Fist2
+      parentName: Forearm2
+      position: {x: -0.84375, y: 0.046875, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Fist R
+      parentName: Fist2
+      position: {x: -0.125, y: -0.09375, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Forearm R
+      parentName: Forearm2
+      position: {x: -0.40625, y: -0.046875, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Bicep R
+      parentName: Bicep2
+      position: {x: -0.3125, y: -0.046875, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pelvis
+      parentName: PlayerCharacter(Clone)
+      position: {x: -0.052069996, y: -0.9527812, z: -0.060205624}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pelvis Top
+      parentName: Pelvis
+      position: {x: -0.00075812504, y: 0.19449125, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pelvis Bottom
+      parentName: Pelvis
+      position: {x: -0.00075812504, y: -0.36800876, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pelvis Bridge L
+      parentName: Pelvis
+      position: {x: -0.18825813, y: -0.11800875, z: 0}
+      rotation: {x: 0, y: 0, z: 0.32143947, w: 0.9469301}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pelvis Bridge R
+      parentName: Pelvis
+      position: {x: 0.18674186, y: -0.11800875, z: 0}
+      rotation: {x: 0, y: -0, z: -0.32143947, w: 0.9469301}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pelvis Cover
+      parentName: Pelvis
+      position: {x: -0.06325812, y: 0.00699125, z: 0}
+      rotation: {x: 0, y: -0, z: -0.38268346, w: 0.92387956}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Leg L
+      parentName: PlayerCharacter(Clone)
+      position: {x: -0.49032813, y: -0.88329, z: -0.060205624}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Top2
+      parentName: Leg L
+      position: {x: 0.0625, y: 0.140625, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Bottom2
+      parentName: Top2
+      position: {x: -0, y: -1.28125, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Foot2
+      parentName: Bottom2
+      position: {x: -0, y: -1.203125, z: 0.125}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Foot_1
+      parentName: Foot2
+      position: {x: -0, y: -0.34375, z: -0.3125}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Leg Bottom
+      parentName: Bottom2
+      position: {x: -0, y: -0.671875, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Leg Top
+      parentName: Top2
+      position: {x: -0, y: -0.765625, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Leg R
+      parentName: PlayerCharacter(Clone)
+      position: {x: 0.44717184, y: -0.82079, z: -0.060205624}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Top
+      parentName: Leg R
+      position: {x: -0.0625, y: -0.046875, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Bottom
+      parentName: Top
+      position: {x: -0, y: -1.21875, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Foot
+      parentName: Bottom
+      position: {x: -0, y: -1.140625, z: 0.0625}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Foot_2
+      parentName: Foot
+      position: {x: -0, y: -0.34375, z: -0.25}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Leg Bottom_1
+      parentName: Bottom
+      position: {x: -0, y: -0.609375, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Leg Top_1
+      parentName: Top
+      position: {x: -0, y: -0.640625, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Body Top
+      parentName: PlayerCharacter(Clone)
+      position: {x: -0.052828126, y: 0.67920995, z: -0.060205624}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Body Bottom
+      parentName: PlayerCharacter(Clone)
+      position: {x: -0.052828126, y: -0.19579001, z: -0.060205624}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Body Side R
+      parentName: PlayerCharacter(Clone)
+      position: {x: 0.19717188, y: -0.008289999, z: -0.060205624}
+      rotation: {x: 0, y: -0, z: -0.13052619, w: 0.9914449}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Body Side L
+      parentName: PlayerCharacter(Clone)
+      position: {x: -0.3028281, y: -0.008289999, z: -0.060205624}
+      rotation: {x: 0, y: 0, z: 0.13052619, w: 0.9914449}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Neck
+      parentName: PlayerCharacter(Clone)
+      position: {x: -0.052828126, y: 1.17921, z: -0.060205624}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Shoulder L
+      parentName: PlayerCharacter(Clone)
+      position: {x: -0.67782813, y: 0.99170995, z: -0.060205624}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Shoulder R
+      parentName: PlayerCharacter(Clone)
+      position: {x: 0.57217187, y: 0.99170995, z: -0.060205624}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: BackPanel Bottom
+      parentName: PlayerCharacter(Clone)
+      position: {x: -0.052828126, y: 0.71045995, z: 0.3772944}
+      rotation: {x: 0.087155744, y: -0, z: -0, w: 0.9961947}
+      scale: {x: 1, y: 1, z: 1}
+    - name: BackPanel Top
+      parentName: PlayerCharacter(Clone)
+      position: {x: -0.052828126, y: 0.89795995, z: 0.3772944}
+      rotation: {x: -0.13052619, y: 0, z: -0, w: 0.9914449}
+      scale: {x: 1, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
