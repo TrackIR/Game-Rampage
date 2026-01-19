@@ -136,7 +136,7 @@ Transform:
   m_GameObject: {fileID: 4305616560931798971}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.13, y: 0.51, z: 1.55}
+  m_LocalPosition: {x: 0, y: 0, z: 0.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -175,8 +175,8 @@ Transform:
   m_GameObject: {fileID: 8158711526878704080}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.5, z: 0}
-  m_LocalScale: {x: 3.33, y: 3.33, z: 3.33}
+  m_LocalPosition: {x: 0, y: 13, z: 0}
+  m_LocalScale: {x: 13, y: 13, z: 13}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2473322254005554474}
@@ -373,7 +373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 239298ba2c46ca643a59b49af780c802, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  attackRange: 5
+  attackRange: 14
   attackPoint: {fileID: 8960888037886871217}
   targetLayers:
     serializedVersion: 2

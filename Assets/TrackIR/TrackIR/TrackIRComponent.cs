@@ -164,6 +164,20 @@ public class TrackIRComponent : MonoBehaviour
         ShutDownTrackIR();
     }
 
+    /// MonoBehaviour message.
+    void OnDisable()
+    {
+        // Cleanly disconnect when this component is disabled (e.g., scene unload)
+        ShutDownTrackIR();
+    }
+
+    /// MonoBehaviour message.
+    void OnDestroy()
+    {
+        // Cleanly disconnect when this component is destroyed
+        ShutDownTrackIR();
+    }
+
     /// <summary>
     /// Attempts to instantiate the TrackIR client object using the specified application ID as well as the handle for
     /// Unity's foreground window.
