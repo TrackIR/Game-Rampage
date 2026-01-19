@@ -11,7 +11,8 @@ public class PlayerHealth : MonoBehaviour
     private Canvas UImanager;
     public bool isAlive = true;
 
-    public SceneAsset gameScene;
+    public GameObject deathMenu;
+    public GameObject playMenu;
 
     void Start()
     {
@@ -39,7 +40,8 @@ public class PlayerHealth : MonoBehaviour
     {
         Debug.Log(gameObject.name + " has died!");
         isAlive = false;
-        string sceneName = gameScene.name;
-        SceneManager.LoadScene(sceneName);
+
+        playMenu.SetActive(false);
+        deathMenu.SetActive(true);
     }
 }
