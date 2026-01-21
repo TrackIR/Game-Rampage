@@ -26,6 +26,8 @@ public class movement : MonoBehaviour
 
     public GameObject TrackIRRoot;
 
+
+
     // TODO: first or third person toggle needs to be scene or just moved to be better
 
     private Transform cameraTransform;
@@ -48,13 +50,25 @@ public class movement : MonoBehaviour
     private Quaternion headRot;
     private Queue<Quaternion> headRotQueue = new Queue<Quaternion>();
 
+    private Animator anim;
+    private int animWalkHash;
+
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
         trackIR = TrackIRRoot.GetComponent<TrackIRComponent>();
 
+        // Get the animator from the player's model
+        anim = gameObject.GetComponentInChildren<Animator>();
+
+        if (anim != null)
+        {
+            animWalkHash = Animator.StringToHash("Base Layer.Walk");
+        }
+      
     }
+
 
     void zMove()
     {
@@ -175,6 +189,10 @@ public class movement : MonoBehaviour
 
         Vector3 moveDirection = forward * moveZ + right * moveX;
         controller.Move(moveDirection * speed * Time.deltaTime);
+
+        float speedPercent = moveDirection.magnitude;
+        anim.SetFloat("Speed", speedPercent);
+        print(speedPercent);
 
         if (ShouldFaceMoveDirection && moveDirection.sqrMagnitude > 0.001f)
         {
