@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class CreateCity : MonoBehaviour
 {
-
     public GameObject[] blockPrefabs; // List of prefabs, should use tile-001 as their base to prevent issues with pivots
     public GameObject roadPrefab; // In Assets/Prefabs/Worldtiles
     [Range(3f, 50f)] public int rows = 4;
