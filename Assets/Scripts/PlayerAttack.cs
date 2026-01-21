@@ -17,8 +17,8 @@ public class PlayerAttack : MonoBehaviour
     void Start()
     {
         anim = gameObject.GetComponentInChildren<Animator>();
-        
-        if(anim != null)
+
+        if (anim != null)
         {
             animPunchHash = Animator.StringToHash("Base Layer.Punch");
         }

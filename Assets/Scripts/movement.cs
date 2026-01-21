@@ -66,7 +66,7 @@ public class movement : MonoBehaviour
         {
             animWalkHash = Animator.StringToHash("Base Layer.Walk");
         }
-      
+
     }
 
 
