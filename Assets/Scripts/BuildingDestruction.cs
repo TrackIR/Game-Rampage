@@ -11,7 +11,8 @@ public class BuildingDestruction : MonoBehaviour
 
     void Start()
     {
-        materialcolor = GetComponent<Renderer>().material.color;   
+        materialcolor = GetComponent<Renderer>().material.color;  
+    
         currentHealth = maxHealth;
     }
 
@@ -31,8 +32,6 @@ public class BuildingDestruction : MonoBehaviour
 
     void ResetColor()
     {
-        
-
         GetComponent<Renderer>().material.color = materialcolor;
     }
 
