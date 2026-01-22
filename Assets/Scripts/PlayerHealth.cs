@@ -32,6 +32,9 @@ public class PlayerHealth : MonoBehaviour
     // function that other scripts can call to Deal Damage
     public void TakeDamage(int damage)
     {
+
+        if (!isAlive) return;
+
         // Reduce health
         currentHealth -= damage;
         UImanager.GetComponent<ManageUI>().ChangeHealth(-damage);
@@ -69,7 +72,31 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log(gameObject.name + " has died!");
         isAlive = false;
 
-        playMenu.SetActive(false);
-        deathMenu.SetActive(true);
+        // Get the Score from ManageUI
+        int finalScore = 0;
+        if (UImanager != null)
+        {
+            finalScore = UImanager.GetComponent<ManageUI>().score;
+        }
+
+        // Find the File Writer and Save
+        ManageScoreFile writer = FindFirstObjectByType<ManageScoreFile>();
+        if (writer != null)
+        {
+            writer.WriteScoreFile(finalScore);
+        }
+        else
+        {
+            Debug.LogWarning("ManageScoreFile script not found in scene");
+        }
+
+        if (playMenu) playMenu.SetActive(false);
+        if (deathMenu)
+        {
+            deathMenu.SetActive(true);
+
+            ReadLeaderboardFile reader = deathMenu.GetComponentInChildren<ReadLeaderboardFile>();
+            if (reader != null) reader.ReadLatest();
+        }
     }
 }
