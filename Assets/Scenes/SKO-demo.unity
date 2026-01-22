@@ -993,7 +993,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreateCity
   blockPrefabs:
-  - {fileID: 8937178996608835749, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
   - {fileID: 2033733394254717240, guid: 2d000db42bcc13f4ebe7ede2ab303e37, type: 3}
   - {fileID: 7841338100460035295, guid: f287d24842f66b543a933cdf7385dc0f, type: 3}
   - {fileID: 8889924073569422389, guid: 3c922f8721af8af4dbb9e752122564e5, type: 3}
