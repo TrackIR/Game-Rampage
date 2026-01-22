@@ -4,8 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    public SceneAsset gameScene;
-    public SceneAsset mainMenuScene;
 
     public void PauseGame()
     {
@@ -25,8 +23,10 @@ public class PauseMenu : MonoBehaviour
     {
         Debug.Log("Restart game");
 
-        string sceneName = gameScene.name;
-        SceneManager.LoadScene(sceneName);
+        string sceneName = "SKO-demo";
+        SceneManager.LoadSceneAsync(sceneName);
+        Time.timeScale = 1f;
+        
     }
 
     public void ExitToMenu()
@@ -34,7 +34,7 @@ public class PauseMenu : MonoBehaviour
         Debug.Log("Exit to menu");
 
         Time.timeScale = 1f;
-        string sceneName = mainMenuScene.name;
+        string sceneName = "Main Menu";
         SceneManager.LoadScene(sceneName);
     }
 }
