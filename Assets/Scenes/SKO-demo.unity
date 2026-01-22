@@ -2080,11 +2080,11 @@ PrefabInstance:
     - target: {fileID: 2169317586527919222, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: playMenu
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1145413458}
     - target: {fileID: 2169317586527919222, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: deathMenu
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1385083975}
     - target: {fileID: 2169317586527919222, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: gameScene
       value: 
