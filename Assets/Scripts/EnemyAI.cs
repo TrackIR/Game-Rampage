@@ -7,6 +7,7 @@ public class EnemyAI : MonoBehaviour
     public float detectionRange = 15f; // range for spray attack
     public float rotationSpeed = 5f;
     public float speed = 5f;
+    public float gravity = 5f; // Constant downward force
 
     // Spray Settings
     public int damagePerSecond = 5;    // damage every second
@@ -29,6 +30,9 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+        // Apply constant downward force
+        transform.position += Vector3.down * gravity * Time.deltaTime;
+
         if (playerTarget == null) return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, playerTarget.position);
@@ -55,8 +59,12 @@ public class EnemyAI : MonoBehaviour
 
     void AimAtPlayer()
     {
-        Vector3 directionToPlayer = (playerTarget.position - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
+        Vector3 directionToPlayer = (playerTarget.position - transform.position);
+
+        // Flatten the vertical direction so they don't look up too high
+        directionToPlayer.y *= 0.4f;
+
+        Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer.normalized);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
     }
 

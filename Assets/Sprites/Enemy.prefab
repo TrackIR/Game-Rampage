@@ -37,7 +37,6 @@ Transform:
   m_Children:
   - {fileID: 2191839108908996111}
   - {fileID: 340802733606060789}
-  - {fileID: 6339755012547850392}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -182.088, z: 0}
 --- !u!33 &1317146796889002480
@@ -132,9 +131,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   playerTarget: {fileID: 0}
-  detectionRange: 50
+  detectionRange: 25
   rotationSpeed: 10
-  speed: 20
+  speed: 10
+  gravity: 5
   damagePerSecond: 5
   sprayEffect: {fileID: 5023920829423562123}
   firePoint: {fileID: 340802733606060789}
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 100
-  enemyDamageSound: {fileID: 2417826773480893663}
+  enemyDamageSound: {fileID: 0}
 --- !u!1 &6419752174191427399
 GameObject:
   m_ObjectHideFlags: 0
