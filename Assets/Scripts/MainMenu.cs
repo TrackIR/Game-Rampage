@@ -1,15 +1,17 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
 
-    public string demoSceneName = "demo";
+    public SceneAsset gameScene;
 
     public void PlayGame()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(demoSceneName);
+        string sceneName = gameScene.name;
+        SceneManager.LoadScene(sceneName);
     }
 
     public void QuitGame()

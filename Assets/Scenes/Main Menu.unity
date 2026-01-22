@@ -4844,7 +4844,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c375ecfdfa8b95c4094c4622025e5fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  demoSceneName: demo
+  gameScene: {fileID: 102900000, guid: 602cfa61663a0c24cba5f3e904f9e458, type: 3}
 --- !u!1 &1942027622
 GameObject:
   m_ObjectHideFlags: 0
@@ -5169,7 +5169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c375ecfdfa8b95c4094c4622025e5fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  demoSceneName: demo
+  gameScene: {fileID: 0}
 --- !u!1 &1997639411
 GameObject:
   m_ObjectHideFlags: 0
