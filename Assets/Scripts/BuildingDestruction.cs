@@ -33,7 +33,6 @@ public class BuildingDestruction : MonoBehaviour
     public void TakeDamage()
     {
         currentHealth -= 1;
-        DamageVisual();
 
         if (buildingRenderer != null)
         {
