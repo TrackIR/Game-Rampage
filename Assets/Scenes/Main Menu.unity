@@ -2791,6 +2791,7 @@ MonoBehaviour:
   roadPrefab: {fileID: 8266933577447027309, guid: 78432ca779b940544adad502bef58355, type: 3}
   rows: 24
   columns: 24
+  roadLayers: 1
 --- !u!4 &1043477768
 Transform:
   m_ObjectHideFlags: 0
@@ -4716,13 +4717,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   difficulty:
-  - Easy
   - Normal
-  - Hard
-  defaultDiff: 1
+  defaultDiff: 0
   map:
   - Downtown
-  - Simple
   defaultMap: 0
   difficultyText: {fileID: 2025801532}
   mapText: {fileID: 1652546981}
@@ -4846,7 +4844,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c375ecfdfa8b95c4094c4622025e5fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  gameScene: {fileID: 102900000, guid: 8ebdad2ba8d22444dbe770b64ea0957e, type: 3}
+  demoSceneName: demo
 --- !u!1 &1942027622
 GameObject:
   m_ObjectHideFlags: 0
@@ -5130,6 +5128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1973791143}
+  - component: {fileID: 1973791144}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -5170,7 +5169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c375ecfdfa8b95c4094c4622025e5fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  demoScene: {fileID: 102900000, guid: c4be97ea96af23347a132d99bd55784e, type: 3}
+  demoSceneName: demo
 --- !u!1 &1997639411
 GameObject:
   m_ObjectHideFlags: 0

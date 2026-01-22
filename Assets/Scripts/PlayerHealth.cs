@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 100;
@@ -20,7 +19,7 @@ public class PlayerHealth : MonoBehaviour
         UImanager = Canvas.GetComponent<Canvas>();
     }
 
-    // function that other scripts can call
+    // function that other scripts can call to Deal Damage
     public void TakeDamage(int damage)
     {
         // Reduce health
@@ -33,6 +32,23 @@ public class PlayerHealth : MonoBehaviour
         {
             Die();
         }
+    }
+
+    public void Heal(int amount)
+    {
+        // Increase health
+        currentHealth += amount;
+
+        // Cap health at maxHealth
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
+        // Update UI (sending a positive number adds to the bar)
+        UImanager.GetComponent<ManageUI>().ChangeHealth(amount);
+
+        Debug.Log("Restored " + amount + " Health. Current: " + currentHealth);
     }
 
     void Die()
