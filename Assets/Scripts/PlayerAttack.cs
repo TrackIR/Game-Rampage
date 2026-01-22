@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public float attackRange = 3f;
+    public float attackRange = 14f;
     public Transform attackPoint;
 
     // Using a LayerMask allows for multiple layers (Buildings AND Enemies)

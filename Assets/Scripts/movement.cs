@@ -29,7 +29,6 @@ public class movement : MonoBehaviour
     // TODO: first or third person toggle needs to be scene or just moved to be better
 
     private Transform cameraTransform;
-    [SerializeField] private bool ShouldFaceMoveDirection = false;
     [SerializeField] private bool useTrackIR = true;
     [SerializeField] private bool debugON = true;
     [SerializeField] private float headZThreshold = 0.1f; // meters toward screen from neutral position to trigger forward movement
@@ -52,8 +51,11 @@ public class movement : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        trackIR = TrackIRRoot.GetComponent<TrackIRComponent>();
 
+        if (TrackIRRoot != null)
+        {
+            trackIR = TrackIRRoot.GetComponent<TrackIRComponent>();
+        }
     }
 
     void zMove()
@@ -176,11 +178,9 @@ public class movement : MonoBehaviour
         Vector3 moveDirection = forward * moveZ + right * moveX;
         controller.Move(moveDirection * speed * Time.deltaTime);
 
-        if (ShouldFaceMoveDirection && moveDirection.sqrMagnitude > 0.001f)
-        {
-            Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);
-        }
+        Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+        transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);
+
         // Keep player grounded
         if (controller.isGrounded && velocity.y < 0f)
         {
@@ -208,17 +208,21 @@ public class movement : MonoBehaviour
 
         cameraTransform = Camera.main.transform;
 
-        if (useTrackIR)
+        if (useTrackIR && trackIR != null)
         {
-
-            headPos = trackIR.LatestPosePosition;
-
-            headRot = trackIR.LatestPoseOrientation;
+            try
+            {
+                headPos = trackIR.LatestPosePosition;
+                headRot = trackIR.LatestPoseOrientation;
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"TrackIR read failed, falling back to WASD: {e.Message}");
+                useTrackIR = false;
+            }
 
             zMove();
-
             xMove();
-
             rotPlayer();
             // Keep player grounded
             if (controller.isGrounded && velocity.y < 0f)
@@ -234,7 +238,6 @@ public class movement : MonoBehaviour
         {
             wasdMove();
         }
-
     }
 
     // on-screen debug display (shows in Game view when Play is running)

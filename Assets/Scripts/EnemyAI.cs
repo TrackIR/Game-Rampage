@@ -4,87 +4,90 @@ public class EnemyAI : MonoBehaviour
 {
     // Basic Settings
     public Transform playerTarget;
-    public float detectionRange = 50f; // How far away the enemy detects the player
-    public float fireRate = 1f; // Shots per second
-    public float rotationSpeed = 5f; // How fast the enemy turns
-    public float speed = 5f; // How fast the enemy moves
+    public float detectionRange = 15f; // range for spray attack
+    public float rotationSpeed = 5f;
+    public float speed = 5f;
 
-    // Projectile Info
-    public GameObject projectilePrefab;
-    public Transform firePoint;
+    // Spray Settings
+    public int damagePerSecond = 5;    // damage every second
+    public ParticleSystem sprayEffect;
+    public Transform firePoint;        // Where the spray comes from
 
-    private float fireCooldownTimer = 0f;
+    private float damageAccumulator = 0f; // Stores partial damage
 
     void Start()
     {
-        // Optionally find the player by tag if not assigned
         if (playerTarget == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null)
-            {
-                playerTarget = playerObj.transform;
-            }
+            if (playerObj != null) playerTarget = playerObj.transform;
         }
+
+        // Ensure spray is off at the start
+        if (sprayEffect != null) sprayEffect.Stop();
     }
+
     void Update()
     {
-        // Always count down the cooldown timer
-        if (fireCooldownTimer > 0)
-        {
-            fireCooldownTimer -= Time.deltaTime;
-        }
+        if (playerTarget == null) return;
 
-        // If no target, do nothing
-        if (playerTarget == null)
-        {
-            return;
-        }
-
-        // Check if target is in range
         float distanceToPlayer = Vector3.Distance(transform.position, playerTarget.position);
 
+        // If close, spray. If far, chase player.
         if (distanceToPlayer <= detectionRange)
         {
-            // If in range, aim at player
-
             AimAtPlayer();
-
-            // If cooldown is ready, shoot
-            if (fireCooldownTimer <= 0)
-            {
-                Shoot();
-                fireCooldownTimer = 1f / fireRate; // Reset cooldown
-            }
+            SprayAttack(); // Fire the attack
         }
-        if (distanceToPlayer > detectionRange)
+        else
         {
-            // If not in range, move towards player
-            AimAtPlayer();
-            transform.position += transform.forward * speed * Time.deltaTime;
+            // Stop spraying if player runs away
+            if (sprayEffect != null && sprayEffect.isPlaying)
+            {
+                sprayEffect.Stop();
+            }
 
+            AimAtPlayer();
+            // Move forward
+            transform.position += transform.forward * speed * Time.deltaTime;
         }
     }
 
     void AimAtPlayer()
     {
-        // Get the direction from the enemy to the player
         Vector3 directionToPlayer = (playerTarget.position - transform.position).normalized;
-
-        // Create the rotation needed to look at the player
         Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
-
-        // Smoothly rotate towards the player
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
-
     }
 
-    void Shoot()
+    void SprayAttack()
     {
-        // Create the bullet at firePoint's position
-        if (projectilePrefab != null && firePoint != null)
+        // Visuals: Turn on the water spray if it's not already on
+        if (sprayEffect != null && !sprayEffect.isPlaying)
         {
-            Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+            sprayEffect.Play();
+        }
+
+        // Damage Logic: Use a Raycast to see if player is being hit
+        RaycastHit hit;
+        // Cast a ray from firePoint, going forward, for the length of range
+        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, detectionRange))
+        {
+            // Was the player hit
+            PlayerHealth playerHealth = hit.collider.GetComponentInParent<PlayerHealth>();
+
+            if (playerHealth != null)
+            {
+                // Accumulate Damage
+                damageAccumulator += damagePerSecond * Time.deltaTime;
+
+                // Whenever 1 full point of damage is accumulated, deal it
+                if (damageAccumulator >= 1f)
+                {
+                    playerHealth.TakeDamage(1); // Deal 1 damage
+                    damageAccumulator -= 1f;    // Keep the remainder for next frame
+                }
+            }
         }
     }
 }

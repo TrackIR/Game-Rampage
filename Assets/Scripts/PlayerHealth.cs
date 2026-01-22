@@ -1,7 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor;
-
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -11,7 +9,8 @@ public class PlayerHealth : MonoBehaviour
     private Canvas UImanager;
     public bool isAlive = true;
 
-    public SceneAsset gameScene;
+    public GameObject deathMenu;
+    public GameObject playMenu;
 
     void Start()
     {
@@ -20,7 +19,7 @@ public class PlayerHealth : MonoBehaviour
         UImanager = Canvas.GetComponent<Canvas>();
     }
 
-    // function that other scripts can call
+    // function that other scripts can call to Deal Damage
     public void TakeDamage(int damage)
     {
         // Reduce health
@@ -35,11 +34,29 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    public void Heal(int amount)
+    {
+        // Increase health
+        currentHealth += amount;
+
+        // Cap health at maxHealth
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
+        // Update UI (sending a positive number adds to the bar)
+        UImanager.GetComponent<ManageUI>().ChangeHealth(amount);
+
+        Debug.Log("Restored " + amount + " Health. Current: " + currentHealth);
+    }
+
     void Die()
     {
         Debug.Log(gameObject.name + " has died!");
         isAlive = false;
-        string sceneName = gameScene.name;
-        SceneManager.LoadScene(sceneName);
+
+        playMenu.SetActive(false);
+        deathMenu.SetActive(true);
     }
 }
