@@ -26,13 +26,13 @@ Transform:
   m_GameObject: {fileID: 162254841945055462}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.97494704, y: -0.511161, z: 4.9772897}
-  m_LocalScale: {x: 0.100130744, y: 0.05221257, z: 0.30664027}
+  m_LocalPosition: {x: -5.65674, y: 0, z: 20.61372}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 557757498562139770}
   - {fileID: 1814680677969041231}
-  m_Father: {fileID: 7359864149843255321}
+  m_Father: {fileID: 6077907857354899010}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5176629941513656272
 MonoBehaviour:
@@ -174,8 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e541a44f78b074a42bab0a5fec67ea4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingDestruction
-  maxHealth: 3
-  scoreReward: 10
+  health: 3
 --- !u!1 &3992483327628636884
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,6 +187,7 @@ GameObject:
   - component: {fileID: 3580663607897602468}
   - component: {fileID: 7600508769100606075}
   - component: {fileID: 8603885823722031427}
+  - component: {fileID: 6665822769501277227}
   m_Layer: 6
   m_Name: Cylinder (1)
   m_TagString: Untagged
@@ -204,7 +204,7 @@ Transform:
   m_GameObject: {fileID: 3992483327628636884}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.6567397, y: 9.369999, z: -16.61372}
+  m_LocalPosition: {x: 4.65674, y: 9.37, z: -16.61372}
   m_LocalScale: {x: 1, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -301,8 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e541a44f78b074a42bab0a5fec67ea4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingDestruction
-  maxHealth: 3
-  scoreReward: 10
+  health: 3
 --- !u!1 &4721827613419649729
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,7 +311,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6077907857354899010}
-  - component: {fileID: 4462045347866221864}
   m_Layer: 6
   m_Name: Tile-005
   m_TagString: Untagged
@@ -334,23 +332,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8721159153461835868}
-  - {fileID: 7584533179470112073}
+  - {fileID: 6390594100606289807}
+  - {fileID: 8496404715334157036}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4462045347866221864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4721827613419649729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e541a44f78b074a42bab0a5fec67ea4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BuildingDestruction
-  maxHealth: 3
-  scoreReward: 10
 --- !u!1 &7972065128275990072
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,6 +348,7 @@ GameObject:
   - component: {fileID: 1834022335383002648}
   - component: {fileID: 4116139787227352715}
   - component: {fileID: 68029961686482171}
+  - component: {fileID: 2062249895776592315}
   m_Layer: 6
   m_Name: Cylinder
   m_TagString: Untagged
@@ -379,7 +365,7 @@ Transform:
   m_GameObject: {fileID: 7972065128275990072}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14.65674, y: 9.369999, z: -16.61372}
+  m_LocalPosition: {x: 14.65674, y: 9.37, z: -16.61372}
   m_LocalScale: {x: 1, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -476,8 +462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e541a44f78b074a42bab0a5fec67ea4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingDestruction
-  maxHealth: 3
-  scoreReward: 10
+  health: 3
 --- !u!1 &8766398183184208564
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,6 +473,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8496404715334157036}
   - component: {fileID: 7578860907921908137}
+  - component: {fileID: 3924098107014544433}
   m_Layer: 6
   m_Name: Sign
   m_TagString: Untagged
@@ -504,12 +490,12 @@ Transform:
   m_GameObject: {fileID: 8766398183184208564}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.97494704, y: -0.511161, z: 4.9772897}
-  m_LocalScale: {x: 0.100130744, y: 0.05221257, z: 0.30664027}
+  m_LocalPosition: {x: -5.65674, y: 0, z: 20.61372}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1966471648799964834}
-  m_Father: {fileID: 7359864149843255321}
+  m_Father: {fileID: 6077907857354899010}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7578860907921908137
 MonoBehaviour:
@@ -539,8 +525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e541a44f78b074a42bab0a5fec67ea4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingDestruction
-  maxHealth: 3
-  scoreReward: 10
+  health: 3
 --- !u!1001 &7954504821022778439
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -640,30 +625,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8937178996608835749, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4315034060399395372}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
---- !u!1 &1324954458320422114 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8937178996608835749, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
-  m_PrefabInstance: {fileID: 7954504821022778439}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4315034060399395372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1324954458320422114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e541a44f78b074a42bab0a5fec67ea4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BuildingDestruction
-  maxHealth: 3
-  scoreReward: 10
 --- !u!4 &8721159153461835868 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1685432537164078107, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}

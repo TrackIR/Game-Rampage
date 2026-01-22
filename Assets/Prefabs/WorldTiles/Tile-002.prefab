@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3820297152341597773}
   - component: {fileID: 7874328493959138192}
   - component: {fileID: 133402912071709949}
+  - component: {fileID: 3294993618736067353}
   m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
@@ -28,11 +29,12 @@ Transform:
   m_GameObject: {fileID: 1620064987371518416}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.112944074, y: 0.006119668, z: 0.16676626}
-  m_LocalScale: {x: 0.782649, y: 0.9414866, z: 0.45266238}
+  m_LocalPosition: {x: 1.23845, y: 9.92, z: -18.50794}
+  m_LocalScale: {x: 5, y: 20, z: 5}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1774631171813525779}
+  m_Children:
+  - {fileID: 6313956933713046455}
+  m_Father: {fileID: 8148212512920860250}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3820297152341597773
 MeshFilter:
@@ -123,8 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e541a44f78b074a42bab0a5fec67ea4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingDestruction
-  maxHealth: 3
-  scoreReward: 10
+  health: 3
 --- !u!1 &2033733394254717240
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +135,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4246547847684223660}
-  - component: {fileID: -3238098262003641440}
   m_Layer: 6
   m_Name: Tile-002
   m_TagString: Untagged
@@ -189,7 +189,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1774631171813525779}
+  - {fileID: 5947638310237144271}
   m_Father: {fileID: 4246547847684223660}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4003645661719417453
@@ -220,6 +220,7 @@ GameObject:
   - component: {fileID: 2875875929923167763}
   - component: {fileID: 9218022331822226209}
   - component: {fileID: 6172600862493594975}
+  - component: {fileID: 3791431894137125515}
   m_Layer: 6
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -236,11 +237,11 @@ Transform:
   m_GameObject: {fileID: 5283282407047320111}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.112944074, y: -0.22360308, z: -0.25420973}
-  m_LocalScale: {x: 0.782649, y: 0.4707433, z: 0.45266238}
+  m_LocalPosition: {x: 0, y: -0.244, z: -0.93}
+  m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1774631171813525779}
+  m_Father: {fileID: 5947638310237144271}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2875875929923167763
 MeshFilter:
@@ -431,30 +432,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8937178996608835749, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3408430511863366361}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
---- !u!1 &489791675517568023 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8937178996608835749, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
-  m_PrefabInstance: {fileID: 8848212197677507762}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3408430511863366361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 489791675517568023}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e541a44f78b074a42bab0a5fec67ea4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BuildingDestruction
-  maxHealth: 3
-  scoreReward: 10
 --- !u!4 &7901831539406960809 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1685432537164078107, guid: c9bdb3b91b31a5a4188827fe424a7d90, type: 3}
