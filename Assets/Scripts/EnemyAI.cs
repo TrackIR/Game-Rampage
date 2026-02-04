@@ -70,6 +70,9 @@ public class EnemyAI : MonoBehaviour
 
     void SprayAttack()
     {
+        // Play a shoot sound effect (Maybe turn this off if it plays a bunch)
+        AudioManager.Instance.playAudio(AudioManager.Instance.enemyShoot);
+
         // Visuals: Turn on the water spray if it's not already on
         if (sprayEffect != null && !sprayEffect.isPlaying)
         {
