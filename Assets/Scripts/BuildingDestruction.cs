@@ -54,27 +54,17 @@ public class BuildingDestruction : MonoBehaviour
 
     void UpdateDamageVisuals()
     {
-        // Get the height before shrinking
-        float oldHeight = 0f;
         if (buildingRenderer != null)
         {
-            oldHeight = buildingRenderer.bounds.size.y;
+            // Get the total height of the building
+            float totalHeight = buildingRenderer.bounds.size.y;
+
+            // divide totalHeight by maxHealth to get the increment per hit
+            float sinkAmount = totalHeight / maxHealth;
+
+            // Move the building down along the Y axis
+            transform.position -= new Vector3(0, sinkAmount, 0);
         }
-
-        // Squash the building (Reduce Y scale by 20%)
-        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.8f, transform.localScale.z);
-
-        // Lower the building so it stays on the ground
-        if (buildingRenderer != null)
-        {
-            float newHeight = buildingRenderer.bounds.size.y;
-            float heightLost = oldHeight - newHeight;
-
-            // Move down by half the height lost to keep the base at the same level
-            transform.position -= new Vector3(0, heightLost / 2f, 0);
-        }
-
-        // Future Implementation: GetComponent<MeshFilter>().mesh = damageStages[maxHealth - currentHealth - 1];
     }
 
     void ResetColor()

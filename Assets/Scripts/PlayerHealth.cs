@@ -12,91 +12,81 @@ public class PlayerHealth : MonoBehaviour
     public GameObject deathMenu;
     public GameObject playMenu;
 
+    private MonoBehaviour movementScript;
+
     private Animator anim;
     private int animDamageHash;
 
     void Start()
     {
-        // Set health at the start
+        Time.timeScale = 1f;
+
         currentHealth = maxHealth;
-        UImanager = Canvas.GetComponent<Canvas>();
+
+        // Auto-Link UI
+        if (!Canvas) Canvas = GameObject.Find("Canvas");
+        if (Canvas) UImanager = Canvas.GetComponent<Canvas>();
+
+        if (!playMenu) playMenu = GameObject.Find("PlayMenu");
+        if (!deathMenu && playMenu) deathMenu = playMenu.transform.Find("DeathMenu")?.gameObject;
 
         anim = gameObject.GetComponentInChildren<Animator>();
+        if (anim != null) animDamageHash = Animator.StringToHash("Base Layer.Damage");
 
-        if (anim != null)
+        // finds one named "movement", then grabs it
+        MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
+        foreach (var script in scripts)
         {
-            animDamageHash = Animator.StringToHash("Base Layer.Damage");
+            // Check if the script name is "movement"
+            if (script.GetType().Name.ToLower().Contains("movement"))
+            {
+                movementScript = script;
+                Debug.Log("Found Movement Script: " + script.GetType().Name);
+                break;
+            }
         }
     }
 
-    // function that other scripts can call to Deal Damage
     public void TakeDamage(int damage)
     {
-
         if (!isAlive) return;
 
-        // Reduce health
         currentHealth -= damage;
-        UImanager.GetComponent<ManageUI>().ChangeHealth(-damage);
-        Debug.Log(gameObject.name + " health: " + currentHealth);
+        if (UImanager) UImanager.GetComponent<ManageUI>().ChangeHealth(-damage);
 
-        // Play damage animation
-        anim.SetTrigger("Damage");
+        if (anim != null) anim.SetTrigger("Damage");
 
-        // Check if the player is dead
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
+        if (currentHealth <= 0) Die();
     }
 
     public void Heal(int amount)
     {
-        // Increase health
         currentHealth += amount;
-
-        // Cap health at maxHealth
-        if (currentHealth > maxHealth)
-        {
-            currentHealth = maxHealth;
-        }
-
-        // Update UI (sending a positive number adds to the bar)
-        UImanager.GetComponent<ManageUI>().ChangeHealth(amount);
-
-        Debug.Log("Restored " + amount + " Health. Current: " + currentHealth);
+        if (currentHealth > maxHealth) currentHealth = maxHealth;
+        if (UImanager) UImanager.GetComponent<ManageUI>().ChangeHealth(amount);
     }
 
     void Die()
     {
-        Debug.Log(gameObject.name + " has died!");
+        if (!isAlive) return;
         isAlive = false;
 
-        // Get the Score from ManageUI
-        int finalScore = 0;
-        if (UImanager != null)
-        {
-            finalScore = UImanager.GetComponent<ManageUI>().score;
-        }
+        Time.timeScale = 0f;
 
-        // Find the File Writer and Save
-        ManageScoreFile writer = FindFirstObjectByType<ManageScoreFile>();
-        if (writer != null)
+        if (movementScript != null)
         {
-            writer.WriteScoreFile(finalScore);
+            movementScript.enabled = false;
         }
         else
         {
-            Debug.LogWarning("ManageScoreFile script not found in scene");
+            Debug.LogError("Could not find 'Movement' script! Cursor might still be locked.");
         }
+
+        // Unlock Cursor
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
         if (playMenu) playMenu.SetActive(false);
-        if (deathMenu)
-        {
-            deathMenu.SetActive(true);
-
-            ReadLeaderboardFile reader = deathMenu.GetComponentInChildren<ReadLeaderboardFile>();
-            if (reader != null) reader.ReadLatest();
-        }
+        if (deathMenu) deathMenu.SetActive(true);
     }
 }

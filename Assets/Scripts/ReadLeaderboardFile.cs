@@ -20,7 +20,8 @@ public class ReadLeaderboardFile : MonoBehaviour
 
         // Latest = last valid entry in file order
         var latest = entries[entries.Count - 1];
-        leaderboardTxt.text = $"{latest.score} at {latest.time}";
+        //leaderboardTxt.text = $"{latest.score} at {latest.time}";
+        leaderboardTxt.text = $"Last Run: {latest.name} - {latest.score}";
     }
 
     public void ReadFull()
@@ -39,38 +40,40 @@ public class ReadLeaderboardFile : MonoBehaviour
         StringBuilder output = new StringBuilder();
         foreach (var entry in entries)
         {
-            output.AppendLine($"{entry.score} at {entry.time}");
+            //output.AppendLine($"{entry.score} at {entry.time}");
+            output.AppendLine($"{entry.name}: {entry.score} ({entry.time})");
         }
 
-        leaderboardTxt.text = output.ToString();
+        leaderboardTxt.text = output.ToString();    
     }
 
     // reads and parses the CSV
-    private List<(int score, string time)> ReadEntries()
+    private List<(int score, string time, string name)> ReadEntries()
     {
         string path = Application.dataPath + "/leaderboard.csv";
 
         if (!File.Exists(path))
-            return null;
+            return new List<(int, string, string)>();
 
-        var entries = new List<(int, string)>();
+        var entries = new List<(int, string, string)>();
         string[] lines = File.ReadAllLines(path);
 
-        // Skip header
         for (int i = 1; i < lines.Length; i++)
         {
             string line = lines[i].Trim();
-            if (string.IsNullOrEmpty(line))
-                continue;
+            if (string.IsNullOrEmpty(line)) continue;
 
             string[] values = line.Split(',');
-            if (values.Length != 2)
-                continue;
 
-            if (int.TryParse(values[1].Trim(), out int score))
+            // 3 columns: Time, Name, Score
+            if (values.Length < 3) continue;
+
+            // Score is now at index 2
+            if (int.TryParse(values[2].Trim(), out int score))
             {
                 string time = values[0].Trim();
-                entries.Add((score, time));
+                string name = values[1].Trim();
+                entries.Add((score, time, name));
             }
         }
 

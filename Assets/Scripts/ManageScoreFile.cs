@@ -9,16 +9,18 @@ public class ManageScoreFile : MonoBehaviour
     //    WriteScoreFile(10000); // Temp value to test, use function in other scripts in practice
     //}
 
-    public void WriteScoreFile(int score)
+    public void WriteScoreFile(string name, int score)
     {
         string path = Application.dataPath + "/leaderboard.csv";
 
         if (!File.Exists(path))
         {
-            File.WriteAllText(path, $"time,score");
+            File.WriteAllText(path, $"time,name,score");
         }
 
-        string content = $"\n{System.DateTime.Now},{score}";
+        string cleanName = name.Replace(",", "");
+
+        string content = $"\n{System.DateTime.Now},{cleanName},{score}";
 
         File.AppendAllText(path, content);
     }
