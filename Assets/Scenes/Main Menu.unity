@@ -4715,8 +4715,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fb92e3a48b008b48b4406ab89a510c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  settings: {fileID: 11400000, guid: e92e9b73a864508428486a12765cb719, type: 2}
   difficulty:
   - Normal
+  - Hard
+  - Super Hard
   defaultDiff: 0
   map:
   - Downtown

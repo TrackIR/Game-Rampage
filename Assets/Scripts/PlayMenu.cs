@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayMenu : MonoBehaviour
 {
+    public GameSettings settings;
     public string[] difficulty = { "Easy", "Normal", "Hard" };
     public int defaultDiff;
 
@@ -20,12 +21,17 @@ public class PlayMenu : MonoBehaviour
 
         difficultyText.text = difficulty[defaultDiff];
         mapText.text = map[defaultMap];
+
+        settings.difficulty = difficulty[defaultDiff];
+        settings.mapIndex = map[defaultMap];
     }
 
     public void IncreaseDifficulty()
     {
         defaultDiff = (defaultDiff + 1) % difficulty.Length;
         difficultyText.text = difficulty[defaultDiff];
+
+        settings.difficulty = difficulty[defaultDiff];
     }
 
     public void DecreaseDifficulty()
@@ -35,12 +41,16 @@ public class PlayMenu : MonoBehaviour
             defaultDiff = difficulty.Length - 1;
 
         difficultyText.text = difficulty[defaultDiff];
+        
+        settings.difficulty = difficulty[defaultDiff];
     }
 
     public void IncreaseMap()
     {
         defaultMap = (defaultMap + 1) % map.Length;
         mapText.text = map[defaultMap];
+
+        settings.mapIndex = map[defaultMap];
     }
 
     public void DecreaseMap()
@@ -50,5 +60,7 @@ public class PlayMenu : MonoBehaviour
             defaultMap = map.Length - 1;
 
         mapText.text = map[defaultMap];
+
+        settings.mapIndex = map[defaultMap];
     }
 }
