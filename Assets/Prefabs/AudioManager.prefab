@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   audioSource: {fileID: 6892358564816990368}
+  volume: 0.02
   buildingDestroy: {fileID: 8300000, guid: b7b0eeb713975f34db295a2d43be14e7, type: 3}
   playerHurt: {fileID: 8300000, guid: 70e1ff4c9cf38304cbd6f7dc01da1ba0, type: 3}
   playerHeal: {fileID: 8300000, guid: 444c639a25e7b9848b543522e57c09b5, type: 3}

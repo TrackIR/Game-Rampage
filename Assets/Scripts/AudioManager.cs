@@ -7,7 +7,8 @@ public class AudioManager : MonoBehaviour
     
     public AudioSource audioSource; // Audio Source attached to the audio manager
 
-    public float volume;
+    [Range(0.0f, 1.0f)]
+    public float volume = 1.0f;
 
     [Header("Audio Clips")]
     public AudioClip buildingDestroy;
@@ -36,7 +37,7 @@ public class AudioManager : MonoBehaviour
     {
     if(clip != null && audioSource != null) 
     {
-        audioSource.PlayOneShot(clip); // Could maybe be played locally? Something like 3D audio
+        audioSource.PlayOneShot(clip, volume); // Could maybe be played locally? Something like 3D audio
     }
     else
         {
