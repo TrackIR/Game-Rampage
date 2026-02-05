@@ -8,6 +8,7 @@ public class ManageUI : MonoBehaviour
     [Header("Audio")]
     public AudioSource scoreAudio; // Listing them like this so only one header is displayed in the editor
     public AudioSource healthGainAudio, healthLostAudio;
+    public AudioClip scoreAudioClip, healthGainAudioClip, healthLostAudioClip;
 
     [Range(0f, 1f)]
     public float volume = 1f; // Change the sound of the audio sources
@@ -79,12 +80,12 @@ public class ManageUI : MonoBehaviour
         if (amount > 0) // Play the sound for gaining health
         {
             healthGainAudio.volume = volume;
-            healthGainAudio.Play(0);
+            healthGainAudio.PlayOneShot(healthGainAudioClip);
         }
         else if (amount < 0) // Play the sound for losing health
         {
             healthLostAudio.volume = volume;
-            healthLostAudio.Play(0);
+            healthLostAudio.PlayOneShot(healthLostAudioClip);
         }
 
         UpdateHealthBar();
@@ -113,7 +114,7 @@ public class ManageUI : MonoBehaviour
         if (amount != 0)
         {
             scoreAudio.volume = volume;
-            scoreAudio.Play(0);
+            scoreAudio.PlayOneShot(scoreAudioClip);
         }
 
         string scoreString = "Score: " + score;
@@ -163,6 +164,7 @@ public class ManageUI : MonoBehaviour
     public void SetDifficulty(float amount)
     {
         difficulty = amount;
+
     }
 
 

@@ -1,7 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor;
-
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -11,22 +9,39 @@ public class PlayerHealth : MonoBehaviour
     private Canvas UImanager;
     public bool isAlive = true;
 
-    public SceneAsset gameScene;
+    public GameObject deathMenu;
+    public GameObject playMenu;
+
+    private Animator anim;
+    private int animDamageHash;
 
     void Start()
     {
         // Set health at the start
         currentHealth = maxHealth;
         UImanager = Canvas.GetComponent<Canvas>();
+
+        anim = gameObject.GetComponentInChildren<Animator>();
+
+        if (anim != null)
+        {
+            animDamageHash = Animator.StringToHash("Base Layer.Damage");
+        }
     }
 
-    // function that other scripts can call
+    // function that other scripts can call to Deal Damage
     public void TakeDamage(int damage)
     {
+
+        if (!isAlive) return;
+
         // Reduce health
         currentHealth -= damage;
         UImanager.GetComponent<ManageUI>().ChangeHealth(-damage);
         Debug.Log(gameObject.name + " health: " + currentHealth);
+
+        // Play damage animation
+        anim.SetTrigger("Damage");
 
         // Check if the player is dead
         if (currentHealth <= 0)
@@ -35,11 +50,53 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    public void Heal(int amount)
+    {
+        // Increase health
+        currentHealth += amount;
+
+        // Cap health at maxHealth
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
+        // Update UI (sending a positive number adds to the bar)
+        UImanager.GetComponent<ManageUI>().ChangeHealth(amount);
+
+        Debug.Log("Restored " + amount + " Health. Current: " + currentHealth);
+    }
+
     void Die()
     {
         Debug.Log(gameObject.name + " has died!");
         isAlive = false;
-        string sceneName = gameScene.name;
-        SceneManager.LoadScene(sceneName);
+
+        // Get the Score from ManageUI
+        int finalScore = 0;
+        if (UImanager != null)
+        {
+            finalScore = UImanager.GetComponent<ManageUI>().score;
+        }
+
+        // Find the File Writer and Save
+        ManageScoreFile writer = FindFirstObjectByType<ManageScoreFile>();
+        if (writer != null)
+        {
+            writer.WriteScoreFile(finalScore);
+        }
+        else
+        {
+            Debug.LogWarning("ManageScoreFile script not found in scene");
+        }
+
+        if (playMenu) playMenu.SetActive(false);
+        if (deathMenu)
+        {
+            deathMenu.SetActive(true);
+
+            ReadLeaderboardFile reader = deathMenu.GetComponentInChildren<ReadLeaderboardFile>();
+            if (reader != null) reader.ReadLatest();
+        }
     }
 }

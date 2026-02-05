@@ -1096,7 +1096,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   trackIRRoot: {fileID: 2143571711}
-  playerObject: {fileID: 0}
+  playerObject: {fileID: 17487671676369495}
   is3rdPerson: 1
   distance: -10
   verticalOffset: 5
@@ -1608,6 +1608,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+--- !u!1 &17487671676369495 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8158711526878704080, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+  m_PrefabInstance: {fileID: 17487671676369494}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
