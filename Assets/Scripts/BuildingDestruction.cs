@@ -16,8 +16,11 @@ public class BuildingDestruction : MonoBehaviour
 
     private Renderer[] childRenderers;
 
+    private Color materialcolor;
+
     void Start()
     {
+        materialcolor = GetComponent<Renderer>().material.color;
         currentHealth = maxHealth;
 
         // Grab the Renderer
@@ -76,11 +79,7 @@ public class BuildingDestruction : MonoBehaviour
 
     void ResetColor()
     {
-        // Revert to the exact color we saved in Start()
-        if (buildingRenderer != null)
-        {
-            buildingRenderer.material.color = originalColor;
-        }
+        GetComponent<Renderer>().material.color = materialcolor;
     }
 
     void Collapse()

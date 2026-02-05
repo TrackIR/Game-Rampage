@@ -2,11 +2,11 @@ using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 public class ReadLeaderboardFile : MonoBehaviour
 {
     public TextMeshProUGUI leaderboardTxt;
-    public TextAsset leaderboardFile;
 
     public void ReadLatest()
     {
@@ -48,11 +48,13 @@ public class ReadLeaderboardFile : MonoBehaviour
     // reads and parses the CSV
     private List<(int score, string time)> ReadEntries()
     {
-        if (leaderboardFile == null)
+        string path = Application.dataPath + "/leaderboard.csv";
+
+        if (!File.Exists(path))
             return null;
 
         var entries = new List<(int, string)>();
-        string[] lines = leaderboardFile.text.Split('\n');
+        string[] lines = File.ReadAllLines(path);
 
         // Skip header
         for (int i = 1; i < lines.Length; i++)

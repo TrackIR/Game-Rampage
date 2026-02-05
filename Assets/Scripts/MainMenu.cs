@@ -1,15 +1,17 @@
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
 
-    public string demoSceneName = "demo";
 
     public void PlayGame()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(demoSceneName);
+        string sceneName = "SKO-demo";
+        SceneManager.LoadScene(sceneName);
     }
 
     public void QuitGame()

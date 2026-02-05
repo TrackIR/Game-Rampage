@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   playerTarget: {fileID: 0}
-  detectionRange: 30
+  detectionRange: 25
   rotationSpeed: 10
   speed: 5
   agent: {fileID: -8947426014907748145}
