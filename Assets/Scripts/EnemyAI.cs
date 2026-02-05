@@ -1,90 +1,127 @@
+using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
     // Basic Settings
     public Transform playerTarget;
-    public float detectionRange = 50f; // How far away the enemy detects the player
-    public float fireRate = 1f; // Shots per second
-    public float rotationSpeed = 5f; // How fast the enemy turns
-    public float speed = 5f; // How fast the enemy moves
 
-    // Projectile Info
-    public GameObject projectilePrefab;
-    public Transform firePoint;
+    private bool playerInRange;
+    public float detectionRange = 15f; // range for spray attack
+    public float rotationSpeed = 5f;
+    public float speed = 5f;
 
-    private float fireCooldownTimer = 0f;
+    public NavMeshAgent agent;
+
+
+    private const float gravity = -9.81f;
+
+    // Spray Settings
+    public int damagePerSecond = 5;    // damage every second
+    public ParticleSystem sprayEffect;
+    public Transform firePoint;        // Where the spray comes from
+
+    private Vector3 gravityVector = new Vector3(0, gravity, 0);
+    private float damageAccumulator = 0f; // Stores partial damage
 
     void Start()
     {
-        // Optionally find the player by tag if not assigned
         if (playerTarget == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null)
-            {
-                playerTarget = playerObj.transform;
-            }
+            if (playerObj != null) playerTarget = playerObj.transform;
         }
+
+        agent = GetComponent<NavMeshAgent>();
+
+        if (agent != null)
+        {
+            agent.speed = speed;
+
+        }
+
+        // Ensure spray is off at the start
+        if (sprayEffect != null) sprayEffect.Stop();
     }
+
     void Update()
     {
-        // Always count down the cooldown timer
-        if (fireCooldownTimer > 0)
+        playerInRange = Physics.CheckSphere(transform.position, detectionRange, LayerMask.GetMask("player"));
+
+        if (playerInRange)
         {
-            fireCooldownTimer -= Time.deltaTime;
+            aimAtPlayer();
+            SprayAttack();
+            
         }
-
-        // If no target, do nothing
-        if (playerTarget == null)
+        else
         {
-            return;
-        }
-
-        // Check if target is in range
-        float distanceToPlayer = Vector3.Distance(transform.position, playerTarget.position);
-
-        if (distanceToPlayer <= detectionRange)
-        {
-            // If in range, aim at player
-
-            AimAtPlayer();
-
-            // If cooldown is ready, shoot
-            if (fireCooldownTimer <= 0)
-            {
-                Shoot();
-                fireCooldownTimer = 1f / fireRate; // Reset cooldown
-            }
-        }
-        if (distanceToPlayer > detectionRange)
-        {
-            // If not in range, move towards player
-            AimAtPlayer();
-            transform.position += transform.forward * speed * Time.deltaTime;
-
+            aimAtPlayer();
+            findPlayer();
         }
     }
 
-    void AimAtPlayer()
+    void findPlayer()
     {
-        // Get the direction from the enemy to the player
+        if (agent != null && playerTarget != null)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(playerTarget.position);
+        }
+        if (sprayEffect.isPlaying)
+        {
+            sprayEffect.Stop();
+        }
+    }
+
+    void aimAtPlayer()
+    {
         Vector3 directionToPlayer = (playerTarget.position - transform.position).normalized;
+        directionToPlayer.y = 0; // Keep only horizontal rotation
 
-        // Create the rotation needed to look at the player
-        Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
+        if (directionToPlayer == Vector3.zero) return; // Avoid errors
 
-        // Smoothly rotate towards the player
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+        // Determine target rotation
+        Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
 
+        // Smoothly rotate towards player
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
-    void Shoot()
+    void SprayAttack()
     {
-        // Create the bullet at firePoint's position
-        if (projectilePrefab != null && firePoint != null)
+        if (agent != null)
         {
-            Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+            agent.isStopped = true; // Stop moving
+        }
+
+        // Visuals: Turn on the water spray if it's not already on
+        if (sprayEffect != null && !sprayEffect.isPlaying)
+        {
+            sprayEffect.Play();
+        }
+
+        // Damage Logic: Use a Raycast to see if player is being hit
+        RaycastHit hit;
+        // Cast a ray from firePoint, going forward, for the length of range
+        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, detectionRange))
+        {
+            // Was the player hit
+            PlayerHealth playerHealth = hit.collider.GetComponentInParent<PlayerHealth>();
+
+            if (playerHealth != null)
+            {
+                // Accumulate Damage
+                damageAccumulator += damagePerSecond * Time.deltaTime;
+
+                // Whenever 1 full point of damage is accumulated, deal it
+                if (damageAccumulator >= 1f)
+                {
+                    playerHealth.TakeDamage(1); // Deal 1 damage
+                    damageAccumulator -= 1f;    // Keep the remainder for next frame
+                }
+            }
         }
     }
 }

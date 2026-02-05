@@ -174,7 +174,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e541a44f78b074a42bab0a5fec67ea4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingDestruction
-  health: 3
+  maxHealth: 3
+  scoreReward: 10
 --- !u!1 &3992483327628636884
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,7 +302,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e541a44f78b074a42bab0a5fec67ea4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingDestruction
-  health: 3
+  maxHealth: 3
+  scoreReward: 10
 --- !u!1 &4721827613419649729
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,7 +464,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e541a44f78b074a42bab0a5fec67ea4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingDestruction
-  health: 3
+  maxHealth: 3
+  scoreReward: 10
 --- !u!1 &8766398183184208564
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,7 +476,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8496404715334157036}
   - component: {fileID: 7578860907921908137}
-  - component: {fileID: 3924098107014544433}
   m_Layer: 6
   m_Name: Sign
   m_TagString: Untagged
@@ -513,19 +515,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: f96821bbefeea864b9b418af4b8615ac, type: 2}
   - {fileID: 2100000, guid: 4f1ef37ae953c484bbc5d5e4049147e5, type: 2}
   - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
---- !u!114 &3924098107014544433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8766398183184208564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e541a44f78b074a42bab0a5fec67ea4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BuildingDestruction
-  health: 3
 --- !u!1001 &7954504821022778439
 PrefabInstance:
   m_ObjectHideFlags: 0

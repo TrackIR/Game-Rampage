@@ -14,9 +14,9 @@ TagManager:
   - UI
   - Building
   - Enemy
-  - 
-  - 
-  - 
+  - UI Clickable
+  - player
+  - enemySpawner
   - 
   - 
   - 
