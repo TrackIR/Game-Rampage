@@ -1,3 +1,4 @@
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class SpawnEnemies : MonoBehaviour
@@ -7,10 +8,12 @@ public class SpawnEnemies : MonoBehaviour
 
     public ManageUI ui; // Drag in the canvas from the player UI scene
     public GameObject enemyPrefab; // Change later once we have more enemies
+
+    public NavMeshSurface navMeshSurface; // For updating the navmesh after spawning enemies
     public float spawnRate = 10f;
     public float randomOffset = 10; // How spread out enemy spawns are
     public float maxEnemies = 3; // How many enemies can be spawned at one time
-
+    private bool updateNavMesh = true;
     private float spawnTimer = 0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -47,6 +50,10 @@ public class SpawnEnemies : MonoBehaviour
                 Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
             }
             spawnTimer = 0f;
+            if(updateNavMesh){
+                navMeshSurface.BuildNavMesh(); // Update the navmesh after spawning enemies
+                updateNavMesh = false; // Only need to update once
+            }
         }
     }
 }

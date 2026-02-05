@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 5789397852565563772}
   - component: {fileID: 8800831443222038644}
   - component: {fileID: 539653869173804224}
-  - component: {fileID: 4997285358200883062}
   - component: {fileID: 5721115517733800789}
   - component: {fileID: 8676399287663529258}
-  - component: {fileID: 3470453798233758459}
   - component: {fileID: 3593967792979327197}
+  - component: {fileID: -8947426014907748145}
+  - component: {fileID: 6211526141091347404}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Player
@@ -58,10 +58,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 4
-  m_Height: 15
+  m_Radius: 3.7
+  m_Height: 12.9
   m_Direction: 1
-  m_Center: {x: 0, y: 4.04, z: 1.15}
+  m_Center: {x: 0, y: 6.52, z: 1.15}
 --- !u!114 &539653869173804224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,39 +76,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   playerTarget: {fileID: 0}
   detectionRange: 30
-  fireRate: 1
   rotationSpeed: 10
-  speed: 20
-  gravity: -9.81
-  projectilePrefab: {fileID: 0}
+  speed: 5
+  agent: {fileID: -8947426014907748145}
+  damagePerSecond: 5
+  sprayEffect: {fileID: 5023920829423562123}
   firePoint: {fileID: 340802733606060789}
---- !u!54 &4997285358200883062
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 747386369671831897}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &5721115517733800789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,31 +118,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!143 &3470453798233758459
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 747386369671831897}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &3593967792979327197
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -218,6 +166,48 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!195 &-8947426014907748145
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747386369671831897}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 3.97
+  m_Speed: 10
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 12.97
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &6211526141091347404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747386369671831897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &6419752174191427399
 GameObject:
   m_ObjectHideFlags: 0
@@ -5315,19 +5305,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 171321366727a454f805596c09124840, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8365953102127451036}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 171321366727a454f805596c09124840, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 9040105274801530538}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 171321366727a454f805596c09124840, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8725703725675746367}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 171321366727a454f805596c09124840, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 513410427822742898}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 171321366727a454f805596c09124840, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3015119832141220848}
   m_SourcePrefab: {fileID: 100100000, guid: 171321366727a454f805596c09124840, type: 3}
 --- !u!4 &6014778297961791432 stripped
 Transform:
@@ -5339,65 +5317,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 171321366727a454f805596c09124840, type: 3}
   m_PrefabInstance: {fileID: 6121079655064721443}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8365953102127451036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6355450239986296178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b6ffbd3f7c633947a0e827cfbeea837, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  playerTarget: {fileID: 0}
-  detectionRange: 50
-  fireRate: 1
-  rotationSpeed: 5
-  speed: 5
-  gravity: -9.81
-  projectilePrefab: {fileID: 0}
-  firePoint: {fileID: 340802733606060789}
---- !u!114 &9040105274801530538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6355450239986296178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f55ff89e90c1cf43aa2a302bffddd3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHealth: 100
-  enemyDamageSound: {fileID: 0}
---- !u!143 &8725703725675746367
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6355450239986296178}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &513410427822742898
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5450,30 +5369,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!54 &3015119832141220848
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6355450239986296178}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0

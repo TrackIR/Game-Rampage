@@ -1,18 +1,28 @@
+using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
     // Basic Settings
     public Transform playerTarget;
+
+    private bool playerInRange;
     public float detectionRange = 15f; // range for spray attack
     public float rotationSpeed = 5f;
     public float speed = 5f;
+
+    public NavMeshAgent agent;
+
+
+    private const float gravity = -9.81f;
 
     // Spray Settings
     public int damagePerSecond = 5;    // damage every second
     public ParticleSystem sprayEffect;
     public Transform firePoint;        // Where the spray comes from
 
+    private Vector3 gravityVector = new Vector3(0, gravity, 0);
     private float damageAccumulator = 0f; // Stores partial damage
 
     void Start()
@@ -23,45 +33,69 @@ public class EnemyAI : MonoBehaviour
             if (playerObj != null) playerTarget = playerObj.transform;
         }
 
+        agent = GetComponent<NavMeshAgent>();
+
+        if (agent != null)
+        {
+            agent.speed = speed;
+
+        }
+
         // Ensure spray is off at the start
         if (sprayEffect != null) sprayEffect.Stop();
     }
 
     void Update()
     {
-        if (playerTarget == null) return;
+        playerInRange = Physics.CheckSphere(transform.position, detectionRange, LayerMask.GetMask("player"));
 
-        float distanceToPlayer = Vector3.Distance(transform.position, playerTarget.position);
-
-        // If close, spray. If far, chase player.
-        if (distanceToPlayer <= detectionRange)
+        if (playerInRange)
         {
-            AimAtPlayer();
-            SprayAttack(); // Fire the attack
+            aimAtPlayer();
+            SprayAttack();
+            
         }
         else
         {
-            // Stop spraying if player runs away
-            if (sprayEffect != null && sprayEffect.isPlaying)
-            {
-                sprayEffect.Stop();
-            }
-
-            AimAtPlayer();
-            // Move forward
-            transform.position += transform.forward * speed * Time.deltaTime;
+            aimAtPlayer();
+            findPlayer();
         }
     }
 
-    void AimAtPlayer()
+    void findPlayer()
+    {
+        if (agent != null && playerTarget != null)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(playerTarget.position);
+        }
+        if (sprayEffect.isPlaying)
+        {
+            sprayEffect.Stop();
+        }
+    }
+
+    void aimAtPlayer()
     {
         Vector3 directionToPlayer = (playerTarget.position - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+        directionToPlayer.y = 0; // Keep only horizontal rotation
+
+        if (directionToPlayer == Vector3.zero) return; // Avoid errors
+
+        // Determine target rotation
+        Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+
+        // Smoothly rotate towards player
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
     void SprayAttack()
     {
+        if (agent != null)
+        {
+            agent.isStopped = true; // Stop moving
+        }
+
         // Visuals: Turn on the water spray if it's not already on
         if (sprayEffect != null && !sprayEffect.isPlaying)
         {
