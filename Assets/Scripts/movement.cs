@@ -26,10 +26,11 @@ public class movement : MonoBehaviour
 
     public GameObject TrackIRRoot;
 
+
+
     // TODO: first or third person toggle needs to be scene or just moved to be better
 
     private Transform cameraTransform;
-    [SerializeField] private bool ShouldFaceMoveDirection = false;
     [SerializeField] private bool useTrackIR = true;
     [SerializeField] private bool debugON = true;
     [SerializeField] private float headZThreshold = 0.1f; // meters toward screen from neutral position to trigger forward movement
@@ -48,13 +49,28 @@ public class movement : MonoBehaviour
     private Quaternion headRot;
     private Queue<Quaternion> headRotQueue = new Queue<Quaternion>();
 
+    private Animator anim;
+    private int animWalkHash;
+
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        trackIR = TrackIRRoot.GetComponent<TrackIRComponent>();
+
+        if (TrackIRRoot != null)
+        {
+            trackIR = TrackIRRoot.GetComponent<TrackIRComponent>();
+        }
+        // Get the animator from the player's model
+        anim = gameObject.GetComponentInChildren<Animator>();
+
+        if (anim != null)
+        {
+            animWalkHash = Animator.StringToHash("Base Layer.Walk");
+        }
 
     }
+
 
     void zMove()
     {
@@ -176,11 +192,13 @@ public class movement : MonoBehaviour
         Vector3 moveDirection = forward * moveZ + right * moveX;
         controller.Move(moveDirection * speed * Time.deltaTime);
 
-        if (ShouldFaceMoveDirection && moveDirection.sqrMagnitude > 0.001f)
-        {
-            Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);
-        }
+        float speedPercent = moveDirection.magnitude;
+        anim.SetFloat("Speed", speedPercent);
+        print(speedPercent);
+
+        Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+        transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);
+
         // Keep player grounded
         if (controller.isGrounded && velocity.y < 0f)
         {
@@ -208,17 +226,21 @@ public class movement : MonoBehaviour
 
         cameraTransform = Camera.main.transform;
 
-        if (useTrackIR)
+        if (useTrackIR && trackIR != null)
         {
-
-            headPos = trackIR.LatestPosePosition;
-
-            headRot = trackIR.LatestPoseOrientation;
+            try
+            {
+                headPos = trackIR.LatestPosePosition;
+                headRot = trackIR.LatestPoseOrientation;
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"TrackIR read failed, falling back to WASD: {e.Message}");
+                useTrackIR = false;
+            }
 
             zMove();
-
             xMove();
-
             rotPlayer();
             // Keep player grounded
             if (controller.isGrounded && velocity.y < 0f)
@@ -228,13 +250,13 @@ public class movement : MonoBehaviour
             // Apply gravity
             velocity.y += gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
-            jump();
         }
         else
         {
             wasdMove();
-        }
+            jump();
 
+        }
     }
 
     // on-screen debug display (shows in Game view when Play is running)

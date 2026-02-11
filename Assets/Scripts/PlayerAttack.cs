@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public float attackRange = 3f;
+    public float attackRange = 14f;
     public Transform attackPoint;
 
     // Using a LayerMask allows for multiple layers (Buildings AND Enemies)
@@ -11,9 +11,23 @@ public class PlayerAttack : MonoBehaviour
 
     public int hitDamage = 25; // How much damage a hit does to an enemy
 
+    private Animator anim;
+    private int animPunchHash;
+
+    void Start()
+    {
+        anim = gameObject.GetComponentInChildren<Animator>();
+
+        if (anim != null)
+        {
+            animPunchHash = Animator.StringToHash("Base Layer.Punch");
+        }
+
+    }
+
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Attack();
         }
@@ -51,6 +65,8 @@ public class PlayerAttack : MonoBehaviour
                 }
             }
         }
+
+        anim.SetTrigger("Punch");
     }
 
     void OnDrawGizmosSelected()
