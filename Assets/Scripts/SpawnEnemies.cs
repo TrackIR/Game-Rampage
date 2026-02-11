@@ -49,7 +49,7 @@ public class SpawnEnemies : MonoBehaviour
                 }
             }
             spawnTimer = 0f;
-            if(updateNavMesh)
+            if (updateNavMesh)
             {
                 navMeshSurface.BuildNavMesh(); // Update the navmesh after spawning enemies
                 updateNavMesh = false; // Only need to update once

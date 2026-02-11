@@ -194,7 +194,8 @@ public class movement : MonoBehaviour
 
         float speedPercent = moveDirection.magnitude;
         anim.SetFloat("Speed", speedPercent);
-        if(speedPercent > 0){
+        if (speedPercent > 0)
+        {
             Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);
         }

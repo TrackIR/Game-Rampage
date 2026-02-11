@@ -27,9 +27,7 @@ public class EnemyAI : MonoBehaviour
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
             if (playerObj != null) playerTarget = playerObj.transform;
         }
-        
         agent = GetComponent<NavMeshAgent>();
-        
         if (agent != null)
         {
             agent.speed = speed;
@@ -40,11 +38,10 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         playerInRange = Physics.CheckSphere(transform.position, detectionRange, LayerMask.GetMask("player"));
-
         if (playerInRange)
         {
             aimAtPlayer();
-            SprayAttack();           
+            SprayAttack();
         }
         else
         {
@@ -64,14 +61,15 @@ public class EnemyAI : MonoBehaviour
             agent.destination = playerTarget.position;
 
             bool canSetPath = NavMesh.CalculatePath(
-                agent.transform.position, 
+                agent.transform.position,
                 agent.destination,
                 NavMesh.AllAreas,
                 path);
 
-            if (canSetPath){
+            if (canSetPath)
+            {
                 agent.SetPath(path);
-            }                
+            }
         }
         if (sprayEffect.isPlaying)
         {
