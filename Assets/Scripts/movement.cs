@@ -190,11 +190,10 @@ public class movement : MonoBehaviour
         right.Normalize();
 
         Vector3 moveDirection = forward * moveZ + right * moveX;
-        controller.Move(moveDirection * speed * Time.deltaTime);
+        controller.Move(speed * Time.deltaTime * moveDirection);
 
         float speedPercent = moveDirection.magnitude;
         anim.SetFloat("Speed", speedPercent);
-        print(speedPercent);
 
         Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
         transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);

@@ -1,5 +1,6 @@
 using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class SpawnEnemies : MonoBehaviour
 {
@@ -47,7 +48,10 @@ public class SpawnEnemies : MonoBehaviour
                 // Calculate where the enemy should spawn, using random x and z values
                 Vector3 spawnPos = new Vector3(transform.position.x + randOffsetX, transform.position.y, transform.position.z + randOffsetZ);
 
-                Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+                if (NavMesh.SamplePosition(spawnPos, out NavMeshHit hit, randomOffset, NavMesh.AllAreas))
+                {
+                    Instantiate(enemyPrefab, hit.position, Quaternion.identity);
+                }
             }
             spawnTimer = 0f;
             if(updateNavMesh){

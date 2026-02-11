@@ -16,6 +16,7 @@ public class EnemyAI : MonoBehaviour
 
 
     private const float gravity = -9.81f;
+    private NavMeshPath path;
 
     // Spray Settings
     public int damagePerSecond = 5;    // damage every second
@@ -35,11 +36,13 @@ public class EnemyAI : MonoBehaviour
 
         agent = GetComponent<NavMeshAgent>();
 
+        
         if (agent != null)
         {
             agent.speed = speed;
 
         }
+
 
         // Ensure spray is off at the start
         if (sprayEffect != null) sprayEffect.Stop();
@@ -64,10 +67,26 @@ public class EnemyAI : MonoBehaviour
 
     void findPlayer()
     {
+
         if (agent != null && playerTarget != null)
         {
             agent.isStopped = false;
-            agent.SetDestination(playerTarget.position);
+
+            path = new NavMeshPath();
+
+            agent.destination = playerTarget.position;
+
+            bool canSetPath = NavMesh.CalculatePath(
+                agent.transform.position, 
+                agent.destination,
+                NavMesh.AllAreas,
+                path);
+
+            if (canSetPath){
+                agent.SetPath(path);
+            }
+
+                
         }
         if (sprayEffect.isPlaying)
         {
