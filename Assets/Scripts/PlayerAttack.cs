@@ -14,6 +14,9 @@ public class PlayerAttack : MonoBehaviour
 
     ManageUI uiManager;
     public bool UltimateCharged = false;
+    private bool isUlt = false;
+    public int ultLength = 20;
+    private int ultCount = 0;
     public int UltimateThreshold = 250; // how many points until the player gets an ultimate
     private int lastUltimateLevel = 0;
 
@@ -34,7 +37,6 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-
         checkScore();
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -47,6 +49,20 @@ public class PlayerAttack : MonoBehaviour
             {
                 Attack();
             }
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (isUlt && (ultCount < ultLength))
+        {
+            Attack();
+            ultCount++;
+            print($"Count: {ultCount}");
+        } else if (ultCount == ultLength)
+        {
+            isUlt = false;
+            ultCount = 0;
         }
     }
 
@@ -107,6 +123,7 @@ public class PlayerAttack : MonoBehaviour
     void UltAttack()
     {
         Debug.Log("Ult");
+        isUlt = true;
     }
 
     void OnDrawGizmosSelected()
