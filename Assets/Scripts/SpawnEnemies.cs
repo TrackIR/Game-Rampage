@@ -4,12 +4,9 @@ using UnityEngine.AI;
 
 public class SpawnEnemies : MonoBehaviour
 {
-
     // For now, placing the enemy spawner on the player so it moves relative to player position.
-
     public ManageUI ui; // Drag in the canvas from the player UI scene
     public GameObject enemyPrefab; // Change later once we have more enemies
-
     public NavMeshSurface navMeshSurface; // For updating the navmesh after spawning enemies
     public float spawnRate = 10f;
     public float randomOffset = 10; // How spread out enemy spawns are
@@ -30,7 +27,6 @@ public class SpawnEnemies : MonoBehaviour
 
     void SpawnOnTimer()
     {
-
         float interval = Mathf.Clamp(spawnRate - ui.difficulty, 0.5f, 20f); // Can never be lower than 0.5 seconds
 
         spawnTimer += Time.deltaTime;
@@ -41,7 +37,6 @@ public class SpawnEnemies : MonoBehaviour
 
             for (int i = 0; i < enemyNum; i++) // Spawn 1 to maxEnemies enemies
             {
-
                 float randOffsetX = Random.Range(-randomOffset, randomOffset);
                 float randOffsetZ = Random.Range(-randomOffset, randomOffset);
 
@@ -54,7 +49,8 @@ public class SpawnEnemies : MonoBehaviour
                 }
             }
             spawnTimer = 0f;
-            if(updateNavMesh){
+            if(updateNavMesh)
+            {
                 navMeshSurface.BuildNavMesh(); // Update the navmesh after spawning enemies
                 updateNavMesh = false; // Only need to update once
             }

@@ -6,24 +6,18 @@ public class EnemyAI : MonoBehaviour
 {
     // Basic Settings
     public Transform playerTarget;
-
     private bool playerInRange;
     public float detectionRange = 15f; // range for spray attack
     public float rotationSpeed = 5f;
     public float speed = 5f;
-
-    public NavMeshAgent agent;
-
-
     private const float gravity = -9.81f;
+    private Vector3 gravityVector = new Vector3(0, gravity, 0);
+    public NavMeshAgent agent;
     private NavMeshPath path;
-
     // Spray Settings
     public int damagePerSecond = 5;    // damage every second
     public ParticleSystem sprayEffect;
     public Transform firePoint;        // Where the spray comes from
-
-    private Vector3 gravityVector = new Vector3(0, gravity, 0);
     private float damageAccumulator = 0f; // Stores partial damage
 
     void Start()
@@ -33,18 +27,13 @@ public class EnemyAI : MonoBehaviour
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
             if (playerObj != null) playerTarget = playerObj.transform;
         }
-
+        
         agent = GetComponent<NavMeshAgent>();
-
         
         if (agent != null)
         {
             agent.speed = speed;
-
         }
-
-
-        // Ensure spray is off at the start
         if (sprayEffect != null) sprayEffect.Stop();
     }
 
@@ -55,8 +44,7 @@ public class EnemyAI : MonoBehaviour
         if (playerInRange)
         {
             aimAtPlayer();
-            SprayAttack();
-            
+            SprayAttack();           
         }
         else
         {
@@ -67,7 +55,6 @@ public class EnemyAI : MonoBehaviour
 
     void findPlayer()
     {
-
         if (agent != null && playerTarget != null)
         {
             agent.isStopped = false;
@@ -84,9 +71,7 @@ public class EnemyAI : MonoBehaviour
 
             if (canSetPath){
                 agent.SetPath(path);
-            }
-
-                
+            }                
         }
         if (sprayEffect.isPlaying)
         {

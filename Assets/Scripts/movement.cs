@@ -194,9 +194,10 @@ public class movement : MonoBehaviour
 
         float speedPercent = moveDirection.magnitude;
         anim.SetFloat("Speed", speedPercent);
-
-        Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
-        transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);
+        if(speedPercent > 0){
+            Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);
+        }
 
         // Keep player grounded
         if (controller.isGrounded && velocity.y < 0f)
@@ -221,8 +222,6 @@ public class movement : MonoBehaviour
         normal3rdCam.enabled = !useTrackIR;
         trackIRCam.GetComponent<AudioListener>().enabled = useTrackIR;
         normal3rdCam.GetComponent<AudioListener>().enabled = !useTrackIR;
-
-
         cameraTransform = Camera.main.transform;
 
         if (useTrackIR && trackIR != null)
@@ -241,6 +240,7 @@ public class movement : MonoBehaviour
             zMove();
             xMove();
             rotPlayer();
+
             // Keep player grounded
             if (controller.isGrounded && velocity.y < 0f)
             {
@@ -254,7 +254,6 @@ public class movement : MonoBehaviour
         {
             wasdMove();
             jump();
-
         }
     }
 
