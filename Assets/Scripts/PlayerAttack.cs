@@ -15,8 +15,8 @@ public class PlayerAttack : MonoBehaviour
     ManageUI uiManager;
     public bool UltimateCharged = false;
     private bool isUlt = false;
-    public int ultLength = 20;
-    private int ultCount = 0;
+    public int ultimateLength = 20;
+    private int ultCount = 0; // counter for physic frames
     public int UltimateThreshold = 250; // how many points until the player gets an ultimate
     private int lastUltimateLevel = 0;
 
@@ -54,12 +54,12 @@ public class PlayerAttack : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isUlt && (ultCount < ultLength))
+        if (isUlt && (ultCount < ultimateLength))
         {
             Attack();
             ultCount++;
             print($"Count: {ultCount}");
-        } else if (ultCount == ultLength)
+        } else if (ultCount == ultimateLength)
         {
             isUlt = false;
             ultCount = 0;
