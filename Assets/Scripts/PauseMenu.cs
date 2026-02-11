@@ -26,7 +26,6 @@ public class PauseMenu : MonoBehaviour
         string sceneName = "SKO-demo";
         SceneManager.LoadSceneAsync(sceneName);
         Time.timeScale = 1f;
-        
     }
 
     public void ExitToMenu()
