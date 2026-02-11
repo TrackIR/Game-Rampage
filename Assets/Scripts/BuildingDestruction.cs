@@ -8,11 +8,12 @@ public class BuildingDestruction : MonoBehaviour
 
     public int healthReward = 5; // Amount of HP to restore when a building is destroyed
 
-    // We store the renderer and original color to handle flashing correctly
+    // store the renderer and original color to handle flashing correctly
     private Renderer buildingRenderer;
     private Color originalColor;
+    private float initialHeight; // Store the initial height to calculate sink amount
 
-    // Future Implementation: Add an array (public Mesh[] damageStages) here to swap meshes instead of scaling
+    // Future implementation: Add an array (public Mesh[] damageStages) here to swap meshes instead of scaling
 
     private Renderer[] childRenderers;
 
@@ -26,10 +27,11 @@ public class BuildingDestruction : MonoBehaviour
         // Grab the Renderer
         buildingRenderer = GetComponent<Renderer>();
 
-        // Save the starting color
+        // Save the starting color and height
         if (buildingRenderer != null)
         {
             originalColor = buildingRenderer.material.color;
+            initialHeight = buildingRenderer.bounds.size.y;
         }
     }
 
@@ -54,15 +56,13 @@ public class BuildingDestruction : MonoBehaviour
 
     void UpdateDamageVisuals()
     {
-        if (buildingRenderer != null)
+        // Instead of squashing, sink the building into the ground
+        if (buildingRenderer != null && maxHealth > 0)
         {
-            // Get the total height of the building
-            float totalHeight = buildingRenderer.bounds.size.y;
+            // Calculate distance to sink: Total Height divided by hits needed
+            float sinkAmount = initialHeight / maxHealth;
 
-            // divide totalHeight by maxHealth to get the increment per hit
-            float sinkAmount = totalHeight / maxHealth;
-
-            // Move the building down along the Y axis
+            // Move the building down globally
             transform.position -= new Vector3(0, sinkAmount, 0);
         }
     }
@@ -87,8 +87,8 @@ public class BuildingDestruction : MonoBehaviour
             finalX_Z = buildingRenderer.bounds.center;
         }
 
-        Vector3 rubblePos = new Vector3(finalX_Z.x, 1.26f, finalX_Z.z);
-        Vector3 smokePos = new Vector3(finalX_Z.x, 1.5f, finalX_Z.z);
+        Vector3 rubblePos = new Vector3(finalX_Z.x, 0.2f, finalX_Z.z);
+        Vector3 smokePos = new Vector3(finalX_Z.x, 2.5f, finalX_Z.z);
 
         GameObject smokePrefab = Resources.Load<GameObject>("SmokeEffect");
         GameObject rubblePrefab = Resources.Load<GameObject>("RubblePile");

@@ -12,81 +12,90 @@ public class PlayerHealth : MonoBehaviour
     public GameObject deathMenu;
     public GameObject playMenu;
 
-    private MonoBehaviour movementScript;
-
     private Animator anim;
     private int animDamageHash;
 
     void Start()
     {
-        Time.timeScale = 1f;
-
+        // Set health at the start
         currentHealth = maxHealth;
-
-        // Auto-Link UI
-        if (!Canvas) Canvas = GameObject.Find("Canvas");
-        if (Canvas) UImanager = Canvas.GetComponent<Canvas>();
-
-        if (!playMenu) playMenu = GameObject.Find("PlayMenu");
-        if (!deathMenu && playMenu) deathMenu = playMenu.transform.Find("DeathMenu")?.gameObject;
+        UImanager = Canvas.GetComponent<Canvas>();
 
         anim = gameObject.GetComponentInChildren<Animator>();
-        if (anim != null) animDamageHash = Animator.StringToHash("Base Layer.Damage");
 
-        // finds one named "movement", then grabs it
-        MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
-        foreach (var script in scripts)
+        if (anim != null)
         {
-            // Check if the script name is "movement"
-            if (script.GetType().Name.ToLower().Contains("movement"))
-            {
-                movementScript = script;
-                Debug.Log("Found Movement Script: " + script.GetType().Name);
-                break;
-            }
+            animDamageHash = Animator.StringToHash("Base Layer.Damage");
         }
     }
 
+    // function that other scripts can call to Deal Damage
     public void TakeDamage(int damage)
     {
+
         if (!isAlive) return;
 
+        // Reduce health
         currentHealth -= damage;
-        if (UImanager) UImanager.GetComponent<ManageUI>().ChangeHealth(-damage);
+        UImanager.GetComponent<ManageUI>().ChangeHealth(-damage);
+        Debug.Log(gameObject.name + " health: " + currentHealth);
 
-        if (anim != null) anim.SetTrigger("Damage");
+        // Play damage animation
+        anim.SetTrigger("Damage");
 
-        if (currentHealth <= 0) Die();
+        // Check if the player is dead
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
     }
 
     public void Heal(int amount)
     {
+        // Increase health
         currentHealth += amount;
-        if (currentHealth > maxHealth) currentHealth = maxHealth;
-        if (UImanager) UImanager.GetComponent<ManageUI>().ChangeHealth(amount);
+
+        // Cap health at maxHealth
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
+        // Update UI (sending a positive number adds to the bar)
+        UImanager.GetComponent<ManageUI>().ChangeHealth(amount);
+
+        Debug.Log("Restored " + amount + " Health. Current: " + currentHealth);
     }
 
     void Die()
     {
-        if (!isAlive) return;
+        Debug.Log(gameObject.name + " has died!");
         isAlive = false;
 
-        Time.timeScale = 0f;
-
-        if (movementScript != null)
+        // Get the Score from ManageUI
+        int finalScore = 0;
+        if (UImanager != null)
         {
-            movementScript.enabled = false;
+            finalScore = UImanager.GetComponent<ManageUI>().score;
         }
-        else
-        {
-            Debug.LogError("Could not find 'Movement' script! Cursor might still be locked.");
-        }
-
-        // Unlock Cursor
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
 
         if (playMenu) playMenu.SetActive(false);
-        if (deathMenu) deathMenu.SetActive(true);
+        if (deathMenu)
+        {
+            deathMenu.SetActive(true);
+
+            // Setup the input handler
+            ScoreInputHandler inputHandler = deathMenu.GetComponent<ScoreInputHandler>();
+            if (inputHandler != null)
+            {
+                inputHandler.Setup(finalScore);
+            }
+
+            // Update leaderboard visual
+            ReadLeaderboardFile reader = deathMenu.GetComponentInChildren<ReadLeaderboardFile>();
+            if (reader != null) reader.ReadFull();
+
+            Time.timeScale = 0f;
+        }
     }
 }
