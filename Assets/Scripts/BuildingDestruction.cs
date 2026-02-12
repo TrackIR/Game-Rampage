@@ -91,8 +91,8 @@ public class BuildingDestruction : MonoBehaviour
             finalX_Z = buildingRenderer.bounds.center;
         }
 
-        Vector3 rubblePos = new Vector3(finalX_Z.x, 0.2f, finalX_Z.z);
-        Vector3 smokePos = new Vector3(finalX_Z.x, 2.5f, finalX_Z.z);
+        Vector3 rubblePos = new Vector3(finalX_Z.x, 20.2f, finalX_Z.z);
+        Vector3 smokePos = new Vector3(finalX_Z.x, 21.5f, finalX_Z.z);
 
         GameObject smokePrefab = Resources.Load<GameObject>("SmokeEffect");
         GameObject rubblePrefab = Resources.Load<GameObject>("RubblePile");
