@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-
     public void PauseGame()
     {
         Debug.Log("Paused");
@@ -26,7 +25,6 @@ public class PauseMenu : MonoBehaviour
         string sceneName = "SKO-demo";
         SceneManager.LoadSceneAsync(sceneName);
         Time.timeScale = 1f;
-        
     }
 
     public void ExitToMenu()
