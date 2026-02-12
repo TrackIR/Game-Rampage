@@ -1,13 +1,11 @@
 using System.Collections.Generic;
-using System.Drawing;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class crossHair : MonoBehaviour
 {
     public GameObject reticleObject;
-    public KeyCode clickKey = KeyCode.Space; // replace with actually input system later
+    public KeyCode clickKey = KeyCode.Space;
     public float sensitivity = 1;
 
     // private variables
@@ -67,10 +65,11 @@ public class crossHair : MonoBehaviour
         // element under cursor
         GameObject uiTarget = results[0].gameObject;
 
-        //Debug.Log(uiTarget.name);
-
-        // hover element
-        eventSystem.SetSelectedGameObject(uiTarget);
+        // Only set selected if it's different
+        if (eventSystem.currentSelectedGameObject != uiTarget)
+        {
+            eventSystem.SetSelectedGameObject(uiTarget);
+        }
 
         // click on element
         if (Input.GetKeyDown(clickKey))

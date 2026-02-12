@@ -126,6 +126,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ce294ff03246f404f80f9340f12e7c69, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6585819394530620270}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ce294ff03246f404f80f9340f12e7c69, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7865638968141585682}
   m_SourcePrefab: {fileID: 100100000, guid: ce294ff03246f404f80f9340f12e7c69, type: 3}
 --- !u!1 &4681338645857191174 stripped
 GameObject:
@@ -155,6 +158,21 @@ MeshCollider:
   m_CookingOptions: 30
   m_Mesh: {fileID: -939061152623264921, guid: ce294ff03246f404f80f9340f12e7c69, type: 3}
 --- !u!114 &6585819394530620270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4681338645857191174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e541a44f78b074a42bab0a5fec67ea4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingDestruction
+  maxHealth: 3
+  scoreReward: 10
+  healthReward: 5
+--- !u!114 &7865638968141585682
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
