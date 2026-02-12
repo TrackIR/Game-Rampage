@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class PlayerAttack : MonoBehaviour
 {
-    
+
     public float attackRange = 14f;
     public Transform attackPoint;
 
@@ -45,7 +45,8 @@ public class PlayerAttack : MonoBehaviour
             {
                 UltAttack();
                 UltimateCharged = false;
-            } else
+            }
+            else
             {
                 Attack();
             }
@@ -59,7 +60,8 @@ public class PlayerAttack : MonoBehaviour
             Attack();
             ultCount++;
             print($"Count: {ultCount}");
-        } else if (ultCount == ultimateLength)
+        }
+        else if (ultCount == ultimateLength)
         {
             isUlt = false;
             ultCount = 0;
