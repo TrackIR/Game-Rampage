@@ -85,24 +85,23 @@ public class PlayerHealth : MonoBehaviour
             finalScore = UImanager.GetComponent<ManageUI>().score;
         }
 
-        // Find the File Writer and Save
-        ManageScoreFile writer = FindFirstObjectByType<ManageScoreFile>();
-        if (writer != null)
-        {
-            writer.WriteScoreFile(finalScore);
-        }
-        else
-        {
-            Debug.LogWarning("ManageScoreFile script not found in scene");
-        }
-
         if (playMenu) playMenu.SetActive(false);
         if (deathMenu)
         {
             deathMenu.SetActive(true);
 
+            // Setup the input handler
+            ScoreInputHandler inputHandler = deathMenu.GetComponent<ScoreInputHandler>();
+            if (inputHandler != null)
+            {
+                inputHandler.Setup(finalScore);
+            }
+
+            // Update leaderboard visual
             ReadLeaderboardFile reader = deathMenu.GetComponentInChildren<ReadLeaderboardFile>();
-            if (reader != null) reader.ReadLatest();
+            if (reader != null) reader.ReadFull();
+
+            Time.timeScale = 0f;
         }
     }
 }

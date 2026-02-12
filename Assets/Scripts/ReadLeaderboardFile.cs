@@ -20,7 +20,7 @@ public class ReadLeaderboardFile : MonoBehaviour
 
         // Latest = last valid entry in file order
         var latest = entries[entries.Count - 1];
-        leaderboardTxt.text = $"{latest.score} at {latest.time}";
+        leaderboardTxt.text = $"{latest.name}: {latest.score}";
     }
 
     public void ReadFull()
@@ -39,21 +39,21 @@ public class ReadLeaderboardFile : MonoBehaviour
         StringBuilder output = new StringBuilder();
         foreach (var entry in entries)
         {
-            output.AppendLine($"{entry.score} at {entry.time}");
+            output.AppendLine($"{entry.name} - {entry.score}");
         }
 
         leaderboardTxt.text = output.ToString();
     }
 
     // reads and parses the CSV
-    private List<(int score, string time)> ReadEntries()
+    private List<(string name, int score, string time)> ReadEntries()
     {
         string path = Application.dataPath + "/leaderboard.csv";
 
         if (!File.Exists(path))
             return null;
 
-        var entries = new List<(int, string)>();
+        var entries = new List<(string, int, string)>();
         string[] lines = File.ReadAllLines(path);
 
         // Skip header
@@ -64,13 +64,16 @@ public class ReadLeaderboardFile : MonoBehaviour
                 continue;
 
             string[] values = line.Split(',');
-            if (values.Length != 2)
-                continue;
+            // expect Name, Score, Time
+            if (values.Length < 2) continue;
 
+            // Try parse score from column 1
             if (int.TryParse(values[1].Trim(), out int score))
             {
-                string time = values[0].Trim();
-                entries.Add((score, time));
+                string name = values[0].Trim();
+                // If there is a 3rd column, use it for time, else use empty
+                string time = (values.Length > 2) ? values[2].Trim() : "";
+                entries.Add((name, score, time));
             }
         }
 
