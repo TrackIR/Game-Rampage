@@ -19,6 +19,7 @@ public class EnemyAI : MonoBehaviour
     public ParticleSystem sprayEffect;
     public Transform firePoint;        // Where the spray comes from
     private float damageAccumulator = 0f; // Stores partial damage
+    private float elapsed = 0f; // Timer for pathfinding updates
 
     void Start()
     {
@@ -32,6 +33,7 @@ public class EnemyAI : MonoBehaviour
         {
             agent.speed = speed;
         }
+        path = new NavMeshPath();
         if (sprayEffect != null) sprayEffect.Stop();
     }
 
@@ -56,22 +58,40 @@ public class EnemyAI : MonoBehaviour
         {
             agent.isStopped = false;
 
-            path = new NavMeshPath();
 
-            agent.destination = playerTarget.position;
-
-            bool canSetPath = NavMesh.CalculatePath(
-                agent.transform.position,
-                agent.destination,
-                NavMesh.AllAreas,
-                path);
-
-            if (canSetPath)
+            elapsed += Time.deltaTime;
+            if (elapsed > 1.0f)
             {
-                agent.SetPath(path);
+                elapsed -= 1.0f;
+                if (!NavMesh.SamplePosition(agent.transform.position, out NavMeshHit startHit, 2f, agent.areaMask))
+                {
+                    Debug.LogWarning("EnemyAI: agent is not on the NavMesh.", this);
+                    return;
+                }
+
+                if (!NavMesh.SamplePosition(playerTarget.position, out NavMeshHit endHit, 20f, agent.areaMask))
+                {
+                    Debug.LogWarning("EnemyAI: target is not on the NavMesh.", this);
+                    return;
+                }
+
+                NavMesh.CalculatePath(
+                    startHit.position,
+                    endHit.position,
+                    agent.areaMask,
+                    path);
+
+                if (path.status == NavMeshPathStatus.PathComplete)
+                {
+                    agent.SetPath(path);
+                }
+                else
+                {
+                    Debug.LogWarning($"EnemyAI: path status {path.status}", this);
+                }
             }
         }
-        if (sprayEffect.isPlaying)
+        if (sprayEffect != null && sprayEffect.isPlaying)
         {
             sprayEffect.Stop();
         }

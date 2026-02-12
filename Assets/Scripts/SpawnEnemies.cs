@@ -11,13 +11,12 @@ public class SpawnEnemies : MonoBehaviour
     public float spawnRate = 10f;
     public float randomOffset = 10; // How spread out enemy spawns are
     public float maxEnemies = 3; // How many enemies can be spawned at one time
-    private bool updateNavMesh = true;
     private float spawnTimer = 0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        navMeshSurface.BuildNavMesh();
     }
 
     void Update()
@@ -49,11 +48,6 @@ public class SpawnEnemies : MonoBehaviour
                 }
             }
             spawnTimer = 0f;
-            if (updateNavMesh)
-            {
-                navMeshSurface.BuildNavMesh(); // Update the navmesh after spawning enemies
-                updateNavMesh = false; // Only need to update once
-            }
         }
     }
 }
