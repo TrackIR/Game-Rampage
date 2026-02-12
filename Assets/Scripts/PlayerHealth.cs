@@ -43,6 +43,9 @@ public class PlayerHealth : MonoBehaviour
         // Play damage animation
         anim.SetTrigger("Damage");
 
+        // Play damage sound
+        AudioManager.Instance.playAudio(AudioManager.Instance.playerHurt);
+
         // Check if the player is dead
         if (currentHealth <= 0)
         {
@@ -60,6 +63,9 @@ public class PlayerHealth : MonoBehaviour
         {
             currentHealth = maxHealth;
         }
+
+        // Player Heal Sound
+        AudioManager.Instance.playAudio(AudioManager.Instance.playerHeal);
 
         // Update UI (sending a positive number adds to the bar)
         UImanager.GetComponent<ManageUI>().ChangeHealth(amount);

@@ -284,6 +284,8 @@ MonoBehaviour:
   ui: {fileID: 100069663}
   enemyPrefab: {fileID: 747386369671831897, guid: 46c560da5bff6ca49b477683bc0fd622, type: 3}
   spawnRate: 10
+  randomOffset: 10
+  maxEnemies: 3
 --- !u!4 &523548590
 Transform:
   m_ObjectHideFlags: 0
@@ -2112,6 +2114,75 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1001 &6176888024666281076
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2793991641078110031, guid: 6f374813aecfabb46b2cc93b4eb633d7, type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4017451233055691428, guid: 6f374813aecfabb46b2cc93b4eb633d7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 246.43445
+      objectReference: {fileID: 0}
+    - target: {fileID: 4017451233055691428, guid: 6f374813aecfabb46b2cc93b4eb633d7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.00005
+      objectReference: {fileID: 0}
+    - target: {fileID: 4017451233055691428, guid: 6f374813aecfabb46b2cc93b4eb633d7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 236.93369
+      objectReference: {fileID: 0}
+    - target: {fileID: 4017451233055691428, guid: 6f374813aecfabb46b2cc93b4eb633d7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4017451233055691428, guid: 6f374813aecfabb46b2cc93b4eb633d7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4017451233055691428, guid: 6f374813aecfabb46b2cc93b4eb633d7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4017451233055691428, guid: 6f374813aecfabb46b2cc93b4eb633d7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4017451233055691428, guid: 6f374813aecfabb46b2cc93b4eb633d7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4017451233055691428, guid: 6f374813aecfabb46b2cc93b4eb633d7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4017451233055691428, guid: 6f374813aecfabb46b2cc93b4eb633d7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7235910949240117254, guid: 6f374813aecfabb46b2cc93b4eb633d7, type: 3}
+      propertyPath: enemyHurt
+      value: 
+      objectReference: {fileID: 8300000, guid: 9e321157785804a4baed62f151bcbbc3, type: 3}
+    - target: {fileID: 7235910949240117254, guid: 6f374813aecfabb46b2cc93b4eb633d7, type: 3}
+      propertyPath: gainScore
+      value: 
+      objectReference: {fileID: 8300000, guid: 637a09c20ef242149bded93403bd87fc, type: 3}
+    - target: {fileID: 7235910949240117254, guid: 6f374813aecfabb46b2cc93b4eb633d7, type: 3}
+      propertyPath: enemyShoot
+      value: 
+      objectReference: {fileID: 8300000, guid: 7b8fc4bd1762f38459fcb935f8928a90, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6f374813aecfabb46b2cc93b4eb633d7, type: 3}
 --- !u!1001 &8727366545529375152
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2180,3 +2251,4 @@ SceneRoots:
   - {fileID: 523548590}
   - {fileID: 8727366545529375152}
   - {fileID: 636655065}
+  - {fileID: 6176888024666281076}
