@@ -734,13 +734,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f5273cdcff181d48aa782b74317dc70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ManageUI
-  scoreAudio: {fileID: 534262482}
-  healthGainAudio: {fileID: 261531748}
-  healthLostAudio: {fileID: 1694436499}
-  scoreAudioClip: {fileID: 0}
-  healthGainAudioClip: {fileID: 0}
-  healthLostAudioClip: {fileID: 0}
-  volume: 1
   healthObject: {fileID: 1785032851}
   healthBarObject: {fileID: 1184790342}
   healthBarObjectFill: {fileID: 635873055}
@@ -9673,7 +9666,7 @@ PrefabInstance:
       objectReference: {fileID: 468192960}
     - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: useTrackIR
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: TrackIRRoot
