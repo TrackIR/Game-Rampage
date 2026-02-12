@@ -7,7 +7,7 @@ public class ScoreInputHandler : MonoBehaviour
 	[Header("UI References")]
 	public TMP_InputField nameInputField;
 	public Button submitButton;
-	public TextMeshProUGUI buttonText; // reference for the button label
+	public TextMeshProUGUI buttonText; // Reference for the button label
 
 	private int finalScore;
 	private bool hasSubmitted = false;
@@ -26,12 +26,13 @@ public class ScoreInputHandler : MonoBehaviour
 			nameInputField.interactable = true;
 		}
 
-		// Reset button text to "Submit"
 		if (buttonText != null) buttonText.text = "Submit";
 	}
 
 	public void SubmitScore()
 	{
+		Debug.Log("Submit Score Pressed");
+
 		if (hasSubmitted) return;
 
 		string playerName = nameInputField.text;
@@ -50,7 +51,7 @@ public class ScoreInputHandler : MonoBehaviour
 
 		hasSubmitted = true;
 
-		// Disable input
+		// Disable input so can't submit twice
 		submitButton.interactable = false;
 		nameInputField.interactable = false;
 
@@ -59,7 +60,7 @@ public class ScoreInputHandler : MonoBehaviour
 			buttonText.text = "Saved";
 		}
 
-		// Refresh leaderboard
+		// Refresh leaderboard to show the new name immediately
 		ReadLeaderboardFile reader = GetComponentInParent<ReadLeaderboardFile>();
 		if (reader != null) reader.ReadFull();
 	}
