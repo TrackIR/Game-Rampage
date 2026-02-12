@@ -14,7 +14,7 @@ public class DamageZone : MonoBehaviour
     {
         if (playerContact && playerHealth != null)
         {
-            float damageCount = dps * Time.deltaTime;
+            damageCount += dps * Time.deltaTime;
             int damage = Mathf.FloorToInt(damageCount); //Turn the damage into an int so it can be used with takeDamage
             playerHealth.TakeDamage(damage);
             damageCount -= damage;

@@ -43,7 +43,7 @@ public class BuildingDestruction : MonoBehaviour
             Invoke("ResetColor", 0.1f);
         }
 
-        AudioManager.Instance.playAudio(AudioManager.Instance.buildingDestroy);
+        //AudioManager.Instance.playAudio(AudioManager.Instance.buildingDestroy);
         
 
         // Update the look of the building
