@@ -44,7 +44,7 @@ public class BuildingDestruction : MonoBehaviour
         }
 
         AudioManager.Instance.playAudio(AudioManager.Instance.buildingDestroy);
-        
+
 
         // Update the look of the building
         UpdateDamageVisuals();

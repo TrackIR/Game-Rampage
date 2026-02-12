@@ -4,7 +4,7 @@ public class AudioManager : MonoBehaviour
 {
 
     public static AudioManager Instance; // Only one audio manager should exist across the entire game
-    
+
     public AudioSource audioSource; // Audio Source attached to the audio manager
 
     [Range(0.0f, 1.0f)]
@@ -18,7 +18,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip enemyShoot;
     public AudioClip gainScore;
 
-    
+
 
     void Awake()
     {
@@ -35,11 +35,11 @@ public class AudioManager : MonoBehaviour
 
     public void playAudio(AudioClip clip)
     {
-    if(clip != null && audioSource != null) 
-    {
-        audioSource.PlayOneShot(clip, volume); // Could maybe be played locally? Something like 3D audio
-    }
-    else
+        if (clip != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(clip, volume); // Could maybe be played locally? Something like 3D audio
+        }
+        else
         {
             print("no audio source!");
         }
