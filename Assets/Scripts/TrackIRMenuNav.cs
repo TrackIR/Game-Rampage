@@ -78,8 +78,6 @@ public class TrackIRMenuNav : MonoBehaviour
         // click on element
         if (Input.GetKeyDown(clickKey))
         {
-            Debug.Log(uiTarget.name);
-
             ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerDownHandler);
             ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerUpHandler);
             ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerClickHandler);
