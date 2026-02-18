@@ -3,8 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int maxHealth = 100;
-    private int currentHealth;
+    public float maxHealth = 100f;
+    private float currentHealth;
     public GameObject Canvas;
     private Canvas UImanager;
     public bool isAlive = true;
@@ -30,7 +30,7 @@ public class PlayerHealth : MonoBehaviour
     }
 
     // function that other scripts can call to Deal Damage
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
 
         if (!isAlive) return;
