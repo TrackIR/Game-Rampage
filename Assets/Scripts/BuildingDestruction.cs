@@ -2,26 +2,27 @@ using UnityEngine;
 
 public class BuildingDestruction : MonoBehaviour
 {
-    public int maxHealth = 3;
+    [Range(0f, 10f)]public int maxHealth = 3;
     private int currentHealth;
-    public int scoreReward = 10;
+    [Range(0f, 25f)] public int scoreReward = 10; // Amount of score to give player when building is destroyed
+    [Range(0f, 10f)] public int healthReward = 5; // Amount of HP to restore when a building is destroyed
 
-    public int healthReward = 5; // Amount of HP to restore when a building is destroyed
-
-    // store the renderer and original color to handle flashing correctly
+    // Get building renderer to apply colors
     private Renderer buildingRenderer;
-    private Color originalColor;
     private float initialHeight; // Store the initial height to calculate sink amount
 
     // Future implementation: Add an array (public Mesh[] damageStages) here to swap meshes instead of scaling
 
-    private Renderer[] childRenderers;
+    private Renderer[] childRenderers; // TODO: Make flashing red affect all attached meshes, currently looks for one and makes it flash red.
 
-    private Color materialcolor;
+    private MaterialPropertyBlock propBlock; // Use material property blocks to avoid z-fighting
+    private static readonly int ColorID = Shader.PropertyToID("_BaseColor");
+
+
+
 
     void Start()
     {
-        materialcolor = GetComponent<Renderer>().material.color;
         currentHealth = maxHealth;
 
         // Grab the Renderer
@@ -30,8 +31,9 @@ public class BuildingDestruction : MonoBehaviour
         // Save the starting color and height
         if (buildingRenderer != null)
         {
-            originalColor = buildingRenderer.material.color;
+            propBlock = new MaterialPropertyBlock();
             initialHeight = buildingRenderer.bounds.size.y;
+
         }
     }
 
@@ -41,8 +43,7 @@ public class BuildingDestruction : MonoBehaviour
 
         if (buildingRenderer != null)
         {
-            buildingRenderer.material.color = Color.red;
-            Invoke("ResetColor", 0.1f);
+            FlashRed();
         }
 
 
@@ -73,9 +74,18 @@ public class BuildingDestruction : MonoBehaviour
         }
     }
 
+    void FlashRed()
+    {
+        buildingRenderer.GetPropertyBlock(propBlock);
+        propBlock.SetColor(ColorID, Color.red);
+        buildingRenderer.SetPropertyBlock(propBlock);
+
+        Invoke(nameof(ResetColor), 0.1f);
+    }
+
     void ResetColor()
     {
-        GetComponent<Renderer>().material.color = materialcolor;
+        buildingRenderer.SetPropertyBlock(null);
     }
 
 
