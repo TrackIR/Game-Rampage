@@ -30,6 +30,8 @@ public class EnemyHealth : MonoBehaviour
 
         Debug.Log("Enemy hit for " + damage + " damage! Remaining Health: " + currentHealth);
 
+        //AudioManager.Instance.playAudio(AudioManager.Instance.enemyHurt);
+
         // Flash Red
         if (enemyRenderer != null)
         {

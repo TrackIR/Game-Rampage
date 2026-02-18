@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class PlayerAttack : MonoBehaviour
 {
+
     public float attackRange = 14f;
     public Transform attackPoint;
 
@@ -11,12 +12,21 @@ public class PlayerAttack : MonoBehaviour
 
     public int hitDamage = 25; // How much damage a hit does to an enemy
 
+    ManageUI uiManager;
+    public bool UltimateCharged = false;
+    private bool isUlt = false;
+    public int ultimateLength = 20;
+    private int ultCount = 0; // counter for physic frames
+    public int UltimateThreshold = 250; // how many points until the player gets an ultimate
+    private int lastUltimateLevel = 0;
+
     private Animator anim;
     private int animPunchHash;
 
     void Start()
     {
         anim = gameObject.GetComponentInChildren<Animator>();
+        uiManager = FindFirstObjectByType<ManageUI>();
 
         if (anim != null)
         {
@@ -27,11 +37,54 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
+        checkScore();
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Attack();
+            if (UltimateCharged)
+            {
+                UltAttack();
+                UltimateCharged = false;
+            }
+            else
+            {
+                Attack();
+            }
         }
     }
+
+    void FixedUpdate()
+    {
+        if (isUlt && (ultCount < ultimateLength))
+        {
+            Attack();
+            ultCount++;
+            print($"Count: {ultCount}");
+        }
+        else if (ultCount == ultimateLength)
+        {
+            isUlt = false;
+            ultCount = 0;
+        }
+    }
+
+    void checkScore()
+    {
+        if (uiManager == null) return;
+
+        int score = uiManager.score;
+
+        int currentLevel = score / UltimateThreshold;
+
+        // only sets UltimateCharged to true every xUltimateThreshold
+        if (currentLevel > lastUltimateLevel)
+        {
+            UltimateCharged = true;
+            Debug.Log("Ult good");
+            lastUltimateLevel = currentLevel;
+        }
+    }
+
 
     void Attack()
     {
@@ -67,6 +120,12 @@ public class PlayerAttack : MonoBehaviour
         }
 
         anim.SetTrigger("Punch");
+    }
+
+    void UltAttack()
+    {
+        Debug.Log("Ult");
+        isUlt = true;
     }
 
     void OnDrawGizmosSelected()

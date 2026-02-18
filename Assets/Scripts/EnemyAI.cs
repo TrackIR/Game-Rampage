@@ -113,6 +113,8 @@ public class EnemyAI : MonoBehaviour
 
     void SprayAttack()
     {
+        // Play a shoot sound effect (Maybe turn this off if it plays a bunch)
+        //AudioManager.Instance.playAudio(AudioManager.Instance.enemyShoot);
         if (agent != null)
         {
             agent.isStopped = true; // Stop moving
