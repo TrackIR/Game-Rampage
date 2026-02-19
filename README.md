@@ -3,6 +3,7 @@
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#summary">Summary</a></li>
+    <li><a href="#our-team">Summary</a></li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
@@ -25,6 +26,14 @@ A simple Rampage-esque game utilizing TrackIR functionality head-tracking.
  Flowchart of gameplay
 
 <img width="400" alt="gameplayflowchart" src="https://github.com/user-attachments/assets/f8e1468f-8727-4ce1-827f-5bf06457e5a7" />
+
+
+<!-- OUR TEAM -->
+# Our Team
+Ryan Waltemate --> waltemry@oregonstate.edu
+<br>Elliot Ousley --> ousleye@oregonstate.edu
+<br>Pranav Kulkarni --> kulkarnp@oregonstate.edu
+<br>Quinn Roth --> rothq@oregonstate.edu
 
 
 <!-- GETTING STARTED -->
@@ -58,9 +67,10 @@ _Below is an example of how you can instruct your audience on installing and set
 
 <!-- LICENSE -->
 # License
+All non-third party code included in this repository is jointly owned by the team mentioned above and NaturalPoint Inc. DBA OptiTrack.
 
-Distributed under the ___ License. 
 See `LICENSE.txt` in the "licenses" folder for more information.
+
 Third party licenses can also be found in the "licenses" folder named accordingly.
 
 
