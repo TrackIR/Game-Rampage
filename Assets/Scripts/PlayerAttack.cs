@@ -19,10 +19,14 @@ public class PlayerAttack : MonoBehaviour
     public bool UltimateCharged = false;
     public int ultimateLength = 20; // number of FixedUpdate frames ultimate lasts
     public int UltimateThreshold = 250;
-
-    private bool isUlt = false;
-    private int ultCount = 0;
     private int lastUltimateLevel = 0;
+
+    [Header("Ultimate Laser")]
+    public GameObject ultLaserPrefab;
+    public Transform ultSpawnPoint;
+    public float ultLaserDuration = 3f;
+    public int ultLaserDamage = 100;
+
 
     [Header("References / Animation")]
     private Animator anim;
@@ -68,24 +72,6 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
-    {
-        // automatic ultimate attack while ult is active (no cooldown between hits)
-        if (isUlt)
-        {
-            if (ultCount < ultimateLength)
-            {
-                Attack();
-                ultCount++;
-            }
-            else
-            {
-                isUlt = false;
-                ultCount = 0;
-            }
-        }
-    }
-
     void checkScore()
     {
         if (uiManager == null) return;
@@ -127,12 +113,33 @@ public class PlayerAttack : MonoBehaviour
         anim.SetTrigger("Punch");
     }
 
-    void UltAttack()
+   void UltAttack()
     {
-        Debug.Log("Ultimate Attack Activated");
-        isUlt = true;
-        ultCount = 0;
+        if (ultLaserPrefab != null && ultSpawnPoint != null)
+        {
+            GameObject ultObj = Instantiate(
+                ultLaserPrefab,
+                ultSpawnPoint.position,
+                ultSpawnPoint.rotation   // copy player/spawn rotation
+            );
+
+            // Parent it so one end stays at spawn point
+            ultObj.transform.SetParent(ultSpawnPoint);
+
+            UltimateLaser ultScript = ultObj.GetComponent<UltimateLaser>();
+            if (ultScript != null)
+            {
+                ultScript.damage = ultLaserDamage;
+                ultScript.duration = ultLaserDuration;
+                ultScript.targetLayers = targetLayers;
+            }
+        }
+
+        UltimateCharged = false;
+        ultimateCooldownTimer = ultimateActivationCooldown;
     }
+
+
 
     void OnDrawGizmosSelected()
     {
