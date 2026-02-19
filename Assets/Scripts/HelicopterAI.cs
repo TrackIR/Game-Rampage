@@ -50,14 +50,13 @@ public class HelicopterAI : MonoBehaviour
         else
         {
             agent.stoppingDistance = fireRange;
-            GoToPlayer();
+            FindPlayer();
         }
 
     }
 
     void FindPlayer()
     {
-        // If player is not in sight but is in range, move towards last known position
         elapsed += Time.deltaTime;
         if (elapsed > 1.0f)
         {
@@ -82,44 +81,6 @@ public class HelicopterAI : MonoBehaviour
                     areaMask = agent.areaMask
                 },
                 path);
-            if (path.status == NavMeshPathStatus.PathComplete)
-            {
-                agent.SetPath(path);
-            }
-            else
-            {
-                Debug.LogWarning($"EnemyAI: path status {path.status}", this);
-            }
-        }
-    }
-
-    void GoToPlayer()
-    {
-        elapsed += Time.deltaTime;
-        if (elapsed > 1.0f)
-        {
-            elapsed -= 1.0f;
-            if (!NavMesh.SamplePosition(agent.transform.position, out NavMeshHit startHit, 2f, agent.areaMask))
-            {
-                Debug.LogWarning("EnemyAI: agent is not on the NavMesh.", this);
-                return;
-            }
-
-            if (!NavMesh.SamplePosition(playerTarget.position, out NavMeshHit endHit, 20f, agent.areaMask))
-            {
-                Debug.LogWarning("EnemyAI: target is not on the NavMesh.", this);
-                return;
-            }
-            NavMesh.CalculatePath(
-                startHit.position,
-                endHit.position,
-                new NavMeshQueryFilter
-                {
-                    agentTypeID = agent.agentTypeID,
-                    areaMask = agent.areaMask
-                },
-                path);
-
             if (path.status == NavMeshPathStatus.PathComplete)
             {
                 agent.SetPath(path);
