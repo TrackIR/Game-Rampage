@@ -37,7 +37,7 @@ public class movement : MonoBehaviour
     [SerializeField] private float headXThreshold = 0.1f; // meters to the side from neutral position to trigger lateral movement
     [SerializeField] private float headRollThreshold = 23.0f; // degrees from neutral position to trigger roll movement
     [SerializeField] private float headYawThreshold = 0.50f; // radians from neutral position to trigger yaw movement
-    [SerializeField] private float rollSpeed = 50.0f; // degrees per second when rolling
+    [SerializeField] private float rollSpeed = 200.0f; // degrees per second when rolling
     [SerializeField] private bool invertRotation = false;
     [SerializeField] private bool rotateWithYaw;
     [SerializeField] private float jumpStartAngleThreshold = -5.0f; //must start below this angle to initiate jump
@@ -113,10 +113,12 @@ public class movement : MonoBehaviour
             // rotate player when head is yawed past threshold
             if (Mathf.Abs(headRot.y) > headYawThreshold)
             {
-                // Determine rotation direction based on head yaw and invert setting
+                // determine rotation direction
                 float rotDirection = headRot.y > 0 ? 1f : -1f;
 
-                float rotAmount = rotDirection * rollSpeed * Time.deltaTime;
+                // scale rotation speed by how far past threshold the head is
+                float excessYaw = Mathf.Abs(headRot.y) - headYawThreshold;
+                float rotAmount = rotDirection * rollSpeed * excessYaw * Time.deltaTime;
 
                 transform.Rotate(0f, rotAmount, 0f);
             }
@@ -126,15 +128,18 @@ public class movement : MonoBehaviour
             // rotate player when head is rolled past threshold
             if (Mathf.Abs(headRot.z) > headRollThreshold)
             {
-                // Determine rotation direction based on head roll and invert setting
                 float rotDirection = (invertRotation ? -1f : 1f) * (headRot.z > 0 ? 1f : -1f);
 
-                float rotAmount = rotDirection * rollSpeed * Time.deltaTime;
+                // scale rotation speed by how far past threshold the head roll is
+                float excessRoll = Mathf.Abs(headRot.z) - headRollThreshold;
+                float rotAmount = rotDirection * rollSpeed * (excessRoll / 45f) * Time.deltaTime; 
+                // dividing by 45 to normalize roll to a reasonable multiplier (adjust as needed)
 
                 transform.Rotate(0f, rotAmount, 0f);
             }
         }
     }
+
 
     void jump()
     {
