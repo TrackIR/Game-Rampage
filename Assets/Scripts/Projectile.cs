@@ -39,7 +39,9 @@ public class Projectile : MonoBehaviour
         }
         Vector3 toTarget = target.position - transform.position;
         Vector3 toTargetXZ = new Vector3(toTarget.x, 0f, toTarget.z);
+        // Distance to target from current position
         float x = toTargetXZ.magnitude;
+        // Height difference between target and current position
         float y = toTarget.y;
 
         if (x < 0.01f)
@@ -47,19 +49,21 @@ public class Projectile : MonoBehaviour
             return transform.forward * speed;
         }
         float g = -Physics.gravity.y;
+        // Calculate the launch angle using the physics formula for projectile motion
         float v2 = speed * speed;
         float v4 = v2 * v2;
         float discriminant = v4 - g * (g * x * x + 2f * y * v2);
-
+        // If the discriminant is negative, there is no real solution, so just shoot straight at the target
         if (discriminant < 0f)
         {
             return toTarget.normalized * speed;
         }
+        // Use the lower angle (the higher angle would be obtained by using +sqrtDisc instead of -sqrtDisc)
         float sqrtDisc = Mathf.Sqrt(discriminant);
         float tanTheta = (v2 - sqrtDisc) / (g * x);
         float theta = Mathf.Atan(tanTheta);
         Vector3 dirXZ = toTargetXZ.normalized;
-
+        // Calculate the launch velocity vector
         return dirXZ * Mathf.Cos(theta) * speed + Vector3.up * Mathf.Sin(theta) * speed;
     }
 

@@ -30,13 +30,13 @@ public class HelicopterAI : MonoBehaviour
         path = new NavMeshPath();
         agent.stoppingDistance = fireRange;
     }
-    
+
     // Update is called once per frame
     void Update()
     {
         playerInRange = Physics.CheckSphere(transform.position, fireRange, LayerMask.GetMask("player"));
         playerInSight = Physics.Raycast(transform.position, playerTarget.position - transform.position, out RaycastHit hit, fireRange, LayerMask.GetMask("player", "Default", "Building"));
-        
+
         if (playerInRange && playerInSight && hit.collider.CompareTag("Player"))
         {
             agent.stoppingDistance = fireRange;
@@ -52,7 +52,7 @@ public class HelicopterAI : MonoBehaviour
             agent.stoppingDistance = fireRange;
             GoToPlayer();
         }
-        
+
     }
 
     void FindPlayer()
@@ -129,12 +129,6 @@ public class HelicopterAI : MonoBehaviour
                 Debug.LogWarning($"EnemyAI: path status {path.status}", this);
             }
         }
-    }
-
-    void CirclePlayer()
-    {
-            
-        
     }
 
     void Shootplayer()
