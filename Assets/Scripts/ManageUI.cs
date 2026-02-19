@@ -10,7 +10,7 @@ public class ManageUI : MonoBehaviour
     public int maxHealth = 100;
 
     [HideInInspector] // Can be used by other scripts, but doesnt show up
-    private int health = 100;
+    private float health = 100f;
 
     // Score Variables
     [Header("Score Variables")]
@@ -47,7 +47,7 @@ public class ManageUI : MonoBehaviour
         }
     }
 
-    public void ChangeHealth(int amount)
+    public void ChangeHealth(float amount)
     {
         health += amount;
 

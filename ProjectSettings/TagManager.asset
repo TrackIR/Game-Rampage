@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - BuildingTile
+  - PlayerHead
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - UI Clickable
   - player
   - enemySpawner
-  - 
-  - 
+  - Flight
+  - Projectile
   - 
   - 
   - 
