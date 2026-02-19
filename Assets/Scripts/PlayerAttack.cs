@@ -42,7 +42,7 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        // Reduce cooldown timers
+        // reduce cooldown timers
         if (normalAttackTimer > 0f)
             normalAttackTimer -= Time.deltaTime;
         if (ultimateCooldownTimer > 0f)
@@ -52,7 +52,7 @@ public class PlayerAttack : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            // Activate ultimate if ready and not in cooldown
+            // activate ultimate if ready and not in cooldown
             if (UltimateCharged && ultimateCooldownTimer <= 0f)
             {
                 UltAttack();
@@ -70,7 +70,7 @@ public class PlayerAttack : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Automatic ultimate attack while ult is active (no cooldown between hits)
+        // automatic ultimate attack while ult is active (no cooldown between hits)
         if (isUlt)
         {
             if (ultCount < ultimateLength)
