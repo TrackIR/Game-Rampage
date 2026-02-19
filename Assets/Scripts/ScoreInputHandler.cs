@@ -5,28 +5,77 @@ using UnityEngine.UI;
 public class ScoreInputHandler : MonoBehaviour
 {
     [Header("UI References")]
-    public TMP_InputField nameInputField;
+    public TextMeshProUGUI nameDisplay;
     public Button submitButton;
-    public TextMeshProUGUI buttonText; // Reference for the button label
+    public TextMeshProUGUI submitButtonText;
 
     private int finalScore;
     private bool hasSubmitted = false;
 
-    // Called by PlayerHealth when the death menu opens
+    // current name being typed
+    private string currentName = "";
+    private const int MAX_CHARS = 3;
+
+    void Start()
+    {
+        UpdateDisplay();
+    }
+
     public void Setup(int score)
     {
         finalScore = score;
         hasSubmitted = false;
+        currentName = ""; // Reset to empty so placeholders appear
+        UpdateDisplay();
 
-        // Reset the UI state so it looks fresh every time player dies
         if (submitButton != null) submitButton.interactable = true;
-        if (nameInputField != null)
-        {
-            nameInputField.text = "";
-            nameInputField.interactable = true;
-        }
+        if (submitButtonText != null) submitButtonText.text = "SUBMIT";
+    }
 
-        if (buttonText != null) buttonText.text = "Submit";
+    // Called by KeyboardKey
+    public void AddLetter(string letter)
+    {
+        if (hasSubmitted) return;
+        if (currentName.Length >= MAX_CHARS) return;
+
+        currentName += letter;
+        UpdateDisplay();
+    }
+
+    public void Backspace()
+    {
+        if (hasSubmitted) return;
+        if (currentName.Length > 0)
+        {
+            currentName = currentName.Substring(0, currentName.Length - 1);
+            UpdateDisplay();
+        }
+    }
+
+    void UpdateDisplay()
+    {
+        if (nameDisplay != null)
+        {
+            // Create an array of 3 characters
+            char[] slots = new char[MAX_CHARS];
+
+            for (int i = 0; i < MAX_CHARS; i++)
+            {
+                // If a letter typed for this slot, use it
+                if (i < currentName.Length)
+                {
+                    slots[i] = currentName[i];
+                }
+                // Otherwise, use underscore
+                else
+                {
+                    slots[i] = '_';
+                }
+            }
+
+            // Join them with spaces "A _ _" or "_ _ _"
+            nameDisplay.text = string.Join(" ", slots);
+        }
     }
 
     public void SubmitScore()
@@ -35,32 +84,22 @@ public class ScoreInputHandler : MonoBehaviour
 
         if (hasSubmitted) return;
 
-        string playerName = nameInputField.text;
-
-        if (string.IsNullOrEmpty(playerName))
-        {
-            playerName = "Unknown";
-        }
+        // If name is empty, default
+        string finalName = string.IsNullOrEmpty(currentName) ? "UNK" : currentName;
 
         // Save to CSV
         ManageScoreFile writer = FindFirstObjectByType<ManageScoreFile>();
         if (writer != null)
         {
-            writer.WriteScoreFile(playerName, finalScore);
+            writer.WriteScoreFile(finalName, finalScore);
         }
 
         hasSubmitted = true;
 
-        // Disable input so can't submit twice
-        submitButton.interactable = false;
-        nameInputField.interactable = false;
+        if (submitButton != null) submitButton.interactable = false;
+        if (submitButtonText != null) submitButtonText.text = "SAVED";
 
-        if (buttonText != null)
-        {
-            buttonText.text = "Saved";
-        }
-
-        // Refresh leaderboard to show the new name immediately
+        // Refresh leaderboard
         ReadLeaderboardFile reader = GetComponentInParent<ReadLeaderboardFile>();
         if (reader != null) reader.ReadFull();
     }
