@@ -85,7 +85,10 @@ public class ManageUI : MonoBehaviour
 
         if (amount != 0)
         {
-            //AudioManager.Instance.playAudio(AudioManager.Instance.gainScore);
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.playAudio(AudioManager.Instance.gainScore);
+            }
         }
 
         string scoreString = "Score: " + score;
