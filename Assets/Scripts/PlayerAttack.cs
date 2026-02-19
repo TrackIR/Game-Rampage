@@ -113,7 +113,7 @@ public class PlayerAttack : MonoBehaviour
         anim.SetTrigger("Punch");
     }
 
-   void UltAttack()
+    void UltAttack()
     {
         if (ultLaserPrefab != null && ultSpawnPoint != null)
         {

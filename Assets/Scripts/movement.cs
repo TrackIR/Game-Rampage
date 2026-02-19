@@ -132,8 +132,9 @@ public class movement : MonoBehaviour
 
                 // scale rotation speed by how far past threshold the head roll is
                 float excessRoll = Mathf.Abs(headRot.z) - headRollThreshold;
-                float rotAmount = rotDirection * rollSpeed * (excessRoll / 45f) * Time.deltaTime; 
+                
                 // dividing by 45 to normalize roll to a reasonable multiplier (adjust as needed)
+                float rotAmount = rotDirection * rollSpeed * (excessRoll / 45f) * Time.deltaTime;
 
                 transform.Rotate(0f, rotAmount, 0f);
             }
