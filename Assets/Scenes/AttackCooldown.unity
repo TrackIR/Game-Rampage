@@ -10011,10 +10011,6 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-      propertyPath: rollSpeed
-      value: 250
-      objectReference: {fileID: 0}
-    - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: trackIRCam
       value: 
       objectReference: {fileID: 468192960}
@@ -10030,14 +10026,6 @@ PrefabInstance:
       propertyPath: normal3rdCam
       value: 
       objectReference: {fileID: 1586749822}
-    - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-      propertyPath: rotateWithYaw
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-      propertyPath: headYawThreshold
-      value: 0.3
-      objectReference: {fileID: 0}
     - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: headRollThreshold
       value: 0.3
@@ -10069,42 +10057,6 @@ PrefabInstance:
     - target: {fileID: 5829072645431048396, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: m_Layer
       value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 6008737871576382134, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6008737871576382134, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6008737871576382134, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6008737871576382134, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6008737871576382134, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.733
-      objectReference: {fileID: 0}
-    - target: {fileID: 6008737871576382134, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.215
-      objectReference: {fileID: 0}
-    - target: {fileID: 6008737871576382134, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6008737871576382134, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6008737871576382134, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6112179848826065196, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: m_Layer
@@ -10187,13 +10139,13 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-      propertyPath: ultLaserDamage
-      value: 250
+      propertyPath: normalAttackCooldown
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-      propertyPath: ultLaserPrefab
-      value: 
-      objectReference: {fileID: 5643145078022906014, guid: c4be8450dc944c343b6b671cd62b94d5, type: 3}
+      propertyPath: ultimateAttackCooldown
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -29890,13 +29842,12 @@ MonoBehaviour:
   trackIRRoot: {fileID: 542628271}
   playerObject: {fileID: 547094714}
   is3rdPerson: 1
-  distance: -20
-  centerOffset: {x: 0, y: 8, z: 0}
-  yawOrbitWeight: 1
-  pitchOrbitWeight: -1
-  lookRotationWeight: 1
-  positionSmoothing: 5
-  rotationSmoothing: 5
+  distance: -10
+  verticalOffset: 15
+  horizontalOffsetWeight: 15
+  verticalOffsetWeight: 15
+  depthOffsetWeight: 15
+  smoothing: 10
   xOffset: 0
   yOffset: 1.75
   zOffset: 0

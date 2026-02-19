@@ -70,6 +70,7 @@ Transform:
   m_Children:
   - {fileID: 8960888037886871217}
   - {fileID: 3994680017326653427}
+  - {fileID: 6008737871576382134}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2745544907479458921
@@ -268,6 +269,48 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 192
   hitDamage: 25
+  normalAttackCooldown: 0.25
+  ultimateActivationCooldown: 5
+  normalAttackTimer: 0
+  ultimateCooldownTimer: 0
+  UltimateCharged: 0
+  ultimateLength: 20
+  UltimateThreshold: 250
+  ultLaserPrefab: {fileID: 5643145078022906014, guid: c4be8450dc944c343b6b671cd62b94d5, type: 3}
+  ultSpawnPoint: {fileID: 6008737871576382134}
+  ultLaserDuration: 3
+  ultLaserDamage: 50
+--- !u!1 &8959080101510429900
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6008737871576382134}
+  m_Layer: 0
+  m_Name: LaserStartPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6008737871576382134
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8959080101510429900}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.10240056, y: 0.26394302, z: 0.48940337}
+  m_LocalScale: {x: 0.07692308, y: 0.07692308, z: 0.07692308}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2834931430190571472}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3523307164366428184
 PrefabInstance:
   m_ObjectHideFlags: 0

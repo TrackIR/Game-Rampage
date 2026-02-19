@@ -12,13 +12,16 @@ public class cameraMovement3D : MonoBehaviour
     public GameObject playerObject;
     public bool is3rdPerson = true;
 
-    [Header("3rd Person Settings")]
-    public float distance = 5;
-    public float verticalOffset = 8;
-    public float horizontalOffsetWeight = 20;
-    public float verticalOffsetWeight = 20;
-    public float depthOffsetWeight = 25;
-    public float smoothing = 5;
+    [Header("3rd Person Orbit Settings")]
+    public float distance = 5f;
+    public Vector3 centerOffset = new Vector3(0f, 2f, 0f);
+    public float yawOrbitWeight = 1f;
+    public float pitchOrbitWeight = 1f;
+    public float lookRotationWeight = 1f;
+
+    public float positionSmoothing = 5f;
+    public float rotationSmoothing = 5f;
+
 
     [Header("1st Person Settings")]
     public float xOffset;
@@ -43,43 +46,66 @@ public class cameraMovement3D : MonoBehaviour
     // moves the camera target's empty
     void Move3rdCamTargetTransform()
     {
-        Vector3 headRot = trackIR.LatestPoseOrientation.eulerAngles; // data from trackIR
-        Vector3 targetPos;                                           // target position for camera
+        // get TrackIR rotation
+        Quaternion childRotation = trackIR.LatestPoseOrientation;
 
-        // wrap all angles from trackIR to (-180, 180)
-        headRot.x = WrapAngle(trackIRRoot.transform.rotation.x);
-        headRot.y = WrapAngle(trackIRRoot.transform.rotation.y);
-        headRot.z = WrapAngle(trackIRRoot.transform.rotation.z);
+        Vector3 headEuler = childRotation.eulerAngles;
+        float headYaw = WrapAngle(headEuler.y);
+        float headPitch = WrapAngle(headEuler.x);
 
-        // move target position based on head rotation
-        targetPos.x = -headRot.y * horizontalOffsetWeight; // horizonal
-        targetPos.y = headRot.x * verticalOffsetWeight;    // vertical
-        targetPos.z = headRot.x * depthOffsetWeight;       // depth
+        // apply orbit scaling
+        float orbitYaw = headYaw * yawOrbitWeight;
+        float orbitPitch = headPitch * pitchOrbitWeight;
 
-        // orbit position offset
-        float yawRads = math.radians(playerObject.transform.eulerAngles.y); // get y axis rotation in radians
-        float xOffset = math.sin(yawRads) * distance;
-        float zOffset = math.cos(yawRads) * distance;
+        float yawRad = orbitYaw * Mathf.Deg2Rad;
+        float pitchRad = orbitPitch * Mathf.Deg2Rad;
 
-        Vector3 orbitOffset = new Vector3(xOffset, verticalOffset, zOffset);
+        // compute orbit position relative to player rotation
+        Vector3 localOrbit;
+        localOrbit.x = distance * Mathf.Cos(pitchRad) * Mathf.Sin(yawRad);
+        localOrbit.y = distance * Mathf.Sin(pitchRad);
+        localOrbit.z = distance * Mathf.Cos(pitchRad) * Mathf.Cos(yawRad);
 
-        // transforms the target position into proper rotated world space
-        targetPos = playerObject.transform.rotation * targetPos;
+        // rotate orbit into player's facing direction
+        Vector3 centerPoint =
+            playerObject.transform.position +
+            playerObject.transform.rotation * centerOffset;
 
-        // take into account player's position and orbit offset
-        targetPos = playerObject.transform.position + targetPos + orbitOffset;
+        Vector3 worldOrbitOffset =
+            playerObject.transform.rotation * localOrbit;
 
-        // clamp target position above ground
-        targetPos.y = Mathf.Clamp(targetPos.y, 0.1f, 100f);
+        Vector3 desiredWorldPosition =
+            centerPoint + worldOrbitOffset;
 
-        // smoothly lerp position to target position
-        Vector3 smoothPos = Vector3.Lerp(transform.position, targetPos, smoothing * Time.deltaTime);
+        // compute world look rotation toward center
+        Vector3 lookDir = (centerPoint - desiredWorldPosition).normalized;
+        Quaternion worldLookRotation =
+            Quaternion.LookRotation(lookDir, Vector3.up);
 
-        // set position to smoothed position
-        transform.position = smoothPos;
+        // apply look weight (over/under rotate)
+        worldLookRotation = Quaternion.Slerp(
+            Quaternion.identity,
+            worldLookRotation,
+            lookRotationWeight
+        );
 
-        // copies player's y axis rotation to camera rotation
-        transform.rotation = Quaternion.Euler(0f, playerObject.transform.rotation.eulerAngles.y, 0f);
+        // cancel TrackIR camera rotation properly (world-space math)
+        Quaternion desiredParentWorldRotation =
+            worldLookRotation * Quaternion.Inverse(childRotation);
+
+        // smooth position
+        transform.position = Vector3.Lerp(
+            transform.position,
+            desiredWorldPosition,
+            positionSmoothing * Time.deltaTime
+        );
+
+        // smooth rotation
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            desiredParentWorldRotation,
+            rotationSmoothing * Time.deltaTime
+        );
     }
 
 
