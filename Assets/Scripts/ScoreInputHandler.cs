@@ -4,64 +4,104 @@ using UnityEngine.UI;
 
 public class ScoreInputHandler : MonoBehaviour
 {
-    [Header("UI References")]
-    public TMP_InputField nameInputField;
-    public Button submitButton;
-    public TextMeshProUGUI buttonText; // Reference for the button label
+	[Header("UI References")]
+	public TextMeshProUGUI nameDisplay;
+	public Button submitButton;
+	public TextMeshProUGUI submitButtonText;
 
-    private int finalScore;
-    private bool hasSubmitted = false;
+	private int finalScore;
+	private bool hasSubmitted = false;
 
-    // Called by PlayerHealth when the death menu opens
-    public void Setup(int score)
-    {
-        finalScore = score;
-        hasSubmitted = false;
+	// current name being typed
+	private string currentName = "";
+	private const int MAX_CHARS = 3;
 
-        // Reset the UI state so it looks fresh every time player dies
-        if (submitButton != null) submitButton.interactable = true;
-        if (nameInputField != null)
-        {
-            nameInputField.text = "";
-            nameInputField.interactable = true;
-        }
+	// Run this on Start to ensure the placeholders appear immediately in the editor/game
+	void Start()
+	{
+		UpdateDisplay();
+	}
 
-        if (buttonText != null) buttonText.text = "Submit";
-    }
+	public void Setup(int score)
+	{
+		finalScore = score;
+		hasSubmitted = false;
+		currentName = ""; // Reset to empty so placeholders appear
+		UpdateDisplay();
 
-    public void SubmitScore()
-    {
-        Debug.Log("Submit Score Pressed");
+		if (submitButton != null) submitButton.interactable = true;
+		if (submitButtonText != null) submitButtonText.text = "SUBMIT";
+	}
 
-        if (hasSubmitted) return;
+	// Called by KeyboardKey
+	public void AddLetter(string letter)
+	{
+		if (hasSubmitted) return;
+		if (currentName.Length >= MAX_CHARS) return;
 
-        string playerName = nameInputField.text;
+		currentName += letter;
+		UpdateDisplay();
+	}
 
-        if (string.IsNullOrEmpty(playerName))
-        {
-            playerName = "Unknown";
-        }
+	public void Backspace()
+	{
+		if (hasSubmitted) return;
+		if (currentName.Length > 0)
+		{
+			currentName = currentName.Substring(0, currentName.Length - 1);
+			UpdateDisplay();
+		}
+	}
 
-        // Save to CSV
-        ManageScoreFile writer = FindFirstObjectByType<ManageScoreFile>();
-        if (writer != null)
-        {
-            writer.WriteScoreFile(playerName, finalScore);
-        }
+	void UpdateDisplay()
+	{
+		if (nameDisplay != null)
+		{
+			// Create an array of 3 characters
+			char[] slots = new char[MAX_CHARS];
 
-        hasSubmitted = true;
+			for (int i = 0; i < MAX_CHARS; i++)
+			{
+				// If a letter typed for this slot, use it
+				if (i < currentName.Length)
+				{
+					slots[i] = currentName[i];
+				}
+				// Otherwise, use underscore
+				else
+				{
+					slots[i] = '_';
+				}
+			}
 
-        // Disable input so can't submit twice
-        submitButton.interactable = false;
-        nameInputField.interactable = false;
+			// Join them with spaces "A _ _" or "_ _ _"
+			nameDisplay.text = string.Join(" ", slots);
+		}
+	}
 
-        if (buttonText != null)
-        {
-            buttonText.text = "Saved";
-        }
+	public void SubmitScore()
+	{
+		Debug.Log("Submit Score Pressed");
 
-        // Refresh leaderboard to show the new name immediately
-        ReadLeaderboardFile reader = GetComponentInParent<ReadLeaderboardFile>();
-        if (reader != null) reader.ReadFull();
-    }
+		if (hasSubmitted) return;
+
+		// If name is empty, default
+		string finalName = string.IsNullOrEmpty(currentName) ? "UNK" : currentName;
+
+		// Save to CSV
+		ManageScoreFile writer = FindFirstObjectByType<ManageScoreFile>();
+		if (writer != null)
+		{
+			writer.WriteScoreFile(finalName, finalScore);
+		}
+
+		hasSubmitted = true;
+
+		if (submitButton != null) submitButton.interactable = false;
+		if (submitButtonText != null) submitButtonText.text = "SAVED";
+
+		// Refresh leaderboard
+		ReadLeaderboardFile reader = GetComponentInParent<ReadLeaderboardFile>();
+		if (reader != null) reader.ReadFull();
+	}
 }

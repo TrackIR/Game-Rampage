@@ -68,7 +68,7 @@ public class crossHair : MonoBehaviour
         // Only set selected if it's different
         if (eventSystem.currentSelectedGameObject != uiTarget)
         {
-            eventSystem.SetSelectedGameObject(uiTarget);
+            eventSystem.SetSelectedGameObject(uiTarget);    
         }
 
         // click on element
