@@ -3,25 +3,31 @@ using System.Collections.Generic;
 
 public class PlayerAttack : MonoBehaviour
 {
-
+    [Header("Attack Settings")]
     public float attackRange = 14f;
     public Transform attackPoint;
-
-    // Using a LayerMask allows for multiple layers (Buildings AND Enemies)
     public LayerMask targetLayers;
+    public int hitDamage = 25;
 
-    public int hitDamage = 25; // How much damage a hit does to an enemy
+    [Header("Cooldowns")]
+    public float normalAttackCooldown = 0.5f;      // seconds
+    public float ultimateAttackCooldown = 1f;       // seconds between ult hits
+    private float normalAttackTimer = 0f;
+    private float ultimateAttackTimer = 0f;
 
-    ManageUI uiManager;
+    [Header("Ultimate Settings")]
     public bool UltimateCharged = false;
-    private bool isUlt = false;
     public int ultimateLength = 20;
-    private int ultCount = 0; // counter for physic frames
-    public int UltimateThreshold = 250; // how many points until the player gets an ultimate
+    public int UltimateThreshold = 250;
+
+    private bool isUlt = false;
+    private int ultCount = 0;
     private int lastUltimateLevel = 0;
 
+    [Header("References / Animation")]
     private Animator anim;
     private int animPunchHash;
+    private ManageUI uiManager;
 
     void Start()
     {
@@ -32,34 +38,51 @@ public class PlayerAttack : MonoBehaviour
         {
             animPunchHash = Animator.StringToHash("Base Layer.Punch");
         }
-
     }
 
     void Update()
     {
+        // Reduce cooldown timers
+        if (normalAttackTimer > 0f)
+            normalAttackTimer -= Time.deltaTime;
+        if (ultimateAttackTimer > 0f)
+            ultimateAttackTimer -= Time.deltaTime;
+
         checkScore();
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (UltimateCharged)
             {
-                UltAttack();
-                UltimateCharged = false;
+                if (ultimateAttackTimer <= 0f) // Only attack if ultimate cooldown is over
+                {
+                    UltAttack();
+                    UltimateCharged = false;
+                    ultimateAttackTimer = ultimateAttackCooldown;
+                }
             }
             else
             {
-                Attack();
+                if (normalAttackTimer <= 0f) // Only attack if normal cooldown is over
+                {
+                    Attack();
+                    normalAttackTimer = normalAttackCooldown;
+                }
             }
         }
     }
 
     void FixedUpdate()
     {
-        if (isUlt && (ultCount < ultimateLength))
+        // Automatic ultimate attack while ult is active
+        if (isUlt && ultCount < ultimateLength)
         {
-            Attack();
-            ultCount++;
-            print($"Count: {ultCount}");
+            if (ultimateAttackTimer <= 0f)
+            {
+                Attack();
+                ultCount++;
+                ultimateAttackTimer = ultimateAttackCooldown;
+            }
         }
         else if (ultCount == ultimateLength)
         {
@@ -73,49 +96,36 @@ public class PlayerAttack : MonoBehaviour
         if (uiManager == null) return;
 
         int score = uiManager.score;
-
         int currentLevel = score / UltimateThreshold;
 
-        // only sets UltimateCharged to true every xUltimateThreshold
         if (currentLevel > lastUltimateLevel)
         {
             UltimateCharged = true;
-            Debug.Log("Ult good");
+            Debug.Log("Ult ready");
             lastUltimateLevel = currentLevel;
         }
     }
-
 
     void Attack()
     {
         Collider[] hitObjects = Physics.OverlapSphere(attackPoint.position, attackRange, targetLayers);
 
-        // create a temporary list to track unique enemies hit in this swing
         List<EnemyHealth> enemiesHit = new List<EnemyHealth>();
 
         foreach (Collider hit in hitObjects)
         {
-            // building destruction
             BuildingDestruction building = hit.GetComponent<BuildingDestruction>();
             if (building != null)
             {
                 building.TakeDamage();
             }
 
-            // enemy attack
             EnemyHealth enemy = hit.GetComponentInParent<EnemyHealth>();
 
-            if (enemy != null)
+            if (enemy != null && !enemiesHit.Contains(enemy))
             {
-                // Have the player already hit this specific enemy instance
-                if (!enemiesHit.Contains(enemy))
-                {
-                    // If not, damage them
-                    enemy.TakeDamage(hitDamage);
-
-                    // Add them to the list so it doesn't hit them again this frame
-                    enemiesHit.Add(enemy);
-                }
+                enemy.TakeDamage(hitDamage);
+                enemiesHit.Add(enemy);
             }
         }
 
@@ -124,7 +134,7 @@ public class PlayerAttack : MonoBehaviour
 
     void UltAttack()
     {
-        Debug.Log("Ult");
+        Debug.Log("Ultimate Attack");
         isUlt = true;
     }
 
