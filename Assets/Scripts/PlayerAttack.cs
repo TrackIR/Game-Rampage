@@ -10,14 +10,14 @@ public class PlayerAttack : MonoBehaviour
     public int hitDamage = 25;
 
     [Header("Cooldowns")]
-    public float normalAttackCooldown = 0.5f;      // seconds
-    public float ultimateAttackCooldown = 1f;       // seconds between ult hits
-    private float normalAttackTimer = 0f;
-    private float ultimateAttackTimer = 0f;
+    public float normalAttackCooldown = 0.25f;      // seconds
+    public float ultimateActivationCooldown = 5f;   // cooldown after using ultimate
+    public float normalAttackTimer = 0f;
+    public float ultimateCooldownTimer = 0f;
 
     [Header("Ultimate Settings")]
     public bool UltimateCharged = false;
-    public int ultimateLength = 20;
+    public int ultimateLength = 20; // number of FixedUpdate frames ultimate lasts
     public int UltimateThreshold = 250;
 
     private bool isUlt = false;
@@ -45,49 +45,44 @@ public class PlayerAttack : MonoBehaviour
         // Reduce cooldown timers
         if (normalAttackTimer > 0f)
             normalAttackTimer -= Time.deltaTime;
-        if (ultimateAttackTimer > 0f)
-            ultimateAttackTimer -= Time.deltaTime;
+        if (ultimateCooldownTimer > 0f)
+            ultimateCooldownTimer -= Time.deltaTime;
 
         checkScore();
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (UltimateCharged)
+            // Activate ultimate if ready and not in cooldown
+            if (UltimateCharged && ultimateCooldownTimer <= 0f)
             {
-                if (ultimateAttackTimer <= 0f) // Only attack if ultimate cooldown is over
-                {
-                    UltAttack();
-                    UltimateCharged = false;
-                    ultimateAttackTimer = ultimateAttackCooldown;
-                }
+                UltAttack();
+                UltimateCharged = false;
+                ultimateCooldownTimer = ultimateActivationCooldown;
             }
-            else
+            // Normal attack
+            else if (!UltimateCharged && normalAttackTimer <= 0f)
             {
-                if (normalAttackTimer <= 0f) // Only attack if normal cooldown is over
-                {
-                    Attack();
-                    normalAttackTimer = normalAttackCooldown;
-                }
+                Attack();
+                normalAttackTimer = normalAttackCooldown;
             }
         }
     }
 
     void FixedUpdate()
     {
-        // Automatic ultimate attack while ult is active
-        if (isUlt && ultCount < ultimateLength)
+        // Automatic ultimate attack while ult is active (no cooldown between hits)
+        if (isUlt)
         {
-            if (ultimateAttackTimer <= 0f)
+            if (ultCount < ultimateLength)
             {
                 Attack();
                 ultCount++;
-                ultimateAttackTimer = ultimateAttackCooldown;
             }
-        }
-        else if (ultCount == ultimateLength)
-        {
-            isUlt = false;
-            ultCount = 0;
+            else
+            {
+                isUlt = false;
+                ultCount = 0;
+            }
         }
     }
 
@@ -134,8 +129,9 @@ public class PlayerAttack : MonoBehaviour
 
     void UltAttack()
     {
-        Debug.Log("Ultimate Attack");
+        Debug.Log("Ultimate Attack Activated");
         isUlt = true;
+        ultCount = 0;
     }
 
     void OnDrawGizmosSelected()
