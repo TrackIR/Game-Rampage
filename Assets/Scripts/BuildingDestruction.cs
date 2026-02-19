@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BuildingDestruction : MonoBehaviour
 {
-    [Range(0f, 10f)]public int maxHealth = 3;
+    [Range(0f, 10f)] public int maxHealth = 3;
     private int currentHealth;
     [Range(0f, 25f)] public int scoreReward = 10; // Amount of score to give player when building is destroyed
     [Range(0f, 10f)] public int healthReward = 5; // Amount of HP to restore when a building is destroyed
