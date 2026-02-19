@@ -29,15 +29,27 @@ public class ScoreInputHandler : MonoBehaviour
 		currentName = ""; // Reset to empty so placeholders appear
 		UpdateDisplay();
 
-		if (submitButton != null) submitButton.interactable = true;
-		if (submitButtonText != null) submitButtonText.text = "SUBMIT";
+		if (submitButton != null)
+		{
+			submitButton.interactable = true;
+		}
+		if (submitButtonText != null)
+		{
+			submitButtonText.text = "SUBMIT";
+		}
 	}
 
 	// Called by KeyboardKey
 	public void AddLetter(string letter)
 	{
-		if (hasSubmitted) return;
-		if (currentName.Length >= MAX_CHARS) return;
+		if (hasSubmitted)
+		{
+			return;
+		}
+		if (currentName.Length >= MAX_CHARS)
+		{
+			return;
+		}
 
 		currentName += letter;
 		UpdateDisplay();
@@ -45,7 +57,10 @@ public class ScoreInputHandler : MonoBehaviour
 
 	public void Backspace()
 	{
-		if (hasSubmitted) return;
+		if (hasSubmitted)
+		{
+			return;
+		}
 		if (currentName.Length > 0)
 		{
 			currentName = currentName.Substring(0, currentName.Length - 1);
@@ -83,7 +98,10 @@ public class ScoreInputHandler : MonoBehaviour
 	{
 		Debug.Log("Submit Score Pressed");
 
-		if (hasSubmitted) return;
+		if (hasSubmitted)
+		{
+			return;
+		}
 
 		// If name is empty, default
 		string finalName = string.IsNullOrEmpty(currentName) ? "UNK" : currentName;
@@ -97,11 +115,20 @@ public class ScoreInputHandler : MonoBehaviour
 
 		hasSubmitted = true;
 
-		if (submitButton != null) submitButton.interactable = false;
-		if (submitButtonText != null) submitButtonText.text = "SAVED";
+		if (submitButton != null)
+		{
+			submitButton.interactable = false;
+		}
+		if (submitButtonText != null)
+		{
+			submitButtonText.text = "SAVED";
+		}
 
 		// Refresh leaderboard
 		ReadLeaderboardFile reader = GetComponentInParent<ReadLeaderboardFile>();
-		if (reader != null) reader.ReadFull();
+		if (reader != null)
+		{
+			reader.ReadFull();
+		}
 	}
 }
