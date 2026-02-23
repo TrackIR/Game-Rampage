@@ -14,7 +14,7 @@ public class HelicopterAI : MonoBehaviour
     private float elapsed = 0f; // Timer for pathfinding updates
     public GameObject projectilePrefab;
     public Transform firePoint;
-    public float fireCooldown = 0.02f;
+    public float fireCooldown = 0.01f;
     private float lastFireTime = 0f;
 
 

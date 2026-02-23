@@ -92,7 +92,7 @@ MonoBehaviour:
   playerTarget: {fileID: 0}
   fireRange: 60
   agent: {fileID: 1656655485534151578}
-  projectilePrefab: {fileID: 0}
+  projectilePrefab: {fileID: 5705443046570086867, guid: 3fff994e8b71144429f65c5f35925209, type: 3}
   firePoint: {fileID: 7536907065514236041}
   fireCooldown: 0.05
 --- !u!1 &4141259276975455281
