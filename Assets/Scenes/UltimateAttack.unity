@@ -10187,13 +10187,25 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: movement
+      value: 
+      objectReference: {fileID: 641262260}
+    - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: cameraMovement
+      value: 
+      objectReference: {fileID: 2051999570}
+    - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: ultLaserDamage
       value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: ultLaserPrefab
       value: 
-      objectReference: {fileID: 5643145078022906014, guid: c4be8450dc944c343b6b671cd62b94d5, type: 3}
+      objectReference: {fileID: 6693682581077919189, guid: 31b595d889ebfe342b9b7777df1d524d, type: 3}
+    - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: UltimateCharged
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10227,6 +10239,17 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &641262260 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+  m_PrefabInstance: {fileID: 641262246}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 547094714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09e7a2b246d978a4bbacd34d65ba90d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::movement
 --- !u!1001 &641655978
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29897,9 +29920,9 @@ MonoBehaviour:
   lookRotationWeight: 1
   positionSmoothing: 5
   rotationSmoothing: 5
-  xOffset: 0
-  yOffset: 1.75
-  zOffset: 0
+  firstPersonOffset: {x: 0, y: 8, z: 2}
+  cameraBlend: 1
+  transitionSpeed: 3
 --- !u!4 &2051999571
 Transform:
   m_ObjectHideFlags: 0

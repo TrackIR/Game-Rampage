@@ -2,37 +2,26 @@ using UnityEngine;
 
 public class UltimateLaser : MonoBehaviour
 {
-    public int damage = 100;
+    public float damagePerSecond = 100f;
     public float duration = 3f;
     public LayerMask targetLayers;
+    //public GameObject highlights;
 
-    public float startRotationX = 10f;
-    public float endRotationX = 90f;
+    public float laserSpin = 360f;
+    //public float highlightSpin = -360f;
 
     private float elapsedTime = 0f;
-
-    private Quaternion startLocalRotation;
-    private Quaternion endLocalRotation;
-
     private Transform parentTransform;
 
     private void Start()
     {
         parentTransform = transform.parent;
 
-        // 1. Read Y scale value
+        // keep pivot offset logic
         float yScale = transform.localScale.y;
-
-        // 2. Move yScale/2 in Y axis
         transform.localPosition = new Vector3(0f, yScale / 2f, 0f);
 
-        // 3. Rotate parent empty
-        startLocalRotation = Quaternion.Euler(startRotationX, 0f, 0f);
-        endLocalRotation = Quaternion.Euler(endRotationX, 0f, 0f);
-
-        parentTransform.localRotation = startLocalRotation;
-
-        Destroy(gameObject, duration);
+        Destroy(parentTransform.gameObject, duration);
     }
 
     private void Update()
@@ -40,23 +29,32 @@ public class UltimateLaser : MonoBehaviour
         if (parentTransform == null) return;
 
         elapsedTime += Time.deltaTime;
-        float t = Mathf.Clamp01(elapsedTime / duration);
 
-        parentTransform.localRotation =
-            Quaternion.Lerp(startLocalRotation, endLocalRotation, t);
+        // lock to main cam forward
+        Transform cam = Camera.main.transform;
+        parentTransform.rotation = Quaternion.LookRotation(cam.forward);
+
+        //Spin(gameObject, laserSpin);
+        //if (highlights != null)
+        //    Spin(highlights, highlightSpin);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void Spin(GameObject obj, float speed)
     {
-        if (((1 << other.gameObject.layer) & targetLayers) != 0)
-        {
-            EnemyHealth enemy = other.GetComponentInParent<EnemyHealth>();
-            if (enemy != null)
-                enemy.TakeDamage(damage);
+        obj.transform.Rotate(0f, speed * Time.deltaTime, 0f);
+    }
 
-            BuildingDestruction building = other.GetComponent<BuildingDestruction>();
-            if (building != null)
-                building.TakeDamage();
-        }
+    private void OnTriggerStay(Collider other)
+    {
+        if (((1 << other.gameObject.layer) & targetLayers) == 0)
+            return;
+
+        EnemyHealth enemy = other.GetComponentInParent<EnemyHealth>();
+        if (enemy != null)
+            enemy.TakeDamage(Mathf.RoundToInt(damagePerSecond * Time.deltaTime));
+
+        BuildingDestruction building = other.GetComponent<BuildingDestruction>();
+        if (building != null)
+            building.TakeDamage();
     }
 }

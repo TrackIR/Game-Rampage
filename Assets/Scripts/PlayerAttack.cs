@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -27,6 +28,13 @@ public class PlayerAttack : MonoBehaviour
     public float ultLaserDuration = 3f;
     public int ultLaserDamage = 100;
 
+    [Header("Ultimate Control")]
+    public movement movement;
+    public cameraMovement3D cameraMovement;
+    public float slowMoScale = 0.2f;
+    public float slowMoDur = 2.0f;
+    public bool isInUltimate = false;
+
 
     [Header("References / Animation")]
     private Animator anim;
@@ -46,6 +54,12 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
+        if (isInUltimate)
+        {
+            return;
+        }
+            
+
         // reduce cooldown timers
         if (normalAttackTimer > 0f)
             normalAttackTimer -= Time.deltaTime;
@@ -57,11 +71,9 @@ public class PlayerAttack : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             // activate ultimate if ready and not in cooldown
-            if (UltimateCharged && ultimateCooldownTimer <= 0f)
+            if (UltimateCharged && ultimateCooldownTimer <= 0f && !isInUltimate)
             {
-                UltAttack();
-                UltimateCharged = false;
-                ultimateCooldownTimer = ultimateActivationCooldown;
+                StartCoroutine(UltimateSequence());
             }
             // Normal attack
             else if (!UltimateCharged && normalAttackTimer <= 0f)
@@ -129,14 +141,57 @@ public class PlayerAttack : MonoBehaviour
             UltimateLaser ultScript = ultObj.GetComponent<UltimateLaser>();
             if (ultScript != null)
             {
-                ultScript.damage = ultLaserDamage;
+                ultScript.damagePerSecond = ultLaserDamage;
                 ultScript.duration = ultLaserDuration;
                 ultScript.targetLayers = targetLayers;
             }
         }
+    }
+
+    private IEnumerator UltimateSequence()
+    {
+        isInUltimate = true;
+
+        // slow motion start
+        Time.timeScale = slowMoScale;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+
+        // switch to 1st person
+        if (cameraMovement != null)
+            cameraMovement.is3rdPerson = false;
+
+        yield return new WaitForSecondsRealtime(slowMoDur);
+
+        // restore time
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02f;
+
+        // disable player movement & rotation
+        if (movement != null)
+            movement.enabled = false;
+
+        // spawn laser
+        UltAttack();
+
+        yield return new WaitForSeconds(ultLaserDuration);
+
+        EndUltimate();
+    }
+
+    private void EndUltimate()
+    {
+        // re-enable movement
+        if (movement != null)
+            movement.enabled = true;
+
+        // return to 3rd person
+        if (cameraMovement != null)
+            cameraMovement.is3rdPerson = true;
 
         UltimateCharged = false;
         ultimateCooldownTimer = ultimateActivationCooldown;
+
+        isInUltimate = false;
     }
 
 
