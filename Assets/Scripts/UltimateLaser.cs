@@ -18,8 +18,8 @@ public class UltimateLaser : MonoBehaviour
         parentTransform = transform.parent;
 
         // keep pivot offset logic
-        float yScale = transform.localScale.y;
-        transform.localPosition = new Vector3(0f, yScale / 2f, 0f);
+        float zScale = transform.localScale.z;
+        transform.localPosition = new Vector3(0f, 0f, zScale / 2f);
 
         Destroy(parentTransform.gameObject, duration);
     }
