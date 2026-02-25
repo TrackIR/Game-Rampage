@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,6 +17,7 @@ public class HelicopterAI : MonoBehaviour
     public Transform particleEmitter;
     public float particleDamage = 0.5f;
     private ParticleSystem ParticleSystem;
+    public Transform heliBody;
 
     void Start()
     {
@@ -24,6 +26,7 @@ public class HelicopterAI : MonoBehaviour
             GameObject playerHeadObj = GameObject.FindGameObjectWithTag("PlayerHead");
             if (playerHeadObj != null) playerTarget = playerHeadObj.transform;
         }
+        GameObject heliBodyObj = GameObject.FindGameObjectWithTag("HeliBody");
         agent = GetComponent<NavMeshAgent>();
         agent.areaMask = 1 << NavMesh.GetAreaFromName("Flyable");
         path = new NavMeshPath();
@@ -55,6 +58,12 @@ public class HelicopterAI : MonoBehaviour
             agent.stoppingDistance = fireRange;
             FindPlayer();
         }
+        
+            Vector3 forward = agent.velocity.normalized;
+            Quaternion targetRotation = Quaternion.LookRotation(forward);
+            // Tilt down by 20 degrees while moving forward
+            targetRotation *= Quaternion.Euler(agent.velocity.sqrMagnitude, 0f, 0f);
+            heliBody.transform.rotation = Quaternion.Slerp( heliBody.transform.rotation, targetRotation, Time.deltaTime * 5f);
 
     }
 

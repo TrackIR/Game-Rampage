@@ -304,6 +304,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 59725784}
   m_CullTransparentMesh: 1
+--- !u!4 &84941140 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3645680960100142356, guid: 6e0ca42d6ae597249b44bb6f1d39e2eb, type: 3}
+  m_PrefabInstance: {fileID: 288898271}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &85521766
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,6 +718,38 @@ PrefabInstance:
     - target: {fileID: 2201547241459451023, guid: 6e0ca42d6ae597249b44bb6f1d39e2eb, type: 3}
       propertyPath: m_Name
       value: HeliEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645680960100142356, guid: 6e0ca42d6ae597249b44bb6f1d39e2eb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645680960100142356, guid: 6e0ca42d6ae597249b44bb6f1d39e2eb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645680960100142356, guid: 6e0ca42d6ae597249b44bb6f1d39e2eb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645680960100142356, guid: 6e0ca42d6ae597249b44bb6f1d39e2eb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645680960100142356, guid: 6e0ca42d6ae597249b44bb6f1d39e2eb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3754130677751731996, guid: 6e0ca42d6ae597249b44bb6f1d39e2eb, type: 3}
+      propertyPath: heliBody
+      value: 
+      objectReference: {fileID: 84941140}
+    - target: {fileID: 4141259276975455281, guid: 6e0ca42d6ae597249b44bb6f1d39e2eb, type: 3}
+      propertyPath: m_TagString
+      value: HeliBody
+      objectReference: {fileID: 0}
+    - target: {fileID: 5333708805832499806, guid: 6e0ca42d6ae597249b44bb6f1d39e2eb, type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8087654654865402326, guid: 6e0ca42d6ae597249b44bb6f1d39e2eb, type: 3}
       propertyPath: m_LocalPosition.x

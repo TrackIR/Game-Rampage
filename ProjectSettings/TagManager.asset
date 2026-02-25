@@ -6,6 +6,7 @@ TagManager:
   tags:
   - BuildingTile
   - PlayerHead
+  - HeliBody
   layers:
   - Default
   - TransparentFX
