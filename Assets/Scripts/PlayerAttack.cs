@@ -31,9 +31,7 @@ public class PlayerAttack : MonoBehaviour
     [Header("Ultimate Control")]
     public movement movement;
     public cameraMovement3D cameraMovement;
-    public float slowMoScale = 0.2f;
-    public float slowMoDur = 2.0f;
-    public bool isInUltimate = false;
+    private bool isInUltimate = false;
 
 
     [Header("References / Animation")]
@@ -152,19 +150,10 @@ public class PlayerAttack : MonoBehaviour
     {
         isInUltimate = true;
 
-        // slow motion start
-        Time.timeScale = slowMoScale;
-        Time.fixedDeltaTime = 0.02f * Time.timeScale;
-
         // switch to 1st person
         if (cameraMovement != null)
+            cameraMovement.transitionSpeed = 20;
             cameraMovement.is3rdPerson = false;
-
-        yield return new WaitForSecondsRealtime(slowMoDur);
-
-        // restore time
-        Time.timeScale = 1f;
-        Time.fixedDeltaTime = 0.02f;
 
         // disable player movement & rotation
         if (movement != null)
@@ -173,20 +162,21 @@ public class PlayerAttack : MonoBehaviour
         // spawn laser
         UltAttack();
 
-        yield return new WaitForSeconds(ultLaserDuration);
+        yield return new WaitForSecondsRealtime(ultLaserDuration);
 
         EndUltimate();
     }
 
     private void EndUltimate()
     {
+        // return to 3rd person
+        if (cameraMovement != null)
+            cameraMovement.transitionSpeed = 40f;
+            cameraMovement.is3rdPerson = true;
+
         // re-enable movement
         if (movement != null)
             movement.enabled = true;
-
-        // return to 3rd person
-        if (cameraMovement != null)
-            cameraMovement.is3rdPerson = true;
 
         UltimateCharged = false;
         ultimateCooldownTimer = ultimateActivationCooldown;

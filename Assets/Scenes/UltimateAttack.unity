@@ -10191,6 +10191,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 641262260}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: slowMoDur
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: cameraMovement
       value: 
       objectReference: {fileID: 2051999570}
@@ -10205,6 +10209,10 @@ PrefabInstance:
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: UltimateCharged
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: ultLaserDuration
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
