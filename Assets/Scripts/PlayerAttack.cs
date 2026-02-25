@@ -21,14 +21,10 @@ public class PlayerAttack : MonoBehaviour
     public int ultimateLength = 20; // number of FixedUpdate frames ultimate lasts
     public int UltimateThreshold = 250;
     private int lastUltimateLevel = 0;
-
-    [Header("Ultimate Laser")]
     public GameObject ultLaserPrefab;
     public Transform ultSpawnPoint;
     public float ultLaserDuration = 3f;
     public int ultLaserDamage = 100;
-
-    [Header("Ultimate Control")]
     public movement movement;
     public cameraMovement3D cameraMovement;
     private bool isInUltimate = false;
@@ -74,7 +70,7 @@ public class PlayerAttack : MonoBehaviour
                 StartCoroutine(UltimateSequence());
             }
             // Normal attack
-            else if (!UltimateCharged && normalAttackTimer <= 0f)
+            else if (!UltimateCharged && normalAttackTimer <= 0f && (ultimateCooldownTimer <= 0f))
             {
                 Attack();
                 normalAttackTimer = normalAttackCooldown;
@@ -130,10 +126,10 @@ public class PlayerAttack : MonoBehaviour
             GameObject ultObj = Instantiate(
                 ultLaserPrefab,
                 ultSpawnPoint.position,
-                ultSpawnPoint.rotation   // copy player/spawn rotation
+                ultSpawnPoint.rotation
             );
 
-            // Parent it so one end stays at spawn point
+            // parent it so one end stays at spawn point
             ultObj.transform.SetParent(ultSpawnPoint);
 
             UltimateLaser ultScript = ultObj.GetComponent<UltimateLaser>();

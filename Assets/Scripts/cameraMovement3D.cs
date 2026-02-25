@@ -96,10 +96,6 @@ public class cameraMovement3D : MonoBehaviour
             playerObject.transform.position +
             playerObject.transform.rotation * firstPersonOffset;
 
-        //Quaternion firstPersonRot =
-            //playerObject.transform.rotation *
-            //Quaternion.Inverse(trackIR.LatestPoseOrientation);
-
         Quaternion firstPersonRot =
             playerObject.transform.rotation;
 
