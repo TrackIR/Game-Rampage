@@ -761,7 +761,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8087654654865402326, guid: 6e0ca42d6ae597249b44bb6f1d39e2eb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -37.137093
+      value: -53.8
       objectReference: {fileID: 0}
     - target: {fileID: 8087654654865402326, guid: 6e0ca42d6ae597249b44bb6f1d39e2eb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3276,9 +3276,9 @@ MonoBehaviour:
   lookRotationWeight: 1
   positionSmoothing: 5
   rotationSmoothing: 5
-  xOffset: 0
-  yOffset: 1.75
-  zOffset: 0
+  firstPersonOffset: {x: 0, y: 0, z: 0}
+  cameraBlend: 1
+  transitionSpeed: 3
 --- !u!4 &1164529393
 Transform:
   m_ObjectHideFlags: 0
@@ -4355,9 +4355,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0ba21d0819daf64fb63ea5f8a9c116c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreInputHandler
-  nameInputField: {fileID: 2083648665}
+  nameDisplay: {fileID: 0}
   submitButton: {fileID: 1012441374}
-  buttonText: {fileID: 59725786}
+  submitButtonText: {fileID: 0}
 --- !u!1 &1735497159
 GameObject:
   m_ObjectHideFlags: 0
