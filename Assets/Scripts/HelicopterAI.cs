@@ -58,13 +58,11 @@ public class HelicopterAI : MonoBehaviour
             agent.stoppingDistance = fireRange;
             FindPlayer();
         }
-        
-            Vector3 forward = agent.velocity.normalized;
-            Quaternion targetRotation = Quaternion.LookRotation(forward);
-            // Tilt down by 20 degrees while moving forward
-            targetRotation *= Quaternion.Euler(agent.velocity.sqrMagnitude, 0f, 0f);
-            heliBody.transform.rotation = Quaternion.Slerp( heliBody.transform.rotation, targetRotation, Time.deltaTime * 5f);
-
+        Vector3 forward = agent.velocity.normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(forward);
+        // Tilt down by 20 degrees while moving forward
+        targetRotation *= Quaternion.Euler(agent.velocity.sqrMagnitude, 0f, 0f);
+        heliBody.transform.rotation = Quaternion.Slerp(heliBody.transform.rotation, targetRotation, Time.deltaTime * 5f);
     }
 
     void FindPlayer()
