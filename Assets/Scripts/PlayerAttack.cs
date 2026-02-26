@@ -56,7 +56,7 @@ public class PlayerAttack : MonoBehaviour
         // reduce cooldown timers
         if (normalAttackTimer > 0f)
         {
-            normalAttackTimer -= Time.deltaTime; 
+            normalAttackTimer -= Time.deltaTime;
         }
         if (ultimateCooldownTimer > 0f)
         {
@@ -147,11 +147,11 @@ public class PlayerAttack : MonoBehaviour
     private IEnumerator UltimateSequence()
     {
         isInUltimate = true;
-        
+
         // switch to first person
         if (cameraMovement != null)
             cameraMovement.transitionSpeed = 20;
-            cameraMovement.is3rdPerson = false;
+        cameraMovement.is3rdPerson = false;
 
         // disable player movement & rotation
         if (movement != null)
@@ -170,7 +170,7 @@ public class PlayerAttack : MonoBehaviour
         // return to third person
         if (cameraMovement != null)
             cameraMovement.transitionSpeed = 40f;
-            cameraMovement.is3rdPerson = true;
+        cameraMovement.is3rdPerson = true;
 
         // re-enable movement
         if (movement != null)
