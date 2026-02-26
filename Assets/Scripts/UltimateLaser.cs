@@ -34,14 +34,14 @@ public class UltimateLaser : MonoBehaviour
         Transform cam = Camera.main.transform;
         parentTransform.rotation = Quaternion.LookRotation(cam.forward);
 
-        //Spin(gameObject, laserSpin);
+        Spin(gameObject, laserSpin);
         //if (highlights != null)
         //    Spin(highlights, highlightSpin);
     }
 
     private void Spin(GameObject obj, float speed)
     {
-        obj.transform.Rotate(0f, speed * Time.deltaTime, 0f);
+        obj.transform.Rotate(0f, 0f, speed * Time.deltaTime);
     }
 
     private void OnTriggerStay(Collider other)

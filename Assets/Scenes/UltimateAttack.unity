@@ -10200,7 +10200,7 @@ PrefabInstance:
       objectReference: {fileID: 2051999570}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: ultLaserDamage
-      value: 50
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: ultLaserPrefab
@@ -10212,7 +10212,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: ultLaserDuration
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: ultimateActivationCooldown

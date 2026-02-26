@@ -136,7 +136,6 @@ public class PlayerAttack : MonoBehaviour
             if (ultScript != null)
             {
                 ultScript.damagePerSecond = ultLaserDamage;
-                ultScript.duration = ultLaserDuration;
                 ultScript.targetLayers = targetLayers;
             }
         }
