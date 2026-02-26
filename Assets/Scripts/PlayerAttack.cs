@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -20,12 +21,13 @@ public class PlayerAttack : MonoBehaviour
     public int ultimateLength = 20; // number of FixedUpdate frames ultimate lasts
     public int UltimateThreshold = 250;
     private int lastUltimateLevel = 0;
-
-    [Header("Ultimate Laser")]
     public GameObject ultLaserPrefab;
     public Transform ultSpawnPoint;
     public float ultLaserDuration = 3f;
     public int ultLaserDamage = 100;
+    public movement movement;
+    public cameraMovement3D cameraMovement;
+    private bool isInUltimate = false;
 
 
     [Header("References / Animation")]
@@ -46,25 +48,32 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
+        if (isInUltimate)
+        {
+            return;
+        }
+
         // reduce cooldown timers
         if (normalAttackTimer > 0f)
+        {
             normalAttackTimer -= Time.deltaTime;
+        }
         if (ultimateCooldownTimer > 0f)
+        {
             ultimateCooldownTimer -= Time.deltaTime;
+        }
 
         checkScore();
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
             // activate ultimate if ready and not in cooldown
-            if (UltimateCharged && ultimateCooldownTimer <= 0f)
+            if (UltimateCharged && ultimateCooldownTimer <= 0f && !isInUltimate)
             {
-                UltAttack();
-                UltimateCharged = false;
-                ultimateCooldownTimer = ultimateActivationCooldown;
+                StartCoroutine(UltimateSequence());
             }
             // Normal attack
-            else if (!UltimateCharged && normalAttackTimer <= 0f)
+            else if (!UltimateCharged && normalAttackTimer <= 0f && (ultimateCooldownTimer <= 0f))
             {
                 Attack();
                 normalAttackTimer = normalAttackCooldown;
@@ -120,23 +129,57 @@ public class PlayerAttack : MonoBehaviour
             GameObject ultObj = Instantiate(
                 ultLaserPrefab,
                 ultSpawnPoint.position,
-                ultSpawnPoint.rotation   // copy player/spawn rotation
+                ultSpawnPoint.rotation
             );
 
-            // Parent it so one end stays at spawn point
+            // parent it so one end stays at spawn point
             ultObj.transform.SetParent(ultSpawnPoint);
 
             UltimateLaser ultScript = ultObj.GetComponent<UltimateLaser>();
             if (ultScript != null)
             {
-                ultScript.damage = ultLaserDamage;
-                ultScript.duration = ultLaserDuration;
+                ultScript.damagePerSecond = ultLaserDamage;
                 ultScript.targetLayers = targetLayers;
             }
         }
+    }
+
+    private IEnumerator UltimateSequence()
+    {
+        isInUltimate = true;
+
+        // switch to first person
+        if (cameraMovement != null)
+            cameraMovement.transitionSpeed = 20;
+        cameraMovement.is3rdPerson = false;
+
+        // disable player movement & rotation
+        if (movement != null)
+            movement.enabled = false;
+
+        // spawn laser
+        UltAttack();
+
+        yield return new WaitForSecondsRealtime(ultLaserDuration);
+
+        EndUltimate();
+    }
+
+    private void EndUltimate()
+    {
+        // return to third person
+        if (cameraMovement != null)
+            cameraMovement.transitionSpeed = 40f;
+        cameraMovement.is3rdPerson = true;
+
+        // re-enable movement
+        if (movement != null)
+            movement.enabled = true;
 
         UltimateCharged = false;
         ultimateCooldownTimer = ultimateActivationCooldown;
+
+        isInUltimate = false;
     }
 
 
