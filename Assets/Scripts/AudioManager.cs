@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    public static AudioManager Instance;
 
-    public static AudioManager Instance; // Only one audio manager should exist across the entire game
-
-    public AudioSource audioSource; // Audio Source attached to the audio manager
+    public AudioSource audioSource;
 
     [Range(0.0f, 1.0f)]
     public float volume = 1.0f;
@@ -18,7 +17,9 @@ public class AudioManager : MonoBehaviour
     public AudioClip enemyShoot;
     public AudioClip gainScore;
 
-
+    [Header("UI Audio Clips")]
+    public AudioClip menuHover;
+    public AudioClip menuClick;
 
     void Awake()
     {
@@ -37,12 +38,11 @@ public class AudioManager : MonoBehaviour
     {
         if (clip != null && audioSource != null)
         {
-            audioSource.PlayOneShot(clip, volume); // Could maybe be played locally? Something like 3D audio
+            audioSource.PlayOneShot(clip, volume);
         }
         else
         {
             print("no audio source!");
         }
-
     }
 }
