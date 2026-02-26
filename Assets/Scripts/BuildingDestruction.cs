@@ -15,6 +15,8 @@ public class BuildingDestruction : MonoBehaviour
 
     private Renderer[] childRenderers; // TODO: Make flashing red affect all attached meshes, currently looks for one and makes it flash red.
 
+    private ParticleSystem damageParticles; // Particle system that spawns a bunch of gray particles at the building's base
+
     private MaterialPropertyBlock propBlock; // Use material property blocks to avoid z-fighting
     private static readonly int ColorID = Shader.PropertyToID("_BaseColor");
 
@@ -27,6 +29,9 @@ public class BuildingDestruction : MonoBehaviour
 
         // Grab the Renderer
         buildingRenderer = GetComponent<Renderer>();
+
+        // Grab the particle system
+        damageParticles = GetComponentInChildren<ParticleSystem>();
 
         // Save the starting color and height
         if (buildingRenderer != null)
@@ -43,9 +48,18 @@ public class BuildingDestruction : MonoBehaviour
 
         if (buildingRenderer != null)
         {
-            FlashRed();
+            FlashColor();
         }
 
+        if (damageParticles != null)
+        {
+            spawnBuildingParticles();
+        }
+
+
+        // Spawn Particles Here
+
+        spawnBuildingParticles();
 
 
         if (AudioManager.Instance != null)
@@ -75,10 +89,10 @@ public class BuildingDestruction : MonoBehaviour
         }
     }
 
-    void FlashRed()
+    void FlashColor()
     {
         buildingRenderer.GetPropertyBlock(propBlock);
-        propBlock.SetColor(ColorID, Color.red);
+        propBlock.SetColor(ColorID, Color.white);
         buildingRenderer.SetPropertyBlock(propBlock);
 
         Invoke(nameof(ResetColor), 0.1f);
@@ -87,6 +101,20 @@ public class BuildingDestruction : MonoBehaviour
     void ResetColor()
     {
         buildingRenderer.SetPropertyBlock(null);
+    }
+
+    void spawnBuildingParticles()
+    {
+        if (damageParticles != null)
+        {
+            damageParticles.Stop(); // If the particles are already being emitted, stop them first
+
+            damageParticles.Play(); // Emit particles
+        }
+        else
+        {
+            Debug.LogWarning("No particle system attached to object!");
+        }
     }
 
 
