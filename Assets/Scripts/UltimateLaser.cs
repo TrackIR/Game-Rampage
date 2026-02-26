@@ -47,14 +47,20 @@ public class UltimateLaser : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         if (((1 << other.gameObject.layer) & targetLayers) == 0)
+        {
             return;
+        }
 
         EnemyHealth enemy = other.GetComponentInParent<EnemyHealth>();
         if (enemy != null)
+        {
             enemy.TakeDamage(Mathf.RoundToInt(damagePerSecond * Time.deltaTime));
+        }
 
         BuildingDestruction building = other.GetComponent<BuildingDestruction>();
         if (building != null)
+        {
             building.TakeDamage();
+        }
     }
 }
