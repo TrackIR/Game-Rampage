@@ -26,9 +26,20 @@ public class Projectile : MonoBehaviour
         {
             rb.linearVelocity = GetLaunchVelocity();
         }
-        transform.rotation = Quaternion.LookRotation(rb.linearVelocity);
         // Set it to destroy itself after 'lifeTime' seconds
         Destroy(gameObject, lifeTime);
+    }
+
+    void Update()
+    {
+        //increase projectile size over time for visual effect
+        transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one * 100.0f, Time.deltaTime * 0.02f);
+        // Rotate the projectile to face the direction it's moving
+        if (rb != null && rb.linearVelocity.sqrMagnitude > 0.01f)
+        {
+            Vector3 backward = -rb.linearVelocity.normalized;
+            transform.rotation = Quaternion.FromToRotation(Vector3.up, backward);
+        }
     }
 
     private Vector3 GetLaunchVelocity()
