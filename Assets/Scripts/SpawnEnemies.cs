@@ -10,13 +10,18 @@ public class SpawnEnemies : MonoBehaviour
     public NavMeshSurface navMeshSurface; // For updating the navmesh after spawning enemies
     public float spawnRate = 10f;
     public float randomOffset = 10; // How spread out enemy spawns are
-    public float maxEnemies = 3; // How many enemies can be spawned at one time
     private float spawnTimer = 0f;
+    public int spawnCount = 4; // How many enemies to spawn each time
+    public int radiusFromPlayer = 200; // How far from the player the enemies should spawn
+    public LayerMask buildingMask; // Buildings that block spawning
+    public float spawnerClearanceRadius = 2f; // Clearance check around spawner
+    private Transform playerTransform;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         navMeshSurface.BuildNavMesh();
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void Update()
@@ -32,22 +37,30 @@ public class SpawnEnemies : MonoBehaviour
 
         if (spawnTimer >= interval)
         {
-            int enemyNum = (int)Random.Range(1, maxEnemies);
+            Vector3 center = new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z);
+            float angleStep = 360f / Mathf.Max(1, spawnCount);
+            float startAngle = Random.Range(0f, 360f);
 
-            for (int i = 0; i < enemyNum; i++) // Spawn 1 to maxEnemies enemies
+            for (int i = 0; i < spawnCount; i++)
             {
-                float randOffsetX = Random.Range(-randomOffset, randomOffset);
-                float randOffsetZ = Random.Range(-randomOffset, randomOffset);
-
-                // Calculate where the enemy should spawn, using random x and z values
-                Vector3 spawnPos = new Vector3(transform.position.x + randOffsetX, transform.position.y, transform.position.z + randOffsetZ);
-
-                if (NavMesh.SamplePosition(spawnPos, out NavMeshHit hit, randomOffset, NavMesh.AllAreas))
+                float angle = startAngle + (angleStep * i);
+                float radians = angle * Mathf.Deg2Rad;
+                Vector3 offset = new Vector3(Mathf.Cos(radians), 0f, Mathf.Sin(radians)) * radiusFromPlayer;
+                Vector3 spawnPos = center + offset;
+                if (IsSpawnerClear(spawnPos))
                 {
-                    Instantiate(enemyPrefab, hit.position, Quaternion.identity);
+                    if (NavMesh.SamplePosition(spawnPos, out NavMeshHit hit, randomOffset, NavMesh.AllAreas))
+                    {
+                        Instantiate(enemyPrefab, hit.position, Quaternion.identity);
+                    }
                 }
             }
             spawnTimer = 0f;
         }
+    }
+
+    bool IsSpawnerClear(Vector3 spawnPos)
+    {
+        return !Physics.CheckSphere(spawnPos, spawnerClearanceRadius, buildingMask, QueryTriggerInteraction.Ignore);
     }
 }
