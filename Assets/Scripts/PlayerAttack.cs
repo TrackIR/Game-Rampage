@@ -31,6 +31,7 @@ public class PlayerAttack : MonoBehaviour
 
 
     [Header("References / Animation")]
+    public GameObject cursor;
     private Animator anim;
     private int animPunchHash;
     private ManageUI uiManager;
@@ -50,6 +51,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (isInUltimate)
         {
+            AimLaserAtCursor();
             return;
         }
 
@@ -122,6 +124,23 @@ public class PlayerAttack : MonoBehaviour
         anim.SetTrigger("Punch");
     }
 
+    void AimLaserAtCursor()
+    {
+        Camera cam = Camera.main;
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit hit;
+        Vector3 targetPoint;
+
+        if (Physics.Raycast(ray, out hit, 1000f))
+            targetPoint = hit.point;
+        else
+            targetPoint = ray.origin + ray.direction * 1000f;
+
+        Vector3 direction = (targetPoint - ultSpawnPoint.position).normalized;
+        ultSpawnPoint.rotation = Quaternion.LookRotation(direction);
+    }
+
     void UltAttack()
     {
         if (ultLaserPrefab != null && ultSpawnPoint != null)
@@ -134,7 +153,35 @@ public class PlayerAttack : MonoBehaviour
 
             // parent it so one end stays at spawn point
             ultObj.transform.SetParent(ultSpawnPoint);
+            
+            // laser movement
+            Camera cam = Camera.main;
 
+            // Get mouse position in screen space
+            Vector3 mousePos = Input.mousePosition;
+
+            // Create a ray from camera through mouse
+            Ray ray = cam.ScreenPointToRay(mousePos);
+
+            RaycastHit hit;
+            Vector3 targetPoint;
+
+            // Raycast into world
+            if (Physics.Raycast(ray, out hit, 1000f))
+            {
+                targetPoint = hit.point;
+            }
+            else
+            {
+                // If nothing hit, just shoot far into distance
+                targetPoint = ray.origin + ray.direction * 1000f;
+            }
+
+            // Rotate spawn point to face target
+            Vector3 direction = (targetPoint - ultSpawnPoint.position).normalized;
+            ultSpawnPoint.rotation = Quaternion.LookRotation(direction);
+
+            // change laser variables
             UltimateLaser ultScript = ultObj.GetComponent<UltimateLaser>();
             if (ultScript != null)
             {
