@@ -27,6 +27,7 @@ public class PlayerAttack : MonoBehaviour
     public int ultLaserDamage = 100;
     public movement movement;
     public cameraMovement3D cameraMovement;
+    public GameObject playerHead;
     private bool isInUltimate = false;
 
 
@@ -153,6 +154,9 @@ public class PlayerAttack : MonoBehaviour
             cameraMovement.transitionSpeed = 20;
         cameraMovement.is3rdPerson = false;
 
+        // hide player head
+        playerHead.SetActive(false);
+
         // disable player movement & rotation
         if (movement != null)
             movement.enabled = false;
@@ -167,6 +171,9 @@ public class PlayerAttack : MonoBehaviour
 
     private void EndUltimate()
     {
+        // show player head
+        playerHead.SetActive(true);
+
         // return to third person
         if (cameraMovement != null)
             cameraMovement.transitionSpeed = 40f;
