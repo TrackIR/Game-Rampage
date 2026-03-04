@@ -78,8 +78,12 @@ public class EnemyAI : MonoBehaviour
                 NavMesh.CalculatePath(
                     startHit.position,
                     endHit.position,
-                    agent.areaMask,
-                    path);
+                    new NavMeshQueryFilter
+                {
+                    agentTypeID = agent.agentTypeID,
+                    areaMask = agent.areaMask
+                },
+                path);
 
                 if (path.status == NavMeshPathStatus.PathComplete)
                 {

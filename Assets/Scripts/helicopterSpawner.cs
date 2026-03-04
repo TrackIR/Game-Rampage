@@ -2,19 +2,20 @@ using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class SpawnEnemies : MonoBehaviour
+public class helicopterSpawner : MonoBehaviour
 {
     [Header("Game Objects")]
     public ManageUI ui; // Drag in the canvas from the player UI scene
-    public GameObject enemyPrefab; // Change later once we have more enemies
+    public GameObject helicopterPrefab; // Change later once we have more enemies
     public NavMeshSurface navMeshSurface; // For updating the navmesh after spawning enemies
-    public GameSettings settings;
+    public GameSettings settings; // For accessing difficulty settings
     public LayerMask buildingMask; // Buildings that block spawning
     [Header("Spawn Settings")]
-    public float spawnRate = 5f;
+    public float spawnRate = 20f; //How often helicopters spawn in seconds
     private float spawnTimer = 0f;
     public int spawnCount; // How many enemies to spawn each time
     private float scalingFactor = 2;
+    public int spawnThreshold = 200; // Score threshold for helicopters to start spawning
     public int radiusFromPlayer = 200; // How far from the player the enemies should spawn
     public float randomOffset = 10; // How spread out enemy spawns are
     public float spawnerClearanceRadius = 2f; // Clearance check around spawner
@@ -26,13 +27,15 @@ public class SpawnEnemies : MonoBehaviour
         navMeshSurface.BuildNavMesh();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         scalingFactor = settings.difficulty == "Easy" ? 1 : settings.difficulty == "Hard" ? 3 : 2;
-        spawnCount = Mathf.FloorToInt(scalingFactor * 4); // Adjust spawn count based on difficulty
-        spawnTimer = spawnRate; // So enemies start spawning immediately
+        spawnCount = Mathf.FloorToInt(scalingFactor); // Adjust spawn count based on difficulty
+        spawnTimer = spawnRate; // So enemy spawns immediatly once player reaches score threshold
     }
 
     void Update()
     {
-        SpawnOnTimer();
+        if (ui.score >= spawnThreshold){
+            SpawnOnTimer();
+        }
     }
 
     void SpawnOnTimer()
@@ -57,13 +60,13 @@ public class SpawnEnemies : MonoBehaviour
                 {
                     if (NavMesh.SamplePosition(spawnPos, out NavMeshHit hit, randomOffset, NavMesh.AllAreas))
                     {
-                        Instantiate(enemyPrefab, hit.position, Quaternion.identity);
+                        Instantiate(helicopterPrefab, hit.position, Quaternion.identity);
                     }
                 }
             }
             spawnTimer = 0f;
             scalingFactor = scalingFactor * 1.2f;
-            spawnCount = Mathf.FloorToInt(scalingFactor * 4);
+            spawnCount = Mathf.FloorToInt(scalingFactor);
         }
     }
 
