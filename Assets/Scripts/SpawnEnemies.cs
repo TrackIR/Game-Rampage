@@ -11,7 +11,7 @@ public class SpawnEnemies : MonoBehaviour
     public GameSettings settings;
     public LayerMask buildingMask; // Buildings that block spawning
     [Header("Spawn Settings")]
-    public float spawnRate = 5f;
+    public float spawnRate = 10f; //How often enemies spawn in seconds
     private float spawnTimer = 0f;
     public int spawnCount; // How many enemies to spawn each time
     private float scalingFactor = 2;
@@ -26,7 +26,7 @@ public class SpawnEnemies : MonoBehaviour
         navMeshSurface.BuildNavMesh();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         scalingFactor = settings.difficulty == "Easy" ? 1 : settings.difficulty == "Hard" ? 3 : 2;
-        spawnCount = Mathf.FloorToInt(scalingFactor * 4); // Adjust spawn count based on difficulty
+        spawnCount = Mathf.FloorToInt(scalingFactor * 2); // Adjust spawn count based on difficulty
         spawnTimer = spawnRate; // So enemies start spawning immediately
     }
 
@@ -37,11 +37,10 @@ public class SpawnEnemies : MonoBehaviour
 
     void SpawnOnTimer()
     {
-        float interval = Mathf.Clamp(spawnRate, 0.5f, 20f); // Can never be lower than 0.5 seconds
 
         spawnTimer += Time.deltaTime;
 
-        if (spawnTimer >= interval)
+        if (spawnTimer >= spawnRate)
         {
             Vector3 center = new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z);
             float angleStep = 360f / Mathf.Max(1, spawnCount);
@@ -62,8 +61,8 @@ public class SpawnEnemies : MonoBehaviour
                 }
             }
             spawnTimer = 0f;
-            scalingFactor = scalingFactor * 1.2f;
-            spawnCount = Mathf.FloorToInt(scalingFactor * 4);
+            scalingFactor = scalingFactor * 1.1f;
+            spawnCount = Mathf.FloorToInt(scalingFactor * 2);
         }
     }
 

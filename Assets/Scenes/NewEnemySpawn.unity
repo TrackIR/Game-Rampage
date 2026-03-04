@@ -17040,6 +17040,7 @@ MonoBehaviour:
     m_Bits: 64
   spawnRate: 20
   spawnCount: 1
+  spawnThreshold: 200
   radiusFromPlayer: 200
   randomOffset: 10
   spawnerClearanceRadius: 2
