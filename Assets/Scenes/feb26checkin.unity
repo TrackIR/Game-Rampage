@@ -7004,7 +7004,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.14117648}
+  m_Color: {r: 0.99607843, g: 0.59607846, b: 0.007843138, a: 0.14117648}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -19706,9 +19706,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0ba21d0819daf64fb63ea5f8a9c116c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreInputHandler
-  nameInputField: {fileID: 867643259}
+  nameDisplay: {fileID: 0}
   submitButton: {fileID: 99485426}
-  buttonText: {fileID: 1854410960}
+  submitButtonText: {fileID: 0}
 --- !u!1 &1385571201
 GameObject:
   m_ObjectHideFlags: 0
@@ -29890,7 +29890,7 @@ MonoBehaviour:
   playerObject: {fileID: 547094714}
   is3rdPerson: 1
   distance: -20
-  centerOffset: {x: 0, y: 8, z: 0}
+  centerOffset: {x: 0, y: 8.5, z: 0}
   yawOrbitWeight: 0.5
   pitchOrbitWeight: -0.75
   lookRotationWeight: 1
