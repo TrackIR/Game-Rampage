@@ -30375,7 +30375,7 @@ MonoBehaviour:
   ui: {fileID: 46560380}
   enemyPrefab: {fileID: 747386369671831897, guid: 46c560da5bff6ca49b477683bc0fd622, type: 3}
   navMeshSurface: {fileID: 2019882777}
-  spawnRate: 10
+  spawnRate: 5
   randomOffset: 3
   spawnCount: 4
   radiusFromPlayer: 200
@@ -30383,6 +30383,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   spawnerClearanceRadius: 3
+  settings: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
 --- !u!4 &2086063852
 Transform:
   m_ObjectHideFlags: 0
