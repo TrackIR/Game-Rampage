@@ -164,7 +164,7 @@ public class PlayerAttack : MonoBehaviour
 
             // parent it so one end stays at spawn point
             ultObj.transform.SetParent(ultSpawnPoint);
-            
+
             // laser movement
             //AimLaserAtCursor();
 
