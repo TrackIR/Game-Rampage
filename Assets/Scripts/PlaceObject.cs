@@ -4,7 +4,6 @@ public class PlaceObject : MonoBehaviour
 {
     public GameObject[] prefabs; // List of buildings to place
     private float placeChance = 0.9f; // Should be fairly high
-    private float randomOffset = 0.1f; // Shifts objects around a bit
 
     public void Start()
     {
@@ -21,9 +20,9 @@ public class PlaceObject : MonoBehaviour
         GameObject prefab = prefabs[Random.Range(0, prefabs.Length)];
         // Get the postion and apply random offsets
         Vector3 position = transform.position;
-        position.x += Random.Range(-randomOffset, randomOffset);
-        position.z += Random.Range(-randomOffset, randomOffset);
+        int ranDirection = Random.Range(0, 4);
+        Quaternion rotation = Quaternion.Euler(0, ranDirection * 90, 0);
 
-        Instantiate(prefab, position, Quaternion.identity, transform);
+        Instantiate(prefab, position, rotation, transform);
     }
 }
