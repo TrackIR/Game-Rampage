@@ -15,7 +15,7 @@ public class EnemyAI : MonoBehaviour
     public NavMeshAgent agent;
     private NavMeshPath path;
     // Spray Settings
-    public int damagePerSecond = 5;    // damage every second
+    public float damagePerSecond = 0.5f;    // damage every second
     public ParticleSystem sprayEffect;
     public Transform firePoint;        // Where the spray comes from
     private float damageAccumulator = 0f; // Stores partial damage
@@ -78,8 +78,12 @@ public class EnemyAI : MonoBehaviour
                 NavMesh.CalculatePath(
                     startHit.position,
                     endHit.position,
-                    agent.areaMask,
-                    path);
+                    new NavMeshQueryFilter
+                    {
+                        agentTypeID = agent.agentTypeID,
+                        areaMask = agent.areaMask
+                    },
+                path);
 
                 if (path.status == NavMeshPathStatus.PathComplete)
                 {

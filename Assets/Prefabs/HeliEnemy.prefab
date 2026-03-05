@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 1656655485534151578}
   - component: {fileID: 4642798878807413198}
   - component: {fileID: 3754130677751731996}
+  - component: {fileID: 2324081543263664726}
   m_Layer: 7
   m_Name: HeliEnemy
   m_TagString: Untagged
@@ -206,7 +207,21 @@ MonoBehaviour:
   fireCooldown: 0.05
   particleEmitter: {fileID: 7536907065514236041}
   particleDamage: 0.5
-  heliBody: {fileID: 0}
+  heliBody: {fileID: 3645680960100142356}
+--- !u!114 &2324081543263664726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2201547241459451023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f55ff89e90c1cf43aa2a302bffddd3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  maxHealth: 100
+  enemyDamageSound: {fileID: 0}
 --- !u!1 &4141259276975455281
 GameObject:
   m_ObjectHideFlags: 0
