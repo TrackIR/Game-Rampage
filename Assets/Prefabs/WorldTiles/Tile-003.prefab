@@ -154,6 +154,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BuildingBreakParticle
       objectReference: {fileID: 0}
+    - target: {fileID: 4170956145479286952, guid: eb47a14300af6d1439430bf96aaa7ab5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 104
+      objectReference: {fileID: 0}
+    - target: {fileID: 4170956145479286952, guid: eb47a14300af6d1439430bf96aaa7ab5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 86
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
