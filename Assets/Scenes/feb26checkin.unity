@@ -8933,6 +8933,11 @@ MonoBehaviour:
   - {fileID: 7841338100460035295, guid: f287d24842f66b543a933cdf7385dc0f, type: 3}
   - {fileID: 8889924073569422389, guid: 3c922f8721af8af4dbb9e752122564e5, type: 3}
   - {fileID: 4721827613419649729, guid: 6e2eaf5daa2be054da50c38ef38ff46a, type: 3}
+--- !u!1 &472473030 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5512733050173762612, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+  m_PrefabInstance: {fileID: 641262246}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &472706165
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12809,9 +12814,17 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: cursor
+      value: 
+      objectReference: {fileID: 415627245}
+    - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: movement
       value: 
       objectReference: {fileID: 641262260}
+    - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: playerHead
+      value: 
+      objectReference: {fileID: 472473030}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: cameraMovement
       value: 
@@ -12826,7 +12839,7 @@ PrefabInstance:
       objectReference: {fileID: 6693682581077919189, guid: 31b595d889ebfe342b9b7777df1d524d, type: 3}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: UltimateCharged
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: ultLaserDuration
