@@ -126,8 +126,13 @@ public class PlayerAttack : MonoBehaviour
 
     void AimLaserAtCursor()
     {
+        if (cursor == null) return;
+
         Camera cam = Camera.main;
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+
+        Vector3 screenPos = cursor.transform.position;
+
+        Ray ray = cam.ScreenPointToRay(screenPos);
 
         RaycastHit hit;
         Vector3 targetPoint;
@@ -155,31 +160,7 @@ public class PlayerAttack : MonoBehaviour
             ultObj.transform.SetParent(ultSpawnPoint);
             
             // laser movement
-            Camera cam = Camera.main;
-
-            // Get mouse position in screen space
-            Vector3 mousePos = Input.mousePosition;
-
-            // Create a ray from camera through mouse
-            Ray ray = cam.ScreenPointToRay(mousePos);
-
-            RaycastHit hit;
-            Vector3 targetPoint;
-
-            // Raycast into world
-            if (Physics.Raycast(ray, out hit, 1000f))
-            {
-                targetPoint = hit.point;
-            }
-            else
-            {
-                // If nothing hit, just shoot far into distance
-                targetPoint = ray.origin + ray.direction * 1000f;
-            }
-
-            // Rotate spawn point to face target
-            Vector3 direction = (targetPoint - ultSpawnPoint.position).normalized;
-            ultSpawnPoint.rotation = Quaternion.LookRotation(direction);
+            //AimLaserAtCursor();
 
             // change laser variables
             UltimateLaser ultScript = ultObj.GetComponent<UltimateLaser>();
