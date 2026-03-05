@@ -136,11 +136,16 @@ public class PlayerAttack : MonoBehaviour
 
         RaycastHit hit;
         Vector3 targetPoint;
+        int layerMask = ~LayerMask.GetMask("player"); // everything but player (who knew ~ did that, thats craazy)
 
-        if (Physics.Raycast(ray, out hit, 1000f))
+        if (Physics.Raycast(ray, out hit, 1000f, layerMask))
+        {
             targetPoint = hit.point;
+        }
         else
+        {
             targetPoint = ray.origin + ray.direction * 1000f;
+        }
 
         Vector3 direction = (targetPoint - ultSpawnPoint.position).normalized;
         ultSpawnPoint.rotation = Quaternion.LookRotation(direction);
