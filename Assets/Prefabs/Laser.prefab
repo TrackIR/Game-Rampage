@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7943989999252220181}
   - component: {fileID: 2729874421521219156}
   - component: {fileID: 3697925588669680452}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LaserHotness
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4849,7 +4849,7 @@ GameObject:
   - component: {fileID: 3884225410464271617}
   - component: {fileID: 4562090117703620086}
   - component: {fileID: 771816496989402001}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Laser Beam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4979,7 +4979,7 @@ GameObject:
   - component: {fileID: 4145858151424895305}
   - component: {fileID: 4673462509133415208}
   - component: {fileID: 7572817108830350722}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: EndMelt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9814,7 +9814,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3798274961221986148}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Laser
   m_TagString: Untagged
   m_Icon: {fileID: 0}

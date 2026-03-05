@@ -74,13 +74,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b6ffbd3f7c633947a0e827cfbeea837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  gameSettings: {fileID: 11400000, guid: e92e9b73a864508428486a12765cb719, type: 2}
   playerTarget: {fileID: 0}
   detectionRange: 25
+  fleeRange: 15
   rotationSpeed: 10
   speed: 7
   agent: {fileID: -8947426014907748145}
   damagePerSecond: 0.5
-  sprayEffect: {fileID: 2920601394823598769}
+  sprayEffect: {fileID: 5023920829423562123}
   firePoint: {fileID: 340802733606060789}
 --- !u!114 &5721115517733800789
 MonoBehaviour:
@@ -109,7 +111,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 3a22d765bebf2b443b5871f75e69d22e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
