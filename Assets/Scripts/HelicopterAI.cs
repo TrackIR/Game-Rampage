@@ -74,13 +74,13 @@ public class HelicopterAI : MonoBehaviour
             elapsed -= 1.0f;
             if (!NavMesh.SamplePosition(agent.transform.position, out NavMeshHit startHit, 2f, agent.areaMask))
             {
-                Debug.LogWarning("EnemyAI: agent is not on the NavMesh.", this);
+                Debug.LogWarning("HelicopterAI: agent is not on the NavMesh.", this);
                 return;
             }
 
             if (!NavMesh.SamplePosition(playerTarget.position, out NavMeshHit endHit, 20f, agent.areaMask))
             {
-                Debug.LogWarning("EnemyAI: target is not on the NavMesh.", this);
+                Debug.LogWarning("HelicopterAI: target is not on the NavMesh.", this);
                 return;
             }
             NavMesh.CalculatePath(
@@ -98,7 +98,7 @@ public class HelicopterAI : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"EnemyAI: path status {path.status}", this);
+                Debug.LogWarning($"HelicopterAI: path status {path.status}", this);
             }
         }
     }

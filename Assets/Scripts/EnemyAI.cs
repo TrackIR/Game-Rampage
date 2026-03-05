@@ -21,7 +21,7 @@ public class EnemyAI : MonoBehaviour
     private NavMeshPath path;
 
     // Spray Settings
-    public float damagePerSecond = 0.5f;
+    public float damagePerSecond = 0.5f;    // damage every second
     public ParticleSystem sprayEffect;
     public Transform firePoint;
     private float damageAccumulator = 0f;
@@ -125,10 +125,15 @@ public class EnemyAI : MonoBehaviour
         UpdateNavPath(startHit.position, endHit.position);
     }
 
-    void ChasePlayer()
-    {
-        if (!NavMesh.SamplePosition(agent.transform.position, out NavMeshHit startHit, 5f, agent.areaMask)) return;
-        if (!NavMesh.SamplePosition(playerTarget.position, out NavMeshHit endHit, 20f, agent.areaMask)) return;
+                NavMesh.CalculatePath(
+                    startHit.position,
+                    endHit.position,
+                    new NavMeshQueryFilter
+                    {
+                        agentTypeID = agent.agentTypeID,
+                        areaMask = agent.areaMask
+                    },
+                path);
 
         // Uses the helper method below instead of duplicate code
         UpdateNavPath(startHit.position, endHit.position);
