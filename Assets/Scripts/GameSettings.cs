@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Game/Game Settings")]
 public class GameSettings : ScriptableObject
 {
-    public string difficulty;
+    public string difficulty = "Normal";
     public string mapIndex;
-    // add more settings as they appear
+    public bool useTrackIR = true;
 }
