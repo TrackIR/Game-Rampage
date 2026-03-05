@@ -751,6 +751,10 @@ PrefabInstance:
       propertyPath: CollisionModule.type
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6113402975747959316, guid: 6e0ca42d6ae597249b44bb6f1d39e2eb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8087654654865402326, guid: 6e0ca42d6ae597249b44bb6f1d39e2eb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.185734
@@ -3276,9 +3280,9 @@ MonoBehaviour:
   lookRotationWeight: 1
   positionSmoothing: 5
   rotationSmoothing: 5
-  xOffset: 0
-  yOffset: 1.75
-  zOffset: 0
+  firstPersonOffset: {x: 0, y: 0, z: 0}
+  cameraBlend: 1
+  transitionSpeed: 3
 --- !u!4 &1164529393
 Transform:
   m_ObjectHideFlags: 0
