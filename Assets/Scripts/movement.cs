@@ -7,11 +7,12 @@ using Unity.VisualScripting;
 using System.Collections;
 using System.Collections.Generic;
 
-
-
 [RequireComponent(typeof(CharacterController))]
 public class movement : MonoBehaviour
 {
+    [Header("Game Settings")]
+    public GameSettings gameSettings; // NEW: Drag your GameSettings asset here!
+
     CharacterController controller;
 
     TrackIRComponent trackIR;
@@ -25,8 +26,6 @@ public class movement : MonoBehaviour
     public float jumpPower = 2.0f;
 
     public GameObject TrackIRRoot;
-
-
 
     // TODO: first or third person toggle needs to be scene or just moved to be better
 
@@ -52,9 +51,14 @@ public class movement : MonoBehaviour
     private Animator anim;
     private int animWalkHash;
 
-
     void Start()
     {
+        // Read TrackIR setting from GameSettings if assigned
+        if (gameSettings != null)
+        {
+            useTrackIR = gameSettings.useTrackIR;
+        }
+
         controller = GetComponent<CharacterController>();
 
         if (TrackIRRoot != null)
@@ -68,9 +72,7 @@ public class movement : MonoBehaviour
         {
             animWalkHash = Animator.StringToHash("Base Layer.Walk");
         }
-
     }
-
 
     void zMove()
     {
@@ -140,7 +142,6 @@ public class movement : MonoBehaviour
         }
     }
 
-
     void jump()
     {
         // save head rotation data from last 60 frames to determine jump gesture
@@ -158,7 +159,7 @@ public class movement : MonoBehaviour
                 float pitch = rot.x * Mathf.Rad2Deg;
                 float yaw = rot.y * Mathf.Rad2Deg;
                 if (Mathf.Abs(yaw) > jumpYawThreshold)
-                { //can't jump if looking to side too much
+                {   //can't jump if looking to side too much
                     break;
                 }
                 if (pitch > jumpStartAngleThreshold)
