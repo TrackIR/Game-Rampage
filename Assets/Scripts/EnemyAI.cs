@@ -121,16 +121,8 @@ public class EnemyAI : MonoBehaviour
         if (!NavMesh.SamplePosition(agent.transform.position, out NavMeshHit startHit, 5f, agent.areaMask)) return;
         if (!NavMesh.SamplePosition(fleeTarget, out NavMeshHit endHit, 10f, agent.areaMask)) return;
 
-        NavMesh.CalculatePath(
-            startHit.position,
-            endHit.position,
-            new NavMeshQueryFilter { agentTypeID = agent.agentTypeID, areaMask = agent.areaMask },
-            path);
-
-        if (path.status == NavMeshPathStatus.PathComplete)
-        {
-            agent.SetPath(path);
-        }
+        // Uses the helper method below instead of duplicate code
+        UpdateNavPath(startHit.position, endHit.position);
     }
 
     void ChasePlayer()
@@ -138,9 +130,16 @@ public class EnemyAI : MonoBehaviour
         if (!NavMesh.SamplePosition(agent.transform.position, out NavMeshHit startHit, 5f, agent.areaMask)) return;
         if (!NavMesh.SamplePosition(playerTarget.position, out NavMeshHit endHit, 20f, agent.areaMask)) return;
 
+        // Uses the helper method below instead of duplicate code
+        UpdateNavPath(startHit.position, endHit.position);
+    }
+
+    // NEW HELPER METHOD: Centralizes the pathing logic to fix the linter error
+    void UpdateNavPath(Vector3 startPosition, Vector3 endPosition)
+    {
         NavMesh.CalculatePath(
-            startHit.position,
-            endHit.position,
+            startPosition,
+            endPosition,
             new NavMeshQueryFilter { agentTypeID = agent.agentTypeID, areaMask = agent.areaMask },
             path);
 
