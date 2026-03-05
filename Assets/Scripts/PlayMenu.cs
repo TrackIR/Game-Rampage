@@ -41,7 +41,7 @@ public class PlayMenu : MonoBehaviour
             defaultDiff = difficulty.Length - 1;
 
         difficultyText.text = difficulty[defaultDiff];
-        
+
         settings.difficulty = difficulty[defaultDiff];
     }
 

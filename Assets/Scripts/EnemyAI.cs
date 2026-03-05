@@ -79,10 +79,10 @@ public class EnemyAI : MonoBehaviour
                     startHit.position,
                     endHit.position,
                     new NavMeshQueryFilter
-                {
-                    agentTypeID = agent.agentTypeID,
-                    areaMask = agent.areaMask
-                },
+                    {
+                        agentTypeID = agent.agentTypeID,
+                        areaMask = agent.areaMask
+                    },
                 path);
 
                 if (path.status == NavMeshPathStatus.PathComplete)

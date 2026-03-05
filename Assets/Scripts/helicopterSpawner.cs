@@ -33,7 +33,8 @@ public class helicopterSpawner : MonoBehaviour
 
     void Update()
     {
-        if (ui.score >= spawnThreshold){
+        if (ui.score >= spawnThreshold)
+        {
             SpawnOnTimer();
         }
     }
