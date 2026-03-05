@@ -280,7 +280,7 @@ Material:
     - _Wind_Strenght: 0.5
     - _Wind_Strength: 0.5
     - _WorkflowMode: 1
-    - _ZL_Tilling: 45.7
+    - _ZL_Tilling: 13
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 0
