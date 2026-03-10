@@ -46,13 +46,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   audioSource: {fileID: 6892358564816990368}
-  volume: 0.02
+  volume: 1
   buildingDestroy: {fileID: 8300000, guid: b7b0eeb713975f34db295a2d43be14e7, type: 3}
   playerHurt: {fileID: 8300000, guid: 70e1ff4c9cf38304cbd6f7dc01da1ba0, type: 3}
   playerHeal: {fileID: 8300000, guid: 444c639a25e7b9848b543522e57c09b5, type: 3}
   enemyHurt: {fileID: 8300000, guid: 9e321157785804a4baed62f151bcbbc3, type: 3}
   enemyShoot: {fileID: 8300000, guid: 7b8fc4bd1762f38459fcb935f8928a90, type: 3}
   gainScore: {fileID: 8300000, guid: 637a09c20ef242149bded93403bd87fc, type: 3}
+  menuHover: {fileID: 8300000, guid: 05095676fbe7a8147aa90b3b08599342, type: 3}
+  menuClick: {fileID: 8300000, guid: 4c02b28494efa3048893883be3c47c11, type: 3}
 --- !u!1 &9105096925530785892
 GameObject:
   m_ObjectHideFlags: 0

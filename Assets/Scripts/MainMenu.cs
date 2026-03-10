@@ -5,12 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-
+    public string gameSceneName;
 
     public void PlayGame()
     {
         Time.timeScale = 1f;
-        string sceneName = "SKO-demo";
+        string sceneName = gameSceneName;
         SceneManager.LoadScene(sceneName);
     }
 

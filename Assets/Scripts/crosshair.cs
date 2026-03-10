@@ -65,6 +65,14 @@ public class crossHair : MonoBehaviour
         // element under cursor
         GameObject uiTarget = results[0].gameObject;
 
+        // FIX: Check if the object we hit (like Text) is part of a Button/Selectable. 
+        // If it is, make the Button our target instead!
+        UnityEngine.UI.Selectable selectable = uiTarget.GetComponentInParent<UnityEngine.UI.Selectable>();
+        if (selectable != null)
+        {
+            uiTarget = selectable.gameObject;
+        }
+
         // Only set selected if it's different
         if (eventSystem.currentSelectedGameObject != uiTarget)
         {
