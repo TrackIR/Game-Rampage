@@ -19,6 +19,15 @@ public class HelicopterAI : MonoBehaviour
     private ParticleSystem ParticleSystem;
     public Transform heliBody;
 
+    // Animation Variables
+    private Animator anim;
+    private int animIdleHash;
+    private int animAttackHash;
+    private int animForwardHash;
+    private int animForwardAttackHash;
+    private int animBackwardHash;
+    private int animBackwardAttackHash;
+
     void Start()
     {
         if (playerTarget == null)
@@ -35,6 +44,18 @@ public class HelicopterAI : MonoBehaviour
         {
             ParticleSystem = particleEmitter.GetComponent<ParticleSystem>();
         }
+
+        // Get animations
+        anim = gameObject.GetComponentInChildren<Animator>();
+        if (anim != null)
+        {
+            animIdleHash = Animator.StringToHash("Base Layer.Idle");
+            animAttackHash = Animator.StringToHash("Base Layer.Attack");
+            animForwardHash = Animator.StringToHash("Base Layer.Forward");
+            animForwardAttackHash = Animator.StringToHash("Base Layer.ForwardAttack");
+            animBackwardHash = Animator.StringToHash("Base Layer.Backward");
+            animBackwardAttackHash = Animator.StringToHash("Base Layer.BackwardAttack");
+        }
     }
 
     // Update is called once per frame
@@ -43,10 +64,13 @@ public class HelicopterAI : MonoBehaviour
         playerInRange = Physics.CheckSphere(transform.position, fireRange, LayerMask.GetMask("player"));
         playerInSight = Physics.Raycast(transform.position, playerTarget.position - transform.position, out RaycastHit hit, fireRange, LayerMask.GetMask("player", "Default", "Building"));
 
+        bool shooting = false; //Used to control animations
+
         if (playerInRange && playerInSight && hit.collider.CompareTag("Player"))
         {
             agent.stoppingDistance = fireRange;
             Shootplayer();
+            shooting = true;
         }
         else if (playerInRange && !hit.collider.CompareTag("Player"))
         {
@@ -58,11 +82,19 @@ public class HelicopterAI : MonoBehaviour
             agent.stoppingDistance = fireRange;
             FindPlayer();
         }
+
+        UpdateAnimation(shooting);
+
+        // Previous Rotation code for the helicopter
+        /*
         Vector3 forward = agent.velocity.normalized;
         Quaternion targetRotation = Quaternion.LookRotation(forward);
         // Tilt down by 20 degrees while moving forward
         targetRotation *= Quaternion.Euler(agent.velocity.sqrMagnitude, 0f, 0f);
         heliBody.transform.rotation = Quaternion.Slerp(heliBody.transform.rotation, targetRotation, Time.deltaTime * 5f);
+        */
+
+
     }
 
     void FindPlayer()
@@ -185,5 +217,47 @@ public class HelicopterAI : MonoBehaviour
         Vector3 dirXZ = toTargetXZ.normalized;
         // Calculate the launch velocity vector
         return dirXZ * Mathf.Cos(theta) * speed + Vector3.up * Mathf.Sin(theta) * speed;
+    }
+
+    // Updates animation based on shooting state and velocity
+    void UpdateAnimation(bool shooting)
+    {
+        if (anim == null) return;
+
+        float speed = agent.velocity.magnitude;
+
+        // Stationary Animations
+        if (speed < 0.1f)
+        {
+            if (shooting)
+                anim.Play(animAttackHash);
+            else
+                anim.Play(animIdleHash);
+        }
+
+        // Moving Animations
+        else
+        {
+            // Get velocity of the helicopter relative to itself
+            Vector3 velocity = transform.InverseTransformDirection(agent.velocity);
+
+            // Forward
+            if (velocity.z > 0)
+            {
+                if (shooting)
+                    anim.Play(animForwardAttackHash);
+                else
+                    anim.Play(animForwardHash);
+            }
+
+            // Backward
+            else
+            {
+                if (shooting)
+                    anim.Play(animBackwardAttackHash);
+                else
+                    anim.Play(animBackwardHash);
+            }
+        }
     }
 }
