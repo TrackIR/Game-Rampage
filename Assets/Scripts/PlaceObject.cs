@@ -4,8 +4,8 @@ public class PlaceObject : MonoBehaviour
 {
     public GameObject[] prefabs; // List of buildings to place
     public GameObject parkPrefab;
-    private float placeChance = 0.95f; // Should be fairly high
-
+    private float placeChance = 1.0f; // Should be fairly high, 
+ 
     public void Start()
     {
         if (prefabs == null || prefabs.Length == 0)
