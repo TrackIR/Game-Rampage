@@ -6,37 +6,44 @@ public class PlayerAttack : MonoBehaviour
 {
     [Header("Attack Settings")]
     public float attackRange = 14f;
+    public int hitDamage = 25;
     public Transform attackPoint;
     public LayerMask targetLayers;
-    public int hitDamage = 25;
 
     [Header("Cooldowns")]
-    public float normalAttackCooldown = 0.25f;      // seconds
-    public float ultimateActivationCooldown = 5f;   // cooldown after using ultimate
-    public float normalAttackTimer = 0f;
-    public float ultimateCooldownTimer = 0f;
+    public float normalAttackCooldown = 0.25f;
+    public float ultimateActivationCooldown = 3f;
 
     [Header("Ultimate Settings")]
     public bool ultimateCharged = false;
-    public int ultimateLength = 20; // number of FixedUpdate frames ultimate lasts
     public int ultimateThreshold = 250;
+    public int ultimateLength = 20;
     public float ultimateSlowmoSpeed = 0.25f;
-    private int lastUltimateLevel = 0;
+
+    [Range(0f, 1f)]
+    public float beamWeight = 0.01f;
+
     public GameObject ultLaserPrefab;
     public Transform ultSpawnPoint;
-    public float ultLaserDuration = 3f;
-    public int ultLaserDamage = 100;
+    public float ultLaserDuration = 7f;
+    public int ultLaserDamage = 10;
+
+    [Header("Movement / Player References")]
     public movement movement;
     public cameraMovement3D cameraMovement;
     public GameObject playerHead;
-    private bool isInUltimate = false;
-
 
     [Header("References / Animation")]
     public GameObject cursor;
     private Animator anim;
     private int animPunchHash;
     private ManageUI uiManager;
+
+    [Header("Runtime State")]
+    public float normalAttackTimer = 0f;
+    public float ultimateCooldownTimer = 0f;
+    private bool isInUltimate = false;
+    private int lastUltimateLevel = 0;
 
     void Start()
     {
@@ -133,12 +140,11 @@ public class PlayerAttack : MonoBehaviour
         Camera cam = Camera.main;
 
         Vector3 screenPos = cursor.transform.position;
-
         Ray ray = cam.ScreenPointToRay(screenPos);
 
         RaycastHit hit;
         Vector3 targetPoint;
-        int layerMask = ~LayerMask.GetMask("player"); // everything but player (who knew ~ did that, thats craazy)
+        int layerMask = ~LayerMask.GetMask("player");
 
         if (Physics.Raycast(ray, out hit, 1000f, layerMask))
         {
@@ -149,8 +155,16 @@ public class PlayerAttack : MonoBehaviour
             targetPoint = ray.origin + ray.direction * 1000f;
         }
 
-        Vector3 direction = (targetPoint - ultSpawnPoint.position).normalized;
-        ultSpawnPoint.rotation = Quaternion.LookRotation(direction);
+        // desired direction toward cursor
+        Vector3 desiredDir = (targetPoint - ultSpawnPoint.position).normalized;
+
+        // current beam direction
+        Vector3 currentDir = ultSpawnPoint.forward;
+
+        // smooth the direction
+        Vector3 smoothedDir = Vector3.Lerp(currentDir, desiredDir, beamWeight).normalized;
+
+        ultSpawnPoint.rotation = Quaternion.LookRotation(smoothedDir);
     }
 
     void UltAttack()
