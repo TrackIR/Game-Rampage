@@ -17,10 +17,9 @@ public class PlayerAttack : MonoBehaviour
     public float ultimateCooldownTimer = 0f;
 
     [Header("Ultimate Settings")]
-    public bool ultimateCharged = false;
+    public bool UltimateCharged = false;
     public int ultimateLength = 20; // number of FixedUpdate frames ultimate lasts
-    public int ultimateThreshold = 250;
-    public float ultimateSlowmoSpeed = 0.25f;
+    public int UltimateThreshold = 250;
     private int lastUltimateLevel = 0;
     public GameObject ultLaserPrefab;
     public Transform ultSpawnPoint;
@@ -28,12 +27,10 @@ public class PlayerAttack : MonoBehaviour
     public int ultLaserDamage = 100;
     public movement movement;
     public cameraMovement3D cameraMovement;
-    public GameObject playerHead;
     private bool isInUltimate = false;
 
 
     [Header("References / Animation")]
-    public GameObject cursor;
     private Animator anim;
     private int animPunchHash;
     private ManageUI uiManager;
@@ -53,7 +50,6 @@ public class PlayerAttack : MonoBehaviour
     {
         if (isInUltimate)
         {
-            AimLaserAtCursor();
             return;
         }
 
@@ -72,12 +68,12 @@ public class PlayerAttack : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             // activate ultimate if ready and not in cooldown
-            if (ultimateCharged && ultimateCooldownTimer <= 0f && !isInUltimate)
+            if (UltimateCharged && ultimateCooldownTimer <= 0f && !isInUltimate)
             {
                 StartCoroutine(UltimateSequence());
             }
             // Normal attack
-            else if (!ultimateCharged && normalAttackTimer <= 0f && (ultimateCooldownTimer <= 0f))
+            else if (!UltimateCharged && normalAttackTimer <= 0f && (ultimateCooldownTimer <= 0f))
             {
                 Attack();
                 normalAttackTimer = normalAttackCooldown;
@@ -90,11 +86,11 @@ public class PlayerAttack : MonoBehaviour
         if (uiManager == null) return;
 
         int score = uiManager.score;
-        int currentLevel = score / ultimateThreshold;
+        int currentLevel = score / UltimateThreshold;
 
         if (currentLevel > lastUltimateLevel)
         {
-            ultimateCharged = true;
+            UltimateCharged = true;
             Debug.Log("Ult ready");
             lastUltimateLevel = currentLevel;
         }
@@ -126,33 +122,6 @@ public class PlayerAttack : MonoBehaviour
         anim.SetTrigger("Punch");
     }
 
-    void AimLaserAtCursor()
-    {
-        if (cursor == null) return;
-
-        Camera cam = Camera.main;
-
-        Vector3 screenPos = cursor.transform.position;
-
-        Ray ray = cam.ScreenPointToRay(screenPos);
-
-        RaycastHit hit;
-        Vector3 targetPoint;
-        int layerMask = ~LayerMask.GetMask("player"); // everything but player (who knew ~ did that, thats craazy)
-
-        if (Physics.Raycast(ray, out hit, 1000f, layerMask))
-        {
-            targetPoint = hit.point;
-        }
-        else
-        {
-            targetPoint = ray.origin + ray.direction * 1000f;
-        }
-
-        Vector3 direction = (targetPoint - ultSpawnPoint.position).normalized;
-        ultSpawnPoint.rotation = Quaternion.LookRotation(direction);
-    }
-
     void UltAttack()
     {
         if (ultLaserPrefab != null && ultSpawnPoint != null)
@@ -166,10 +135,6 @@ public class PlayerAttack : MonoBehaviour
             // parent it so one end stays at spawn point
             ultObj.transform.SetParent(ultSpawnPoint);
 
-            // laser movement
-            //AimLaserAtCursor();
-
-            // change laser variables
             UltimateLaser ultScript = ultObj.GetComponent<UltimateLaser>();
             if (ultScript != null)
             {
@@ -185,57 +150,33 @@ public class PlayerAttack : MonoBehaviour
 
         // switch to first person
         if (cameraMovement != null)
-            cameraMovement.transitionSpeed = 3;
+            cameraMovement.transitionSpeed = 20;
         cameraMovement.is3rdPerson = false;
-
-        while (cameraMovement.cameraBlend > 0.01f)
-        {
-            Debug.Log("Waiting for 1st person transition");
-            yield return null;
-        }
-
-        // hide player head
-        playerHead.SetActive(false);
 
         // disable player movement & rotation
         if (movement != null)
             movement.enabled = false;
 
-        // slow down time
-        //Time.timeScale = ultimateSlowmoSpeed;
-
         // spawn laser
         UltAttack();
 
-        yield return new WaitForSeconds(ultLaserDuration);
+        yield return new WaitForSecondsRealtime(ultLaserDuration);
 
-        // set time to normal
-        //Time.timeScale = 1f;
-
-        yield return StartCoroutine(EndUltimate());
+        EndUltimate();
     }
 
-    private IEnumerator EndUltimate()
+    private void EndUltimate()
     {
-        // show player head
-        playerHead.SetActive(true);
-
         // return to third person
         if (cameraMovement != null)
-            cameraMovement.transitionSpeed = 3f;
+            cameraMovement.transitionSpeed = 40f;
         cameraMovement.is3rdPerson = true;
-
-        while (cameraMovement.cameraBlend < 0.99f)
-        {
-            Debug.Log("Waiting for 3rd person transition");
-            yield return null;
-        }
 
         // re-enable movement
         if (movement != null)
             movement.enabled = true;
 
-        ultimateCharged = false;
+        UltimateCharged = false;
         ultimateCooldownTimer = ultimateActivationCooldown;
 
         isInUltimate = false;
