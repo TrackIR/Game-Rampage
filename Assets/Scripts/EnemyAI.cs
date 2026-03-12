@@ -21,7 +21,7 @@ public class EnemyAI : MonoBehaviour
     private NavMeshPath path;
 
     // Spray Settings
-    public float damagePerSecond = 0.5f;
+    public float damagePerSecond = 1f;
     public ParticleSystem sprayEffect;
     public Transform firePoint;
     private float damageAccumulator = 0f;
@@ -36,12 +36,12 @@ public class EnemyAI : MonoBehaviour
             if (gameSettings.difficulty == "Hard")
             {
                 speed = 4f;
-                damagePerSecond = 1.0f;  // Double damage
+                damagePerSecond = 1.5f;  // 1.5x damage
             }
             else if (gameSettings.difficulty == "Super Hard")
             {
                 speed = 5f;
-                damagePerSecond = 2.0f;  // Quadruple damage
+                damagePerSecond = 3f;  // 3x damage
             }
         }
 

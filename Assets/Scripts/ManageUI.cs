@@ -1,145 +1,153 @@
 using UnityEngine;
-using TMPro; //Using this to update text
+using TMPro;
 
 public class ManageUI : MonoBehaviour
 {
+    [Header("Game Settings")]
+    public GameSettings gameSettings;
+
     // Health Variables
-    [Header("Health  Variables")]
+    [Header("Health Variables")]
     public TMP_Text healthObject;
     public RectTransform healthBarObject, healthBarObjectFill;
-    public int maxHealth = 100;
+    public float maxHealth = 100f;
 
-    [HideInInspector] // Can be used by other scripts, but doesnt show up
-    private float health = 100f;
-
-    // Score Variables
-    [Header("Score Variables")]
-    public TMP_Text scoreObject;
     [HideInInspector]
-    public int score = 0;
+    public float currentHealth;
 
     // Timer Variables
     [Header("Timer Variables")]
     public TMP_Text timerObject;
-    [Range(1f, 10f)]
-    public float difficulty; // Not yet implemented, potentially used to make enemies spawn quicker
+    public float timeRemaining = 0;
+    public bool timerIsRunning = false;
 
-    [HideInInspector]
-    public float timer = 0f;
+    // Score Variables
+    [Header("Score Variables")]
+    public TMP_Text scoreObject;
+    public TMP_Text scoreOutline;
 
-    private bool timerRunning = false;
+    public int score = 0;
+    public float difficulty = 0f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // Trade Show Mode Flag
+    private bool isTradeShow = false;
+    private PlayerHealth playerHealth;
+
     void Start()
     {
-        StartTimer();
-        UpdateHealthBar();
+        // Try to find the player to link to their health script
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            playerHealth = player.GetComponent<PlayerHealth>();
+        }
+
+        // DIFFICULTY & TIMER LOGIC
+        if (gameSettings != null && gameSettings.difficulty == "Trade Show")
+        {
+            isTradeShow = true;
+            timeRemaining = 120f; // 2 Minutes counting DOWN
+        }
+        else
+        {
+            isTradeShow = false;
+            timeRemaining = 0f;   // Standard mode counts UP from 0
+        }
+
+        currentHealth = maxHealth;
+        ChangeHealth(currentHealth);
         ChangeScore(0);
+        timerIsRunning = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (timerRunning)
+        // Timer Logic
+        if (timerIsRunning)
         {
-            timer += Time.deltaTime;
-            UpdateTimerUI(); // Done through a function so the timer can be started, stopped, or reset elsewhere
-        }
-    }
-
-    public void ChangeHealth(float amount)
-    {
-        health += amount;
-
-        if (health <= 0)
-        {
-            print("HEALTH AT 0. ACT ON IT HERE");
-        }
-        if (health > maxHealth)
-        {
-            health = maxHealth;
-        }
-
-        UpdateHealthBar();
-    }
-
-    private void UpdateHealthBar()
-    {
-
-        string healthString = health + "/" + maxHealth;
-
-        healthObject.text = healthString;
-
-        float healthPercent = (float)health / (float)maxHealth;
-
-        Vector2 size = healthBarObjectFill.sizeDelta;
-        size.y = healthBarObject.sizeDelta.y * healthPercent;
-        healthBarObjectFill.sizeDelta = size;
-    }
-
-    // Scoring Functions
-
-    public void ChangeScore(int amount)
-    {
-        score += amount;
-
-        if (amount != 0)
-        {
-            if (AudioManager.Instance != null)
+            if (isTradeShow)
             {
-                AudioManager.Instance.playAudio(AudioManager.Instance.gainScore);
+                // COUNT DOWN
+                timeRemaining -= Time.deltaTime;
+
+                if (timeRemaining <= 0)
+                {
+                    timeRemaining = 0;
+                    timerIsRunning = false;
+
+                    if (timerObject != null)
+                    {
+                        timerObject.text = "TIME'S UP!";
+                        timerObject.color = Color.red;
+                    }
+
+                    // Instantly kill the player to trigger leaderboard
+                    if (playerHealth != null)
+                    {
+                        playerHealth.TakeDamage(101);
+                    }
+                }
+                else
+                {
+                    DisplayTime(timeRemaining);
+                }
+            }
+            else
+            {
+                // COUNT UP
+                timeRemaining += Time.deltaTime;
+                DisplayTime(timeRemaining);
             }
         }
-
-        string scoreString = "Score: " + score;
-        scoreObject.text = scoreString;
     }
 
-    // Timer Functions
-
-    private void UpdateTimerUI() // Keeping private because this is the only script that should really need it.
+    public void ChangeHealth(float health)
     {
-        if (timerObject != null)
+        // Clamp the absolute health
+        if (health < 0) health = 0;
+        if (health > maxHealth) health = maxHealth;
+
+        currentHealth = health;
+
+        if (healthObject != null)
         {
-            timerObject.text = "Round Time: " + ((int)timer);
+            string healthString = Mathf.RoundToInt(currentHealth) + "/" + Mathf.RoundToInt(maxHealth);
+            healthObject.text = healthString;
+        }
+
+        if (healthBarObjectFill != null && healthBarObject != null)
+        {
+            float healthPercent = currentHealth / maxHealth;
+
+            Vector2 size = healthBarObjectFill.sizeDelta;
+            size.y = healthBarObject.sizeDelta.y * healthPercent;
+            healthBarObjectFill.sizeDelta = size;
         }
     }
 
-    // Starts the timer
-    public void StartTimer()
+    void DisplayTime(float timeToDisplay)
     {
-        timerRunning = true;
-        print("Starting Timer");
+        float minutes = Mathf.FloorToInt(timeToDisplay / 60);
+        float seconds = Mathf.FloorToInt(timeToDisplay % 60);
+
+        if (timerObject != null)
+        {
+            if (isTradeShow)
+            {
+                timerObject.text = string.Format("Time Left: {0:0}:{1:00}", minutes, seconds);
+            }
+            else
+            {
+                timerObject.text = string.Format("Time: {0:0}:{1:00}", minutes, seconds);
+            }
+        }
     }
 
-    // Stops the timer
-    public void StopTimer()
+    public void ChangeScore(int scoreToAdd)
     {
-        timerRunning = false;
-        print("Stopping Timer");
+        score += scoreToAdd;
+
+        if (scoreObject != null) scoreObject.text = "Score: " + score;
+        if (scoreOutline != null) scoreOutline.text = "Score: " + score;
     }
-
-    // Resets the timer and turns it off
-    public void ResetTimer()
-    {
-        timer = 0f;
-        StopTimer();
-        UpdateTimerUI();
-    }
-
-    // Resets the timer while keeping it going
-    public void RestartTimer()
-    {
-        timer = 0f;
-        StartTimer();
-        UpdateTimerUI();
-    }
-
-    public void SetDifficulty(float amount)
-    {
-        difficulty = amount;
-
-    }
-
-
 }
