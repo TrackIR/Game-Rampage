@@ -3,10 +3,12 @@ using TMPro;
 
 public class ManageUI : MonoBehaviour
 {
+    // Singleton so other scripts (like EnemyAI) can easily check the Threat Level
+    public static ManageUI Instance;
+
     [Header("Game Settings")]
     public GameSettings gameSettings;
 
-    // Health Variables
     [Header("Health Variables")]
     public TMP_Text healthObject;
     public RectTransform healthBarObject, healthBarObjectFill;
@@ -15,13 +17,14 @@ public class ManageUI : MonoBehaviour
     [HideInInspector]
     public float currentHealth;
 
-    // Timer Variables
-    [Header("Timer Variables")]
+    [Header("Timer & Escalation Variables")]
     public TMP_Text timerObject;
     public float timeRemaining = 0;
     public bool timerIsRunning = false;
 
-    // Score Variables
+    // The escalating threat level (1 to 5)
+    public int wantedLevel = 1;
+
     [Header("Score Variables")]
     public TMP_Text scoreObject;
     public TMP_Text scoreOutline;
@@ -29,31 +32,35 @@ public class ManageUI : MonoBehaviour
     public int score = 0;
     public float difficulty = 0f;
 
-    // Trade Show Mode Flag
-    private bool isTradeShow = false;
+    public bool isTradeShow = false;
     private PlayerHealth playerHealth;
+
+    void Awake()
+    {
+        // Set up the singleton instance
+        Instance = this;
+    }
 
     void Start()
     {
-        // Try to find the player to link to their health script
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
             playerHealth = player.GetComponent<PlayerHealth>();
         }
 
-        // DIFFICULTY & TIMER LOGIC
+        // Check if Trade Show mode is active
         if (gameSettings != null && gameSettings.difficulty == "Trade Show")
         {
             isTradeShow = true;
-            timeRemaining = 120f; // 2 Minutes counting DOWN
         }
         else
         {
             isTradeShow = false;
-            timeRemaining = 0f;   // Standard mode counts UP from 0
         }
 
+        // Timer starts at 0 and counts up for all modes
+        timeRemaining = 0f;
         currentHealth = maxHealth;
         ChangeHealth(currentHealth);
         ChangeScore(0);
@@ -62,40 +69,28 @@ public class ManageUI : MonoBehaviour
 
     void Update()
     {
-        // Timer Logic
+        if (currentHealth <= 0 && timerIsRunning)
+        {
+            timerIsRunning = false; // Stop all timer logic
+            if (timerObject != null)
+            {
+                timerObject.text = ""; // Clears the text off the screen completely
+            }
+            return; // Exit the loop early
+        }
+
         if (timerIsRunning)
         {
+            timeRemaining += Time.deltaTime;
+
             if (isTradeShow)
             {
-                // COUNT DOWN
-                timeRemaining -= Time.deltaTime;
-
-                if (timeRemaining <= 0)
-                {
-                    timeRemaining = 0;
-                    timerIsRunning = false;
-
-                    if (timerObject != null)
-                    {
-                        timerObject.text = "TIME'S UP!";
-                        timerObject.color = Color.red;
-                    }
-
-                    // Instantly kill the player to trigger leaderboard
-                    if (playerHealth != null)
-                    {
-                        playerHealth.TakeDamage(101);
-                    }
-                }
-                else
-                {
-                    DisplayTime(timeRemaining);
-                }
+                // Threat Level increases every 20 seconds, max is 5
+                wantedLevel = Mathf.Min(5, 1 + Mathf.FloorToInt(timeRemaining / 20f));
+                DisplayWantedLevel();
             }
             else
             {
-                // COUNT UP
-                timeRemaining += Time.deltaTime;
                 DisplayTime(timeRemaining);
             }
         }
@@ -103,7 +98,6 @@ public class ManageUI : MonoBehaviour
 
     public void ChangeHealth(float health)
     {
-        // Clamp the absolute health
         if (health < 0) health = 0;
         if (health > maxHealth) health = maxHealth;
 
@@ -111,17 +105,48 @@ public class ManageUI : MonoBehaviour
 
         if (healthObject != null)
         {
-            string healthString = Mathf.RoundToInt(currentHealth) + "/" + Mathf.RoundToInt(maxHealth);
-            healthObject.text = healthString;
+            healthObject.text = Mathf.RoundToInt(currentHealth) + "/" + Mathf.RoundToInt(maxHealth);
         }
 
         if (healthBarObjectFill != null && healthBarObject != null)
         {
             float healthPercent = currentHealth / maxHealth;
-
             Vector2 size = healthBarObjectFill.sizeDelta;
             size.y = healthBarObject.sizeDelta.y * healthPercent;
             healthBarObjectFill.sizeDelta = size;
+        }
+    }
+
+    void DisplayWantedLevel()
+    {
+        if (timerObject != null)
+        {
+            // Dynamically change the text and color based on the current level
+            switch (wantedLevel)
+            {
+                case 1:
+                    timerObject.text = "THREAT LEVEL: 1";
+                    timerObject.color = Color.white;
+                    break;
+                case 2:
+                    timerObject.text = "THREAT LEVEL: 2";
+                    timerObject.color = Color.yellow;
+                    break;
+                case 3:
+                    timerObject.text = "THREAT LEVEL: 3";
+                    timerObject.color = new Color(1f, 0.5f, 0f); // Orange
+                    break;
+                case 4:
+                    timerObject.text = "THREAT LEVEL: 4";
+                    timerObject.color = new Color(1.0f, 0.325f, 0.286f);
+                    break;
+                case 5:
+                default:
+                    // At max level, make it aggressive
+                    timerObject.text = "THREAT LEVEL: <color=red>MAX</color>";
+                    timerObject.color = Color.red;
+                    break;
+            }
         }
     }
 
@@ -132,21 +157,13 @@ public class ManageUI : MonoBehaviour
 
         if (timerObject != null)
         {
-            if (isTradeShow)
-            {
-                timerObject.text = string.Format("Time Left: {0:0}:{1:00}", minutes, seconds);
-            }
-            else
-            {
-                timerObject.text = string.Format("Time: {0:0}:{1:00}", minutes, seconds);
-            }
+            timerObject.text = string.Format("Time: {0:0}:{1:00}", minutes, seconds);
         }
     }
 
     public void ChangeScore(int scoreToAdd)
     {
         score += scoreToAdd;
-
         if (scoreObject != null) scoreObject.text = "Score: " + score;
         if (scoreOutline != null) scoreOutline.text = "Score: " + score;
     }
