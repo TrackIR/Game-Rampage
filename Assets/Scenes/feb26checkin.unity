@@ -777,15 +777,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f5273cdcff181d48aa782b74317dc70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ManageUI
+  gameSettings: {fileID: 11400000, guid: e92e9b73a864508428486a12765cb719, type: 2}
   healthObject: {fileID: 1785032851}
   healthBarObject: {fileID: 1184790342}
   healthBarObjectFill: {fileID: 635873055}
   maxHealth: 100
-  scoreObject: {fileID: 702904713}
-  score: 0
+  currentHealth: 0
   timerObject: {fileID: 1530266067}
+  timeRemaining: 0
+  timerIsRunning: 0
+  wantedLevel: 1
+  scoreObject: {fileID: 702904713}
+  scoreOutline: {fileID: 0}
+  score: 0
   difficulty: 1
-  timer: 0
+  isTradeShow: 0
 --- !u!114 &46560381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12662,6 +12668,10 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: debugON
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: rollSpeed
       value: 300
       objectReference: {fileID: 0}
@@ -12671,7 +12681,7 @@ PrefabInstance:
       objectReference: {fileID: 468192960}
     - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: useTrackIR
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: TrackIRRoot
@@ -27991,8 +28001,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -374, y: 219.4176}
-  m_SizeDelta: {x: 300, y: 50}
+  m_AnchoredPosition: {x: -349, y: 219.4176}
+  m_SizeDelta: {x: 350, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &1533055113 stripped
 Transform:
