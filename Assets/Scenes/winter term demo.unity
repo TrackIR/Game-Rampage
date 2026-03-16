@@ -9495,7 +9495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad2c33312f50a9f4ba9555015318ec49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnEnemies
-  ui: {fileID: 0}
+  ui: {fileID: 46560380}
   enemyPrefab: {fileID: 747386369671831897, guid: 46c560da5bff6ca49b477683bc0fd622, type: 3}
   navMeshSurface: {fileID: 1150692442}
   settings: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
@@ -16173,7 +16173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5e9a9c6e0a351742a6fde79f9b0a4e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrackIRMenuNav
-  curserObject: {fileID: 0}
+  curserObject: {fileID: 415627245}
   clickKey: 32
   sensitivity: 1
 --- !u!114 &542628275
@@ -16188,7 +16188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afc626ff17e7dd94596f851e55a534df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::crossHair
-  reticleObject: {fileID: 0}
+  reticleObject: {fileID: 415627245}
   clickKey: 32
   sensitivity: 1
 --- !u!1 &542823394
@@ -19265,7 +19265,7 @@ PrefabInstance:
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: cursor
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 415627245}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: movement
       value: 
@@ -50574,7 +50574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068a8d6dc8e3e964680fc6a1890d1322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  ui: {fileID: 0}
+  ui: {fileID: 46560380}
   helicopterPrefab: {fileID: 2201547241459451023, guid: 6e0ca42d6ae597249b44bb6f1d39e2eb, type: 3}
   navMeshSurface: {fileID: 480746942}
   settings: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
