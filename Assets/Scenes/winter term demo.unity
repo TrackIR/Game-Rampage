@@ -19129,7 +19129,7 @@ PrefabInstance:
     - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: gameSettings
       value: 
-      objectReference: {fileID: 11400000, guid: e92e9b73a864508428486a12765cb719, type: 2}
+      objectReference: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
     - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: normal3rdCam
       value: 
