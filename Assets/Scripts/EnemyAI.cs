@@ -21,29 +21,41 @@ public class EnemyAI : MonoBehaviour
     private NavMeshPath path;
 
     // Spray Settings
-    public float damagePerSecond = 0.5f;
+    public float damagePerSecond = 1f;
     public ParticleSystem sprayEffect;
     public Transform firePoint;
     private float damageAccumulator = 0f;
     private float pathTimer = 0f;
     private float shootAudioTimer = 0f;  // Prevents audio spam
 
+    // save the baseline stats so it can be multiplied
+    private float baseSpeed;
+    private float baseDamage;
+
     void Start()
     {
-        // DIFFICULTY SCALING
+        // Save the original stats
+        baseSpeed = speed;
+        baseDamage = damagePerSecond;
+
+        // STANDARD DIFFICULTY SCALING
         if (gameSettings != null)
         {
             if (gameSettings.difficulty == "Hard")
             {
-                speed = 4f;
-                damagePerSecond = 1.0f;  // Double damage
+                baseSpeed = 4f;
+                baseDamage = 1.5f;  // 1.5x damage
             }
             else if (gameSettings.difficulty == "Super Hard")
             {
-                speed = 5f;
-                damagePerSecond = 2.0f;  // Quadruple damage
+                baseSpeed = 5f;
+                baseDamage = 3f;  // 3x damage
             }
         }
+
+        // Apply standard scaling so normal modes still work
+        speed = baseSpeed;
+        damagePerSecond = baseDamage;
 
         if (playerTarget == null)
         {
@@ -68,6 +80,16 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         if (playerTarget == null || agent == null) return;
+
+        // TRADE SHOW SCALING
+        if (ManageUI.Instance != null && ManageUI.Instance.isTradeShow)
+        {
+            int threat = ManageUI.Instance.wantedLevel;
+
+            // Speed increases linearly per threat level, damage multiplies
+            agent.speed = baseSpeed + (threat * 0.6f);
+            damagePerSecond = baseDamage * threat;
+        }
 
         // Use 2D horizontal distance to prevent the giant robot's height from breaking the range checks
         Vector3 enemyFlatPos = new Vector3(transform.position.x, 0, transform.position.z);
@@ -121,7 +143,6 @@ public class EnemyAI : MonoBehaviour
         if (!NavMesh.SamplePosition(agent.transform.position, out NavMeshHit startHit, 5f, agent.areaMask)) return;
         if (!NavMesh.SamplePosition(fleeTarget, out NavMeshHit endHit, 10f, agent.areaMask)) return;
 
-        // Uses the helper method below instead of duplicate code
         UpdateNavPath(startHit.position, endHit.position);
     }
 
@@ -130,11 +151,10 @@ public class EnemyAI : MonoBehaviour
         if (!NavMesh.SamplePosition(agent.transform.position, out NavMeshHit startHit, 5f, agent.areaMask)) return;
         if (!NavMesh.SamplePosition(playerTarget.position, out NavMeshHit endHit, 20f, agent.areaMask)) return;
 
-        // Uses the helper method below instead of duplicate code
         UpdateNavPath(startHit.position, endHit.position);
     }
 
-    // NEW HELPER METHOD: Centralizes the pathing logic to fix the linter error
+    // Centralizes the pathing logic
     void UpdateNavPath(Vector3 startPosition, Vector3 endPosition)
     {
         NavMesh.CalculatePath(
