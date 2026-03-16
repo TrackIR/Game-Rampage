@@ -1189,7 +1189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f5273cdcff181d48aa782b74317dc70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ManageUI
-  gameSettings: {fileID: 0}
+  gameSettings: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
   healthObject: {fileID: 1785032851}
   healthBarObject: {fileID: 1184790342}
   healthBarObjectFill: {fileID: 635873055}
@@ -9498,7 +9498,7 @@ MonoBehaviour:
   ui: {fileID: 0}
   enemyPrefab: {fileID: 747386369671831897, guid: 46c560da5bff6ca49b477683bc0fd622, type: 3}
   navMeshSurface: {fileID: 1150692442}
-  settings: {fileID: 0}
+  settings: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
   buildingMask:
     serializedVersion: 2
     m_Bits: 0
