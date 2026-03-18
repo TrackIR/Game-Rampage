@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class TrackIRMenuNav : MonoBehaviour
 {
+    public GameSettings gameSettings;
     public GameObject curserObject;
     public KeyCode clickKey = KeyCode.Space;
     public float sensitivity = 1;
@@ -32,7 +34,7 @@ public class TrackIRMenuNav : MonoBehaviour
         pointerData = new PointerEventData(eventSystem);
     }
 
-    void Update()
+    void TrackIRCursor()
     {
         // Safety check to prevent null reference spam
         if (trackIR == null || eventSystem == null) return;
@@ -119,6 +121,23 @@ public class TrackIRMenuNav : MonoBehaviour
             ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerDownHandler);
             ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerUpHandler);
             ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerClickHandler);
+        }
+    }
+
+    void MouseCursor()
+    {
+        Vector2 mousePos = Input.mousePosition;
+        curserObject.transform.position = mousePos;
+    }
+
+    void Update()
+    {
+        if (gameSettings.useTrackIR)
+        {
+            TrackIRCursor();
+        } else
+        {
+            MouseCursor();
         }
     }
 }
