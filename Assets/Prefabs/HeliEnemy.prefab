@@ -28,11 +28,11 @@ Transform:
   m_GameObject: {fileID: 2147826241946361473}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.877, z: 0.532}
+  m_LocalPosition: {x: 0, y: -0.039666474, z: 0.532}
   m_LocalScale: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8087654654865402326}
+  m_Father: {fileID: 3645680960100142356}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1146050875991039448
 MeshFilter:
@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 1656655485534151578}
   - component: {fileID: 4642798878807413198}
   - component: {fileID: 3754130677751731996}
+  - component: {fileID: 2324081543263664726}
   m_Layer: 7
   m_Name: HeliEnemy
   m_TagString: Untagged
@@ -146,7 +147,6 @@ Transform:
   - {fileID: 6889657719334482094}
   - {fileID: 6691152889889202389}
   - {fileID: 3645680960100142356}
-  - {fileID: 2368339878915382605}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &1656655485534151578
@@ -209,7 +209,21 @@ MonoBehaviour:
   fireCooldown: 0.05
   particleEmitter: {fileID: 7536907065514236041}
   particleDamage: 0.5
-  heliBody: {fileID: 0}
+  heliBody: {fileID: 3645680960100142356}
+--- !u!114 &2324081543263664726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2201547241459451023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f55ff89e90c1cf43aa2a302bffddd3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  maxHealth: 100
+  enemyDamageSound: {fileID: 0}
 --- !u!1 &4141259276975455281
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,6 +258,7 @@ Transform:
   m_Children:
   - {fileID: 7536907065514236041}
   - {fileID: 1820761282375756145}
+  - {fileID: 2368339878915382605}
   m_Father: {fileID: 8087654654865402326}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &216759827651180943
@@ -1456,7 +1471,7 @@ ParticleSystem:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 1
+          time: 0.70996094
           value: 1
           inSlope: 0
           outSlope: 0
