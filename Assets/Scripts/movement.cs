@@ -12,6 +12,9 @@ using System.Collections.Generic;
 [RequireComponent(typeof(CharacterController))]
 public class movement : MonoBehaviour
 {
+    [Header("Game Settings")]
+    public GameSettings gameSettings;
+
     CharacterController controller;
 
     TrackIRComponent trackIR;
@@ -26,7 +29,10 @@ public class movement : MonoBehaviour
 
     public GameObject TrackIRRoot;
 
-
+    // INPUT SYSTEM
+    private PlayerInput input;
+    private InputAction moveAction;
+    private InputAction jumpAction;
 
     // TODO: first or third person toggle needs to be scene or just moved to be better
 
@@ -52,6 +58,40 @@ public class movement : MonoBehaviour
     private Animator anim;
     private int animWalkHash;
 
+    void Awake()
+    {
+        input = new PlayerInput();
+
+        if (gameSettings != null && gameSettings.useTrackIR)
+        {
+            moveAction = null; // TrackIR handles movement
+            jumpAction = null;
+        }
+        else
+        {
+            moveAction = input.KeyboardMouse.Movement;
+            jumpAction = input.KeyboardMouse.Jump;
+        }
+    }
+
+    void OnEnable()
+    {
+        input.Enable();
+
+        if (gameSettings != null && gameSettings.useTrackIR)
+        {
+            input.TrackIR.Enable();
+        }
+        else
+        {
+            input.KeyboardMouse.Enable();
+        }
+    }
+
+    void OnDisable()
+    {
+        input.Disable();
+    }
 
     void Start()
     {
@@ -181,9 +221,11 @@ public class movement : MonoBehaviour
 
     void wasdMove()
     {
-        float moveX = Input.GetAxis("Horizontal");
-        float moveZ = Input.GetAxis("Vertical");
-        bool jumpPressed = Input.GetKeyDown(KeyCode.Space);
+        Vector2 moveInput = moveAction.ReadValue<Vector2>();
+        bool jumpPressed = jumpAction.triggered;
+
+        float moveX = moveInput.x;
+        float moveZ = moveInput.y;
 
         Vector3 forward = cameraTransform.forward;
         Vector3 right = cameraTransform.right;
@@ -199,26 +241,21 @@ public class movement : MonoBehaviour
 
         float speedPercent = moveDirection.magnitude;
         anim.SetFloat("Speed", speedPercent);
+
         if (speedPercent > 0)
         {
             Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);
         }
 
-        // Keep player grounded
         if (controller.isGrounded && velocity.y < 0f)
-        {
             velocity.y = -2f;
-        }
-        // Apply gravity
+
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
 
         if (jumpPressed && controller.isGrounded)
-        {
-            // v = sqrt(2 * g * h) where g is positive magnitude of gravity
             velocity.y = Mathf.Sqrt(jumpPower * -2f * gravity);
-        }
     }
 
     // Update is called once per frame

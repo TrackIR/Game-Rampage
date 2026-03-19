@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class PlayerAttack : MonoBehaviour
     public GameObject playerHead;
 
     [Header("References / Animation")]
+    public GameObject cursor;
+    public GameSettings gameSettings;
     private Animator anim;
     private int animPunchHash;
     private ManageUI uiManager;
@@ -44,15 +47,63 @@ public class PlayerAttack : MonoBehaviour
     private bool isInUltimate = false;
     private int lastUltimateLevel = 0;
 
+    // INPUT SYSTEM
+    private PlayerInput input;
+    private InputAction attackAction;
+
+    void Awake()
+    {
+        input = new PlayerInput();
+
+        if (gameSettings.useTrackIR)
+        {
+            attackAction = input.TrackIR.Attack;
+        }
+        else
+        {
+            attackAction = input.KeyboardMouse.Attack;
+        }
+    }
+
+    void OnEnable()
+    {
+        input.Enable();
+
+        if (gameSettings.useTrackIR)
+        {
+            input.TrackIR.Enable();
+        }
+        else
+        {
+            input.KeyboardMouse.Enable();
+        }
+
+        attackAction.performed += OnAttack;
+    }
+
+    void OnDisable()
+    {
+        attackAction.performed -= OnAttack;
+
+        if (gameSettings.useTrackIR)
+        {
+            input.TrackIR.Disable();
+        }
+        else
+        {
+            input.KeyboardMouse.Disable();
+        }
+
+        input.Disable();
+    }
+
     void Start()
     {
         anim = gameObject.GetComponentInChildren<Animator>();
         uiManager = FindFirstObjectByType<ManageUI>();
 
         if (anim != null)
-        {
             animPunchHash = Animator.StringToHash("Base Layer.Punch");
-        }
     }
 
     void Update()
@@ -62,31 +113,28 @@ public class PlayerAttack : MonoBehaviour
             return;
         }
 
-        // reduce cooldown timers
         if (normalAttackTimer > 0f)
-        {
             normalAttackTimer -= Time.deltaTime;
-        }
+
         if (ultimateCooldownTimer > 0f)
-        {
             ultimateCooldownTimer -= Time.deltaTime;
-        }
 
         checkScore();
+    }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+    void OnAttack(InputAction.CallbackContext context)
+    {
+        if (isInUltimate)
+            return;
+
+        if (ultimateCharged && ultimateCooldownTimer <= 0f)
         {
-            // activate ultimate if ready and not in cooldown
-            if (UltimateCharged && ultimateCooldownTimer <= 0f && !isInUltimate)
-            {
-                StartCoroutine(UltimateSequence());
-            }
-            // Normal attack
-            else if (!UltimateCharged && normalAttackTimer <= 0f && (ultimateCooldownTimer <= 0f))
-            {
-                Attack();
-                normalAttackTimer = normalAttackCooldown;
-            }
+            StartCoroutine(UltimateSequence());
+        }
+        else if (!ultimateCharged && normalAttackTimer <= 0f && ultimateCooldownTimer <= 0f)
+        {
+            Attack();
+            normalAttackTimer = normalAttackCooldown;
         }
     }
 
@@ -108,16 +156,13 @@ public class PlayerAttack : MonoBehaviour
     void Attack()
     {
         Collider[] hitObjects = Physics.OverlapSphere(attackPoint.position, attackRange, targetLayers);
-
         List<EnemyHealth> enemiesHit = new List<EnemyHealth>();
 
         foreach (Collider hit in hitObjects)
         {
             BuildingDestruction building = hit.GetComponent<BuildingDestruction>();
             if (building != null)
-            {
                 building.TakeDamage();
-            }
 
             EnemyHealth enemy = hit.GetComponentInParent<EnemyHealth>();
 
@@ -145,21 +190,13 @@ public class PlayerAttack : MonoBehaviour
         int layerMask = ~LayerMask.GetMask("player");
 
         if (Physics.Raycast(ray, out hit, 1000f, layerMask))
-        {
             targetPoint = hit.point;
-        }
         else
-        {
             targetPoint = ray.origin + ray.direction * 1000f;
-        }
 
-        // desired direction toward cursor
         Vector3 desiredDir = (targetPoint - ultSpawnPoint.position).normalized;
-
-        // current beam direction
         Vector3 currentDir = ultSpawnPoint.forward;
 
-        // smooth the direction
         Vector3 smoothedDir = Vector3.Lerp(currentDir, desiredDir, beamWeight).normalized;
 
         ultSpawnPoint.rotation = Quaternion.LookRotation(smoothedDir);
@@ -175,7 +212,6 @@ public class PlayerAttack : MonoBehaviour
                 ultSpawnPoint.rotation
             );
 
-            // parent it so one end stays at spawn point
             ultObj.transform.SetParent(ultSpawnPoint);
 
             UltimateLaser ultScript = ultObj.GetComponent<UltimateLaser>();
@@ -191,31 +227,38 @@ public class PlayerAttack : MonoBehaviour
     {
         isInUltimate = true;
 
-        // switch to first person
         if (cameraMovement != null)
-            cameraMovement.transitionSpeed = 20;
+            cameraMovement.transitionSpeed = 3;
+
         cameraMovement.is3rdPerson = false;
 
-        // disable player movement & rotation
+        while (cameraMovement.cameraBlend > 0.01f)
+            yield return null;
+
+        playerHead.SetActive(false);
+
         if (movement != null)
             movement.enabled = false;
 
-        // spawn laser
         UltAttack();
 
         yield return new WaitForSecondsRealtime(ultLaserDuration);
 
-        EndUltimate();
+        yield return StartCoroutine(EndUltimate());
     }
 
     private void EndUltimate()
     {
-        // return to third person
+        playerHead.SetActive(true);
+
         if (cameraMovement != null)
-            cameraMovement.transitionSpeed = 40f;
+            cameraMovement.transitionSpeed = 3f;
+
         cameraMovement.is3rdPerson = true;
 
-        // re-enable movement
+        while (cameraMovement.cameraBlend < 0.99f)
+            yield return null;
+
         if (movement != null)
             movement.enabled = true;
 
@@ -224,8 +267,6 @@ public class PlayerAttack : MonoBehaviour
 
         isInUltimate = false;
     }
-
-
 
     void OnDrawGizmosSelected()
     {
