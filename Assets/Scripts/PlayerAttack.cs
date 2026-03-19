@@ -110,7 +110,6 @@ public class PlayerAttack : MonoBehaviour
     {
         if (isInUltimate)
         {
-            AimLaserAtCursor();
             return;
         }
 
@@ -144,11 +143,11 @@ public class PlayerAttack : MonoBehaviour
         if (uiManager == null) return;
 
         int score = uiManager.score;
-        int currentLevel = score / ultimateThreshold;
+        int currentLevel = score / UltimateThreshold;
 
         if (currentLevel > lastUltimateLevel)
         {
-            ultimateCharged = true;
+            UltimateCharged = true;
             Debug.Log("Ult ready");
             lastUltimateLevel = currentLevel;
         }
@@ -243,12 +242,12 @@ public class PlayerAttack : MonoBehaviour
 
         UltAttack();
 
-        yield return new WaitForSeconds(ultLaserDuration);
+        yield return new WaitForSecondsRealtime(ultLaserDuration);
 
         yield return StartCoroutine(EndUltimate());
     }
 
-    private IEnumerator EndUltimate()
+    private void EndUltimate()
     {
         playerHead.SetActive(true);
 
@@ -263,7 +262,7 @@ public class PlayerAttack : MonoBehaviour
         if (movement != null)
             movement.enabled = true;
 
-        ultimateCharged = false;
+        UltimateCharged = false;
         ultimateCooldownTimer = ultimateActivationCooldown;
 
         isInUltimate = false;
