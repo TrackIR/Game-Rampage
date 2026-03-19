@@ -4,29 +4,22 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
-    [Header("Game Settings")]
-    public GameSettings gameSettings;
-
     // Basic Settings
     public Transform playerTarget;
-    public float detectionRange = 15f;
-    public float fleeRange = 8f;
+    private bool playerInRange;
+    public float detectionRange = 15f; // range for spray attack
     public float rotationSpeed = 5f;
-    public float speed = 3f;
-
+    public float speed = 5f;
     private const float gravity = -9.81f;
     private Vector3 gravityVector = new Vector3(0, gravity, 0);
-
     public NavMeshAgent agent;
     private NavMeshPath path;
-
     // Spray Settings
     public float damagePerSecond = 1f;
     public ParticleSystem sprayEffect;
-    public Transform firePoint;
-    private float damageAccumulator = 0f;
-    private float pathTimer = 0f;
-    private float shootAudioTimer = 0f;  // Prevents audio spam
+    public Transform firePoint;        // Where the spray comes from
+    private float damageAccumulator = 0f; // Stores partial damage
+    private float elapsed = 0f; // Timer for pathfinding updates
 
     // save the baseline stats so it can be multiplied
     private float baseSpeed;
@@ -62,19 +55,13 @@ public class EnemyAI : MonoBehaviour
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
             if (playerObj != null) playerTarget = playerObj.transform;
         }
-
         agent = GetComponent<NavMeshAgent>();
         if (agent != null)
         {
             agent.speed = speed;
-            agent.updateRotation = false; // Disconnects agent rotation so we can manually point it
         }
-
         path = new NavMeshPath();
         if (sprayEffect != null) sprayEffect.Stop();
-
-        // Force path calculation immediately on the exact frame they spawn
-        pathTimer = 100f;
     }
 
     void Update()
@@ -116,24 +103,17 @@ public class EnemyAI : MonoBehaviour
         }
         else if (distanceToPlayer <= detectionRange)
         {
-            // Stand ground and attack
-            agent.isStopped = true;
+            aimAtPlayer();
             SprayAttack();
         }
         else
         {
-            // Chase player
-            agent.isStopped = false;
-            if (shouldUpdatePath) ChasePlayer();
-
-            if (sprayEffect != null && sprayEffect.isPlaying)
-            {
-                sprayEffect.Stop();
-            }
+            aimAtPlayer();
+            findPlayer();
         }
     }
 
-    void FleePlayer()
+    void findPlayer()
     {
         Vector3 dirAwayFromPlayer = (transform.position - playerTarget.position).normalized;
         dirAwayFromPlayer.y = 0;
@@ -146,10 +126,6 @@ public class EnemyAI : MonoBehaviour
         UpdateNavPath(startHit.position, endHit.position);
     }
 
-    void ChasePlayer()
-    {
-        if (!NavMesh.SamplePosition(agent.transform.position, out NavMeshHit startHit, 5f, agent.areaMask)) return;
-        if (!NavMesh.SamplePosition(playerTarget.position, out NavMeshHit endHit, 20f, agent.areaMask)) return;
 
         UpdateNavPath(startHit.position, endHit.position);
     }
@@ -163,52 +139,83 @@ public class EnemyAI : MonoBehaviour
             new NavMeshQueryFilter { agentTypeID = agent.agentTypeID, areaMask = agent.areaMask },
             path);
 
-        if (path.status == NavMeshPathStatus.PathComplete)
+                NavMesh.CalculatePath(
+                    startHit.position,
+                    endHit.position,
+                    new NavMeshQueryFilter
+                    {
+                        agentTypeID = agent.agentTypeID,
+                        areaMask = agent.areaMask
+                    },
+                path);
+
+                if (path.status == NavMeshPathStatus.PathComplete)
+                {
+                    agent.SetPath(path);
+                }
+                else
+                {
+                    Debug.LogWarning($"EnemyAI: path status {path.status}", this);
+                }
+            }
+        }
+        if (sprayEffect != null && sprayEffect.isPlaying)
         {
-            agent.SetPath(path);
+            sprayEffect.Stop();
         }
     }
 
     void aimAtPlayer()
     {
         Vector3 directionToPlayer = (playerTarget.position - transform.position).normalized;
-        directionToPlayer.y = 0;
+        directionToPlayer.y = 0; // Keep only horizontal rotation
 
-        if (directionToPlayer == Vector3.zero) return;
+        if (directionToPlayer == Vector3.zero) return; // Avoid errors
 
+        // Determine target rotation
         Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+
+        // Smoothly rotate towards player
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
     void SprayAttack()
     {
-        // Branch audio implementation with a small cooldown limit
-        if (AudioManager.Instance != null && AudioManager.Instance.enemyShoot != null)
+        // Play a shoot sound effect (Maybe turn this off if it plays a bunch)
+        if (AudioManager.Instance != null)
         {
-            shootAudioTimer -= Time.deltaTime;
-            if (shootAudioTimer <= 0f)
-            {
-                AudioManager.Instance.playAudio(AudioManager.Instance.enemyShoot);
-                shootAudioTimer = 0.5f; // Play sound every half second
-            }
+            AudioManager.Instance.playAudio(AudioManager.Instance.enemyShoot);
         }
 
+        if (agent != null)
+        {
+            agent.isStopped = true; // Stop moving
+        }
+
+        // Visuals: Turn on the water spray if it's not already on
         if (sprayEffect != null && !sprayEffect.isPlaying)
         {
             sprayEffect.Play();
         }
 
+        // Damage Logic: Use a Raycast to see if player is being hit
         RaycastHit hit;
+        // Cast a ray from firePoint, going forward, for the length of range
         if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, detectionRange))
         {
+            // Was the player hit
             PlayerHealth playerHealth = hit.collider.GetComponentInParent<PlayerHealth>();
+
             if (playerHealth != null)
             {
+                // Accumulate Damage
                 damageAccumulator += damagePerSecond * Time.deltaTime;
+
+                // Whenever 1 full point of damage is accumulated, deal it
                 if (damageAccumulator >= 1f)
                 {
-                    playerHealth.TakeDamage(1);
-                    damageAccumulator -= 1f;
+                    playerHealth.TakeDamage(1); // Deal 1 damage
+                    damageAccumulator -= 1f;    // Keep the remainder for next frame
                 }
             }
         }
