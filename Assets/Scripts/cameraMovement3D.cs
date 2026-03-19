@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class cameraMovement3D : MonoBehaviour
 {
+    public GameSettings gameSettings;
+
     [Header("Camera Settings")]
-    // trackIR componments
     TrackIRComponent trackIR;
     public GameObject trackIRRoot;
 
@@ -31,12 +32,19 @@ public class cameraMovement3D : MonoBehaviour
     public float transitionSpeed = 3f;
     private float targetBlend = 1f;
 
+    [Header("Mouse Look (Absolute)")]
+    public float yawRange = 180f;   // full left/right range
+    public float maxPitch = 120f;    // up/down clamp
+
+    // unified input
+    private float inputYaw;
+    private float inputPitch;
+
     void Start()
     {
         trackIR = trackIRRoot.GetComponent<TrackIRComponent>();
     }
 
-    // turns '0 to 360' degrees into '-180 to 180'
     float WrapAngle(float angle)
     {
         if (angle > 180f)
@@ -48,16 +56,32 @@ public class cameraMovement3D : MonoBehaviour
 
     void MoveBlendedCamera()
     {
+        // input layer -- still testing, likely needs extra rotation
+        if (gameSettings.useTrackIR)
+        {
+            Quaternion childRotation = trackIR.LatestPoseOrientation;
+
+            Vector3 headEuler = childRotation.eulerAngles;
+            inputYaw = WrapAngle(headEuler.y);
+            inputPitch = WrapAngle(headEuler.x);
+        }
+        else
+        {
+            // absolute screen position normalized (-1 to 1)
+            float nx = (Input.mousePosition.x / Screen.width - 0.5f) * 2f;
+            float ny = (Input.mousePosition.y / Screen.height - 0.5f) * 2f;
+
+            // map to yaw/pitch
+            inputYaw = nx * -yawRange;
+            inputPitch = ny * maxPitch;
+
+            inputPitch = Mathf.Clamp(inputPitch, -maxPitch, maxPitch);
+        }
+
         // 3rd person
 
-        Quaternion childRotation = trackIR.LatestPoseOrientation;
-
-        Vector3 headEuler = childRotation.eulerAngles;
-        float headYaw = WrapAngle(headEuler.y);
-        float headPitch = WrapAngle(headEuler.x);
-
-        float orbitYaw = headYaw * yawOrbitWeight;
-        float orbitPitch = headPitch * pitchOrbitWeight;
+        float orbitYaw = inputYaw * yawOrbitWeight;
+        float orbitPitch = inputPitch * pitchOrbitWeight;
 
         float yawRad = orbitYaw * Mathf.Deg2Rad;
         float pitchRad = orbitPitch * Mathf.Deg2Rad;
@@ -86,11 +110,11 @@ public class cameraMovement3D : MonoBehaviour
             lookRotationWeight
         );
 
+        Quaternion inputRotation = Quaternion.Euler(inputPitch, inputYaw, 0f);
+
         Quaternion thirdPersonRot =
-            worldLookRotation * Quaternion.Inverse(childRotation);
+            worldLookRotation * Quaternion.Inverse(inputRotation);
 
-
-        // 1st person
 
         Vector3 firstPersonPos =
             playerObject.transform.position +
@@ -99,8 +123,6 @@ public class cameraMovement3D : MonoBehaviour
         Quaternion firstPersonRot =
             playerObject.transform.rotation;
 
-
-        // blend
 
         Vector3 blendedPos = Vector3.Lerp(
             firstPersonPos,
@@ -120,10 +142,8 @@ public class cameraMovement3D : MonoBehaviour
 
     void Update()
     {
-        // determine target blend
         targetBlend = is3rdPerson ? 1f : 0f;
 
-        // smooth blend value
         cameraBlend = Mathf.MoveTowards(
             cameraBlend,
             targetBlend,

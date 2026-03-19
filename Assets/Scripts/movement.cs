@@ -262,11 +262,11 @@ public class movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        trackIRCam.enabled = useTrackIR;
-        normal3rdCam.enabled = !useTrackIR;
-        trackIRCam.GetComponent<AudioListener>().enabled = useTrackIR;
-        normal3rdCam.GetComponent<AudioListener>().enabled = !useTrackIR;
-        cameraTransform = Camera.main.transform;
+        //trackIRCam.enabled = useTrackIR;
+        //normal3rdCam.enabled = !useTrackIR;
+        //trackIRCam.GetComponent<AudioListener>().enabled = useTrackIR;
+        //normal3rdCam.GetComponent<AudioListener>().enabled = !useTrackIR;
+        //cameraTransform = Camera.main.transform;
 
         if (useTrackIR && trackIR != null)
         {
