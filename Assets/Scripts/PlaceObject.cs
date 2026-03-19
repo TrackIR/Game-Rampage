@@ -3,8 +3,8 @@ using UnityEngine;
 public class PlaceObject : MonoBehaviour
 {
     public GameObject[] prefabs; // List of buildings to place
-    private float placeChance = 0.9f; // Should be fairly high
-    private float randomOffset = 0.1f; // Shifts objects around a bit
+    public GameObject parkPrefab;
+    private float placeChance = 1.0f; // Should be fairly high, 
 
     public void Start()
     {
@@ -13,17 +13,19 @@ public class PlaceObject : MonoBehaviour
             return;
         }
 
+        Vector3 position = transform.position;
+        int ranDirection = Random.Range(0, 4);
+        // Get the postion and apply random offsets
+        Quaternion rotation = Quaternion.Euler(0, ranDirection * 90, 0);
         if (Random.value >= placeChance)
         {
+            // Replace empty lot with park
+            //Instantiate(parkPrefab, position, rotation, transform);
             return;
         }
         // Get a random prefab from the list
         GameObject prefab = prefabs[Random.Range(0, prefabs.Length)];
-        // Get the postion and apply random offsets
-        Vector3 position = transform.position;
-        position.x += Random.Range(-randomOffset, randomOffset);
-        position.z += Random.Range(-randomOffset, randomOffset);
 
-        Instantiate(prefab, position, Quaternion.identity, transform);
+        Instantiate(prefab, position, rotation, transform);
     }
 }
