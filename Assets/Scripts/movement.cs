@@ -228,8 +228,8 @@ public class movement : MonoBehaviour
         float moveX = moveInput.x;
         float moveZ = moveInput.y;
 
-        Vector3 forward = cameraTransform.forward;
-        Vector3 right = cameraTransform.right;
+        Vector3 forward = transform.forward; // changing to player forward for testing
+        Vector3 right = transform.right; // changing to player right for testing //cameraTransform
 
         forward.y = 0;
         right.y = 0;
@@ -262,6 +262,8 @@ public class movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        // temp commented out these for testing
         //trackIRCam.enabled = useTrackIR;
         //normal3rdCam.enabled = !useTrackIR;
         //trackIRCam.GetComponent<AudioListener>().enabled = useTrackIR;

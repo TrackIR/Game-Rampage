@@ -56,30 +56,39 @@ public class cameraMovement3D : MonoBehaviour
 
     void MoveBlendedCamera()
     {
+        Quaternion headRotation;
+
         // input layer -- still testing, likely needs extra rotation
         if (gameSettings.useTrackIR)
         {
+            // USING TRACK-IR
             Quaternion childRotation = trackIR.LatestPoseOrientation;
 
             Vector3 headEuler = childRotation.eulerAngles;
+
             inputYaw = WrapAngle(headEuler.y);
             inputPitch = WrapAngle(headEuler.x);
+
+            headRotation = Quaternion.Euler(inputPitch, inputYaw, 0f);
         }
         else
         {
-            // absolute screen position normalized (-1 to 1)
             float nx = (Input.mousePosition.x / Screen.width - 0.5f) * 2f;
             float ny = (Input.mousePosition.y / Screen.height - 0.5f) * 2f;
 
-            // map to yaw/pitch
-            inputYaw = nx * -yawRange;
-            inputPitch = ny * maxPitch;
+            inputYaw = nx * yawRange;
+            inputPitch = -Mathf.Clamp(ny * maxPitch, -maxPitch, maxPitch);
 
-            inputPitch = Mathf.Clamp(inputPitch, -maxPitch, maxPitch);
+            Quaternion yawRot = Quaternion.AngleAxis(inputYaw, Vector3.up);
+            Quaternion pitchRot = Quaternion.AngleAxis(inputPitch, Vector3.right);
+
+            headRotation = yawRot * pitchRot;
+
+            // simulate trackir component rotation
+            transform.rotation = headRotation;
         }
 
         // 3rd person
-
         float orbitYaw = inputYaw * yawOrbitWeight;
         float orbitPitch = inputPitch * pitchOrbitWeight;
 
