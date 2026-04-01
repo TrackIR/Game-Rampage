@@ -73,19 +73,17 @@ public class cameraMovement3D : MonoBehaviour
         }
         else
         {
+            // USING MOUSE
             float nx = (Input.mousePosition.x / Screen.width - 0.5f) * 2f;
-            float ny = (Input.mousePosition.y / Screen.height - 0.5f) * 2f;
+            float ny = -(Input.mousePosition.y / Screen.height - 0.5f) * 2f;
 
             inputYaw = nx * yawRange;
-            inputPitch = -Mathf.Clamp(ny * maxPitch, -maxPitch, maxPitch);
+            inputPitch = Mathf.Clamp(ny * maxPitch, -maxPitch, maxPitch);
 
             Quaternion yawRot = Quaternion.AngleAxis(inputYaw, Vector3.up);
             Quaternion pitchRot = Quaternion.AngleAxis(inputPitch, Vector3.right);
 
             headRotation = yawRot * pitchRot;
-
-            // simulate trackir component rotation
-            transform.rotation = headRotation;
         }
 
         // 3rd person
@@ -119,12 +117,17 @@ public class cameraMovement3D : MonoBehaviour
             lookRotationWeight
         );
 
-        Quaternion inputRotation = Quaternion.Euler(inputPitch, inputYaw, 0f);
+        Quaternion thirdPersonRot;
+        if (gameSettings.useTrackIR)
+        {
+            thirdPersonRot = worldLookRotation * Quaternion.Inverse(headRotation);
+        }
+        else
+        {
+            thirdPersonRot = worldLookRotation;
+        }
 
-        Quaternion thirdPersonRot =
-            worldLookRotation * Quaternion.Inverse(inputRotation);
-
-
+        // 1st person
         Vector3 firstPersonPos =
             playerObject.transform.position +
             playerObject.transform.rotation * firstPersonOffset;
@@ -132,7 +135,7 @@ public class cameraMovement3D : MonoBehaviour
         Quaternion firstPersonRot =
             playerObject.transform.rotation;
 
-
+        // blending
         Vector3 blendedPos = Vector3.Lerp(
             firstPersonPos,
             thirdPersonPos,

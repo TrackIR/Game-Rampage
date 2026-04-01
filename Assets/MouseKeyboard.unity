@@ -19297,6 +19297,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: ultimateCharged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: ultLaserDuration
       value: 7
       objectReference: {fileID: 0}
@@ -57252,8 +57256,8 @@ MonoBehaviour:
   firstPersonOffset: {x: 0, y: 11.5, z: 2.5}
   cameraBlend: 1
   transitionSpeed: 3
-  yawRange: 180
-  maxPitch: 120
+  yawRange: 140
+  maxPitch: 100
 --- !u!4 &2051999571
 Transform:
   m_ObjectHideFlags: 0
@@ -57263,7 +57267,7 @@ Transform:
   m_GameObject: {fileID: 2051999569}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 473.22, y: 44.13, z: 482}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
