@@ -127,97 +127,97 @@ public class EnemyAI : MonoBehaviour
     }
 
 
-        UpdateNavPath(startHit.position, endHit.position);
-    }
+    UpdateNavPath(startHit.position, endHit.position);
+}
 
-    // Centralizes the pathing logic
-    void UpdateNavPath(Vector3 startPosition, Vector3 endPosition)
+// Centralizes the pathing logic
+void UpdateNavPath(Vector3 startPosition, Vector3 endPosition)
+{
+    NavMesh.CalculatePath(
+        startPosition,
+        endPosition,
+        new NavMeshQueryFilter { agentTypeID = agent.agentTypeID, areaMask = agent.areaMask },
+        path);
+
+    NavMesh.CalculatePath(
+        startHit.position,
+        endHit.position,
+        new NavMeshQueryFilter
+        {
+            agentTypeID = agent.agentTypeID,
+            areaMask = agent.areaMask
+        },
+    path);
+
+    if (path.status == NavMeshPathStatus.PathComplete)
     {
-        NavMesh.CalculatePath(
-            startPosition,
-            endPosition,
-            new NavMeshQueryFilter { agentTypeID = agent.agentTypeID, areaMask = agent.areaMask },
-            path);
-
-                NavMesh.CalculatePath(
-                    startHit.position,
-                    endHit.position,
-                    new NavMeshQueryFilter
-                    {
-                        agentTypeID = agent.agentTypeID,
-                        areaMask = agent.areaMask
-                    },
-                path);
-
-                if (path.status == NavMeshPathStatus.PathComplete)
-                {
-                    agent.SetPath(path);
-                }
-                else
-                {
-                    Debug.LogWarning($"EnemyAI: path status {path.status}", this);
-                }
-            }
+        agent.SetPath(path);
+    }
+    else
+    {
+        Debug.LogWarning($"EnemyAI: path status {path.status}", this);
+    }
+}
         }
         if (sprayEffect != null && sprayEffect.isPlaying)
-        {
-            sprayEffect.Stop();
-        }
+{
+    sprayEffect.Stop();
+}
     }
 
     void aimAtPlayer()
+{
+    Vector3 directionToPlayer = (playerTarget.position - transform.position).normalized;
+    directionToPlayer.y = 0; // Keep only horizontal rotation
+
+    if (directionToPlayer == Vector3.zero) return; // Avoid errors
+
+    // Determine target rotation
+    Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+
+    // Smoothly rotate towards player
+    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+}
+
+void SprayAttack()
+{
+    // Play a shoot sound effect (Maybe turn this off if it plays a bunch)
+    if (AudioManager.Instance != null)
     {
-        Vector3 directionToPlayer = (playerTarget.position - transform.position).normalized;
-        directionToPlayer.y = 0; // Keep only horizontal rotation
-
-        if (directionToPlayer == Vector3.zero) return; // Avoid errors
-
-        // Determine target rotation
-        Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
-
-        // Smoothly rotate towards player
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        AudioManager.Instance.playAudio(AudioManager.Instance.enemyShoot);
     }
 
-    void SprayAttack()
+    if (agent != null)
     {
-        // Play a shoot sound effect (Maybe turn this off if it plays a bunch)
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.playAudio(AudioManager.Instance.enemyShoot);
-        }
+        agent.isStopped = true; // Stop moving
+    }
 
-        if (agent != null)
-        {
-            agent.isStopped = true; // Stop moving
-        }
+    // Visuals: Turn on the water spray if it's not already on
+    if (sprayEffect != null && !sprayEffect.isPlaying)
+    {
+        sprayEffect.Play();
+    }
 
-        // Visuals: Turn on the water spray if it's not already on
-        if (sprayEffect != null && !sprayEffect.isPlaying)
-        {
-            sprayEffect.Play();
-        }
+    // Damage Logic: Use a Raycast to see if player is being hit
+    RaycastHit hit;
+    // Cast a ray from firePoint, going forward, for the length of range
+    if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, detectionRange))
+    {
+        // Was the player hit
+        PlayerHealth playerHealth = hit.collider.GetComponentInParent<PlayerHealth>();
 
-        // Damage Logic: Use a Raycast to see if player is being hit
-        RaycastHit hit;
-        // Cast a ray from firePoint, going forward, for the length of range
-        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, detectionRange))
+        if (playerHealth != null)
         {
-            // Was the player hit
-            PlayerHealth playerHealth = hit.collider.GetComponentInParent<PlayerHealth>();
+            // Accumulate Damage
+            damageAccumulator += damagePerSecond * Time.deltaTime;
 
-            if (playerHealth != null)
+            // Whenever 1 full point of damage is accumulated, deal it
+            if (damageAccumulator >= 1f)
             {
-                // Accumulate Damage
-                damageAccumulator += damagePerSecond * Time.deltaTime;
-
-                // Whenever 1 full point of damage is accumulated, deal it
-                if (damageAccumulator >= 1f)
-                {
-                    playerHealth.TakeDamage(1); // Deal 1 damage
-                    damageAccumulator -= 1f;    // Keep the remainder for next frame
-                }
+                playerHealth.TakeDamage(1); // Deal 1 damage
+                damageAccumulator -= 1f;    // Keep the remainder for next frame
             }
         }
     }
+}
 }
