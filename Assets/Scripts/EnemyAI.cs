@@ -153,14 +153,14 @@ public class EnemyAI : MonoBehaviour
             new NavMeshQueryFilter { agentTypeID = agent.agentTypeID, areaMask = agent.areaMask },
             path);
 
-                if (path.status == NavMeshPathStatus.PathComplete)
-                {
-                    agent.SetPath(path);
-                }
-                else
-                {
-                    Debug.LogWarning($"EnemyAI: path status {path.status}", this);
-                }
+        if (path.status == NavMeshPathStatus.PathComplete)
+        {
+            agent.SetPath(path);
+        }
+        else
+        {
+            Debug.LogWarning($"EnemyAI: path status {path.status}", this);
+        }
         if (sprayEffect != null && sprayEffect.isPlaying)
         {
             sprayEffect.Stop();
@@ -183,7 +183,7 @@ public class EnemyAI : MonoBehaviour
 
     void SprayAttack()
     {
-                // Branch audio implementation with a small cooldown limit
+        // Branch audio implementation with a small cooldown limit
         if (AudioManager.Instance != null && AudioManager.Instance.enemyShoot != null)
         {
             shootAudioTimer -= Time.deltaTime;
