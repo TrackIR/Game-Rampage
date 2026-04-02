@@ -5,5 +5,6 @@ public class GameSettings : ScriptableObject
 {
     public string difficulty;
     public string mapIndex;
+    public bool useTrackIR;
     // add more settings as they appear
 }
