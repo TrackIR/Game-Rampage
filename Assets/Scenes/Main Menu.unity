@@ -5113,6 +5113,9 @@ MonoBehaviour:
   settings: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
   difficulty:
   - Normal
+  - Hard
+  - Super Hard
+  - Trade Show
   defaultDiff: 0
   map:
   - Downtown

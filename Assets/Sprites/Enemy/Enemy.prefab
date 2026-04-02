@@ -79,8 +79,8 @@ MonoBehaviour:
   rotationSpeed: 10
   speed: 7
   agent: {fileID: -8947426014907748145}
-  damagePerSecond: 0.5
-  sprayEffect: {fileID: 2920601394823598769}
+  damagePerSecond: 1
+  sprayEffect: {fileID: 5023920829423562123}
   firePoint: {fileID: 340802733606060789}
 --- !u!114 &5721115517733800789
 MonoBehaviour:

@@ -1,145 +1,170 @@
 using UnityEngine;
-using TMPro; //Using this to update text
+using TMPro;
 
 public class ManageUI : MonoBehaviour
 {
-    // Health Variables
-    [Header("Health  Variables")]
+    // Singleton so other scripts (like EnemyAI) can easily check the Threat Level
+    public static ManageUI Instance;
+
+    [Header("Game Settings")]
+    public GameSettings gameSettings;
+
+    [Header("Health Variables")]
     public TMP_Text healthObject;
     public RectTransform healthBarObject, healthBarObjectFill;
-    public int maxHealth = 100;
+    public float maxHealth = 100f;
 
-    [HideInInspector] // Can be used by other scripts, but doesnt show up
-    private float health = 100f;
+    [HideInInspector]
+    public float currentHealth;
 
-    // Score Variables
+    [Header("Timer & Escalation Variables")]
+    public TMP_Text timerObject;
+    public float timeRemaining = 0;
+    public bool timerIsRunning = false;
+
+    // The escalating threat level (1 to 5)
+    public int wantedLevel = 1;
+
     [Header("Score Variables")]
     public TMP_Text scoreObject;
-    [HideInInspector]
+    public TMP_Text scoreOutline;
+
     public int score = 0;
+    public float difficulty = 0f;
 
-    // Timer Variables
-    [Header("Timer Variables")]
-    public TMP_Text timerObject;
-    [Range(1f, 10f)]
-    public float difficulty; // Not yet implemented, potentially used to make enemies spawn quicker
+    public bool isTradeShow = false;
+    private PlayerHealth playerHealth;
 
-    [HideInInspector]
-    public float timer = 0f;
+    void Awake()
+    {
+        // Set up the singleton instance
+        Instance = this;
+    }
 
-    private bool timerRunning = false;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        StartTimer();
-        UpdateHealthBar();
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            playerHealth = player.GetComponent<PlayerHealth>();
+        }
+
+        // Check if Trade Show mode is active
+        if (gameSettings != null && gameSettings.difficulty == "Trade Show")
+        {
+            isTradeShow = true;
+        }
+        else
+        {
+            isTradeShow = false;
+        }
+
+        // Timer starts at 0 and counts up for all modes
+        timeRemaining = 0f;
+        currentHealth = maxHealth;
+        ChangeHealth(currentHealth);
         ChangeScore(0);
+        timerIsRunning = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (timerRunning)
+        if (currentHealth <= 0 && timerIsRunning)
         {
-            timer += Time.deltaTime;
-            UpdateTimerUI(); // Done through a function so the timer can be started, stopped, or reset elsewhere
-        }
-    }
-
-    public void ChangeHealth(float amount)
-    {
-        health += amount;
-
-        if (health <= 0)
-        {
-            print("HEALTH AT 0. ACT ON IT HERE");
-        }
-        if (health > maxHealth)
-        {
-            health = maxHealth;
-        }
-
-        UpdateHealthBar();
-    }
-
-    private void UpdateHealthBar()
-    {
-
-        string healthString = health + "/" + maxHealth;
-
-        healthObject.text = healthString;
-
-        float healthPercent = (float)health / (float)maxHealth;
-
-        Vector2 size = healthBarObjectFill.sizeDelta;
-        size.y = healthBarObject.sizeDelta.y * healthPercent;
-        healthBarObjectFill.sizeDelta = size;
-    }
-
-    // Scoring Functions
-
-    public void ChangeScore(int amount)
-    {
-        score += amount;
-
-        if (amount != 0)
-        {
-            if (AudioManager.Instance != null)
+            timerIsRunning = false; // Stop all timer logic
+            if (timerObject != null)
             {
-                AudioManager.Instance.playAudio(AudioManager.Instance.gainScore);
+                timerObject.text = ""; // Clears the text off the screen completely
+            }
+            return; // Exit the loop early
+        }
+
+        if (timerIsRunning)
+        {
+            timeRemaining += Time.deltaTime;
+
+            if (isTradeShow)
+            {
+                // Threat Level increases every 20 seconds, max is 5
+                wantedLevel = Mathf.Min(5, 1 + Mathf.FloorToInt(timeRemaining / 20f));
+                DisplayWantedLevel();
+            }
+            else
+            {
+                DisplayTime(timeRemaining);
             }
         }
-
-        string scoreString = "Score: " + score;
-        scoreObject.text = scoreString;
     }
 
-    // Timer Functions
+    public void ChangeHealth(float health)
+    {
+        if (health < 0) health = 0;
+        if (health > maxHealth) health = maxHealth;
 
-    private void UpdateTimerUI() // Keeping private because this is the only script that should really need it.
+        currentHealth = health;
+
+        if (healthObject != null)
+        {
+            healthObject.text = Mathf.RoundToInt(currentHealth) + "/" + Mathf.RoundToInt(maxHealth);
+        }
+
+        if (healthBarObjectFill != null && healthBarObject != null)
+        {
+            float healthPercent = currentHealth / maxHealth;
+            Vector2 size = healthBarObjectFill.sizeDelta;
+            size.y = healthBarObject.sizeDelta.y * healthPercent;
+            healthBarObjectFill.sizeDelta = size;
+        }
+    }
+
+    void DisplayWantedLevel()
     {
         if (timerObject != null)
         {
-            timerObject.text = "Round Time: " + ((int)timer);
+            // Dynamically change the text and color based on the current level
+            switch (wantedLevel)
+            {
+                case 1:
+                    timerObject.text = "THREAT LEVEL: 1";
+                    timerObject.color = Color.white;
+                    break;
+                case 2:
+                    timerObject.text = "THREAT LEVEL: 2";
+                    timerObject.color = Color.yellow;
+                    break;
+                case 3:
+                    timerObject.text = "THREAT LEVEL: 3";
+                    timerObject.color = new Color(1f, 0.5f, 0f); // Orange
+                    break;
+                case 4:
+                    timerObject.text = "THREAT LEVEL: 4";
+                    timerObject.color = new Color(1.0f, 0.325f, 0.286f);
+                    break;
+                case 5:
+                default:
+                    // At max level, make it aggressive
+                    timerObject.text = "THREAT LEVEL: <color=red>MAX</color>";
+                    timerObject.color = Color.red;
+                    break;
+            }
         }
     }
 
-    // Starts the timer
-    public void StartTimer()
+    void DisplayTime(float timeToDisplay)
     {
-        timerRunning = true;
-        print("Starting Timer");
+        float minutes = Mathf.FloorToInt(timeToDisplay / 60);
+        float seconds = Mathf.FloorToInt(timeToDisplay % 60);
+
+        if (timerObject != null)
+        {
+            timerObject.text = string.Format("Time: {0:0}:{1:00}", minutes, seconds);
+        }
     }
 
-    // Stops the timer
-    public void StopTimer()
+    public void ChangeScore(int scoreToAdd)
     {
-        timerRunning = false;
-        print("Stopping Timer");
+        score += scoreToAdd;
+        if (scoreObject != null) scoreObject.text = "Score: " + score;
+        if (scoreOutline != null) scoreOutline.text = "Score: " + score;
     }
-
-    // Resets the timer and turns it off
-    public void ResetTimer()
-    {
-        timer = 0f;
-        StopTimer();
-        UpdateTimerUI();
-    }
-
-    // Resets the timer while keeping it going
-    public void RestartTimer()
-    {
-        timer = 0f;
-        StartTimer();
-        UpdateTimerUI();
-    }
-
-    public void SetDifficulty(float amount)
-    {
-        difficulty = amount;
-
-    }
-
-
 }

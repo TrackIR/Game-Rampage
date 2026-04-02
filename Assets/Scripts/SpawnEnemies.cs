@@ -37,14 +37,28 @@ public class SpawnEnemies : MonoBehaviour
 
     void SpawnOnTimer()
     {
+        // Default settings for standard game modes
+        float activeDifficultyModifier = ui.difficulty;
+        float activeMaxEnemies = maxEnemies;
+
+        // TRADE SHOW SCALING
+        if (ui.isTradeShow)
+        {
+            // Threat level 1-5 aggressively reduces the wait time between spawns
+            activeDifficultyModifier = ui.wantedLevel * 1.5f;
+
+            // Threat level dynamically increases the swarm size! (Level 5 adds 5 extra max enemies)
+            activeMaxEnemies = maxEnemies + ui.wantedLevel;
+        }
+
+        // Calculate the interval, clamping it so it never fires faster than twice a second
+        float interval = Mathf.Clamp(spawnRate - activeDifficultyModifier, 0.5f, 20f);
 
         spawnTimer += Time.deltaTime;
 
         if (spawnTimer >= spawnRate)
         {
-            Vector3 center = new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z);
-            float angleStep = 360f / Mathf.Max(1, spawnCount);
-            float startAngle = Random.Range(0f, 360f);
+            int enemyNum = (int)Random.Range(1, activeMaxEnemies);
 
             for (int i = 0; i < spawnCount; i++)
             {
@@ -64,10 +78,5 @@ public class SpawnEnemies : MonoBehaviour
             scalingFactor = scalingFactor * 1.1f;
             spawnCount = Mathf.FloorToInt(scalingFactor * 2);
         }
-    }
-
-    bool IsSpawnerClear(Vector3 spawnPos)
-    {
-        return !Physics.CheckSphere(spawnPos, spawnerClearanceRadius, buildingMask, QueryTriggerInteraction.Ignore);
     }
 }
