@@ -143,11 +143,11 @@ public class PlayerAttack : MonoBehaviour
         if (uiManager == null) return;
 
         int score = uiManager.score;
-        int currentLevel = score / UltimateThreshold;
+        int currentLevel = score / ultimateThreshold;
 
         if (currentLevel > lastUltimateLevel)
         {
-            UltimateCharged = true;
+            ultimateCharged = true;
             Debug.Log("Ult ready");
             lastUltimateLevel = currentLevel;
         }
@@ -247,7 +247,8 @@ public class PlayerAttack : MonoBehaviour
         yield return StartCoroutine(EndUltimate());
     }
 
-    private void EndUltimate()
+    // Changed from void to IEnumerator
+    private IEnumerator EndUltimate()
     {
         playerHead.SetActive(true);
 
@@ -262,7 +263,7 @@ public class PlayerAttack : MonoBehaviour
         if (movement != null)
             movement.enabled = true;
 
-        UltimateCharged = false;
+        ultimateCharged = false;
         ultimateCooldownTimer = ultimateActivationCooldown;
 
         isInUltimate = false;
