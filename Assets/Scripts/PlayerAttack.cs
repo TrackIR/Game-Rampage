@@ -248,6 +248,7 @@ public class PlayerAttack : MonoBehaviour
         yield return StartCoroutine(EndUltimate());
     }
 
+    // Changed from void to IEnumerator
     private IEnumerator EndUltimate()
     {
         playerHead.SetActive(true);
