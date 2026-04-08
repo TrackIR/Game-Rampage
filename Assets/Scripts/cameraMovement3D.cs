@@ -133,7 +133,7 @@ public class cameraMovement3D : MonoBehaviour
             playerObject.transform.rotation * firstPersonOffset;
 
         Quaternion firstPersonRot =
-            playerObject.transform.rotation;
+            playerObject.transform.rotation * headRotation;
 
         // blending
         Vector3 blendedPos = Vector3.Lerp(
