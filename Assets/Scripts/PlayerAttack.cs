@@ -31,12 +31,14 @@ public class PlayerAttack : MonoBehaviour
     public GameObject playerHead;
     private bool isInUltimate = false;
 
-
     [Header("References / Animation")]
     public GameObject cursor;
     private Animator anim;
     private int animPunchHash;
     private ManageUI uiManager;
+
+    // Stores the dynamically remapped attack key
+    private KeyCode attackKey;
 
     void Start()
     {
@@ -47,6 +49,10 @@ public class PlayerAttack : MonoBehaviour
         {
             animPunchHash = Animator.StringToHash("Base Layer.Punch");
         }
+
+        // Load the saved key, or default to Space if haven't set one yet
+        string savedKey = PlayerPrefs.GetString("AttackKey", "Space");
+        attackKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), savedKey);
     }
 
     void Update()
@@ -69,7 +75,8 @@ public class PlayerAttack : MonoBehaviour
 
         checkScore();
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        // uses the dynamic attackKey instead of KeyCode.Space
+        if (Input.GetKeyDown(attackKey))
         {
             // activate ultimate if ready and not in cooldown
             if (ultimateCharged && ultimateCooldownTimer <= 0f && !isInUltimate)
