@@ -19273,6 +19273,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 641262260}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: beamWeight
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: playerHead
       value: 
       objectReference: {fileID: 472473030}
