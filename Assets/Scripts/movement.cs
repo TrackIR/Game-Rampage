@@ -12,7 +12,7 @@ public class movement : MonoBehaviour
 {
     [Header("Game Settings")]
     public GameSettings gameSettings;
-    
+
     [Header("Mouse Look (Absolute)")]
     public float yawRange = 180f;
     public float maxPitch = 120f;

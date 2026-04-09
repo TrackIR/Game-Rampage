@@ -91,7 +91,7 @@ public class crossHair : MonoBehaviour
 
     void MouseCursor()
     {
-        
+
     }
 
     void Update()
@@ -99,7 +99,8 @@ public class crossHair : MonoBehaviour
         if (gameSettings.useTrackIR)
         {
             TrackIRCursor();
-        } else
+        }
+        else
         {
             MouseCursor();
         }
