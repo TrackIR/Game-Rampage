@@ -23,7 +23,7 @@ public class movement : MonoBehaviour
 
     public float gravity = -9.81f;
     public float speed = 10.0f;
-    public float jumpPower = 2.0f;
+    public float jumpPower = 4.0f;
 
     public GameObject TrackIRRoot;
 
@@ -45,8 +45,9 @@ public class movement : MonoBehaviour
     [SerializeField] private bool invertRotation = false;
     [SerializeField] private bool rotateWithYaw;
     [SerializeField] private float jumpStartAngleThreshold = -5.0f; //must start below this angle to initiate jump
-    [SerializeField] private float jumpEndAngleThreshold = -25.0f; //must exceed this angle to trigger jump
+    [SerializeField] private float jumpEndAngleThreshold = -40.0f; //must exceed this angle to trigger jump
     [SerializeField] private float jumpYawThreshold = 10.0f; // degrees within neutral position for jump to be valid
+    [SerializeField] private float groundPoundRadius = 5.0f; // radius of ground pound effect
 
     Vector3 velocity;
     private Vector3 headPos;
@@ -55,6 +56,9 @@ public class movement : MonoBehaviour
 
     private Animator anim;
     private int animWalkHash;
+    private bool jumping = false;
+    private bool wasGrounded = false;
+    private Collider[] enemiesHit;
 
     void Awake()
     {
@@ -111,6 +115,21 @@ public class movement : MonoBehaviour
         if (anim != null)
         {
             animWalkHash = Animator.StringToHash("Base Layer.Walk");
+        }
+    }
+
+    void GroundPound()
+    {
+        Vector3 groundPoundPosition = new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);
+        enemiesHit = Physics.OverlapSphere(groundPoundPosition, groundPoundRadius, LayerMask.GetMask("Enemy"));
+        foreach (var enemyCollider in enemiesHit)
+        {
+            EnemyHealth enemy = enemyCollider.GetComponent<EnemyHealth>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(100); // Adjust damage as needed
+                Debug.Log("Ground Pound hit enemy!");
+            }
         }
     }
 
@@ -212,6 +231,7 @@ public class movement : MonoBehaviour
                     if (controller.isGrounded)
                     {
                         velocity.y = Mathf.Sqrt(jumpPower * -2f * gravity);
+                        jumping = true;
                     }
                     headRotQueue.Clear(); //reset queue after jump
                     break; //exit loop after jump because we don't need to keep checking
@@ -284,6 +304,7 @@ public class movement : MonoBehaviour
             zMove();
             xMove();
             rotPlayer();
+            jump();
 
             // Keep player grounded
             if (controller.isGrounded && velocity.y < 0f)
@@ -293,11 +314,19 @@ public class movement : MonoBehaviour
             // Apply gravity
             velocity.y += gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
+
+            if (jumping && !wasGrounded && controller.isGrounded)
+            {
+                GroundPound();
+                jumping = false; // reset jumping state when player lands
+            }
+
+            wasGrounded = controller.isGrounded;
         }
         else
         {
             wasdMove();
-            jump();
+            wasGrounded = controller.isGrounded;
         }
     }
 
