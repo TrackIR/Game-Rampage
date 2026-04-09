@@ -86,6 +86,7 @@ public class BuildingDestruction : MonoBehaviour
 
             // Move the building down globally
             transform.position -= new Vector3(0, sinkAmount, 0);
+            damageParticles.transform.localPosition += new Vector3(0, sinkAmount, 0);
         }
     }
 
