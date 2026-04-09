@@ -189,9 +189,6 @@ public class PlayerAttack : MonoBehaviour
         Vector3 screenPos = cursor.transform.position;
         Ray ray = cam.ScreenPointToRay(screenPos);
 
-        // debug ray
-        Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red);
-
         RaycastHit hit;
         Vector3 targetPoint;
         int layerMask = ~LayerMask.GetMask("player");
@@ -205,9 +202,7 @@ public class PlayerAttack : MonoBehaviour
         Vector3 currentDir = ultSpawnPoint.forward;
 
         Vector3 smoothedDir = Vector3.Lerp(currentDir, desiredDir, beamWeight).normalized;
-
-        //ultSpawnPoint.rotation = Quaternion.LookRotation(smoothedDir);
-        ultSpawnPoint.rotation = Quaternion.LookRotation(desiredDir);
+        ultSpawnPoint.rotation = Quaternion.LookRotation(smoothedDir);
 
     }
 
@@ -252,7 +247,7 @@ public class PlayerAttack : MonoBehaviour
         UltAttack();
 
         // shake it shake it baby
-        StartCoroutine(cameraShake.Shake(ultLaserDuration, cameraShakeMag));
+        //StartCoroutine(cameraShake.Shake(ultLaserDuration - 0.5f, cameraShakeMag));
 
         yield return new WaitForSeconds(ultLaserDuration);
 

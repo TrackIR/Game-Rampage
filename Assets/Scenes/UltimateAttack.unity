@@ -13869,6 +13869,7 @@ GameObject:
   - component: {fileID: 468192958}
   - component: {fileID: 468192957}
   - component: {fileID: 468192961}
+  - component: {fileID: 468192962}
   m_Layer: 0
   m_Name: TrackIR Camera
   m_TagString: MainCamera
@@ -14017,11 +14018,29 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 468192955}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6977cd13e2f2634ea63bc4cf5b78608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraShake
+--- !u!114 &468192962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468192955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ab8353b5ebd32545867da143199a814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EZCameraShake.CameraShaker
+  DefaultPosInfluence: {x: 0.15, y: 0.15, z: 0.15}
+  DefaultRotInfluence: {x: 1, y: 1, z: 1}
+  RestPositionOffset: {x: 0, y: 0, z: 0}
+  RestRotationOffset: {x: 0, y: 0, z: 0}
+  posAddShake: {x: 0, y: 0, z: 0}
+  rotAddShake: {x: 0, y: 0, z: 0}
 --- !u!1001 &468669874
 PrefabInstance:
   m_ObjectHideFlags: 0
