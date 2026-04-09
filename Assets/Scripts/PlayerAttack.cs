@@ -194,16 +194,20 @@ public class PlayerAttack : MonoBehaviour
         int layerMask = ~LayerMask.GetMask("player");
 
         if (Physics.Raycast(ray, out hit, 1000f, layerMask))
+        {
             targetPoint = hit.point;
+            Debug.Log(hit.distance + " hit: " + hit.collider.name);
+        }
         else
+        {
             targetPoint = ray.origin + ray.direction * 1000f;
+        }
 
         Vector3 desiredDir = (targetPoint - ultSpawnPoint.position).normalized;
         Vector3 currentDir = ultSpawnPoint.forward;
 
         Vector3 smoothedDir = Vector3.Lerp(currentDir, desiredDir, beamWeight).normalized;
         ultSpawnPoint.rotation = Quaternion.LookRotation(smoothedDir);
-
     }
 
     void UltAttack()
@@ -247,7 +251,7 @@ public class PlayerAttack : MonoBehaviour
         UltAttack();
 
         // shake it shake it baby
-        //StartCoroutine(cameraShake.Shake(ultLaserDuration - 0.5f, cameraShakeMag));
+        StartCoroutine(cameraShake.Shake(ultLaserDuration - 0.5f, cameraShakeMag));
 
         yield return new WaitForSeconds(ultLaserDuration);
 
