@@ -349,7 +349,7 @@ MonoBehaviour:
   jumpStartAngleThreshold: -5
   jumpEndAngleThreshold: -25
   jumpYawThreshold: 10
-  groundPoundRadius: 405.2
+  groundPoundRadius: 20
 --- !u!114 &2169317586527919222
 MonoBehaviour:
   m_ObjectHideFlags: 0
