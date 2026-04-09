@@ -7,13 +7,18 @@ using Unity.VisualScripting;
 using System.Collections;
 using System.Collections.Generic;
 
-
-
 [RequireComponent(typeof(CharacterController))]
 public class movement : MonoBehaviour
 {
     [Header("Game Settings")]
     public GameSettings gameSettings;
+
+    [Header("Mouse Look (Absolute)")]
+    public float yawRange = 180f;
+    public float maxPitch = 120f;
+
+    private float inputYaw;
+    private float inputPitch;
 
     CharacterController controller;
 
@@ -95,6 +100,12 @@ public class movement : MonoBehaviour
 
     void Start()
     {
+        // Read TrackIR setting from GameSettings if assigned
+        if (gameSettings != null)
+        {
+            useTrackIR = gameSettings.useTrackIR;
+        }
+
         controller = GetComponent<CharacterController>();
 
         if (TrackIRRoot != null)
@@ -108,9 +119,7 @@ public class movement : MonoBehaviour
         {
             animWalkHash = Animator.StringToHash("Base Layer.Walk");
         }
-
     }
-
 
     void zMove()
     {
@@ -180,7 +189,6 @@ public class movement : MonoBehaviour
         }
     }
 
-
     void jump()
     {
         // save head rotation data from last 60 frames to determine jump gesture
@@ -198,7 +206,7 @@ public class movement : MonoBehaviour
                 float pitch = rot.x * Mathf.Rad2Deg;
                 float yaw = rot.y * Mathf.Rad2Deg;
                 if (Mathf.Abs(yaw) > jumpYawThreshold)
-                { //can't jump if looking to side too much
+                {   //can't jump if looking to side too much
                     break;
                 }
                 if (pitch > jumpStartAngleThreshold)
@@ -219,6 +227,25 @@ public class movement : MonoBehaviour
         }
     }
 
+    void mouseRotatePlayer()
+    {
+        float nx = (Input.mousePosition.x / Screen.width - 0.5f) * 2f;
+
+        // treat like yaw input (same concept as headRot.y)
+        float yawInput = nx;
+
+        if (Mathf.Abs(yawInput) > headYawThreshold)
+        {
+            float rotDirection = yawInput > 0 ? 1f : -1f;
+
+            float excess = Mathf.Abs(yawInput) - headYawThreshold;
+
+            float rotAmount = rotDirection * rollSpeed * excess * Time.deltaTime;
+
+            transform.Rotate(0f, rotAmount, 0f);
+        }
+    }
+
     void wasdMove()
     {
         Vector2 moveInput = moveAction.ReadValue<Vector2>();
@@ -227,8 +254,8 @@ public class movement : MonoBehaviour
         float moveX = moveInput.x;
         float moveZ = moveInput.y;
 
-        Vector3 forward = cameraTransform.forward;
-        Vector3 right = cameraTransform.right;
+        Vector3 forward = transform.forward; // changed to player forward instead of camera for testing
+        Vector3 right = transform.right; // changed to player right instead of camera right for testing //cameraTransform
 
         forward.y = 0;
         right.y = 0;
@@ -241,12 +268,6 @@ public class movement : MonoBehaviour
 
         float speedPercent = moveDirection.magnitude;
         anim.SetFloat("Speed", speedPercent);
-
-        if (speedPercent > 0)
-        {
-            Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);
-        }
 
         if (controller.isGrounded && velocity.y < 0f)
             velocity.y = -2f;
@@ -261,11 +282,13 @@ public class movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        trackIRCam.enabled = useTrackIR;
-        normal3rdCam.enabled = !useTrackIR;
-        trackIRCam.GetComponent<AudioListener>().enabled = useTrackIR;
-        normal3rdCam.GetComponent<AudioListener>().enabled = !useTrackIR;
-        cameraTransform = Camera.main.transform;
+
+        // temp commented out these for testing
+        //trackIRCam.enabled = useTrackIR;
+        //normal3rdCam.enabled = !useTrackIR;
+        //trackIRCam.GetComponent<AudioListener>().enabled = useTrackIR;
+        //normal3rdCam.GetComponent<AudioListener>().enabled = !useTrackIR;
+        //cameraTransform = Camera.main.transform;
 
         if (useTrackIR && trackIR != null)
         {
@@ -295,6 +318,7 @@ public class movement : MonoBehaviour
         }
         else
         {
+            mouseRotatePlayer();
             wasdMove();
             jump();
         }

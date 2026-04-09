@@ -32,12 +32,17 @@ public class PlayerHealth : MonoBehaviour
     // function that other scripts can call to Deal Damage
     public void TakeDamage(float damage)
     {
-
         if (!isAlive) return;
 
         // Reduce health
         currentHealth -= damage;
-        UImanager.GetComponent<ManageUI>().ChangeHealth(-damage);
+
+        // THE FIX: Send the new TOTAL health to the UI, not the damage amount!
+        if (UImanager != null)
+        {
+            UImanager.GetComponent<ManageUI>().ChangeHealth(currentHealth);
+        }
+
         Debug.Log(gameObject.name + " health: " + currentHealth);
 
         // Play damage animation
@@ -73,8 +78,11 @@ public class PlayerHealth : MonoBehaviour
             AudioManager.Instance.playAudio(AudioManager.Instance.playerHeal);
         }
 
-        // Update UI (sending a positive number adds to the bar)
-        UImanager.GetComponent<ManageUI>().ChangeHealth(amount);
+        // THE FIX: Send the new TOTAL health to the UI, not just the heal amount!
+        if (UImanager != null)
+        {
+            UImanager.GetComponent<ManageUI>().ChangeHealth(currentHealth);
+        }
 
         Debug.Log("Restored " + amount + " Health. Current: " + currentHealth);
     }

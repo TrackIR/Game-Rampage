@@ -4,11 +4,14 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
+    [Header("Game Settings")]
+    public GameSettings gameSettings;
     // Basic Settings
     public Transform playerTarget;
     private bool playerInRange;
     public float detectionRange = 15f; // range for spray attack
     public float rotationSpeed = 5f;
+    public float fleeRange = 8f;
     public float speed = 5f;
     private const float gravity = -9.81f;
     private Vector3 gravityVector = new Vector3(0, gravity, 0);
@@ -17,12 +20,40 @@ public class EnemyAI : MonoBehaviour
     // Spray Settings
     public float damagePerSecond = 0.5f;    // damage every second
     public ParticleSystem sprayEffect;
-    public Transform firePoint;        // Where the spray comes from
-    private float damageAccumulator = 0f; // Stores partial damage
-    private float elapsed = 0f; // Timer for pathfinding updates
+    public Transform firePoint;
+    private float damageAccumulator = 0f;
+    private float pathTimer = 0f;
+    private float shootAudioTimer = 0f;  // Prevents audio spam
+
+    // save the baseline stats so it can be multiplied
+    private float baseSpeed;
+    private float baseDamage;
 
     void Start()
     {
+        // Save the original stats
+        baseSpeed = speed;
+        baseDamage = damagePerSecond;
+
+        // STANDARD DIFFICULTY SCALING
+        if (gameSettings != null)
+        {
+            if (gameSettings.difficulty == "Hard")
+            {
+                baseSpeed = 4f;
+                baseDamage = 1.5f;  // 1.5x damage
+            }
+            else if (gameSettings.difficulty == "Super Hard")
+            {
+                baseSpeed = 5f;
+                baseDamage = 3f;  // 3x damage
+            }
+        }
+
+        // Apply standard scaling so normal modes still work
+        speed = baseSpeed;
+        damagePerSecond = baseDamage;
+
         if (playerTarget == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -39,61 +70,96 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        playerInRange = Physics.CheckSphere(transform.position, detectionRange, LayerMask.GetMask("player"));
-        if (playerInRange)
+        if (playerTarget == null || agent == null) return;
+
+        // TRADE SHOW SCALING
+        if (ManageUI.Instance != null && ManageUI.Instance.isTradeShow)
         {
-            aimAtPlayer();
+            int threat = ManageUI.Instance.wantedLevel;
+
+            // Speed increases linearly per threat level, damage multiplies
+            agent.speed = baseSpeed + (threat * 0.6f);
+            damagePerSecond = baseDamage * threat;
+        }
+
+        // Use 2D horizontal distance to prevent the giant robot's height from breaking the range checks
+        Vector3 enemyFlatPos = new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 playerFlatPos = new Vector3(playerTarget.position.x, 0, playerTarget.position.z);
+        float distanceToPlayer = Vector3.Distance(enemyFlatPos, playerFlatPos);
+
+        aimAtPlayer();
+
+        pathTimer += Time.deltaTime;
+        bool shouldUpdatePath = false;
+        if (pathTimer > 0.5f)
+        {
+            shouldUpdatePath = true;
+            pathTimer = 0f;
+        }
+
+        if (distanceToPlayer <= fleeRange)
+        {
+            agent.isStopped = false;
+            if (shouldUpdatePath) FleePlayer();
+
+            SprayAttack();
+        }
+        else if (distanceToPlayer <= detectionRange)
+        {
+            // Stand ground and attack
+            agent.isStopped = true;
             SprayAttack();
         }
         else
         {
-            aimAtPlayer();
-            findPlayer();
+            // Chase player
+            agent.isStopped = false;
+            if (shouldUpdatePath) ChasePlayer();
+
+            if (sprayEffect != null && sprayEffect.isPlaying)
+            {
+                sprayEffect.Stop();
+            }
         }
     }
 
-    void findPlayer()
+    void FleePlayer()
     {
-        if (agent != null && playerTarget != null)
+        Vector3 dirAwayFromPlayer = (transform.position - playerTarget.position).normalized;
+        dirAwayFromPlayer.y = 0;
+
+        Vector3 fleeTarget = transform.position + (dirAwayFromPlayer * 10f);
+
+        if (!NavMesh.SamplePosition(agent.transform.position, out NavMeshHit startHit, 5f, agent.areaMask)) return;
+        if (!NavMesh.SamplePosition(fleeTarget, out NavMeshHit endHit, 10f, agent.areaMask)) return;
+
+        UpdateNavPath(startHit.position, endHit.position);
+    }
+
+    void ChasePlayer()
+    {
+        if (!NavMesh.SamplePosition(agent.transform.position, out NavMeshHit startHit, 5f, agent.areaMask)) return;
+        if (!NavMesh.SamplePosition(playerTarget.position, out NavMeshHit endHit, 20f, agent.areaMask)) return;
+
+        UpdateNavPath(startHit.position, endHit.position);
+    }
+
+    // Centralizes the pathing logic
+    void UpdateNavPath(Vector3 startPosition, Vector3 endPosition)
+    {
+        NavMesh.CalculatePath(
+            startPosition,
+            endPosition,
+            new NavMeshQueryFilter { agentTypeID = agent.agentTypeID, areaMask = agent.areaMask },
+            path);
+
+        if (path.status == NavMeshPathStatus.PathComplete)
         {
-            agent.isStopped = false;
-
-
-            elapsed += Time.deltaTime;
-            if (elapsed > 1.0f)
-            {
-                elapsed -= 1.0f;
-                if (!NavMesh.SamplePosition(agent.transform.position, out NavMeshHit startHit, 2f, agent.areaMask))
-                {
-                    Debug.LogWarning("EnemyAI: agent is not on the NavMesh.", this);
-                    return;
-                }
-
-                if (!NavMesh.SamplePosition(playerTarget.position, out NavMeshHit endHit, 20f, agent.areaMask))
-                {
-                    Debug.LogWarning("EnemyAI: target is not on the NavMesh.", this);
-                    return;
-                }
-
-                NavMesh.CalculatePath(
-                    startHit.position,
-                    endHit.position,
-                    new NavMeshQueryFilter
-                    {
-                        agentTypeID = agent.agentTypeID,
-                        areaMask = agent.areaMask
-                    },
-                path);
-
-                if (path.status == NavMeshPathStatus.PathComplete)
-                {
-                    agent.SetPath(path);
-                }
-                else
-                {
-                    Debug.LogWarning($"EnemyAI: path status {path.status}", this);
-                }
-            }
+            agent.SetPath(path);
+        }
+        else
+        {
+            Debug.LogWarning($"EnemyAI: path status {path.status}", this);
         }
         if (sprayEffect != null && sprayEffect.isPlaying)
         {
@@ -117,10 +183,15 @@ public class EnemyAI : MonoBehaviour
 
     void SprayAttack()
     {
-        // Play a shoot sound effect (Maybe turn this off if it plays a bunch)
-        if (AudioManager.Instance != null)
+        // Branch audio implementation with a small cooldown limit
+        if (AudioManager.Instance != null && AudioManager.Instance.enemyShoot != null)
         {
-            AudioManager.Instance.playAudio(AudioManager.Instance.enemyShoot);
+            shootAudioTimer -= Time.deltaTime;
+            if (shootAudioTimer <= 0f)
+            {
+                AudioManager.Instance.playAudio(AudioManager.Instance.enemyShoot);
+                shootAudioTimer = 0.5f; // Play sound every half second
+            }
         }
 
         if (agent != null)
