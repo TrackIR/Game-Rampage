@@ -115,6 +115,21 @@ public class PlayerAttack : MonoBehaviour
             Debug.Log("Ult ready");
             lastUltimateLevel = currentLevel;
         }
+
+        // Update the Ultimate UI Bar
+        if (ultimateCharged)
+        {
+            // If it's ready, send the max threshold to fill the bar completely
+            uiManager.UpdateUlt(ultimateThreshold, ultimateThreshold);
+        }
+        else
+        {
+            // Calculate how far along the player is to the NEXT ultimate charge
+            int progress = score - (lastUltimateLevel * ultimateThreshold);
+            if (progress < 0) progress = 0;
+
+            uiManager.UpdateUlt(progress, ultimateThreshold);
+        }
     }
 
     void Attack()
