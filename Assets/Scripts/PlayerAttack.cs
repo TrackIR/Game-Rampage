@@ -251,7 +251,7 @@ public class PlayerAttack : MonoBehaviour
         UltAttack();
 
         // shake it shake it baby
-        StartCoroutine(cameraShake.Shake(ultLaserDuration - 0.5f, cameraShakeMag));
+        StartCoroutine(cameraShake.Shake(ultLaserDuration - 0.5f, cameraShakeMag, 0.125f));
 
         yield return new WaitForSeconds(ultLaserDuration);
 
