@@ -6,12 +6,21 @@ public class KeyRemapper : MonoBehaviour
     [Header("UI References")]
     public TMP_Text buttonText;
 
+    [Header("Keybind Settings")]
+    public string prefsKeyName = "AttackKey";
+    public string defaultKey = "Q";      // The fallback key
+
     private bool isWaitingForInput = false;
 
     void Start()
     {
-        // Display the currently saved key on the button when the menu opens
-        string savedKey = PlayerPrefs.GetString("AttackKey", "Space");
+        RefreshText();
+    }
+
+    public void RefreshText()
+    {
+        // Display the currently saved key on the button
+        string savedKey = PlayerPrefs.GetString(prefsKeyName, defaultKey);
         if (buttonText != null)
         {
             buttonText.text = savedKey;
@@ -35,7 +44,6 @@ public class KeyRemapper : MonoBehaviour
         }
     }
 
-    // You will link this function to the UI Button's "On Click()" event
     public void StartRemapping()
     {
         isWaitingForInput = true;
@@ -48,7 +56,7 @@ public class KeyRemapper : MonoBehaviour
     private void SaveNewKey(KeyCode newKey)
     {
         // Save the key as a string to PlayerPrefs
-        PlayerPrefs.SetString("AttackKey", newKey.ToString());
+        PlayerPrefs.SetString(prefsKeyName, newKey.ToString());
         PlayerPrefs.Save(); // Force it to save immediately
 
         // Update the button text to show the new key
@@ -57,6 +65,6 @@ public class KeyRemapper : MonoBehaviour
             buttonText.text = newKey.ToString();
         }
 
-        isWaitingForInput = false; // Stop listening for inputs
+        isWaitingForInput = false;
     }
 }

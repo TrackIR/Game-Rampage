@@ -39,6 +39,8 @@ public class PlayerAttack : MonoBehaviour
 
     // Stores the dynamically remapped attack key
     private KeyCode attackKey;
+    // Stores the dynamically remapped ultimate key
+    private KeyCode ultimateKey;
 
     void Start()
     {
@@ -50,9 +52,12 @@ public class PlayerAttack : MonoBehaviour
             animPunchHash = Animator.StringToHash("Base Layer.Punch");
         }
 
-        // Load the saved key, or default to Space if haven't set one yet
-        string savedKey = PlayerPrefs.GetString("AttackKey", "Space");
-        attackKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), savedKey);
+        // Load the saved keys, or default to Q / E if haven't set one yet
+        string savedAttackKey = PlayerPrefs.GetString("AttackKey", "Q");
+        attackKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), savedAttackKey);
+
+        string savedUltKey = PlayerPrefs.GetString("UltimateKey", "E");
+        ultimateKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), savedUltKey);
     }
 
     void Update()
@@ -75,16 +80,21 @@ public class PlayerAttack : MonoBehaviour
 
         checkScore();
 
-        // uses the dynamic attackKey instead of KeyCode.Space
-        if (Input.GetKeyDown(attackKey))
+        // SEPARATED: Check for ultimate input specifically
+        if (Input.GetKeyDown(ultimateKey))
         {
             // activate ultimate if ready and not in cooldown
             if (ultimateCharged && ultimateCooldownTimer <= 0f && !isInUltimate)
             {
                 StartCoroutine(UltimateSequence());
             }
+        }
+
+        // uses the dynamic attackKey instead of KeyCode.Space
+        if (Input.GetKeyDown(attackKey))
+        {
             // Normal attack
-            else if (!ultimateCharged && normalAttackTimer <= 0f && (ultimateCooldownTimer <= 0f))
+            if (!ultimateCharged && normalAttackTimer <= 0f && (ultimateCooldownTimer <= 0f))
             {
                 Attack();
                 normalAttackTimer = normalAttackCooldown;
@@ -247,8 +257,6 @@ public class PlayerAttack : MonoBehaviour
 
         isInUltimate = false;
     }
-
-
 
     void OnDrawGizmosSelected()
     {
