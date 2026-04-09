@@ -38,6 +38,8 @@ public class PlayerAttack : MonoBehaviour
     [Header("References / Animation")]
     public GameObject cursor;
     public GameSettings gameSettings;
+    public CameraShake cameraShake;
+    public float cameraShakeMag = 0.2f;
     private Animator anim;
     private int animPunchHash;
     private ManageUI uiManager;
@@ -184,8 +186,11 @@ public class PlayerAttack : MonoBehaviour
 
         Camera cam = Camera.main;
 
-        Vector3 screenPos = RectTransformUtility.WorldToScreenPoint(cam, cursor.transform.position);
+        Vector3 screenPos = cursor.transform.position;
         Ray ray = cam.ScreenPointToRay(screenPos);
+
+        // debug ray
+        Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red);
 
         RaycastHit hit;
         Vector3 targetPoint;
@@ -201,7 +206,9 @@ public class PlayerAttack : MonoBehaviour
 
         Vector3 smoothedDir = Vector3.Lerp(currentDir, desiredDir, beamWeight).normalized;
 
-        ultSpawnPoint.rotation = Quaternion.LookRotation(smoothedDir);
+        //ultSpawnPoint.rotation = Quaternion.LookRotation(smoothedDir);
+        ultSpawnPoint.rotation = Quaternion.LookRotation(desiredDir);
+
     }
 
     void UltAttack()
@@ -243,6 +250,9 @@ public class PlayerAttack : MonoBehaviour
             movement.enabled = false;
 
         UltAttack();
+
+        // shake it shake it baby
+        StartCoroutine(cameraShake.Shake(ultLaserDuration, cameraShakeMag));
 
         yield return new WaitForSeconds(ultLaserDuration);
 
