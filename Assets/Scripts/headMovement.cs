@@ -1,39 +1,21 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Unity.Mathematics;
-using NaturalPoint.TrackIR;
-using Unity.VisualScripting;
-using System.Collections;
-using System.Collections.Generic;
 
 [RequireComponent(typeof(CharacterController))]
-public class movement : MonoBehaviour
+public class headMovement : MonoBehaviour
 {
     [Header("Game Settings")]
     public GameSettings gameSettings;
-
     CharacterController controller;
-
     TrackIRComponent trackIR;
-
     public Camera trackIRCam;
-
     public Camera normal3rdCam;
-
     public float gravity = -9.81f;
     public float speed = 10.0f;
-    public float jumpPower = 2.0f;
-
     public GameObject TrackIRRoot;
-
-    // INPUT SYSTEM
     private PlayerInput input;
     private InputAction moveAction;
-    private InputAction jumpAction;
-
-    // TODO: first or third person toggle needs to be scene or just moved to be better
-
     private Transform cameraTransform;
     [SerializeField] private bool useTrackIR = true;
     [SerializeField] private bool debugON = true;
@@ -44,17 +26,9 @@ public class movement : MonoBehaviour
     [SerializeField] private float rollSpeed = 200.0f; // degrees per second when rolling
     [SerializeField] private bool invertRotation = false;
     [SerializeField] private bool rotateWithYaw;
-    [SerializeField] private float jumpStartAngleThreshold = -5.0f; //must start below this angle to initiate jump
-    [SerializeField] private float jumpEndAngleThreshold = -25.0f; //must exceed this angle to trigger jump
-    [SerializeField] private float jumpYawThreshold = 10.0f; // degrees within neutral position for jump to be valid
-
-    Vector3 velocity;
     private Vector3 headPos;
     private Quaternion headRot;
-    private Queue<Quaternion> headRotQueue = new Queue<Quaternion>();
-
-    private Animator anim;
-    private int animWalkHash;
+    Vector3 velocity;
 
     void Awake()
     {
@@ -63,16 +37,14 @@ public class movement : MonoBehaviour
         if (gameSettings != null && gameSettings.useTrackIR)
         {
             moveAction = null; // TrackIR handles movement
-            jumpAction = null;
         }
         else
         {
             moveAction = input.KeyboardMouse.Movement;
-            jumpAction = input.KeyboardMouse.Jump;
         }
     }
 
-    void OnEnable()
+        void OnEnable()
     {
         input.Enable();
 
@@ -90,10 +62,9 @@ public class movement : MonoBehaviour
     {
         input.Disable();
     }
-
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
         // Read TrackIR setting from GameSettings if assigned
         if (gameSettings != null)
         {
@@ -106,16 +77,7 @@ public class movement : MonoBehaviour
         {
             trackIR = TrackIRRoot.GetComponent<TrackIRComponent>();
         }
-        // Get the animator from the player's model
-        anim = gameObject.GetComponentInChildren<Animator>();
-
-        if (anim != null)
-        {
-            animWalkHash = Animator.StringToHash("Base Layer.Walk");
-        }
-        gameObject.SetActive(false);
     }
-
     void zMove()
     {
         //when head moves forward past threshhold, move player forward
@@ -183,49 +145,9 @@ public class movement : MonoBehaviour
             }
         }
     }
-
-    void jump()
-    {
-        // save head rotation data from last 60 frames to determine jump gesture
-        headRotQueue.Enqueue(headRot);
-        if (headRotQueue.Count >= 30)
-        {
-            headRotQueue.Dequeue();
-        }
-        if (headRotQueue.Count > 20)
-        {
-            // check if jump gesture is made
-            bool canJump = false;
-            foreach (Quaternion rot in headRotQueue)
-            {
-                float pitch = rot.x * Mathf.Rad2Deg;
-                float yaw = rot.y * Mathf.Rad2Deg;
-                if (Mathf.Abs(yaw) > jumpYawThreshold)
-                {   //can't jump if looking to side too much
-                    break;
-                }
-                if (pitch > jumpStartAngleThreshold)
-                {
-                    canJump = true; //head was down enough to start jump
-                }
-                if (canJump && pitch < jumpEndAngleThreshold)
-                {
-                    // trigger jump
-                    if (controller.isGrounded)
-                    {
-                        velocity.y = Mathf.Sqrt(jumpPower * -2f * gravity);
-                    }
-                    headRotQueue.Clear(); //reset queue after jump
-                    break; //exit loop after jump because we don't need to keep checking
-                }
-            }
-        }
-    }
-
     void wasdMove()
     {
         Vector2 moveInput = moveAction.ReadValue<Vector2>();
-        bool jumpPressed = jumpAction.triggered;
 
         float moveX = moveInput.x;
         float moveZ = moveInput.y;
@@ -243,7 +165,6 @@ public class movement : MonoBehaviour
         controller.Move(speed * Time.deltaTime * moveDirection);
 
         float speedPercent = moveDirection.magnitude;
-        anim.SetFloat("Speed", speedPercent);
 
         if (speedPercent > 0)
         {
@@ -257,11 +178,8 @@ public class movement : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
 
-        if (jumpPressed && controller.isGrounded)
-            velocity.y = Mathf.Sqrt(jumpPower * -2f * gravity);
     }
 
-    // Update is called once per frame
     void Update()
     {
         trackIRCam.enabled = useTrackIR;
@@ -299,11 +217,9 @@ public class movement : MonoBehaviour
         else
         {
             wasdMove();
-            jump();
         }
     }
 
-    // on-screen debug display (shows in Game view when Play is running)
     void OnGUI()
     {
         if (debugON)
@@ -314,3 +230,4 @@ public class movement : MonoBehaviour
         }
     }
 }
+

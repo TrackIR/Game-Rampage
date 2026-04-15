@@ -18,7 +18,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         // Set health at the start
-        currentHealth = maxHealth;
+        currentHealth = maxHealth - 85;
         UImanager = Canvas.GetComponent<Canvas>();
 
         anim = gameObject.GetComponentInChildren<Animator>();
