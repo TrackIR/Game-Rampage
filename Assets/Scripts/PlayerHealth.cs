@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class PlayerHealth : MonoBehaviour
 {
     public float maxHealth = 100f;
+    public float startingHealth = 15f;
     private float currentHealth;
     public GameObject Canvas;
     private Canvas UImanager;
@@ -18,9 +19,9 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         // Set health at the start
-        currentHealth = maxHealth - 85;
+        currentHealth = startingHealth;
         UImanager = Canvas.GetComponent<Canvas>();
-
+        UImanager.GetComponent<ManageUI>().ChangeHealth(currentHealth);
         anim = gameObject.GetComponentInChildren<Animator>();
 
         if (anim != null)

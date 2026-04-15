@@ -61,8 +61,7 @@ public class ManageUI : MonoBehaviour
 
         // Timer starts at 0 and counts up for all modes
         timeRemaining = 0f;
-        currentHealth = maxHealth;
-        ChangeHealth(currentHealth);
+        ChangeHealth(playerHealth.startingHealth);
         ChangeScore(0);
         timerIsRunning = true;
     }
