@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour
     public GameObject[] gamePhaseObjects;
     public GameObject player;
     public GameObject indicatorObject;
+    public GameObject InvisibleWalls;
+    public GameObject Canvas;
+    private Canvas UImanager;
     public GameObject TrackIRCam;
     public GameObject NormalCam;
     private cameraMovement3D camScript;
@@ -23,10 +26,9 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
+        UImanager = Canvas.GetComponent<Canvas>();
         camScript = TrackIRCam.GetComponent<cameraMovement3D>();
         CinemachineCam = NormalCam.GetComponent<CinemachineCamera>();
-
         foreach (GameObject obj in gamePhaseObjects)
         {
             obj.SetActive(false);
@@ -47,6 +49,7 @@ public class GameManager : MonoBehaviour
             obj.SetActive(true);
         }
         indicatorObject.SetActive(false);
+        InvisibleWalls.SetActive(false);
+        UImanager.GetComponent<ManageUI>().SetTutorialText("Now jump over the dump walls by quickly nodding up while moving forward.");
     }
-
 }
