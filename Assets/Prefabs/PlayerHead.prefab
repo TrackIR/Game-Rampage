@@ -521,6 +521,7 @@ MonoBehaviour:
   gameSettings: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
   trackIRCam: {fileID: 0}
   normal3rdCam: {fileID: 0}
+  Canvas: {fileID: 0}
   gravity: -9.81
   speed: 10
   TrackIRRoot: {fileID: 0}
@@ -532,7 +533,7 @@ MonoBehaviour:
   headYawThreshold: 0.5
   rollSpeed: 200
   invertRotation: 0
-  rotateWithYaw: 0
+  rotateWithYaw: 1
 --- !u!135 &2323826038784868843
 SphereCollider:
   m_ObjectHideFlags: 0

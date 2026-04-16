@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameSettings
   difficulty: 0
   mapIndex: 0
-  useTrackIR: 0
+  useTrackIR: 1
