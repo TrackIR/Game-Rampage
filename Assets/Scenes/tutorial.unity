@@ -41273,6 +41273,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4864215031027663918, guid: 30a5bee77f0181d4db33c4381ac4a9cd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1464966405}
+    - targetCorrespondingSourceObject: {fileID: 4864215031027663918, guid: 30a5bee77f0181d4db33c4381ac4a9cd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1464966407}
+    - targetCorrespondingSourceObject: {fileID: 4864215031027663918, guid: 30a5bee77f0181d4db33c4381ac4a9cd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1464966406}
   m_SourcePrefab: {fileID: 100100000, guid: 30a5bee77f0181d4db33c4381ac4a9cd, type: 3}
 --- !u!1001 &690559573
 PrefabInstance:
@@ -82450,6 +82456,40 @@ MonoBehaviour:
   maxHealth: 3
   scoreReward: 10
   healthReward: 5
+--- !u!114 &1464966406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464966403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db72ae0cbaa8a504ba4c597a675af11f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  TutorialText: {fileID: 223798224}
+--- !u!65 &1464966407
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464966403}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.5, y: 2.5, z: 4.5}
+  m_Center: {x: 0.14, y: 1.23, z: 0}
 --- !u!1 &1465990773 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 348584579275679113, guid: b16e54ceafe80fd418a98d3a5e13c9bc, type: 3}
