@@ -11,6 +11,8 @@ public class headMovement : MonoBehaviour
     TrackIRComponent trackIR;
     public Camera trackIRCam;
     public Camera normal3rdCam;
+    public GameObject Canvas;
+    private Canvas UImanager;
     public float gravity = -9.81f;
     public float speed = 10.0f;
     public GameObject TrackIRRoot;
@@ -80,6 +82,8 @@ public class headMovement : MonoBehaviour
             trackIR = TrackIRRoot.GetComponent<TrackIRComponent>();
         }
         anim = gameObject.GetComponentInChildren<Animator>();
+        UImanager = Canvas.GetComponent<Canvas>();
+        UImanager.GetComponent<ManageUI>().SetTutorialText("Lean in the direction you want to move");
     }
     void zMove()
     {

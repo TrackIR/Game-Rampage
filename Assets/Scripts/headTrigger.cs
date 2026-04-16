@@ -9,6 +9,8 @@ public class headTrigger : MonoBehaviour
     private PlayerInput input;
     private InputAction attackAction;
     private Animator anim;
+    public GameObject Canvas;
+    private Canvas UImanager;
 
     void Awake()
     {
@@ -28,7 +30,16 @@ public class headTrigger : MonoBehaviour
         if (other.CompareTag("PlayerHead"))
         {
             input.Enable();
-
+            UImanager = Canvas.GetComponent<Canvas>();
+            UImanager.GetComponent<ManageUI>().SetTutorialText(attackAction.GetBindingDisplayString() + " to fix Robot");
+             if (gameSettings.useTrackIR)
+             {
+                 input.TrackIR.Enable();
+             }
+             else
+             {
+                 input.KeyboardMouse.Enable();
+             }
             if (gameSettings.useTrackIR)
             {
                 input.TrackIR.Enable();

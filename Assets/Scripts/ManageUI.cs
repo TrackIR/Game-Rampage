@@ -9,6 +9,9 @@ public class ManageUI : MonoBehaviour
     [Header("Game Settings")]
     public GameSettings gameSettings;
 
+    [Header("Tutorial Variables")]
+    public TMP_Text tutorialText;
+
     [Header("Health Variables")]
     public TMP_Text healthObject;
     public RectTransform healthBarObject, healthBarObjectFill;
@@ -92,6 +95,14 @@ public class ManageUI : MonoBehaviour
             {
                 DisplayTime(timeRemaining);
             }
+        }
+    }
+
+    public void SetTutorialText(string text)
+    {
+        if (tutorialText != null)
+        {
+            tutorialText.text = text;
         }
     }
 
