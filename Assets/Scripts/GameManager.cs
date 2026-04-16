@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public GameObject[] gamePhaseObjects;
     public GameObject player;
+    public GameObject indicatorObject;
     public GameObject TrackIRCam;
     public GameObject NormalCam;
     private cameraMovement3D camScript;
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour
         {
             obj.SetActive(true);
         }
+        indicatorObject.SetActive(false);
     }
 
 }
