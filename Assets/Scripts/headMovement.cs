@@ -29,6 +29,8 @@ public class headMovement : MonoBehaviour
     private Vector3 headPos;
     private Quaternion headRot;
     Vector3 velocity;
+    private Animator anim;
+
 
     void Awake()
     {
@@ -44,7 +46,7 @@ public class headMovement : MonoBehaviour
         }
     }
 
-        void OnEnable()
+    void OnEnable()
     {
         input.Enable();
 
@@ -77,6 +79,7 @@ public class headMovement : MonoBehaviour
         {
             trackIR = TrackIRRoot.GetComponent<TrackIRComponent>();
         }
+        anim = gameObject.GetComponentInChildren<Animator>();
     }
     void zMove()
     {

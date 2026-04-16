@@ -8,6 +8,7 @@ public class headTrigger : MonoBehaviour
     public GameObject head;
     private PlayerInput input;
     private InputAction attackAction;
+    private Animator anim;
 
     void Awake()
     {
@@ -46,6 +47,8 @@ public class headTrigger : MonoBehaviour
 
     void OnAttack(InputAction.CallbackContext context)
     {
+            anim = player.GetComponentInChildren<Animator>();
+            anim.SetTrigger("HeadAttach");
             head.SetActive(false);
             gameObject.SetActive(false);
             player.SetActive(true);

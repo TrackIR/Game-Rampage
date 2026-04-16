@@ -276,6 +276,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4878365007381105057}
+  - component: {fileID: 5636435663201543041}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -302,6 +303,28 @@ Transform:
   - {fileID: 991121867220838380}
   m_Father: {fileID: 3196442744842786200}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!95 &5636435663201543041
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4148375254171495637}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 880430812631e6d4e90b757eb339734f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4425766158015685527
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,7 +460,7 @@ GameObject:
   - component: {fileID: 2323826038784868843}
   m_Layer: 0
   m_Name: PlayerHead
-  m_TagString: Player
+  m_TagString: PlayerHead
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -495,7 +518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f03da1633cbcdf4b9eecb26cac978a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::headMovement
-  gameSettings: {fileID: 0}
+  gameSettings: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
   trackIRCam: {fileID: 0}
   normal3rdCam: {fileID: 0}
   gravity: -9.81
