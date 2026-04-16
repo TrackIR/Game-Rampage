@@ -295,11 +295,11 @@ public class movement : MonoBehaviour
             // Apply gravity
             velocity.y += gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
+            jump();
         }
         else
         {
             wasdMove();
-            jump();
         }
     }
 
