@@ -36943,6 +36943,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5512733050173762612, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: m_TagString
+      value: PlayerHead
+      objectReference: {fileID: 0}
     - target: {fileID: 5638926864055121499, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -100182,7 +100186,7 @@ MonoBehaviour:
     m_Bits: 64
   spawnRate: 20
   spawnCount: 1
-  spawnThreshold: 200
+  spawnThreshold: 10
   radiusFromPlayer: 200
   randomOffset: 10
   spawnerClearanceRadius: 2
