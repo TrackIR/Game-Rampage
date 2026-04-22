@@ -6,6 +6,7 @@ public class HelicopterAI : MonoBehaviour
 {
 
     public Transform playerTarget;
+    public HeliAudioPlayer audioPlayer;
     private bool playerInRange;
     private bool playerInSight;
     public float fireRange = 60f;
@@ -76,6 +77,7 @@ public class HelicopterAI : MonoBehaviour
         {
             agent.stoppingDistance = 0f;
             FindPlayer();
+            audioPlayer.PlayBlades();
         }
         else
         {
@@ -84,6 +86,9 @@ public class HelicopterAI : MonoBehaviour
         }
 
         UpdateAnimation(shooting);
+
+        // update audio player for shooting
+        audioPlayer.PlayWaterJet(shooting);
 
         // Previous Rotation code for the helicopter
         /*
