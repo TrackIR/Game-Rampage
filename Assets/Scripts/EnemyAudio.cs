@@ -2,47 +2,38 @@ using UnityEngine;
 
 public class EnemyAudio : MonoBehaviour
 {
-    public AudioSource audioSource;
-    public AudioSource loopingSource;
-
-    [Header("Audio Clips")]
-    public AudioClip deathSound;
-    public AudioClip waterJetSound;
-    public AudioClip hurtSound;
-
-    void Awake()
-    {
-        if (audioSource == null)
-            audioSource = GetComponent<AudioSource>();
-
-        if (loopingSource == null)
-            loopingSource = gameObject.AddComponent<AudioSource>();
-    }
+    [Header("Audio Sources")]
+    public AudioSource deathSource;
+    public AudioSource waterJetSource;
+    public AudioSource hurtSource;
 
     public void PlayWaterJet(bool play)
     {
+        if (waterJetSource == null) return;
+
         if (play)
         {
-            if (!loopingSource.isPlaying)
+            if (!waterJetSource.isPlaying)
             {
-                loopingSource.clip = waterJetSound;
-                loopingSource.loop = true;
-                loopingSource.Play();
+                waterJetSource.loop = true;
+                waterJetSource.Play();
             }
         }
         else
         {
-            loopingSource.Stop();
+            waterJetSource.Stop();
         }
     }
 
     public void PlayHurt()
     {
-        audioSource.PlayOneShot(hurtSound);
+        if (hurtSource != null)
+            hurtSource.Play();
     }
 
     public void PlayDeath()
     {
-        audioSource.PlayOneShot(deathSound);
+        if (deathSource != null)
+            deathSource.Play();
     }
 }
