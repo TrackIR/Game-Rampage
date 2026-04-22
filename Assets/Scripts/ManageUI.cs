@@ -37,6 +37,7 @@ public class ManageUI : MonoBehaviour
 
     public bool isTradeShow = false;
     private PlayerHealth playerHealth;
+    private TutorialTextFade tutorialTextFade;
 
     void Awake()
     {
@@ -61,6 +62,8 @@ public class ManageUI : MonoBehaviour
         {
             isTradeShow = false;
         }
+
+        tutorialTextFade = tutorialText.GetComponent<TutorialTextFade>();
 
         // Timer starts at 0 and counts up for all modes
         timeRemaining = 0f;
@@ -100,10 +103,14 @@ public class ManageUI : MonoBehaviour
 
     public void SetTutorialText(string text)
     {
-        if (tutorialText != null)
+
+        if (tutorialTextFade == null)
         {
-            tutorialText.text = text;
+            tutorialTextFade = tutorialText.GetComponent<TutorialTextFade>();
         }
+
+        tutorialTextFade.FadeOut();
+        tutorialTextFade.FadeIn(text);
     }
 
     public void ChangeHealth(float health)

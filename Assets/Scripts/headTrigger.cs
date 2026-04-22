@@ -55,6 +55,7 @@ public class headTrigger : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         input.Disable();
+        UImanager.GetComponent<ManageUI>().SetTutorialText("Lean forward to move and find the rest of the robot located under the floating TrackIR logo.");
     }
 
     void OnAttack(InputAction.CallbackContext context)
