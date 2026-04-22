@@ -33,6 +33,9 @@ public class PlayerHealth : MonoBehaviour
     // function that other scripts can call to Deal Damage
     public void TakeDamage(float damage)
     {
+
+        playerAudio.PlayHurt();
+
         if (!isAlive) return;
 
         // Reduce health

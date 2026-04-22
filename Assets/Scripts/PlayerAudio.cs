@@ -2,31 +2,33 @@ using UnityEngine;
 
 public class PlayerAudio : MonoBehaviour
 {
-    public AudioSource audioSource;
-
-    [Header("Audio Clips")]
-    public AudioClip punchSound;
-    public AudioClip deathSound;
-    public AudioClip ultimateSound;
-
-    void Awake()
-    {
-        if (audioSource == null)
-            audioSource = GetComponent<AudioSource>();
-    }
+    [Header("Audio Sources")]
+    public AudioSource punchSource;
+    public AudioSource deathSource;
+    public AudioSource ultimateSource;
+    public AudioSource hurtSource;
 
     public void PlayPunch()
     {
-        audioSource.PlayOneShot(punchSound);
+        if (punchSource != null)
+            punchSource.Play();
     }
 
     public void PlayDeath()
     {
-        audioSource.PlayOneShot(deathSound);
+        if (deathSource != null)
+            deathSource.Play();
     }
 
     public void PlayUltimate()
     {
-        audioSource.PlayOneShot(ultimateSound);
+        if (ultimateSource != null)
+            ultimateSource.Play();
+    }
+
+    public void PlayHurt()
+    {
+        if (hurtSource != null)
+            hurtSource.Play();
     }
 }
