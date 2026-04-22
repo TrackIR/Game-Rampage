@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4865627089443378733}
-  - component: {fileID: 4555335444085394767}
+  - component: {fileID: 8215854358919526469}
   - component: {fileID: 5045245000942066809}
   - component: {fileID: 5470876982105619837}
   - component: {fileID: 2665481339430093139}
@@ -36,7 +36,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8087654654865402326}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4555335444085394767
+--- !u!114 &8215854358919526469
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,9 +45,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1211105997058593922}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01c9f778a90c2844a91443945d2705be, type: 3}
+  m_Script: {fileID: 11500000, guid: e3b22265fc704614d8c25e981bab469a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAudio
   bladesSource: {fileID: 5045245000942066809}
   deathSource: {fileID: 5470876982105619837}
   waterJetSource: {fileID: 2665481339430093139}
@@ -645,6 +645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HelicopterAI
   playerTarget: {fileID: 0}
+  audioPlayer: {fileID: 8215854358919526469}
   fireRange: 60
   agent: {fileID: 1656655485534151578}
   fireCooldown: 0.05
@@ -664,7 +665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 100
-  enemyAudio: {fileID: 0}
+  enemyAudio: {fileID: 8215854358919526469}
 --- !u!1 &4141259276975455281
 GameObject:
   m_ObjectHideFlags: 0

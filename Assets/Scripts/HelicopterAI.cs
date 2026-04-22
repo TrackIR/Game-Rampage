@@ -6,7 +6,7 @@ public class HelicopterAI : MonoBehaviour
 {
 
     public Transform playerTarget;
-    public HeliAudioPlayer audioPlayer;
+    public EnemyAudio audioPlayer;
     private bool playerInRange;
     private bool playerInSight;
     public float fireRange = 60f;
