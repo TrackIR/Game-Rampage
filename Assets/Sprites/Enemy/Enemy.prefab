@@ -87,6 +87,7 @@ MonoBehaviour:
   damagePerSecond: 0.5
   sprayEffect: {fileID: 2920601394823598769}
   firePoint: {fileID: 340802733606060789}
+  enemyAudio: {fileID: 6597028724490816146}
 --- !u!114 &5721115517733800789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 100
-  enemyDamageSound: {fileID: 0}
+  enemyAudio: {fileID: 6597028724490816146}
 --- !u!95 &8676399287663529258
 Animator:
   serializedVersion: 7
@@ -229,6 +230,7 @@ MonoBehaviour:
   loopingSource: {fileID: 8250895074935838640}
   deathSound: {fileID: 8300000, guid: 5c966d9832728e74fa5caecb19e082e3, type: 3}
   waterJetSound: {fileID: 8300000, guid: 0c1be1f0e1ee6a14fa0c75107283b0d1, type: 3}
+  hurtSound: {fileID: 8300000, guid: b723800a75179f240977fcde84f89eaa, type: 3}
 --- !u!82 &8232130652992641566
 AudioSource:
   m_ObjectHideFlags: 0
@@ -242,7 +244,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.84
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -339,8 +341,8 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
+  m_Volume: 0.291
+  m_Pitch: 0.47
   Loop: 1
   Mute: 0
   Spatialize: 0

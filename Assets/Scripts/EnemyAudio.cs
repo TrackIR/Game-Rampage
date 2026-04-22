@@ -8,6 +8,7 @@ public class EnemyAudio : MonoBehaviour
     [Header("Audio Clips")]
     public AudioClip deathSound;
     public AudioClip waterJetSound;
+    public AudioClip hurtSound;
 
     void Awake()
     {
@@ -33,6 +34,11 @@ public class EnemyAudio : MonoBehaviour
         {
             loopingSource.Stop();
         }
+    }
+
+    public void PlayHurt()
+    {
+        audioSource.PlayOneShot(hurtSound);
     }
 
     public void PlayDeath()
