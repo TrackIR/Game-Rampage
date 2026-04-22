@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 
 public class crossHair : MonoBehaviour
 {
+    public GameSettings gameSettings;
     public GameObject reticleObject;
     public KeyCode clickKey = KeyCode.Space;
     public float sensitivity = 1;
@@ -30,10 +31,8 @@ public class crossHair : MonoBehaviour
         pointerData = new PointerEventData(eventSystem);
     }
 
-    void Update()
+    void TrackIRCursor()
     {
-        // cursor movement
-
         // get head rotation data
         Vector3 headRot = trackIR.LatestPoseOrientation.eulerAngles;
 
@@ -88,6 +87,22 @@ public class crossHair : MonoBehaviour
                 ExecuteEvents.pointerClickHandler
             );
         }
+    }
 
+    void MouseCursor()
+    {
+
+    }
+
+    void Update()
+    {
+        if (gameSettings.useTrackIR)
+        {
+            TrackIRCursor();
+        }
+        else
+        {
+            MouseCursor();
+        }
     }
 }

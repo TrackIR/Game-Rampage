@@ -31,8 +31,8 @@ public class UltimateLaser : MonoBehaviour
         elapsedTime += Time.deltaTime;
 
         // lock to main cam forward
-        Transform cam = Camera.main.transform;
-        parentTransform.rotation = Quaternion.LookRotation(cam.forward);
+        //Transform cam = Camera.main.transform;
+        //parentTransform.rotation = Quaternion.LookRotation(cam.forward);
 
         Spin(gameObject, laserSpin);
         //if (highlights != null)
