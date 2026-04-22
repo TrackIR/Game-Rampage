@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyAudio : MonoBehaviour
 {
     public AudioSource audioSource;
+    public AudioSource loopingSource;
 
     [Header("Audio Clips")]
     public AudioClip deathSound;
@@ -12,20 +13,25 @@ public class EnemyAudio : MonoBehaviour
     {
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
+
+        if (loopingSource == null)
+            loopingSource = gameObject.AddComponent<AudioSource>();
     }
 
     public void PlayWaterJet(bool play)
     {
         if (play)
         {
-            audioSource.clip = waterJetSound;
-            audioSource.loop = true;
-            audioSource.Play();
+            if (!loopingSource.isPlaying)
+            {
+                loopingSource.clip = waterJetSound;
+                loopingSource.loop = true;
+                loopingSource.Play();
+            }
         }
         else
         {
-            audioSource.Stop();
-            audioSource.loop = false;
+            loopingSource.Stop();
         }
     }
 
