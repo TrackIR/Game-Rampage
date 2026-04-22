@@ -26633,6 +26633,7 @@ GameObject:
   - component: {fileID: 468192959}
   - component: {fileID: 468192958}
   - component: {fileID: 468192957}
+  - component: {fileID: 468192961}
   m_Layer: 0
   m_Name: TrackIR Camera
   m_TagString: MainCamera
@@ -26774,6 +26775,18 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &468192961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468192955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6977cd13e2f2634ea63bc4cf5b78608, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraShake
 --- !u!1001 &468669874
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37073,6 +37086,10 @@ PrefabInstance:
       propertyPath: playerHead
       value: 
       objectReference: {fileID: 472473030}
+    - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: cameraShake
+      value: 
+      objectReference: {fileID: 468192961}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: gameSettings
       value: 
@@ -113085,7 +113102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d82fadd09f0cde4d8b61f7f70d16cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  gameSettings: {fileID: 0}
+  gameSettings: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
   trackIRRoot: {fileID: 542628271}
   playerObject: {fileID: 547094714}
   is3rdPerson: 1
