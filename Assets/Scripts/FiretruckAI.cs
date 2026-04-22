@@ -53,8 +53,8 @@ public class FiretruckAI : MonoBehaviour
         {
             sprayEffect.Stop();
 
-            // RESCUE MISSION: Rip the particle system out of the animated Blockbench bones 
-            // so the Animator can no longer control its rotation!
+            // Rip the particle system out of the animated Blockbench bones 
+            // so the Animator can no longer control its rotation
             sprayEffect.transform.SetParent(this.transform);
         }
 
@@ -86,7 +86,7 @@ public class FiretruckAI : MonoBehaviour
     {
         if (turret == null || playerTarget == null) return;
 
-        // 1. Spin the visual Turret (Reversed math so it doesn't face backwards)
+        // Spin the visual Turret (Reversed math so it doesn't face backwards)
         Vector3 directionToPlayer = (turret.position - playerTarget.position).normalized;
         directionToPlayer.y = 0;
 
@@ -97,13 +97,13 @@ public class FiretruckAI : MonoBehaviour
             turret.rotation = currentTurretRotation;
         }
 
-        // 2. Force the invisible damage laser to point at the player
+        // Force the invisible damage laser to point at the player
         if (firePoint != null)
         {
             firePoint.LookAt(playerTarget.position);
 
-            // 3. THE FIX: Physically glue the rescued WaterSpray back to the barrel's location, 
-            // and force it to stare exactly at the player.
+            // Physically glue the rescued WaterSpray back to the barrel's location, 
+            // and force it to stare exactly at the player
             if (sprayEffect != null)
             {
                 sprayEffect.transform.position = firePoint.position;
