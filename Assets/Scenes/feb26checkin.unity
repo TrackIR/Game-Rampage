@@ -30591,9 +30591,9 @@ MonoBehaviour:
   buildingMask:
     serializedVersion: 2
     m_Bits: 0
-  spawnRate: 10
-  spawnCount: 0
-  radiusFromPlayer: 20
+  spawnRate: 15
+  spawnCount: 1
+  radiusFromPlayer: 200
   randomOffset: 10
   spawnerClearanceRadius: 2
 --- !u!4 &2086063852

@@ -1207,7 +1207,7 @@ Transform:
   m_GameObject: {fileID: 3947731079195782888}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.999834, z: -0, w: -0.018220069}
-  m_LocalPosition: {x: -0.02999878, y: 0.0070001036, z: 0.25998545}
+  m_LocalPosition: {x: -0.02999878, y: 0.0070001036, z: 0.179}
   m_LocalScale: {x: 0.20000003, y: 0.19999999, z: 0.20000003}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6646,10 +6646,10 @@ MonoBehaviour:
   turret: {fileID: 8009634112651232682}
   sprayEffect: {fileID: 1557847876706522951}
   firePoint: {fileID: 8127909080995172986}
-  detectionRange: 15
+  detectionRange: 50
   rotationSpeed: 5
   damagePerSecond: 0.5
-  speed: 5
+  speed: 7
   normalEnemyPrefab: {fileID: 747386369671831897, guid: 46c560da5bff6ca49b477683bc0fd622, type: 3}
   rearSpawnPoint: {fileID: 1877964532500258226}
   spawnInterval: 7
@@ -7166,7 +7166,7 @@ Transform:
   m_GameObject: {fileID: 6835234493127852596}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2.15}
+  m_LocalPosition: {x: 0, y: 0, z: -1.714}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

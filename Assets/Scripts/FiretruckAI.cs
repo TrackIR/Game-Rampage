@@ -41,11 +41,23 @@ public class FiretruckAI : MonoBehaviour
         if (agent == null) agent = GetComponent<NavMeshAgent>();
         if (animator == null) animator = GetComponentInChildren<Animator>();
 
-        if (agent != null) agent.speed = speed;
-        path = new NavMeshPath();
-        if (sprayEffect != null) sprayEffect.Stop();
+        if (agent != null)
+        {
+            agent.speed = speed;
+            agent.updateRotation = false;
+        }
 
-        // Initialize the rotation to wherever the turret starts
+        path = new NavMeshPath();
+
+        if (sprayEffect != null)
+        {
+            sprayEffect.Stop();
+
+            // RESCUE MISSION: Rip the particle system out of the animated Blockbench bones 
+            // so the Animator can no longer control its rotation!
+            sprayEffect.transform.SetParent(this.transform);
+        }
+
         if (turret != null) currentTurretRotation = turret.rotation;
     }
 
@@ -66,12 +78,15 @@ public class FiretruckAI : MonoBehaviour
         {
             if (animator != null) animator.SetBool("IsDriving", true);
             findPlayer();
+            HandleDrivingRotation();
         }
     }
 
     void LateUpdate()
     {
-        // Spin the visual Turret
+        if (turret == null || playerTarget == null) return;
+
+        // 1. Spin the visual Turret (Reversed math so it doesn't face backwards)
         Vector3 directionToPlayer = (turret.position - playerTarget.position).normalized;
         directionToPlayer.y = 0;
 
@@ -82,15 +97,33 @@ public class FiretruckAI : MonoBehaviour
             turret.rotation = currentTurretRotation;
         }
 
-        // Force the mechanics to aim directly at the player
+        // 2. Force the invisible damage laser to point at the player
         if (firePoint != null)
         {
             firePoint.LookAt(playerTarget.position);
 
-            // force the visual water particles to match the damage laser's rotation
+            // 3. THE FIX: Physically glue the rescued WaterSpray back to the barrel's location, 
+            // and force it to stare exactly at the player.
             if (sprayEffect != null)
             {
-                sprayEffect.transform.rotation = firePoint.rotation;
+                sprayEffect.transform.position = firePoint.position;
+                sprayEffect.transform.LookAt(playerTarget.position);
+            }
+        }
+    }
+
+    void HandleDrivingRotation()
+    {
+        if (agent != null && agent.velocity.sqrMagnitude > 0.01f)
+        {
+            Vector3 moveDirection = agent.velocity.normalized;
+            Vector3 flippedDirection = -moveDirection;
+            flippedDirection.y = 0;
+
+            if (flippedDirection != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(flippedDirection);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
             }
         }
     }
@@ -125,32 +158,6 @@ public class FiretruckAI : MonoBehaviour
         if (sprayEffect != null && sprayEffect.isPlaying)
         {
             sprayEffect.Stop();
-        }
-    }
-
-    void AimTurret()
-    {
-        // Spin the visual Turret (Reversed math so it doesn't face backwards)
-        Vector3 directionToPlayer = (turret.position - playerTarget.position).normalized;
-        directionToPlayer.y = 0; // Keep it spinning only horizontally
-
-        if (directionToPlayer != Vector3.zero)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
-            currentTurretRotation = Quaternion.Slerp(currentTurretRotation, targetRotation, rotationSpeed * Time.deltaTime);
-            turret.rotation = currentTurretRotation;
-        }
-
-        // Force the mechanics to aim directly at the player, bypassing Blockbench animations entirely
-        if (firePoint != null)
-        {
-            firePoint.LookAt(playerTarget.position);
-
-            // force the visual water particles to match the damage laser's rotation
-            if (sprayEffect != null)
-            {
-                sprayEffect.transform.rotation = firePoint.rotation;
-            }
         }
     }
 
