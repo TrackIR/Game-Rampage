@@ -125,7 +125,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1.65
   m_Height: 1.88
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -205,7 +205,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 13, z: 0}
-  m_LocalScale: {x: 13, y: 13, z: 13}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8960888037886871217}
@@ -289,10 +289,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.42
-  m_Height: 1.88
+  m_Radius: 1
+  m_Height: 7
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 2.21, z: 0}
 --- !u!143 &8580594950694288102
 CharacterController:
   m_ObjectHideFlags: 0
@@ -311,13 +311,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.88
-  m_Radius: 0.5
+  m_Height: 7
+  m_Radius: 1
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 2.21, z: 0}
 --- !u!114 &5422387770691132287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,6 +362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   maxHealth: 100
+  startingHealth: 15
   Canvas: {fileID: 0}
   isAlive: 1
   deathMenu: {fileID: 0}
@@ -443,15 +444,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f5f57b9cf8fb6d6468919568c0c875f2, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.3003003
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f5f57b9cf8fb6d6468919568c0c875f2, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.3003003
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f5f57b9cf8fb6d6468919568c0c875f2, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.3003003
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f5f57b9cf8fb6d6468919568c0c875f2, type: 3}
       propertyPath: m_LocalPosition.x

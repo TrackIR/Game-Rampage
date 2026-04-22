@@ -8,6 +8,7 @@ public class headTrigger : MonoBehaviour
     public GameObject head;
     private PlayerInput input;
     private InputAction attackAction;
+    private int animAttachHash;
     private Animator anim;
     public GameObject Canvas;
     private Canvas UImanager;
@@ -58,11 +59,17 @@ public class headTrigger : MonoBehaviour
 
     void OnAttack(InputAction.CallbackContext context)
     {
-            anim = player.GetComponentInChildren<Animator>();
-            anim.SetTrigger("HeadAttach");
+
             head.SetActive(false);
             gameObject.SetActive(false);
             player.SetActive(true);
+            CharacterController playerController = player.GetComponent<CharacterController>();
+            playerController.enabled = false;
+            anim = player.GetComponentInChildren<Animator>();
+            if (anim != null)
+            animAttachHash = Animator.StringToHash("Base Layer.HeadAttach");
+            anim.SetTrigger("HeadAttach");
+            
             GameManager.Instance.StartGamePhase();
     }
 }
