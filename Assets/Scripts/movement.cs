@@ -26,6 +26,8 @@ public class movement : MonoBehaviour
     public float jumpPower = 4.0f;
 
     public GameObject TrackIRRoot;
+    public GameObject GroundSmashObject;
+    private ParticleSystem GroundSmashEffect;
 
     // INPUT SYSTEM
     private PlayerInput input;
@@ -116,12 +118,17 @@ public class movement : MonoBehaviour
         {
             animWalkHash = Animator.StringToHash("Base Layer.Walk");
         }
+        GroundSmashEffect = GroundSmashObject.GetComponent<ParticleSystem>();
     }
 
     void GroundPound()
     {
         Vector3 groundPoundPosition = new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);
         enemiesHit = Physics.OverlapSphere(groundPoundPosition, groundPoundRadius, LayerMask.GetMask("Enemy"));
+        if (GroundSmashEffect != null)
+        {
+            GroundSmashEffect.Play();
+        }
         foreach (var enemyCollider in enemiesHit)
         {
             EnemyHealth enemy = enemyCollider.GetComponent<EnemyHealth>();
@@ -276,7 +283,11 @@ public class movement : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
 
         if (jumpPressed && controller.isGrounded)
+        {
+            jumping = true;
             velocity.y = Mathf.Sqrt(jumpPower * -2f * gravity);
+        }
+
     }
 
     // Update is called once per frame
@@ -317,17 +328,17 @@ public class movement : MonoBehaviour
 
             if (jumping && !wasGrounded && controller.isGrounded)
             {
+                Debug.Log("Ground Pound triggered!");
                 GroundPound();
-                jumping = false; // reset jumping state when player lands
+                jumping = false;
             }
-
-            wasGrounded = controller.isGrounded;
         }
         else
         {
             wasdMove();
-            wasGrounded = controller.isGrounded;
         }
+
+        wasGrounded = controller.isGrounded;
     }
 
     // on-screen debug display (shows in Game view when Play is running)
