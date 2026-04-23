@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.InputSystem;
+using System;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -183,7 +184,7 @@ public class PlayerAttack : MonoBehaviour
 
         Camera cam = Camera.main;
 
-        Vector3 screenPos = cursor.transform.position;
+        Vector3 screenPos = RectTransformUtility.WorldToScreenPoint(cam, cursor.transform.position);
         Ray ray = cam.ScreenPointToRay(screenPos);
 
         RaycastHit hit;

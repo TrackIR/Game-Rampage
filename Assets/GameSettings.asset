@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a725896bf1453214da408eecea3f55fb, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: Assembly-CSharp::GameSettings
-  difficulty: 0
-  mapIndex: 0
-  useTrackIR: 1
+  difficulty: Normal
+  mapIndex: Downtown
+  useTrackIR: 0
