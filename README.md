@@ -18,7 +18,8 @@
 # Summary
 A simple Rampage-esque game utilizing TrackIR functionality head-tracking.
 
-<img width="400" height="267" alt="Untitled" src="https://github.com/user-attachments/assets/0589deb6-9491-4761-8152-942183c4b22e" />
+<img width="1520" height="818" alt="image" src="https://github.com/user-attachments/assets/326aebc0-154c-4408-a514-19dace16e829" />
+
 
  ## Gameplay Loop
  
