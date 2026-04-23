@@ -5,6 +5,7 @@ public class FiretruckAI : MonoBehaviour
 {
     [Header("References")]
     public Transform playerTarget;
+    private Transform playerHead;
     public NavMeshAgent agent;
     public Animator animator;
 
@@ -15,8 +16,8 @@ public class FiretruckAI : MonoBehaviour
     public float detectionRange = 15f;
     public float rotationSpeed = 5f;
     public float damagePerSecond = 0.5f;
+    public float particleDamage = 0.5f;
     private float damageAccumulator = 0f;
-
     private Quaternion currentTurretRotation;
 
     [Header("Movement Settings")]
@@ -36,7 +37,10 @@ public class FiretruckAI : MonoBehaviour
         if (playerTarget == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null) playerTarget = playerObj.transform;
+            if (playerObj != null) {
+                playerTarget = playerObj.transform;
+                playerHead = GameObject.FindGameObjectWithTag("PlayerHead").transform;
+            }
         }
         if (agent == null) agent = GetComponent<NavMeshAgent>();
         if (animator == null) animator = GetComponentInChildren<Animator>();
@@ -53,9 +57,10 @@ public class FiretruckAI : MonoBehaviour
         {
             sprayEffect.Stop();
 
-            // Rip the particle system out of the animated Blockbench bones 
-            // so the Animator can no longer control its rotation
-            sprayEffect.transform.SetParent(this.transform);
+            if (firePoint != null)
+            {
+                sprayEffect.transform.SetParent(firePoint, true);
+            }
         }
 
         if (turret != null) currentTurretRotation = turret.rotation;
@@ -69,9 +74,10 @@ public class FiretruckAI : MonoBehaviour
 
         if (playerInRange)
         {
+            
             if (agent.isOnNavMesh) agent.isStopped = true;
             if (animator != null) animator.SetBool("IsDriving", false);
-
+            AimTurret();
             SprayAttack();
         }
         else
@@ -87,28 +93,30 @@ public class FiretruckAI : MonoBehaviour
         if (turret == null || playerTarget == null) return;
 
         // Spin the visual Turret (Reversed math so it doesn't face backwards)
-        Vector3 directionToPlayer = (turret.position - playerTarget.position).normalized;
-        directionToPlayer.y = 0;
+        //Vector3 directionToPlayer = (turret.position - playerTarget.position).normalized;
+        //directionToPlayer.y = 0;
 
-        if (directionToPlayer != Vector3.zero)
+        //if (directionToPlayer != Vector3.zero)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
-            currentTurretRotation = Quaternion.Slerp(currentTurretRotation, targetRotation, rotationSpeed * Time.deltaTime);
-            turret.rotation = currentTurretRotation;
+            //Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+            //currentTurretRotation = Quaternion.Slerp(currentTurretRotation, targetRotation, rotationSpeed * Time.deltaTime);
+            //turret.rotation = currentTurretRotation;
+            AimTurret();
         }
+
 
         // Force the invisible damage laser to point at the player
         if (firePoint != null)
         {
-            firePoint.LookAt(playerTarget.position);
+            //firePoint.LookAt(playerTarget.position);
 
             // Physically glue the rescued WaterSpray back to the barrel's location, 
             // and force it to stare exactly at the player
-            if (sprayEffect != null)
-            {
-                sprayEffect.transform.position = firePoint.position;
-                sprayEffect.transform.LookAt(playerTarget.position);
-            }
+            //if (sprayEffect != null)
+            //{
+            //    sprayEffect.transform.position = firePoint.position;
+            //    sprayEffect.transform.LookAt(playerTarget.position);
+            //}
         }
     }
 
@@ -175,19 +183,82 @@ public class FiretruckAI : MonoBehaviour
 
         if (firePoint == null) return;
 
-        RaycastHit hit;
-        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, detectionRange))
+    }
+
+    void AimTurret()
+    {
+        if (firePoint == null || turret == null || playerHead == null || sprayEffect == null)
         {
-            PlayerHealth pHealth = hit.collider.GetComponentInParent<PlayerHealth>();
-            if (pHealth != null)
-            {
-                damageAccumulator += damagePerSecond * Time.deltaTime;
-                if (damageAccumulator >= 1f)
-                {
-                    pHealth.TakeDamage(1);
-                    damageAccumulator -= 1f;
-                }
-            }
+            return;
+        }
+
+        float speed = GetParticleSpeed(sprayEffect);
+        Vector3 launchVelocity = GetLaunchVelocity(firePoint.position, playerHead.position, speed);
+        if (launchVelocity.sqrMagnitude <= 0.0001f)
+        {
+            return;
+        }
+
+        Quaternion targetRotation = Quaternion.LookRotation(-launchVelocity);
+        firePoint.rotation = Quaternion.Slerp(firePoint.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        currentTurretRotation = firePoint.rotation; 
+        turret.rotation = currentTurretRotation;
+    }
+
+    private float GetParticleSpeed(ParticleSystem particleSystem)
+    {
+        ParticleSystem.MainModule main = particleSystem.main;
+        ParticleSystem.MinMaxCurve curve = main.startSpeed;
+        return curve.constant; // particle speed is constant
+    }
+
+    private Vector3 GetLaunchVelocity(Vector3 start, Vector3 target, float speed)
+    {
+        if (speed <= 0.01f)
+        {
+            return Vector3.zero;
+        }
+
+        Vector3 toTarget = target - start;
+        Vector3 toTargetXZ = new Vector3(toTarget.x, 0f, toTarget.z);
+        float x = toTargetXZ.magnitude;
+        float y = toTarget.y;
+
+        if (x < 0.01f)
+        {
+            return toTarget.normalized * speed;
+        }
+        // Calculate the launch angle using the physics formula for projectile motion
+        float g = -Physics.gravity.y;
+        float v2 = speed * speed;
+        float v4 = v2 * v2;
+        float discriminant = v4 - g * (g * x * x + 2f * y * v2);
+        // If the discriminant is negative shoot straight at the target
+        if (discriminant < 0f)
+        {
+            return toTarget.normalized * speed;
+        }
+
+        float sqrtDisc = Mathf.Sqrt(discriminant);
+        // Use the lower angle (the higher angle use +sqrtDisc instead of -sqrtDisc)
+        float tanTheta = (v2 - sqrtDisc) / (g * x);
+        float theta = Mathf.Atan(tanTheta);
+        Vector3 dirXZ = toTargetXZ.normalized;
+        // Calculate the launch velocity vector
+        return dirXZ * Mathf.Cos(theta) * speed + Vector3.up * Mathf.Sin(theta) * speed;
+    }
+
+    void OnParticleCollision(GameObject other)
+    {
+        if (other == null || !other.CompareTag("Player"))
+        {
+            return;
+        }
+
+        PlayerHealth playerHealth = other.GetComponentInParent<PlayerHealth>();
+        if (playerHealth != null)
+        {
+            playerHealth.TakeDamage(particleDamage);
         }
     }
 

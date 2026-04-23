@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3b22265fc704614d8c25e981bab469a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAudio
-  bladesSource: {fileID: 5045245000942066809}
+  ForwardSource: {fileID: 5045245000942066809}
   deathSource: {fileID: 5470876982105619837}
   waterJetSource: {fileID: 2665481339430093139}
   hurtSource: {fileID: 4039085595398147095}

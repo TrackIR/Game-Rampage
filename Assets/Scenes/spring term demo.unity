@@ -44658,9 +44658,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad2c33312f50a9f4ba9555015318ec49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnEnemies
-  ui: {fileID: 0}
+  ui: {fileID: 46560380}
   enemyPrefab: {fileID: 4775837804930081899, guid: 1b73fbfb3a347ec4b96932b3b0bc3be5, type: 3}
-  navMeshSurface: {fileID: 0}
+  navMeshSurface: {fileID: 1150692442}
   settings: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
   buildingMask:
     serializedVersion: 2
