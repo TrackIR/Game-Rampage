@@ -118,7 +118,7 @@ public class movement : MonoBehaviour
         {
             animWalkHash = Animator.StringToHash("Base Layer.Walk");
         }
-        GroundSmashEffect = GroundSmashObject.GetComponent<ParticleSystem>();
+        GroundSmashEffect = GetComponentInChildren<ParticleSystem>();
     }
 
     void GroundPound()
@@ -127,7 +127,17 @@ public class movement : MonoBehaviour
         enemiesHit = Physics.OverlapSphere(groundPoundPosition, groundPoundRadius, LayerMask.GetMask("Enemy"));
         if (GroundSmashEffect != null)
         {
-            GroundSmashEffect.Play();
+            if( GroundSmashEffect.isPlaying)
+            {
+                GroundSmashEffect.Stop();
+            }
+            if (!GroundSmashEffect.isPlaying){
+                Debug.Log("Ground Smash effect triggered!");
+                GroundSmashEffect.Play(true);
+            }
+        }
+        else{
+            Debug.LogWarning("No ground smash particle system attached to object!");
         }
         foreach (var enemyCollider in enemiesHit)
         {
@@ -276,8 +286,9 @@ public class movement : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);
         }
 
-        if (controller.isGrounded && velocity.y < 0f)
+        if (controller.isGrounded && velocity.y < 0f){
             velocity.y = -2f;
+        }
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
@@ -325,19 +336,19 @@ public class movement : MonoBehaviour
             // Apply gravity
             velocity.y += gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
-
-            if (jumping && !wasGrounded && controller.isGrounded)
-            {
-                Debug.Log("Ground Pound triggered!");
-                GroundPound();
-                jumping = false;
-            }
         }
         else
         {
             wasdMove();
         }
 
+        if (jumping && !wasGrounded && controller.isGrounded)
+        {
+                Debug.Log("Ground Pound triggered!");
+                GroundPound();
+                jumping = false;
+        }
+        Debug.Log("Grounded: " + controller.isGrounded);
         wasGrounded = controller.isGrounded;
     }
 
