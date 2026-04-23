@@ -30735,6 +30735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5e9a9c6e0a351742a6fde79f9b0a4e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrackIRMenuNav
+  gameSettings: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
   curserObject: {fileID: 415627245}
   clickKey: 32
   sensitivity: 1
@@ -30750,6 +30751,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afc626ff17e7dd94596f851e55a534df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::crossHair
+  gameSettings: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
   reticleObject: {fileID: 415627245}
   clickKey: 32
   sensitivity: 1
@@ -113083,6 +113085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d82fadd09f0cde4d8b61f7f70d16cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  gameSettings: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
   trackIRRoot: {fileID: 542628271}
   playerObject: {fileID: 547094714}
   is3rdPerson: 1
@@ -113096,6 +113099,8 @@ MonoBehaviour:
   firstPersonOffset: {x: 0, y: 11.5, z: 2.5}
   cameraBlend: 1
   transitionSpeed: 3
+  yawRange: 180
+  maxPitch: 120
 --- !u!4 &2051999571
 Transform:
   m_ObjectHideFlags: 0
