@@ -110,6 +110,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (isInUltimate)
         {
+            AimLaserAtCursor();
             return;
         }
 
@@ -242,12 +243,11 @@ public class PlayerAttack : MonoBehaviour
 
         UltAttack();
 
-        yield return new WaitForSecondsRealtime(ultLaserDuration);
+        yield return new WaitForSeconds(ultLaserDuration);
 
         yield return StartCoroutine(EndUltimate());
     }
 
-    // Changed from void to IEnumerator
     private IEnumerator EndUltimate()
     {
         playerHead.SetActive(true);

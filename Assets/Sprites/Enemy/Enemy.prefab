@@ -74,9 +74,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b6ffbd3f7c633947a0e827cfbeea837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  gameSettings: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
   playerTarget: {fileID: 0}
   detectionRange: 25
   rotationSpeed: 10
+  fleeRange: 8
   speed: 7
   agent: {fileID: -8947426014907748145}
   damagePerSecond: 0.5
