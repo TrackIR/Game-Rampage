@@ -6,22 +6,19 @@ public class EnemyAI : MonoBehaviour
 {
     [Header("Game Settings")]
     public GameSettings gameSettings;
-
     // Basic Settings
     public Transform playerTarget;
-    public float detectionRange = 15f;
-    public float fleeRange = 8f;
+    private bool playerInRange;
+    public float detectionRange = 15f; // range for spray attack
     public float rotationSpeed = 5f;
-    public float speed = 3f;
-
+    public float fleeRange = 8f;
+    public float speed = 5f;
     private const float gravity = -9.81f;
     private Vector3 gravityVector = new Vector3(0, gravity, 0);
-
     public NavMeshAgent agent;
     private NavMeshPath path;
-
     // Spray Settings
-    public float damagePerSecond = 1f;
+    public float damagePerSecond = 0.5f;    // damage every second
     public ParticleSystem sprayEffect;
     public Transform firePoint;
     private float damageAccumulator = 0f;
@@ -62,19 +59,13 @@ public class EnemyAI : MonoBehaviour
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
             if (playerObj != null) playerTarget = playerObj.transform;
         }
-
         agent = GetComponent<NavMeshAgent>();
         if (agent != null)
         {
             agent.speed = speed;
-            agent.updateRotation = false; // Disconnects agent rotation so we can manually point it
         }
-
         path = new NavMeshPath();
         if (sprayEffect != null) sprayEffect.Stop();
-
-        // Force path calculation immediately on the exact frame they spawn
-        pathTimer = 100f;
     }
 
     void Update()
@@ -108,7 +99,6 @@ public class EnemyAI : MonoBehaviour
 
         if (distanceToPlayer <= fleeRange)
         {
-            // Player is too close, run away
             agent.isStopped = false;
             if (shouldUpdatePath) FleePlayer();
 
@@ -167,16 +157,27 @@ public class EnemyAI : MonoBehaviour
         {
             agent.SetPath(path);
         }
+        else
+        {
+            Debug.LogWarning($"EnemyAI: path status {path.status}", this);
+        }
+        if (sprayEffect != null && sprayEffect.isPlaying)
+        {
+            sprayEffect.Stop();
+        }
     }
 
     void aimAtPlayer()
     {
         Vector3 directionToPlayer = (playerTarget.position - transform.position).normalized;
-        directionToPlayer.y = 0;
+        directionToPlayer.y = 0; // Keep only horizontal rotation
 
-        if (directionToPlayer == Vector3.zero) return;
+        if (directionToPlayer == Vector3.zero) return; // Avoid errors
 
+        // Determine target rotation
         Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+
+        // Smoothly rotate towards player
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
@@ -193,22 +194,35 @@ public class EnemyAI : MonoBehaviour
             }
         }
 
+        if (agent != null)
+        {
+            agent.isStopped = true; // Stop moving
+        }
+
+        // Visuals: Turn on the water spray if it's not already on
         if (sprayEffect != null && !sprayEffect.isPlaying)
         {
             sprayEffect.Play();
         }
 
+        // Damage Logic: Use a Raycast to see if player is being hit
         RaycastHit hit;
+        // Cast a ray from firePoint, going forward, for the length of range
         if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, detectionRange))
         {
+            // Was the player hit
             PlayerHealth playerHealth = hit.collider.GetComponentInParent<PlayerHealth>();
+
             if (playerHealth != null)
             {
+                // Accumulate Damage
                 damageAccumulator += damagePerSecond * Time.deltaTime;
+
+                // Whenever 1 full point of damage is accumulated, deal it
                 if (damageAccumulator >= 1f)
                 {
-                    playerHealth.TakeDamage(1);
-                    damageAccumulator -= 1f;
+                    playerHealth.TakeDamage(1); // Deal 1 damage
+                    damageAccumulator -= 1f;    // Keep the remainder for next frame
                 }
             }
         }

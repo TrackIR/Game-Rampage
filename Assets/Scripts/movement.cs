@@ -24,6 +24,11 @@ public class movement : MonoBehaviour
 
     public GameObject TrackIRRoot;
 
+    // INPUT SYSTEM
+    private PlayerInput input;
+    private InputAction moveAction;
+    private InputAction jumpAction;
+
     // TODO: first or third person toggle needs to be scene or just moved to be better
 
     private Transform cameraTransform;
@@ -48,7 +53,43 @@ public class movement : MonoBehaviour
     private Animator anim;
     private int animWalkHash;
 
+    // Custom remapped jump key preserved from HEAD
     private KeyCode jumpKey;
+
+    void Awake()
+    {
+        input = new PlayerInput();
+
+        if (gameSettings != null && gameSettings.useTrackIR)
+        {
+            moveAction = null; // TrackIR handles movement
+            jumpAction = null;
+        }
+        else
+        {
+            moveAction = input.KeyboardMouse.Movement;
+            jumpAction = input.KeyboardMouse.Jump;
+        }
+    }
+
+    void OnEnable()
+    {
+        input.Enable();
+
+        if (gameSettings != null && gameSettings.useTrackIR)
+        {
+            input.TrackIR.Enable();
+        }
+        else
+        {
+            input.KeyboardMouse.Enable();
+        }
+    }
+
+    void OnDisable()
+    {
+        input.Disable();
+    }
 
     void Start()
     {
@@ -164,10 +205,33 @@ public class movement : MonoBehaviour
 
     void wasdMove()
     {
-        float moveX = Input.GetAxis("Horizontal");
-        float moveZ = Input.GetAxis("Vertical");
+        float moveX = 0f;
+        float moveZ = 0f;
+        bool jumpPressed = false;
 
-        bool jumpPressed = Input.GetKeyDown(jumpKey);
+        // Try to read from the new input system if it's assigned
+        if (moveAction != null)
+        {
+            Vector2 moveInput = moveAction.ReadValue<Vector2>();
+            moveX = moveInput.x;
+            moveZ = moveInput.y;
+        }
+        else
+        {
+            // Fallback to legacy input (Crucial if TrackIR fails mid-game and moveAction is null)
+            moveX = Input.GetAxis("Horizontal");
+            moveZ = Input.GetAxis("Vertical");
+        }
+
+        // Checking legacy remapped key first, falling back to new input system if needed
+        if (Input.GetKeyDown(jumpKey))
+        {
+            jumpPressed = true;
+        }
+        else if (jumpAction != null && jumpAction.triggered)
+        {
+            jumpPressed = true;
+        }
 
         Vector3 forward = cameraTransform.forward;
         Vector3 right = cameraTransform.right;
@@ -183,21 +247,20 @@ public class movement : MonoBehaviour
 
         float speedPercent = moveDirection.magnitude;
         anim.SetFloat("Speed", speedPercent);
+
         if (speedPercent > 0)
         {
             Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);
         }
 
-        // Keep player grounded
         if (controller.isGrounded && velocity.y < 0f)
-        {
             velocity.y = -2f;
-        }
-        // Apply gravity
+
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
 
+        // Fixed the bracket formatting conflict here
         if (jumpPressed && controller.isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpPower * -2f * gravity);
