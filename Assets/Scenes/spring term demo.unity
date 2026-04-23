@@ -2138,6 +2138,9 @@ MonoBehaviour:
   healthBarObjectFill: {fileID: 635873055}
   maxHealth: 100
   currentHealth: 0
+  ultObject: {fileID: 0}
+  ultBarObject: {fileID: 0}
+  ultBarObjectFill: {fileID: 0}
   timerObject: {fileID: 1530266067}
   timeRemaining: 0
   timerIsRunning: 0

@@ -2450,6 +2450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5e9a9c6e0a351742a6fde79f9b0a4e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  gameSettings: {fileID: 0}
   curserObject: {fileID: 402534306}
   clickKey: 32
   sensitivity: 1
@@ -7645,7 +7646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c375ecfdfa8b95c4094c4622025e5fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  gameSceneName: feb26checkin
+  gameSceneName: spring term demo
 --- !u!1001 &1901174963
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8040,7 +8041,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c375ecfdfa8b95c4094c4622025e5fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  gameSceneName: 
+  gameSceneName: winter term demo
 --- !u!1 &1997639411
 GameObject:
   m_ObjectHideFlags: 0

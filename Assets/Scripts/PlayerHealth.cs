@@ -36,7 +36,8 @@ public class PlayerHealth : MonoBehaviour
 
         if (!isAlive) return;
         
-        playerAudio.PlayHurt();
+        // ToDo: make player audio work!
+        //playerAudio.PlayHurt();
 
         // Reduce health
         currentHealth -= damage;

@@ -22,7 +22,7 @@ public class PauseMenu : MonoBehaviour
     {
         Debug.Log("Restart game");
 
-        string sceneName = "Winter term demo";
+        string sceneName = "spring term demo";
         SceneManager.LoadSceneAsync(sceneName);
         Time.timeScale = 1f;
     }
