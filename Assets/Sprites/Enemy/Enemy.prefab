@@ -260,7 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3b22265fc704614d8c25e981bab469a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAudio
-  bladesSource: {fileID: 5034612183689170476}
+  ForwardSource: {fileID: 0}
   deathSource: {fileID: 9062622442420176162}
   waterJetSource: {fileID: 428795726209102986}
   hurtSource: {fileID: 7039856788742695552}
@@ -374,7 +374,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 0c1be1f0e1ee6a14fa0c75107283b0d1, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 1
   Mute: 0

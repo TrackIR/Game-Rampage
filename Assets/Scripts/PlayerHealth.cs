@@ -34,9 +34,9 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(float damage)
     {
 
-        playerAudio.PlayHurt();
-
         if (!isAlive) return;
+        
+        playerAudio.PlayHurt();
 
         // Reduce health
         currentHealth -= damage;

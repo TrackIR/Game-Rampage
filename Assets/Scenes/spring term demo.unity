@@ -36824,6 +36824,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 3240055846879311612, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3424692234378440547, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -37071,7 +37075,7 @@ PrefabInstance:
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: playerHead
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1059981348}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: gameSettings
       value: 
@@ -60859,6 +60863,11 @@ MeshCollider:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3336912539022829301, guid: 295f532acb8da7e47a0b67acf08439e9, type: 3}
   m_PrefabInstance: {fileID: 1381307645}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1059981348 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7417450046668360788, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+  m_PrefabInstance: {fileID: 641262246}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1060350039
 PrefabInstance:
