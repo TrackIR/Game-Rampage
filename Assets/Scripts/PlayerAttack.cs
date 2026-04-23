@@ -55,6 +55,11 @@ public class PlayerAttack : MonoBehaviour
     private PlayerInput input;
     private InputAction attackAction;
 
+    // Stores the dynamically remapped attack key
+    private KeyCode attackKey;
+    // Stores the dynamically remapped ultimate key
+    private KeyCode ultimateKey;
+
     void Awake()
     {
         input = new PlayerInput();
@@ -107,7 +112,16 @@ public class PlayerAttack : MonoBehaviour
         uiManager = FindFirstObjectByType<ManageUI>();
 
         if (anim != null)
+        {
             animPunchHash = Animator.StringToHash("Base Layer.Punch");
+        }
+
+        // Load the saved keys, or default to Q / E if haven't set one yet
+        string savedAttackKey = PlayerPrefs.GetString("AttackKey", "Q");
+        attackKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), savedAttackKey);
+
+        string savedUltKey = PlayerPrefs.GetString("UltimateKey", "E");
+        ultimateKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), savedUltKey);
     }
 
     void Update()
@@ -125,13 +139,37 @@ public class PlayerAttack : MonoBehaviour
             ultimateCooldownTimer -= Time.deltaTime;
 
         checkScore();
+
+        // LEGACY / CUSTOM KEYBIND FALLBACK
+        // Check for ultimate input specifically
+        if (Input.GetKeyDown(ultimateKey))
+        {
+            // activate ultimate if ready and not in cooldown
+            if (ultimateCharged && ultimateCooldownTimer <= 0f && !isInUltimate)
+            {
+                StartCoroutine(UltimateSequence());
+            }
+        }
+
+        // uses the dynamic attackKey 
+        if (Input.GetKeyDown(attackKey))
+        {
+            // Normal attack
+            if (!ultimateCharged && normalAttackTimer <= 0f && ultimateCooldownTimer <= 0f && !isInUltimate)
+            {
+                Attack();
+                normalAttackTimer = normalAttackCooldown;
+            }
+        }
     }
 
+    // NEW INPUT SYSTEM EVENT
     void OnAttack(InputAction.CallbackContext context)
     {
         if (isInUltimate)
             return;
 
+        // In the new input system, the same button triggers Ult if charged, or Normal if not
         if (ultimateCharged && ultimateCooldownTimer <= 0f)
         {
             StartCoroutine(UltimateSequence());
@@ -157,6 +195,21 @@ public class PlayerAttack : MonoBehaviour
             ultimateCharged = true;
             Debug.Log("Ult ready");
             lastUltimateLevel = currentLevel;
+        }
+
+        // Update the Ultimate UI Bar
+        if (ultimateCharged)
+        {
+            // If it's ready, send the max threshold to fill the bar completely
+            uiManager.UpdateUlt(ultimateThreshold, ultimateThreshold);
+        }
+        else
+        {
+            // Calculate how far along the player is to the NEXT ultimate charge
+            int progress = score - (lastUltimateLevel * ultimateThreshold);
+            if (progress < 0) progress = 0;
+
+            uiManager.UpdateUlt(progress, ultimateThreshold);
         }
     }
 
