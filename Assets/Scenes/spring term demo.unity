@@ -27048,11 +27048,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -6882385884760090233, guid: 70c2955557cec6e4e92e93a67fd7662e, type: 3}
---- !u!1 &472473030 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5512733050173762612, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-  m_PrefabInstance: {fileID: 641262246}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &473192961 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1097755150838412449, guid: b16e54ceafe80fd418a98d3a5e13c9bc, type: 3}
@@ -37017,6 +37012,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 7417450046668360788, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: m_TagString
+      value: PlayerHead
+      objectReference: {fileID: 0}
     - target: {fileID: 7912228124065487396, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -37072,7 +37071,7 @@ PrefabInstance:
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: playerHead
       value: 
-      objectReference: {fileID: 472473030}
+      objectReference: {fileID: 0}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: gameSettings
       value: 
@@ -68577,7 +68576,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1198667984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88547,7 +88546,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1586749819
 MonoBehaviour:
   m_ObjectHideFlags: 0
