@@ -173,13 +173,11 @@ public class PlayerAttack : MonoBehaviour
         if (ultimateCharged && ultimateCooldownTimer <= 0f)
         {
             StartCoroutine(UltimateSequence());
-            //ToDo: make player audio work!
             playerAudio.PlayUltimate();
         }
         else if (!ultimateCharged && normalAttackTimer <= 0f && ultimateCooldownTimer <= 0f)
         {
             Attack();
-            //ToDo: make player audio work!
             playerAudio.PlayPunch();
             normalAttackTimer = normalAttackCooldown;
         }

@@ -2,45 +2,55 @@ using UnityEngine;
 
 public class EnemyAudio : MonoBehaviour
 {
-    [Header("Audio Sources")]
-    public AudioSource ForwardSource;   // optional (used by helicopter)
-    public AudioSource deathSource;
-    public AudioSource waterJetSource;
-    public AudioSource hurtSource;
+    [Header("Audio Source")]
+    public AudioSource audioSource;
+
+    [Header("Audio Clips")]
+    public AudioClip forwardClip;
+    public AudioClip deathClip;
+    public AudioClip waterJetClip;
+    public AudioClip hurtClip;
 
     public void PlayWaterJet(bool play)
     {
-        if (waterJetSource == null) return;
+        if (audioSource == null || waterJetClip == null) return;
 
         if (play)
         {
-            if (!waterJetSource.isPlaying)
+            if (audioSource.clip != waterJetClip || !audioSource.isPlaying)
             {
-                waterJetSource.loop = true;
-                waterJetSource.Play();
+                audioSource.clip = waterJetClip;
+                audioSource.loop = true;
+                audioSource.Play();
             }
         }
         else
         {
-            waterJetSource.Stop();
+            if (audioSource.clip == waterJetClip)
+            {
+                audioSource.Stop();
+            }
         }
     }
 
     public void PlayForward()
     {
-        if (ForwardSource != null)
-            ForwardSource.Play();
+        PlayOneShot(forwardClip);
     }
 
     public void PlayHurt()
     {
-        if (hurtSource != null)
-            hurtSource.Play();
+        PlayOneShot(hurtClip);
     }
 
     public void PlayDeath()
     {
-        if (deathSource != null)
-            deathSource.Play();
+        PlayOneShot(deathClip);
+    }
+
+    private void PlayOneShot(AudioClip clip)
+    {
+        if (audioSource == null || clip == null) return;
+        audioSource.PlayOneShot(clip);
     }
 }
