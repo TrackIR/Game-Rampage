@@ -1069,6 +1069,8 @@ GameObject:
   - component: {fileID: 2169317586527919222}
   - component: {fileID: 9170016066220637218}
   - component: {fileID: 9069639554450188572}
+  - component: {fileID: 1920275033831064899}
+  - component: {fileID: 5543154292030078888}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -1195,7 +1197,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 1.92
-  m_Radius: 0.5
+  m_Radius: 0.42
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -1279,7 +1281,7 @@ MonoBehaviour:
   beamWeight: 0.025
   ultLaserPrefab: {fileID: 6693682581077919189, guid: 31b595d889ebfe342b9b7777df1d524d, type: 3}
   ultSpawnPoint: {fileID: 6008737871576382134}
-  ultLaserDuration: 6.5
+  ultLaserDuration: 7
   ultLaserDamage: 10
   movement: {fileID: 5422387770691132287}
   cameraMovement: {fileID: 0}
@@ -1311,6 +1313,53 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &1920275033831064899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8158711526878704080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
+--- !u!54 &5543154292030078888
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8158711526878704080}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8959080101510429900
 GameObject:
   m_ObjectHideFlags: 0
@@ -1350,6 +1399,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2834931430190571472}
     m_Modifications:
+    - target: {fileID: -8761183047164030913, guid: f5f57b9cf8fb6d6468919568c0c875f2, type: 3}
+      propertyPath: m_TagString
+      value: PlayerHead
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f5f57b9cf8fb6d6468919568c0c875f2, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.3003003
