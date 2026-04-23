@@ -26,7 +26,7 @@ public class EnemyAudio : MonoBehaviour
         }
     }
 
-    public void PlayBlades()
+    public void PlayForward()
     {
         if (ForwardSource != null)
             ForwardSource.Play();

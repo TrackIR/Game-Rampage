@@ -77,7 +77,7 @@ public class HelicopterAI : MonoBehaviour
         {
             agent.stoppingDistance = 0f;
             FindPlayer();
-            audioPlayer.PlayBlades();
+            audioPlayer.PlayForward();
         }
         else
         {

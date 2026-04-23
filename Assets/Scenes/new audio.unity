@@ -1195,6 +1195,9 @@ MonoBehaviour:
   healthBarObjectFill: {fileID: 635873055}
   maxHealth: 100
   currentHealth: 0
+  ultObject: {fileID: 0}
+  ultBarObject: {fileID: 0}
+  ultBarObjectFill: {fileID: 0}
   timerObject: {fileID: 1530266067}
   timeRemaining: 0
   timerIsRunning: 0
@@ -14632,11 +14635,6 @@ MonoBehaviour:
   - {fileID: 8889924073569422389, guid: 3c922f8721af8af4dbb9e752122564e5, type: 3}
   - {fileID: 4721827613419649729, guid: 6e2eaf5daa2be054da50c38ef38ff46a, type: 3}
   parkPrefab: {fileID: 0}
---- !u!1 &472473030 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5512733050173762612, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-  m_PrefabInstance: {fileID: 641262246}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &477653042
 GameObject:
   m_ObjectHideFlags: 0
@@ -19744,7 +19742,7 @@ PrefabInstance:
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: playerHead
       value: 
-      objectReference: {fileID: 472473030}
+      objectReference: {fileID: 0}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: cameraShake
       value: 
@@ -59877,63 +59875,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfc4a70af33e28749bc92ecd62014202, type: 3}
---- !u!1001 &4685440808925274659
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2733529706926920045, guid: 8f60f82f207a31347b5738e2b3d707e6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 468
-      objectReference: {fileID: 0}
-    - target: {fileID: 2733529706926920045, guid: 8f60f82f207a31347b5738e2b3d707e6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2733529706926920045, guid: 8f60f82f207a31347b5738e2b3d707e6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 523
-      objectReference: {fileID: 0}
-    - target: {fileID: 2733529706926920045, guid: 8f60f82f207a31347b5738e2b3d707e6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2733529706926920045, guid: 8f60f82f207a31347b5738e2b3d707e6, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2733529706926920045, guid: 8f60f82f207a31347b5738e2b3d707e6, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2733529706926920045, guid: 8f60f82f207a31347b5738e2b3d707e6, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2733529706926920045, guid: 8f60f82f207a31347b5738e2b3d707e6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2733529706926920045, guid: 8f60f82f207a31347b5738e2b3d707e6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2733529706926920045, guid: 8f60f82f207a31347b5738e2b3d707e6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591722462256364901, guid: 8f60f82f207a31347b5738e2b3d707e6, type: 3}
-      propertyPath: m_Name
-      value: Building Destruction Audio
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8f60f82f207a31347b5738e2b3d707e6, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -59959,4 +59900,3 @@ SceneRoots:
   - {fileID: 1805310663}
   - {fileID: 1132128070}
   - {fileID: 1498063865}
-  - {fileID: 4685440808925274659}
