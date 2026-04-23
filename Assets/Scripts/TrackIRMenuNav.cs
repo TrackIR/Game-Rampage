@@ -135,7 +135,8 @@ public class TrackIRMenuNav : MonoBehaviour
         if (gameSettings.useTrackIR)
         {
             TrackIRCursor();
-        } else
+        }
+        else
         {
             MouseCursor();
         }

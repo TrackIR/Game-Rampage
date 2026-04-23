@@ -185,6 +185,7 @@ public class EnemyAI : MonoBehaviour
     void SprayAttack()
     {
         // Branch audio implementation with a small cooldown limit
+        // Branch audio implementation with a small cooldown limit
         if (AudioManager.Instance != null && AudioManager.Instance.enemyShoot != null)
         {
             shootAudioTimer -= Time.deltaTime;
