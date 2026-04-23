@@ -44629,6 +44629,63 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -3920987482455494174, guid: f47958e74131566449e40f51cd82e6f5, type: 3}
+--- !u!1 &772702885
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 772702887}
+  - component: {fileID: 772702886}
+  m_Layer: 10
+  m_Name: firetruckSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &772702886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772702885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad2c33312f50a9f4ba9555015318ec49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnEnemies
+  ui: {fileID: 0}
+  enemyPrefab: {fileID: 4775837804930081899, guid: 1b73fbfb3a347ec4b96932b3b0bc3be5, type: 3}
+  navMeshSurface: {fileID: 0}
+  settings: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
+  buildingMask:
+    serializedVersion: 2
+    m_Bits: 64
+  spawnRate: 10
+  spawnCount: 4
+  maxEnemies: 3
+  radiusFromPlayer: 200
+  randomOffset: 3
+  spawnerClearanceRadius: 3
+--- !u!4 &772702887
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772702885}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 251, y: 22, z: 523}
+  m_LocalScale: {x: 13, y: 13, z: 13}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &773693346 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1269255389582243567, guid: b16e54ceafe80fd418a98d3a5e13c9bc, type: 3}
@@ -117672,12 +117729,13 @@ SceneRoots:
   - {fileID: 641262246}
   - {fileID: 1930792706330552219}
   - {fileID: 292401153}
-  - {fileID: 830965259}
+  - {fileID: 772702887}
+  - {fileID: 1805310663}
   - {fileID: 1150692443}
   - {fileID: 480746943}
-  - {fileID: 1968182925}
-  - {fileID: 1805310663}
   - {fileID: 1498063865}
+  - {fileID: 830965259}
   - {fileID: 829987860}
   - {fileID: 1411755406}
   - {fileID: 1132128070}
+  - {fileID: 1968182925}
