@@ -151,6 +151,13 @@ public class TrackIRMenuNav : MonoBehaviour
         {
             Vector2 mousePos = Input.mousePosition;
             curserObject.transform.position = mousePos;
+            if (Input.GetKeyDown(clickKey) || Input.GetMouseButtonDown(0))
+            {
+                if (AudioManager.Instance != null && AudioManager.Instance.menuClick != null)
+                {
+                    AudioManager.Instance.playAudio(AudioManager.Instance.menuClick);
+                }
+            }
         }
     }
 
