@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class TrackIRMenuNav : MonoBehaviour
 {
+    [Header("Settings")]
     public GameSettings gameSettings;
     public GameObject curserObject;
     public KeyCode clickKey = KeyCode.Space;
@@ -29,7 +30,19 @@ public class TrackIRMenuNav : MonoBehaviour
 
     void Start()
     {
+        // Search the whole scene for TrackIR, not just this one GameObject
         trackIR = GetComponent<TrackIRComponent>();
+        if (trackIR == null)
+        {
+            trackIR = FindObjectOfType<TrackIRComponent>();
+        }
+
+        // Warn if GameSettings is missing
+        if (gameSettings == null)
+        {
+            Debug.LogError("TrackIRMenuNav: GameSettings is not assigned");
+        }
+
         eventSystem = EventSystem.current;
         pointerData = new PointerEventData(eventSystem);
     }
@@ -37,7 +50,12 @@ public class TrackIRMenuNav : MonoBehaviour
     void TrackIRCursor()
     {
         // Safety check to prevent null reference spam
-        if (trackIR == null || eventSystem == null) return;
+        if (trackIR == null)
+        {
+            Debug.LogWarning("TrackIRMenuNav: Cannot find TrackIRComponent in scene");
+            return;
+        }
+        if (eventSystem == null) return;
 
         Vector3 headRot = trackIR.LatestPoseOrientation.eulerAngles;
         float aspect = (float)Screen.width / Screen.height;
@@ -54,6 +72,9 @@ public class TrackIRMenuNav : MonoBehaviour
         {
             curserObject.transform.position = screenPos;
         }
+
+        // Ensure pointerData exists before assigning position
+        if (pointerData == null) pointerData = new PointerEventData(eventSystem);
         pointerData.position = screenPos;
 
         List<RaycastResult> results = new List<RaycastResult>();
@@ -126,13 +147,19 @@ public class TrackIRMenuNav : MonoBehaviour
 
     void MouseCursor()
     {
-        Vector2 mousePos = Input.mousePosition;
-        curserObject.transform.position = mousePos;
+        if (curserObject != null)
+        {
+            Vector2 mousePos = Input.mousePosition;
+            curserObject.transform.position = mousePos;
+        }
     }
 
     void Update()
     {
-        if (gameSettings.useTrackIR)
+        // Safe check for useTrackIR in case GameSettings was left blank
+        bool isUsingTrackIR = (gameSettings != null) ? gameSettings.useTrackIR : true;
+
+        if (isUsingTrackIR)
         {
             TrackIRCursor();
         }

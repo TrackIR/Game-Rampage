@@ -948,7 +948,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ff70c4a3a75cbb4d8c01a99cfb82d4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrackIRToggle
-  gameSettings: {fileID: 11400000, guid: e92e9b73a864508428486a12765cb719, type: 2}
+  gameSettings: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
   trackIRToggle: {fileID: 320589384}
 --- !u!114 &320589384
 MonoBehaviour:
