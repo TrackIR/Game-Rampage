@@ -51,6 +51,7 @@ public class movement : MonoBehaviour
 
     private Animator anim;
     private int animWalkHash;
+    private int animJumpHash;
 
 
     void Start()
@@ -67,6 +68,7 @@ public class movement : MonoBehaviour
         if (anim != null)
         {
             animWalkHash = Animator.StringToHash("Base Layer.Walk");
+            animJumpHash = Animator.StringToHash("Base Layer.Jump");
         }
 
     }
@@ -171,6 +173,7 @@ public class movement : MonoBehaviour
                     if (controller.isGrounded)
                     {
                         velocity.y = Mathf.Sqrt(jumpPower * -2f * gravity);
+                        anim.SetTrigger("Jump");
                     }
                     headRotQueue.Clear(); //reset queue after jump
                     break; //exit loop after jump because we don't need to keep checking
