@@ -21,6 +21,7 @@ public class EnemyAI : MonoBehaviour
     public float damagePerSecond = 0.5f;    // damage every second
     public ParticleSystem sprayEffect;
     public Transform firePoint;
+    public EnemyAudio enemyAudio;
     private float damageAccumulator = 0f;
     private float pathTimer = 0f;
     private float shootAudioTimer = 0f;  // Prevents audio spam
@@ -66,6 +67,9 @@ public class EnemyAI : MonoBehaviour
         }
         path = new NavMeshPath();
         if (sprayEffect != null) sprayEffect.Stop();
+
+        if (enemyAudio == null)
+        enemyAudio = GetComponent<EnemyAudio>();
     }
 
     void Update()
@@ -120,6 +124,9 @@ public class EnemyAI : MonoBehaviour
             {
                 sprayEffect.Stop();
             }
+
+            if (enemyAudio != null)
+            enemyAudio.PlayWaterJet(false);
         }
     }
 
@@ -184,6 +191,9 @@ public class EnemyAI : MonoBehaviour
 
     void SprayAttack()
     {
+        if (enemyAudio != null)
+        enemyAudio.PlayWaterJet(true);
+
         // Branch audio implementation with a small cooldown limit
         // Branch audio implementation with a small cooldown limit
         if (AudioManager.Instance != null && AudioManager.Instance.enemyShoot != null)

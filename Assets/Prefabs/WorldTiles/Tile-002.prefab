@@ -289,6 +289,7 @@ MonoBehaviour:
   maxHealth: 3
   scoreReward: 10
   healthReward: 5
+  collapseSound: {fileID: 7591722462256364901, guid: 8f60f82f207a31347b5738e2b3d707e6, type: 3}
 --- !u!114 &7865638968141585682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,6 +305,7 @@ MonoBehaviour:
   maxHealth: 3
   scoreReward: 10
   healthReward: 5
+  collapseSound: {fileID: 7591722462256364901, guid: 8f60f82f207a31347b5738e2b3d707e6, type: 3}
 --- !u!4 &5457417299521707964 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ce294ff03246f404f80f9340f12e7c69, type: 3}

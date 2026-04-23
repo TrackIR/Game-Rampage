@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public PlayerAudio playerAudio;
     public float maxHealth = 100f;
     private float currentHealth;
     public GameObject Canvas;
@@ -32,6 +33,9 @@ public class PlayerHealth : MonoBehaviour
     // function that other scripts can call to Deal Damage
     public void TakeDamage(float damage)
     {
+
+        playerAudio.PlayHurt();
+
         if (!isAlive) return;
 
         // Reduce health
@@ -89,6 +93,8 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
+        playerAudio.PlayDeath();
+
         Debug.Log(gameObject.name + " has died!");
         isAlive = false;
 

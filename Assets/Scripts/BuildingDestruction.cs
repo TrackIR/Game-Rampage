@@ -7,6 +7,8 @@ public class BuildingDestruction : MonoBehaviour
     [Range(0f, 25f)] public int scoreReward = 10; // Amount of score to give player when building is destroyed
     [Range(0f, 10f)] public int healthReward = 5; // Amount of HP to restore when a building is destroyed
 
+    public GameObject collapseSound;
+
     // Get building renderer to apply colors
     private Renderer buildingRenderer;
     private float initialHeight; // Store the initial height to calculate sink amount
@@ -72,6 +74,7 @@ public class BuildingDestruction : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            Instantiate(collapseSound);
             Collapse();
         }
     }

@@ -36,6 +36,7 @@ public class PlayerAttack : MonoBehaviour
     public GameObject playerHead;
 
     [Header("References / Animation")]
+    public PlayerAudio playerAudio;
     public GameObject cursor;
     public GameSettings gameSettings;
     public CameraShake cameraShake;
@@ -134,10 +135,12 @@ public class PlayerAttack : MonoBehaviour
         if (ultimateCharged && ultimateCooldownTimer <= 0f)
         {
             StartCoroutine(UltimateSequence());
+            playerAudio.PlayUltimate();
         }
         else if (!ultimateCharged && normalAttackTimer <= 0f && ultimateCooldownTimer <= 0f)
         {
             Attack();
+            playerAudio.PlayPunch();
             normalAttackTimer = normalAttackCooldown;
         }
     }
