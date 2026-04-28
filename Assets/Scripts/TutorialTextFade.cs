@@ -5,13 +5,20 @@ using TMPro;
 
 public class TutorialTextFade : MonoBehaviour
 {
-     public CanvasGroup canvasGroup;
+    public CanvasGroup canvasGroup;
     public float fadeDuration = 0.75f;
     private TMP_Text tutorialText;
+    private SpriteRenderer tutorialBackground;
 
-    void Start()
+    void Awake()
     {
+        if (canvasGroup == null)
+        {
+            canvasGroup = GetComponent<CanvasGroup>();
+        }
+
         tutorialText = GetComponentInChildren<TMP_Text>();
+        tutorialBackground = GetComponentInChildren<SpriteRenderer>();
     }
 
     public void FadeIn(String text)

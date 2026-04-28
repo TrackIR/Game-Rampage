@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class tutorialZone : MonoBehaviour
 {
-    public  GameObject TutorialText;
+    public  GameObject TutorialTextParent;
 
     void Start()
     {
@@ -11,7 +11,7 @@ public class tutorialZone : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            TutorialText.SetActive(false);
+            TutorialTextParent.SetActive(false);
         }
     }
 }
