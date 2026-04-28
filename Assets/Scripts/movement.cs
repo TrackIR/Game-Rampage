@@ -58,8 +58,7 @@ public class movement : MonoBehaviour
 
     private Animator anim;
     private int animWalkHash;
-    private bool jumping = false;
-    private bool wasGrounded = false;
+    private bool isAirborn = false;
     private Collider[] enemiesHit;
 
     void Awake()
@@ -118,7 +117,9 @@ public class movement : MonoBehaviour
         {
             animWalkHash = Animator.StringToHash("Base Layer.Walk");
         }
-        GroundSmashEffect = GetComponentInChildren<ParticleSystem>();
+
+        GroundSmashEffect = GroundSmashObject.GetComponent<ParticleSystem>();
+
     }
 
     void GroundPound()
@@ -127,14 +128,14 @@ public class movement : MonoBehaviour
         enemiesHit = Physics.OverlapSphere(groundPoundPosition, groundPoundRadius, LayerMask.GetMask("Enemy"));
         if (GroundSmashEffect != null)
         {
-            if( GroundSmashEffect.isPlaying)
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, 3f, layerMask: LayerMask.GetMask("Default")))
             {
-                GroundSmashEffect.Stop();
+                GroundSmashEffect.transform.position = hit.point;
             }
-            if (!GroundSmashEffect.isPlaying){
-                Debug.Log("Ground Smash effect triggered!");
-                GroundSmashEffect.Play(true);
-            }
+            GroundSmashEffect.gameObject.SetActive(true);
+            GroundSmashEffect.Simulate(0f, true, true, true);
+            GroundSmashEffect.Play(true);
         }
         else{
             Debug.LogWarning("No ground smash particle system attached to object!");
@@ -144,7 +145,7 @@ public class movement : MonoBehaviour
             EnemyHealth enemy = enemyCollider.GetComponent<EnemyHealth>();
             if (enemy != null)
             {
-                enemy.TakeDamage(100); // Adjust damage as needed
+                enemy.TakeDamage(100);
                 Debug.Log("Ground Pound hit enemy!");
             }
         }
@@ -248,7 +249,6 @@ public class movement : MonoBehaviour
                     if (controller.isGrounded)
                     {
                         velocity.y = Mathf.Sqrt(jumpPower * -2f * gravity);
-                        jumping = true;
                     }
                     headRotQueue.Clear(); //reset queue after jump
                     break; //exit loop after jump because we don't need to keep checking
@@ -295,7 +295,6 @@ public class movement : MonoBehaviour
 
         if (jumpPressed && controller.isGrounded)
         {
-            jumping = true;
             velocity.y = Mathf.Sqrt(jumpPower * -2f * gravity);
         }
 
@@ -342,14 +341,21 @@ public class movement : MonoBehaviour
             wasdMove();
         }
 
-        if (jumping && !wasGrounded && controller.isGrounded)
-        {
-                Debug.Log("Ground Pound triggered!");
-                GroundPound();
-                jumping = false;
+        if(!controller.isGrounded){
+            if (!isAirborn)
+            {
+                isAirborn = true;
+            }
         }
+        else{
+            if (isAirborn)
+            {
+                GroundPound();
+                isAirborn = false;
+            }
+        }
+
         Debug.Log("Grounded: " + controller.isGrounded);
-        wasGrounded = controller.isGrounded;
     }
 
     // on-screen debug display (shows in Game view when Play is running)
