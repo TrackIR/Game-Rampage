@@ -70,7 +70,8 @@ public class headTrigger : MonoBehaviour
             if (anim != null)
             animAttachHash = Animator.StringToHash("Base Layer.HeadAttach");
             anim.SetTrigger("HeadAttach");
-            
+            //ToDo: when animation is finished re-enable the character controller
+            playerController.enabled = true;
             GameManager.Instance.StartGamePhase();
     }
 }
