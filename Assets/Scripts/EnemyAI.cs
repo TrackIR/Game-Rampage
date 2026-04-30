@@ -16,7 +16,6 @@ public class EnemyAI : MonoBehaviour
     private const float gravity = -9.81f;
     private Vector3 gravityVector = new Vector3(0, gravity, 0);
     public NavMeshAgent agent;
-    private NavMeshPath path;
     // Spray Settings
     public float damagePerSecond = 0.5f;    // damage every second
     public ParticleSystem sprayEffect;
@@ -65,7 +64,7 @@ public class EnemyAI : MonoBehaviour
         {
             agent.speed = speed;
         }
-        path = new NavMeshPath();
+
         if (sprayEffect != null) sprayEffect.Stop();
 
         if (enemyAudio == null)
@@ -132,47 +131,24 @@ public class EnemyAI : MonoBehaviour
 
     void FleePlayer()
     {
+        if (!agent.isOnNavMesh) return;
+
         Vector3 dirAwayFromPlayer = (transform.position - playerTarget.position).normalized;
         dirAwayFromPlayer.y = 0;
 
         Vector3 fleeTarget = transform.position + (dirAwayFromPlayer * 10f);
 
-        if (!NavMesh.SamplePosition(agent.transform.position, out NavMeshHit startHit, 5f, agent.areaMask)) return;
-        if (!NavMesh.SamplePosition(fleeTarget, out NavMeshHit endHit, 10f, agent.areaMask)) return;
-
-        UpdateNavPath(startHit.position, endHit.position);
+        if (NavMesh.SamplePosition(fleeTarget, out NavMeshHit hit, 10f, agent.areaMask))
+        {
+            agent.SetDestination(hit.position);
+        }
     }
 
     void ChasePlayer()
     {
-        if (!NavMesh.SamplePosition(agent.transform.position, out NavMeshHit startHit, 5f, agent.areaMask)) return;
-        if (!NavMesh.SamplePosition(playerTarget.position, out NavMeshHit endHit, 20f, agent.areaMask)) return;
+        if (!agent.isOnNavMesh) return;
 
-        UpdateNavPath(startHit.position, endHit.position);
-    }
-
-    // Centralizes the pathing logic
-    void UpdateNavPath(Vector3 startPosition, Vector3 endPosition)
-    {
-        NavMesh.CalculatePath(
-            startPosition,
-            endPosition,
-            new NavMeshQueryFilter { agentTypeID = agent.agentTypeID, areaMask = agent.areaMask },
-            path);
-
-        if (path.status == NavMeshPathStatus.PathComplete)
-        {
-            agent.SetPath(path);
-        }
-        else
-        {
-            Debug.LogWarning($"EnemyAI: path status {path.status}", this);
-        }
-            
-        if (sprayEffect != null && sprayEffect.isPlaying)
-        {
-            sprayEffect.Stop();
-        }
+        agent.SetDestination(playerTarget.position);
     }
 
     void aimAtPlayer()
