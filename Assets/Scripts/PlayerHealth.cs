@@ -5,7 +5,7 @@ public class PlayerHealth : MonoBehaviour
 {
     public PlayerAudio playerAudio;
     public float maxHealth = 100f;
-    private float currentHealth;
+    public float currentHealth;
     public GameObject Canvas;
     private Canvas UImanager;
     public bool isAlive = true;
@@ -122,7 +122,7 @@ public class PlayerHealth : MonoBehaviour
             ReadLeaderboardFile reader = deathMenu.GetComponentInChildren<ReadLeaderboardFile>();
             if (reader != null) reader.ReadFull();
 
-            //Time.timeScale = 0f;
+            Time.timeScale = 0f;
         }
     }
 }

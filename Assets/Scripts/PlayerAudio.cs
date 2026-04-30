@@ -21,6 +21,16 @@ public class PlayerAudio : MonoBehaviour
     {
         if (audioSource == null || deathClip == null) return;
 
+        // Find all EnemyAudio instances and mute them
+        EnemyAudio[] enemies = FindObjectsByType<EnemyAudio>(FindObjectsSortMode.None);
+        foreach (EnemyAudio enemy in enemies)
+        {
+            if (enemy != null)
+            {
+                enemy.MuteMe();
+            }
+        }
+
         audioSource.ignoreListenerPause = true;
         audioSource.PlayOneShot(deathClip);
     }

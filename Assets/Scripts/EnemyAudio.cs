@@ -11,9 +11,16 @@ public class EnemyAudio : MonoBehaviour
     public AudioClip waterJetClip;
     public AudioClip hurtClip;
 
+    public void MuteMe()
+    {
+        audioSource.mute = true;
+    }
+
     public void PlayWaterJet(bool play)
     {
         if (audioSource == null || waterJetClip == null) return;
+
+        audioSource.ignoreListenerPause = false;
 
         if (play)
         {
