@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public PlayerAudio playerAudio;
     public float maxHealth = 100f;
     public float startingHealth = 15f;
     private float currentHealth;
@@ -33,7 +34,11 @@ public class PlayerHealth : MonoBehaviour
     // function that other scripts can call to Deal Damage
     public void TakeDamage(float damage)
     {
+
         if (!isAlive) return;
+        
+        // ToDo: make player audio work!
+        playerAudio.PlayHurt();
 
         // Reduce health
         currentHealth -= damage;
@@ -90,6 +95,8 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
+        playerAudio.PlayDeath();
+
         Debug.Log(gameObject.name + " has died!");
         isAlive = false;
 

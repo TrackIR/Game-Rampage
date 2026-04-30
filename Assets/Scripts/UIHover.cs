@@ -52,6 +52,10 @@ public class UIHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         isHovered = true;
+        if (AudioManager.Instance != null && AudioManager.Instance.menuHover != null)
+        {
+            AudioManager.Instance.playAudio(AudioManager.Instance.menuHover);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)

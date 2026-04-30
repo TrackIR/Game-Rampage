@@ -1,10 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class TrackIRMenuNav : MonoBehaviour
 {
+    [Header("Settings")]
+    public GameSettings gameSettings;
     public GameObject curserObject;
     public KeyCode clickKey = KeyCode.Space;
     public float sensitivity = 1;
@@ -27,15 +30,32 @@ public class TrackIRMenuNav : MonoBehaviour
 
     void Start()
     {
+        // Search the whole scene for TrackIR, not just this one GameObject
         trackIR = GetComponent<TrackIRComponent>();
+        if (trackIR == null)
+        {
+            trackIR = FindObjectOfType<TrackIRComponent>();
+        }
+
+        // Warn if GameSettings is missing
+        if (gameSettings == null)
+        {
+            Debug.LogError("TrackIRMenuNav: GameSettings is not assigned");
+        }
+
         eventSystem = EventSystem.current;
         pointerData = new PointerEventData(eventSystem);
     }
 
-    void Update()
+    void TrackIRCursor()
     {
         // Safety check to prevent null reference spam
-        if (trackIR == null || eventSystem == null) return;
+        if (trackIR == null)
+        {
+            Debug.LogWarning("TrackIRMenuNav: Cannot find TrackIRComponent in scene");
+            return;
+        }
+        if (eventSystem == null) return;
 
         Vector3 headRot = trackIR.LatestPoseOrientation.eulerAngles;
         float aspect = (float)Screen.width / Screen.height;
@@ -52,6 +72,9 @@ public class TrackIRMenuNav : MonoBehaviour
         {
             curserObject.transform.position = screenPos;
         }
+
+        // Ensure pointerData exists before assigning position
+        if (pointerData == null) pointerData = new PointerEventData(eventSystem);
         pointerData.position = screenPos;
 
         List<RaycastResult> results = new List<RaycastResult>();
@@ -119,6 +142,37 @@ public class TrackIRMenuNav : MonoBehaviour
             ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerDownHandler);
             ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerUpHandler);
             ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerClickHandler);
+        }
+    }
+
+    void MouseCursor()
+    {
+        if (curserObject != null)
+        {
+            Vector2 mousePos = Input.mousePosition;
+            curserObject.transform.position = mousePos;
+            if (Input.GetKeyDown(clickKey) || Input.GetMouseButtonDown(0))
+            {
+                if (AudioManager.Instance != null && AudioManager.Instance.menuClick != null)
+                {
+                    AudioManager.Instance.playAudio(AudioManager.Instance.menuClick);
+                }
+            }
+        }
+    }
+
+    void Update()
+    {
+        // Safe check for useTrackIR in case GameSettings was left blank
+        bool isUsingTrackIR = (gameSettings != null) ? gameSettings.useTrackIR : true;
+
+        if (isUsingTrackIR)
+        {
+            TrackIRCursor();
+        }
+        else
+        {
+            MouseCursor();
         }
     }
 }

@@ -1197,6 +1197,9 @@ MonoBehaviour:
   healthBarObjectFill: {fileID: 635873055}
   maxHealth: 100
   currentHealth: 0
+  ultObject: {fileID: 0}
+  ultBarObject: {fileID: 0}
+  ultBarObjectFill: {fileID: 0}
   timerObject: {fileID: 1530266067}
   timeRemaining: 0
   timerIsRunning: 0
@@ -11962,6 +11965,63 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &504296452
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 504296454}
+  - component: {fileID: 504296453}
+  m_Layer: 10
+  m_Name: firetruckSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &504296453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504296452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad2c33312f50a9f4ba9555015318ec49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnEnemies
+  ui: {fileID: 46560380}
+  enemyPrefab: {fileID: 4775837804930081899, guid: 1b73fbfb3a347ec4b96932b3b0bc3be5, type: 3}
+  navMeshSurface: {fileID: 2019882777}
+  settings: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
+  buildingMask:
+    serializedVersion: 2
+    m_Bits: 64
+  spawnRate: 10
+  spawnCount: 4
+  maxEnemies: 3
+  radiusFromPlayer: 200
+  randomOffset: 3
+  spawnerClearanceRadius: 3
+--- !u!4 &504296454
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504296452}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 251, y: 22, z: 523}
+  m_LocalScale: {x: 13, y: 13, z: 13}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &506170446
 GameObject:
   m_ObjectHideFlags: 0
@@ -13198,6 +13258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5e9a9c6e0a351742a6fde79f9b0a4e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrackIRMenuNav
+  gameSettings: {fileID: 0}
   curserObject: {fileID: 415627245}
   clickKey: 32
   sensitivity: 1
@@ -13213,6 +13274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afc626ff17e7dd94596f851e55a534df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::crossHair
+  gameSettings: {fileID: 0}
   reticleObject: {fileID: 415627245}
   clickKey: 32
   sensitivity: 1
@@ -15736,7 +15798,7 @@ PrefabInstance:
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: playerHead
       value: 
-      objectReference: {fileID: 641262248}
+      objectReference: {fileID: 0}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: gameSettings
       value: 
@@ -15776,11 +15838,6 @@ PrefabInstance:
 --- !u!4 &641262247 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2834931430190571472, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
-  m_PrefabInstance: {fileID: 641262246}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &641262248 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5512733050173762612, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
   m_PrefabInstance: {fileID: 641262246}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &641262256
@@ -49467,6 +49524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d82fadd09f0cde4d8b61f7f70d16cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  gameSettings: {fileID: 0}
   trackIRRoot: {fileID: 542628271}
   playerObject: {fileID: 547094714}
   is3rdPerson: 1
@@ -49480,6 +49538,8 @@ MonoBehaviour:
   firstPersonOffset: {x: 0, y: 11.5, z: 2.5}
   cameraBlend: 1
   transitionSpeed: 3
+  yawRange: 180
+  maxPitch: 120
 --- !u!4 &2051999571
 Transform:
   m_ObjectHideFlags: 0
@@ -50364,7 +50424,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   spawnRate: 10
-  spawnCount: 0
+  spawnCount: 4
   maxEnemies: 3
   radiusFromPlayer: 200
   randomOffset: 3
@@ -51667,6 +51727,7 @@ SceneRoots:
   - {fileID: 442507061}
   - {fileID: 2132069022}
   - {fileID: 2086063852}
+  - {fileID: 504296454}
   - {fileID: 1453151184}
   - {fileID: 185026190}
   - {fileID: 1196626941}

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.InputSystem;
+using System;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -35,8 +36,11 @@ public class PlayerAttack : MonoBehaviour
     public GameObject playerHead;
 
     [Header("References / Animation")]
+    public PlayerAudio playerAudio;
     public GameObject cursor;
     public GameSettings gameSettings;
+    public CameraShake cameraShake;
+    public float cameraShakeMag = 0.2f;
     private Animator anim;
     private int animPunchHash;
     private ManageUI uiManager;
@@ -50,6 +54,11 @@ public class PlayerAttack : MonoBehaviour
     // INPUT SYSTEM
     private PlayerInput input;
     private InputAction attackAction;
+
+    // Stores the dynamically remapped attack key
+    private KeyCode attackKey;
+    // Stores the dynamically remapped ultimate key
+    private KeyCode ultimateKey;
 
     void Awake()
     {
@@ -103,7 +112,16 @@ public class PlayerAttack : MonoBehaviour
         uiManager = FindFirstObjectByType<ManageUI>();
 
         if (anim != null)
+        {
             animPunchHash = Animator.StringToHash("Base Layer.Punch");
+        }
+
+        // Load the saved keys, or default to Q / E if haven't set one yet
+        string savedAttackKey = PlayerPrefs.GetString("AttackKey", "Q");
+        attackKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), savedAttackKey);
+
+        string savedUltKey = PlayerPrefs.GetString("UltimateKey", "E");
+        ultimateKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), savedUltKey);
     }
 
     void Update()
@@ -121,20 +139,46 @@ public class PlayerAttack : MonoBehaviour
             ultimateCooldownTimer -= Time.deltaTime;
 
         checkScore();
+
+        // LEGACY / CUSTOM KEYBIND FALLBACK
+        // Check for ultimate input specifically
+        if (Input.GetKeyDown(ultimateKey))
+        {
+            // activate ultimate if ready and not in cooldown
+            if (ultimateCharged && ultimateCooldownTimer <= 0f && !isInUltimate)
+            {
+                StartCoroutine(UltimateSequence());
+            }
+        }
+
+        // uses the dynamic attackKey 
+        if (Input.GetKeyDown(attackKey))
+        {
+            // Normal attack
+            if (!ultimateCharged && normalAttackTimer <= 0f && ultimateCooldownTimer <= 0f && !isInUltimate)
+            {
+                Attack();
+                normalAttackTimer = normalAttackCooldown;
+            }
+        }
     }
 
+    // NEW INPUT SYSTEM EVENT
     void OnAttack(InputAction.CallbackContext context)
     {
         if (isInUltimate)
             return;
 
+        // In the new input system, the same button triggers Ult if charged, or Normal if not
         if (ultimateCharged && ultimateCooldownTimer <= 0f)
         {
             StartCoroutine(UltimateSequence());
+            playerAudio.PlayUltimate();
         }
         else if (!ultimateCharged && normalAttackTimer <= 0f && ultimateCooldownTimer <= 0f)
         {
             Attack();
+            playerAudio.PlayPunch();
             normalAttackTimer = normalAttackCooldown;
         }
     }
@@ -151,6 +195,21 @@ public class PlayerAttack : MonoBehaviour
             ultimateCharged = true;
             Debug.Log("Ult ready");
             lastUltimateLevel = currentLevel;
+        }
+
+        // Update the Ultimate UI Bar
+        if (ultimateCharged)
+        {
+            // If it's ready, send the max threshold to fill the bar completely
+            uiManager.UpdateUlt(ultimateThreshold, ultimateThreshold);
+        }
+        else
+        {
+            // Calculate how far along the player is to the NEXT ultimate charge
+            int progress = score - (lastUltimateLevel * ultimateThreshold);
+            if (progress < 0) progress = 0;
+
+            uiManager.UpdateUlt(progress, ultimateThreshold);
         }
     }
 
@@ -191,15 +250,19 @@ public class PlayerAttack : MonoBehaviour
         int layerMask = ~LayerMask.GetMask("player");
 
         if (Physics.Raycast(ray, out hit, 1000f, layerMask))
+        {
             targetPoint = hit.point;
+            Debug.Log(hit.distance + " hit: " + hit.collider.name);
+        }
         else
+        {
             targetPoint = ray.origin + ray.direction * 1000f;
+        }
 
         Vector3 desiredDir = (targetPoint - ultSpawnPoint.position).normalized;
         Vector3 currentDir = ultSpawnPoint.forward;
 
         Vector3 smoothedDir = Vector3.Lerp(currentDir, desiredDir, beamWeight).normalized;
-
         ultSpawnPoint.rotation = Quaternion.LookRotation(smoothedDir);
     }
 
@@ -242,6 +305,9 @@ public class PlayerAttack : MonoBehaviour
             movement.enabled = false;
 
         UltAttack();
+
+        // shake it shake it baby
+        StartCoroutine(cameraShake.Shake(ultLaserDuration - 0.5f, cameraShakeMag, 0.125f));
 
         yield return new WaitForSeconds(ultLaserDuration);
 

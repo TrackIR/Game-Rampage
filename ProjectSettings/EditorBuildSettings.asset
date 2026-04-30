@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main Menu.unity
     guid: ebecc7f51371de8449ece440ab3c9031
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/winter term demo.unity
     guid: 589e1abb3ec9e7540ad34db91a8ea23f
   - enabled: 0
@@ -38,6 +38,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/demo.unity
     guid: c4be97ea96af23347a132d99bd55784e
+  - enabled: 1
+    path: Assets/Scenes/spring term demo.unity
+    guid: 2ca4b01e0f4f6204ea25167a9a831ad5
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 2e789c191ab6e194a8a897e791acfa41, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 8c27272f83968e74194ad2cd15a623f3, type: 3}

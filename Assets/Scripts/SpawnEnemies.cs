@@ -57,7 +57,7 @@ public class SpawnEnemies : MonoBehaviour
 
         spawnTimer += Time.deltaTime;
 
-        if (spawnTimer >= spawnRate)
+        if (spawnTimer >= interval)
         {
             Vector3 center = new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z);
             float angleStep = 360f / Mathf.Max(1, spawnCount);

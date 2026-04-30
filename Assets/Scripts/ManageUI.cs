@@ -20,6 +20,10 @@ public class ManageUI : MonoBehaviour
     [HideInInspector]
     public float currentHealth;
 
+    [Header("Ultimate Variables")]
+    public TMP_Text ultObject;
+    public RectTransform ultBarObject, ultBarObjectFill;
+
     [Header("Timer & Escalation Variables")]
     public TMP_Text timerObject;
     public float timeRemaining = 0;
@@ -68,12 +72,17 @@ public class ManageUI : MonoBehaviour
         // Timer starts at 0 and counts up for all modes
         timeRemaining = 0f;
         ChangeHealth(playerHealth.startingHealth);
+
+        // Initialize Ultimate bar to 0 at the start
+        UpdateUlt(0, 100);
+
         ChangeScore(0);
         timerIsRunning = true;
     }
 
     void Update()
     {
+        // Hide the timer/threat level text when the player dies
         if (currentHealth <= 0 && timerIsRunning)
         {
             timerIsRunning = false; // Stop all timer logic
@@ -90,7 +99,7 @@ public class ManageUI : MonoBehaviour
 
             if (isTradeShow)
             {
-                // Threat Level increases every 20 seconds, max is 5
+                // ESCALATION LOGIC: Threat Level increases every 20 seconds. Max is 5.
                 wantedLevel = Mathf.Min(5, 1 + Mathf.FloorToInt(timeRemaining / 20f));
                 DisplayWantedLevel();
             }
@@ -134,6 +143,35 @@ public class ManageUI : MonoBehaviour
         }
     }
 
+    public void UpdateUlt(float currentCharge, float maxCharge)
+    {
+        bool isReady = currentCharge >= maxCharge;
+
+        if (ultObject != null)
+        {
+            if (isReady)
+            {
+                ultObject.text = "ULT READY!";
+            }
+            else
+            {
+                float percent = (currentCharge / maxCharge) * 100f;
+                ultObject.text = "ULT: " + Mathf.FloorToInt(percent) + "%";
+            }
+        }
+
+        if (ultBarObjectFill != null && ultBarObject != null)
+        {
+            float fillPercent = currentCharge / maxCharge;
+            fillPercent = Mathf.Clamp01(fillPercent); // Keeps it from drawing outside the box
+
+            // Same logic as health bar! As fillPercent goes from 0 to 1, the bar grows upwards.
+            Vector2 size = ultBarObjectFill.sizeDelta;
+            size.y = ultBarObject.sizeDelta.y * fillPercent;
+            ultBarObjectFill.sizeDelta = size;
+        }
+    }
+
     void DisplayWantedLevel()
     {
         if (timerObject != null)
@@ -155,12 +193,12 @@ public class ManageUI : MonoBehaviour
                     break;
                 case 4:
                     timerObject.text = "THREAT LEVEL: 4";
-                    timerObject.color = new Color(1.0f, 0.325f, 0.286f);
+                    timerObject.color = Color.red;
                     break;
                 case 5:
                 default:
                     // At max level, make it aggressive
-                    timerObject.text = "THREAT LEVEL: <color=red>MAX</color>";
+                    timerObject.text = "THREAT LEVEL: <color=red>MAXIMUM</color>";
                     timerObject.color = Color.red;
                     break;
             }
