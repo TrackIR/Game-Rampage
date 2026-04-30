@@ -146,11 +146,13 @@ public class BuildingDestruction : MonoBehaviour
         if (smokePrefab != null)
         {
             Instantiate(smokePrefab, smokePos, Quaternion.identity);
+            Destroy(smoke, 10f); // free up RAM
         }
 
         if (rubblePrefab != null)
         {
             Instantiate(rubblePrefab, rubblePos, Quaternion.identity);
+            Destroy(rubble, 15f); // free up RAM
         }
 
         // Score
