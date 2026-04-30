@@ -27,9 +27,11 @@ public class movement : MonoBehaviour
 
     public float gravity = -9.81f;
     public float speed = 10.0f;
-    public float jumpPower = 2.0f;
+    public float jumpPower = 4.0f;
 
     public GameObject TrackIRRoot;
+    public GameObject GroundSmashObject;
+    private ParticleSystem GroundSmashEffect;
 
     // INPUT SYSTEM
     private PlayerInput input;
@@ -48,9 +50,10 @@ public class movement : MonoBehaviour
     [SerializeField] private float rollSpeed = 200.0f;
     [SerializeField] private bool invertRotation = false;
     [SerializeField] private bool rotateWithYaw;
-    [SerializeField] private float jumpStartAngleThreshold = -5.0f;
-    [SerializeField] private float jumpEndAngleThreshold = -25.0f;
-    [SerializeField] private float jumpYawThreshold = 10.0f;
+    [SerializeField] private float jumpStartAngleThreshold = -5.0f; //must start below this angle to initiate jump
+    [SerializeField] private float jumpEndAngleThreshold = -40.0f; //must exceed this angle to trigger jump
+    [SerializeField] private float jumpYawThreshold = 10.0f; // degrees within neutral position for jump to be valid
+    [SerializeField] private float groundPoundRadius = 5.0f; // radius of ground pound effect
 
     Vector3 velocity;
     private Vector3 headPos;
@@ -59,6 +62,8 @@ public class movement : MonoBehaviour
 
     private Animator anim;
     private int animWalkHash;
+    private bool isAirborn = false;
+    private Collider[] enemiesHit;
 
     // Custom remapped jump key preserved from HEAD
     private KeyCode jumpKey;
@@ -121,6 +126,38 @@ public class movement : MonoBehaviour
 
         string savedJumpKey = PlayerPrefs.GetString("JumpKey", "Space");
         jumpKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), savedJumpKey);
+
+        GroundSmashEffect = GroundSmashObject.GetComponent<ParticleSystem>();
+
+    }
+
+    void GroundPound()
+    {
+        Vector3 groundPoundPosition = new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);
+        enemiesHit = Physics.OverlapSphere(groundPoundPosition, groundPoundRadius, LayerMask.GetMask("Enemy"));
+        if (GroundSmashEffect != null)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, 3f, layerMask: LayerMask.GetMask("Default")))
+            {
+                GroundSmashEffect.transform.position = hit.point;
+            }
+            GroundSmashEffect.gameObject.SetActive(true);
+            GroundSmashEffect.Simulate(0f, true, true, true);
+            GroundSmashEffect.Play(true);
+        }
+        else{
+            Debug.LogWarning("No ground smash particle system attached to object!");
+        }
+        foreach (var enemyCollider in enemiesHit)
+        {
+            EnemyHealth enemy = enemyCollider.GetComponent<EnemyHealth>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(100);
+                Debug.Log("Ground Pound hit enemy!");
+            }
+        }
     }
 
     void zMove()
@@ -274,8 +311,9 @@ public class movement : MonoBehaviour
         float speedPercent = moveDirection.magnitude;
         anim.SetFloat("Speed", speedPercent);
 
-        if (controller.isGrounded && velocity.y < 0f)
+        if (controller.isGrounded && velocity.y < 0f){
             velocity.y = -2f;
+        }
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
@@ -313,6 +351,7 @@ public class movement : MonoBehaviour
             zMove();
             xMove();
             rotPlayer();
+            jump();
 
             if (controller.isGrounded && velocity.y < 0f)
             {
@@ -325,10 +364,24 @@ public class movement : MonoBehaviour
         {
             mouseRotatePlayer();
             wasdMove();
-            jump();
+        }
+            
+        if(!controller.isGrounded){
+            if (!isAirborn)
+            {
+                isAirborn = true;
+            }
+        }
+        else{
+            if (isAirborn)
+            {
+                GroundPound();
+                isAirborn = false;
+            }
         }
     }
 
+    // on-screen debug display (shows in Game view when Play is running)
     void OnGUI()
     {
         if (debugON)
