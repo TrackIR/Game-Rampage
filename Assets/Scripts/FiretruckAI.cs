@@ -4,6 +4,7 @@ using UnityEngine.AI;
 public class FiretruckAI : MonoBehaviour
 {
     [Header("References")]
+    public GameSettings gameSettings;
     public Transform playerTarget;
     private Transform playerHead;
     public NavMeshAgent agent;
@@ -16,9 +17,13 @@ public class FiretruckAI : MonoBehaviour
     public float detectionRange = 15f;
     public float rotationSpeed = 5f;
     public float damagePerSecond = 0.5f;
-    public float particleDamage = 0.5f;
     private float damageAccumulator = 0f;
+    private float shootAudioTimer = 0f;
     private Quaternion currentTurretRotation;
+
+    // save the baseline stats so it can be multiplied
+    private float baseDamage;
+    private float baseSpeed;
 
     [Header("Movement Settings")]
     public float speed = 5f;
@@ -34,6 +39,29 @@ public class FiretruckAI : MonoBehaviour
 
     void Start()
     {
+        // Save the original stats
+        baseDamage = damagePerSecond;
+        baseSpeed = speed;
+
+        // STANDARD DIFFICULTY SCALING
+        if (gameSettings != null)
+        {
+            if (gameSettings.difficulty == "Hard")
+            {
+                baseSpeed = 4f;
+                baseDamage = 1.5f;  // 1.5x damage
+            }
+            else if (gameSettings.difficulty == "Super Hard")
+            {
+                baseSpeed = 5f;
+                baseDamage = 3f;  // 3x damage
+            }
+        }
+
+        // Apply standard scaling
+        damagePerSecond = baseDamage;
+        speed = baseSpeed;
+
         if (playerTarget == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -69,6 +97,16 @@ public class FiretruckAI : MonoBehaviour
     void Update()
     {
         HandleSpawning();
+
+        // TRADE SHOW SCALING
+        if (ManageUI.Instance != null && ManageUI.Instance.isTradeShow)
+        {
+            int threat = ManageUI.Instance.wantedLevel;
+
+            // Speed increases linearly per threat level, damage multiplies
+            if (agent != null) agent.speed = baseSpeed + (threat * 0.6f);
+            damagePerSecond = baseDamage * threat;
+        }
 
         playerInRange = Physics.CheckSphere(transform.position, detectionRange, LayerMask.GetMask("player"));
 
@@ -171,9 +209,15 @@ public class FiretruckAI : MonoBehaviour
 
     void SprayAttack()
     {
+        // Branch audio implementation with a small cooldown limit
         if (AudioManager.Instance != null && AudioManager.Instance.enemyShoot != null)
         {
-            AudioManager.Instance.playAudio(AudioManager.Instance.enemyShoot);
+            shootAudioTimer -= Time.deltaTime;
+            if (shootAudioTimer <= 0f)
+            {
+                AudioManager.Instance.playAudio(AudioManager.Instance.enemyShoot);
+                shootAudioTimer = 0.5f; // Play sound every half second
+            }
         }
 
         if (sprayEffect != null && !sprayEffect.isPlaying)
@@ -183,6 +227,27 @@ public class FiretruckAI : MonoBehaviour
 
         if (firePoint == null) return;
 
+        // Damage Logic: Use a Raycast to see if player is being hit
+        RaycastHit hit;
+        // Cast a ray from firePoint, going "forward" (using -firePoint.forward due to model being flipped)
+        if (Physics.Raycast(firePoint.position, -firePoint.forward, out hit, detectionRange))
+        {
+            // Was the player hit
+            PlayerHealth playerHealth = hit.collider.GetComponentInParent<PlayerHealth>();
+
+            if (playerHealth != null)
+            {
+                // Accumulate Damage
+                damageAccumulator += damagePerSecond * Time.deltaTime;
+
+                // Whenever 1 full point of damage is accumulated, deal it
+                if (damageAccumulator >= 1f)
+                {
+                    playerHealth.TakeDamage(1); // Deal 1 damage
+                    damageAccumulator -= 1f;    // Keep the remainder for next frame
+                }
+            }
+        }
     }
 
     void AimTurret()
@@ -246,20 +311,6 @@ public class FiretruckAI : MonoBehaviour
         Vector3 dirXZ = toTargetXZ.normalized;
         // Calculate the launch velocity vector
         return dirXZ * Mathf.Cos(theta) * speed + Vector3.up * Mathf.Sin(theta) * speed;
-    }
-
-    void OnParticleCollision(GameObject other)
-    {
-        if (other == null || !other.CompareTag("Player"))
-        {
-            return;
-        }
-
-        PlayerHealth playerHealth = other.GetComponentInParent<PlayerHealth>();
-        if (playerHealth != null)
-        {
-            playerHealth.TakeDamage(particleDamage);
-        }
     }
 
     void HandleSpawning()
