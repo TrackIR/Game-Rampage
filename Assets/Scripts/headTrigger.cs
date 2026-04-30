@@ -78,7 +78,7 @@ public class headTrigger : MonoBehaviour
             input.Disable();
             if (UImanager != null)
             {
-                UImanager.GetComponent<ManageUI>().SetTutorialText("Lean forward to move and find the rest of the robot located under the floating TrackIR logo.");
+                UImanager.GetComponent<ManageUI>().SetTutorialText("Lean forward to move towards the floating TrackIR logo");
             }
         }
     }

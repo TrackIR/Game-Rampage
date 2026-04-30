@@ -87,7 +87,7 @@ public class headMovement : MonoBehaviour
 
         ManageUI manageUI = UImanager.GetComponent<ManageUI>();
 
-        manageUI.SetTutorialText("Lean forward to move and find the rest of the robot located under the floating TrackIR logo.");
+        manageUI.SetTutorialText("Lean forward to move towards the floating TrackIR logo");
     }
     void zMove()
     {
