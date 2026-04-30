@@ -81,10 +81,23 @@ public class EnemyHealth : MonoBehaviour
             // "transform.eulerAngles.y" keeps it facing the same direction it was looking.
             Quaternion flatRotation = Quaternion.Euler(90, transform.eulerAngles.y, 0);
 
-            Instantiate(corpsePrefab, bodyPos, flatRotation);
+            // Capture the instantiated corpse in a variable
+            GameObject corpse = Instantiate(corpsePrefab, bodyPos, flatRotation);
+
+            // Destroy the corpse after 10 seconds to free up memory
+            Destroy(corpse, 10f);
         }
 
         Debug.Log("Enemy killed");
         Destroy(gameObject);
+    }
+
+    void OnDestroy()
+    {
+        // Explicitly destroy the cloned material to free up RAM
+        if (enemyRenderer != null && enemyRenderer.material != null)
+        {
+            Destroy(enemyRenderer.material);
+        }
     }
 }
