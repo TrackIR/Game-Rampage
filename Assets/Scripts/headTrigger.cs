@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,12 +8,20 @@ public class headTrigger : MonoBehaviour
     public GameSettings gameSettings;
     public GameObject player;
     public GameObject head;
+    public cameraMovement3D cameraController;
+    public Collider triggerCollider;
     private PlayerInput input;
     private InputAction attackAction;
     private int animAttachHash;
     private Animator anim;
     public GameObject Canvas;
     private Canvas UImanager;
+    private movement playerMovement;
+    private CharacterController playerController;
+    private PlayerAttack playerAttack;
+    private bool isAttaching;
+    private Quaternion preAttachRotation;
+    private bool preAttachRootMotion;
 
     void Awake()
     {
@@ -26,6 +36,22 @@ public class headTrigger : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        if (player != null)
+        {
+            playerMovement = player.GetComponent<movement>();
+            playerController = player.GetComponent<CharacterController>();
+            playerAttack = player.GetComponent<PlayerAttack>();
+        }
+
+        if (triggerCollider == null)
+        {
+            triggerCollider = GetComponent<Collider>();
+        }
+
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("PlayerHead"))
@@ -33,14 +59,6 @@ public class headTrigger : MonoBehaviour
             input.Enable();
             UImanager = Canvas.GetComponent<Canvas>();
             UImanager.GetComponent<ManageUI>().SetTutorialText(attackAction.GetBindingDisplayString() + " to fix Robot");
-             if (gameSettings.useTrackIR)
-             {
-                 input.TrackIR.Enable();
-             }
-             else
-             {
-                 input.KeyboardMouse.Enable();
-             }
             if (gameSettings.useTrackIR)
             {
                 input.TrackIR.Enable();
@@ -54,24 +72,115 @@ public class headTrigger : MonoBehaviour
     }
     void OnTriggerExit(Collider other)
     {
-        input.Disable();
-        UImanager.GetComponent<ManageUI>().SetTutorialText("Lean forward to move and find the rest of the robot located under the floating TrackIR logo.");
+        if (other.CompareTag("PlayerHead"))
+        {
+            attackAction.performed -= OnAttack;
+            input.Disable();
+            if (UImanager != null)
+            {
+                UImanager.GetComponent<ManageUI>().SetTutorialText("Lean forward to move and find the rest of the robot located under the floating TrackIR logo.");
+            }
+        }
     }
 
     void OnAttack(InputAction.CallbackContext context)
     {
+        if (isAttaching)
+        {
+            return;
+        }
 
-            head.SetActive(false);
-            gameObject.SetActive(false);
-            player.SetActive(true);
-            CharacterController playerController = player.GetComponent<CharacterController>();
+        isAttaching = true;
+
+        head.SetActive(false);
+        if (triggerCollider != null)
+        {
+            MeshRenderer meshRenderer = gameObject.GetComponentsInChildren<MeshRenderer>()[0];
+            if (meshRenderer != null)
+            {
+                meshRenderer.enabled = false;
+            }
+            triggerCollider.enabled = false;
+        }
+        player.SetActive(true);
+
+        if (playerController != null)
+        {
             playerController.enabled = false;
-            anim = player.GetComponentInChildren<Animator>();
-            if (anim != null)
+        }
+
+        if (playerMovement != null)
+        {
+            playerMovement.enabled = false;
+        }
+
+        if (playerAttack != null)
+        {
+            playerAttack.enabled = false;
+        }
+
+        anim = player.GetComponentInChildren<Animator>();
+        if (anim != null)
+        {
             animAttachHash = Animator.StringToHash("Base Layer.HeadAttach");
+        }
+        preAttachRotation = player.transform.rotation;
+        if (anim != null)
+        {
+            preAttachRootMotion = anim.applyRootMotion;
+            anim.applyRootMotion = false;
+        }
+        if (anim != null)
+        {
             anim.SetTrigger("HeadAttach");
-            //ToDo: when animation is finished re-enable the character controller
+        }
+
+        if (cameraController != null)
+        {
+            cameraController.playerObject = player;
+        }
+
+        StartCoroutine(FinishAttach());
+        GameManager.Instance.StartGamePhase();
+    }
+
+    private IEnumerator FinishAttach()
+    {
+        if (anim != null)
+        {
+            while (!anim.GetCurrentAnimatorStateInfo(0).IsName("HeadAttach"))
+            {
+                yield return null;
+            }
+
+            while (anim.GetCurrentAnimatorStateInfo(0).IsName("HeadAttach") &&
+                   anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+            {
+                yield return null;
+            }
+        }
+
+        if (playerController != null)
+        {
             playerController.enabled = true;
-            GameManager.Instance.StartGamePhase();
+        }
+
+        if (playerMovement != null)
+        {
+            playerMovement.enabled = true;
+        }
+
+        if (playerAttack != null)
+        {
+            playerAttack.enabled = true;
+        }
+
+        player.transform.rotation = preAttachRotation;
+        if (anim != null)
+        {
+            anim.applyRootMotion = preAttachRootMotion;
+        }
+
+        isAttaching = false;
     }
 }
