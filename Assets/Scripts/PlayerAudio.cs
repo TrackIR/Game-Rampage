@@ -13,21 +13,27 @@ public class PlayerAudio : MonoBehaviour
 
     public void PlayPunch()
     {
+        if (audioSource == null || punchClip == null) return;
         PlayOneShot(punchClip);
     }
 
     public void PlayDeath()
     {
-        PlayOneShot(deathClip);
+        if (audioSource == null || deathClip == null) return;
+
+        audioSource.ignoreListenerPause = true;
+        audioSource.PlayOneShot(deathClip);
     }
 
     public void PlayUltimate()
     {
+        if (audioSource == null || ultimateClip == null) return;
         PlayOneShot(ultimateClip);
     }
 
     public void PlayHurt()
     {
+        if (audioSource == null || hurtClip == null) return;
         PlayOneShot(hurtClip);
     }
 

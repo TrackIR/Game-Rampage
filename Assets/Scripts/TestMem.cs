@@ -7,6 +7,7 @@ public class TestMem : MonoBehaviour
     {
         EditorUtility.UnloadUnusedAssetsImmediate();
         System.GC.Collect();
+        Resources.UnloadUnusedAssets();
     }
 
 }

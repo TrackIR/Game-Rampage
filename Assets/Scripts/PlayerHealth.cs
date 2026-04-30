@@ -122,7 +122,7 @@ public class PlayerHealth : MonoBehaviour
             ReadLeaderboardFile reader = deathMenu.GetComponentInChildren<ReadLeaderboardFile>();
             if (reader != null) reader.ReadFull();
 
-            Time.timeScale = 0f;
+            //Time.timeScale = 0f;
         }
     }
 }
