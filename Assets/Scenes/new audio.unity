@@ -36847,6 +36847,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3240055846879311612, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: deathClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 62b1916a23df0cf42be3d9596a2c65b0, type: 3}
+    - target: {fileID: 4097880286369557029, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 24300002, guid: e345944875170154eba04157893c2f78, type: 2}
     - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: trackIRCam
       value: 
@@ -56925,7 +56933,7 @@ AudioSource:
   m_GameObject: {fileID: 981979786}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: e345944875170154eba04157893c2f78, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 637a09c20ef242149bded93403bd87fc, type: 3}
   m_PlayOnAwake: 0
