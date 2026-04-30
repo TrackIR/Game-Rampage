@@ -6668,6 +6668,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 300
   enemyAudio: {fileID: 4205994114010020915}
+  deathAudioPrefab: {fileID: 7591722462256364901, guid: 351306b8d52007942a0668f6f639675a, type: 3}
 --- !u!114 &3211084834730539566
 MonoBehaviour:
   m_ObjectHideFlags: 0
