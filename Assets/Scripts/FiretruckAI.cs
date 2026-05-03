@@ -96,6 +96,18 @@ public class FiretruckAI : MonoBehaviour
 
     void Update()
     {
+        if (playerTarget == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                playerTarget = playerObj.transform;
+                GameObject playerHeadObj = GameObject.FindGameObjectWithTag("PlayerHead");
+                if (playerHeadObj != null) playerHead = playerHeadObj.transform;
+            }
+            if (playerTarget == null) return;
+        }
+
         HandleSpawning();
 
         // TRADE SHOW SCALING
@@ -178,6 +190,7 @@ public class FiretruckAI : MonoBehaviour
     {
         if (agent != null && playerTarget != null)
         {
+            if (path == null) path = new NavMeshPath();
             agent.isStopped = false;
 
             elapsed += Time.deltaTime;
