@@ -180,7 +180,7 @@ public class ManageUI : MonoBehaviour
                     break;
                 case 5:
                 default:
-                    // At max level, make it aggressive
+                    // At max level
                     timerObject.text = "THREAT LEVEL: <color=red>MAXIMUM</color>";
                     timerObject.color = Color.red;
                     break;
@@ -204,5 +204,14 @@ public class ManageUI : MonoBehaviour
         score += scoreToAdd;
         if (scoreObject != null) scoreObject.text = "Score: " + score;
         if (scoreOutline != null) scoreOutline.text = "Score: " + score;
+    }
+
+    void OnDestroy()
+    {
+        // Remove the static reference so the Garbage Collector can sweep the old UI and Player
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 }
