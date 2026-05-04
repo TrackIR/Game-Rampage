@@ -95,7 +95,7 @@ public class ManageUI : MonoBehaviour
 
             // Adjust Pos X based on if health is 100 (3 digits) or 0-99 (1-2 digits)
             Vector2 pos = healthObject.rectTransform.anchoredPosition;
-            pos.x = (startHealth == 100) ? 140f : 174f;
+            pos.x = (startHealth == 100) ? 161f : 174f;
             healthObject.rectTransform.anchoredPosition = pos;
         }
         if (healthBarObjectFill != null) healthBarObjectFill.fillAmount = 1f;
@@ -156,7 +156,7 @@ public class ManageUI : MonoBehaviour
 
                 // Adjust Pos X based on if health is 100
                 Vector2 pos = healthObject.rectTransform.anchoredPosition;
-                pos.x = (displayHealth == 100) ? 140 : 174f;
+                pos.x = (displayHealth == 100) ? 161f : 174f;
                 healthObject.rectTransform.anchoredPosition = pos;
             }
 
@@ -183,14 +183,15 @@ public class ManageUI : MonoBehaviour
                 ultObject.text = displayUlt.ToString() + "%";
 
                 // Adjust Pos X for 100%, 10-99%, and 0-9%
+                ultObject.fontSize = (displayUlt >= 100) ? 41 : 45;
                 Vector2 ultPos = ultObject.rectTransform.anchoredPosition;
                 if (displayUlt >= 100)
                 {
-                    ultPos.x = 140f;
+                    ultPos.x = 142f;
                 }
                 else if (displayUlt >= 10)
                 {
-                    ultPos.x = 150f;
+                    ultPos.x = 154f;
                 }
                 else
                 {
