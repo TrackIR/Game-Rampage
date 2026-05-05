@@ -6,6 +6,8 @@ public class EnemyAudio : MonoBehaviour
     public AudioSource audioSource;
 
     [Header("Audio Clips")]
+    [SerializeField, Range(0f, 2f)]
+    public float pitchRange = 0; // zero being no pitch randomizing
     public AudioClip forwardClip;
     public AudioClip deathClip;
     public AudioClip waterJetClip;
@@ -42,7 +44,12 @@ public class EnemyAudio : MonoBehaviour
 
     public void PlayForward()
     {
+        float randomPitch = 1f + Random.Range(-pitchRange, pitchRange);
+        audioSource.pitch = randomPitch;
+
         PlayOneShot(forwardClip);
+
+        audioSource.pitch = 1; // set back to normal
     }
 
     public void PlayHurt()
