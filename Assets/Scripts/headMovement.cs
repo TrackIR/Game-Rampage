@@ -156,15 +156,45 @@ public class headMovement : MonoBehaviour
             }
         }
     }
+
+    void mouseRotatePlayer()
+    {
+        float nx = (Input.mousePosition.x / Screen.width - 0.5f) * 2f;
+
+        // treat like yaw input (same concept as headRot.y)
+        float yawInput = nx;
+
+        if (Mathf.Abs(yawInput) > headYawThreshold)
+        {
+            float rotDirection = yawInput > 0 ? 1f : -1f;
+
+            float excess = Mathf.Abs(yawInput) - headYawThreshold;
+
+            float rotAmount = rotDirection * rollSpeed * excess * Time.deltaTime;
+
+            transform.Rotate(0f, rotAmount, 0f);
+        }
+    }
+
     void wasdMove()
     {
-        Vector2 moveInput = moveAction.ReadValue<Vector2>();
-
-        float moveX = moveInput.x;
-        float moveZ = moveInput.y;
-
-        Vector3 forward = cameraTransform.forward;
-        Vector3 right = cameraTransform.right;
+        float moveX = 0f;
+        float moveZ = 0f;
+        
+        if (moveAction != null)
+        {
+            Vector2 moveInput = moveAction.ReadValue<Vector2>();
+            moveX = moveInput.x;
+            moveZ = moveInput.y;
+        }
+        else
+        {
+            // Fallback to legacy input (Crucial if TrackIR fails mid-game and moveAction is null)
+            moveX = Input.GetAxis("Horizontal");
+            moveZ = Input.GetAxis("Vertical");
+        }
+        Vector3 forward = transform.forward; // changed to player forward instead of camera for testing
+        Vector3 right = transform.right; // changed to player right instead of camera right for testing //cameraTransform
 
         forward.y = 0;
         right.y = 0;
@@ -175,16 +205,11 @@ public class headMovement : MonoBehaviour
         Vector3 moveDirection = forward * moveZ + right * moveX;
         controller.Move(speed * Time.deltaTime * moveDirection);
 
-        float speedPercent = moveDirection.magnitude;
+        //float speedPercent = moveDirection.magnitude;
 
-        if (speedPercent > 0)
-        {
-            Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);
-        }
-
-        if (controller.isGrounded && velocity.y < 0f)
+        if (controller.isGrounded && velocity.y < 0f){
             velocity.y = -2f;
+        }
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
@@ -193,11 +218,6 @@ public class headMovement : MonoBehaviour
 
     void Update()
     {
-        trackIRCam.enabled = useTrackIR;
-        normal3rdCam.enabled = !useTrackIR;
-        trackIRCam.GetComponent<AudioListener>().enabled = useTrackIR;
-        normal3rdCam.GetComponent<AudioListener>().enabled = !useTrackIR;
-        cameraTransform = Camera.main.transform;
 
         if (useTrackIR && trackIR != null)
         {
@@ -227,6 +247,7 @@ public class headMovement : MonoBehaviour
         }
         else
         {
+            mouseRotatePlayer();
             wasdMove();
         }
     }

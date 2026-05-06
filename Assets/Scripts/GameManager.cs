@@ -50,6 +50,6 @@ public class GameManager : MonoBehaviour
         }
         indicatorObject.SetActive(false);
         InvisibleWalls.SetActive(false);
-        UImanager.GetComponent<ManageUI>().SetTutorialText("Now jump over the dump walls by quickly nodding up while moving forward.");
+        UImanager.GetComponent<ManageUI>().SetTutorialText("Nod your head up to jump over the wall");
     }
 }

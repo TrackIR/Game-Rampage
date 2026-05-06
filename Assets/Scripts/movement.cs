@@ -280,8 +280,9 @@ public class movement : MonoBehaviour
         float speedPercent = moveDirection.magnitude;
         anim.SetFloat("Speed", speedPercent);
 
-        if (controller.isGrounded && velocity.y < 0f)
+        if (controller.isGrounded && velocity.y < 0f){
             velocity.y = -2f;
+        }
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);

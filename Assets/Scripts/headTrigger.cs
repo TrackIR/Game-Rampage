@@ -138,6 +138,7 @@ public class headTrigger : MonoBehaviour
         if (cameraController != null)
         {
             cameraController.playerObject = player;
+            cameraController.centerOffset = new Vector3(0f, 24f, 0f);
         }
 
         StartCoroutine(FinishAttach());
