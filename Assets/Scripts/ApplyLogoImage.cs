@@ -15,6 +15,6 @@ public class ApplyLogoImage : MonoBehaviour
         }
 
         int index = Random.Range(0, materials.Length);
-        GetComponent<Renderer>().material = materials[index];
+        GetComponent<Renderer>().sharedMaterial = materials[index];
     }
 }
