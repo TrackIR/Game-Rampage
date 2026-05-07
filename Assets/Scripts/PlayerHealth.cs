@@ -16,6 +16,7 @@ public class PlayerHealth : MonoBehaviour
 
     private Animator anim;
     private int animDamageHash;
+    private int animDestroyHash;
 
     void Start()
     {
@@ -28,6 +29,7 @@ public class PlayerHealth : MonoBehaviour
         if (anim != null)
         {
             animDamageHash = Animator.StringToHash("Base Layer.Damage");
+            animDestroyHash = Animator.StringToHash("Base Layer.Destroy");
         }
     }
 
@@ -95,6 +97,8 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         playerAudio.PlayDeath();
+
+        anim.SetTrigger("Destroy");
 
         Debug.Log(gameObject.name + " has died!");
         isAlive = false;
