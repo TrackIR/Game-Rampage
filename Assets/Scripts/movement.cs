@@ -125,7 +125,7 @@ public class movement : MonoBehaviour
         if (anim != null)
         {
             animWalkHash = Animator.StringToHash("Base Layer.Walk");
-            animJumpHash = Animator.StringToHash("Base Layer.Jump");
+            //animJumpHash = Animator.StringToHash("Base Layer.Jump");
         }
 
         string savedJumpKey = PlayerPrefs.GetString("JumpKey", "Space");
@@ -138,15 +138,10 @@ public class movement : MonoBehaviour
 
     void GroundPound()
     {
-        Vector3 groundPoundPosition = new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);
+        Vector3 groundPoundPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         enemiesHit = Physics.OverlapSphere(groundPoundPosition, groundPoundRadius, LayerMask.GetMask("Enemy"));
         if (GroundSmashEffect != null)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, 3f, layerMask: LayerMask.GetMask("Default")))
-            {
-                GroundSmashEffect.transform.position = hit.point;
-            }
             GroundSmashEffect.gameObject.SetActive(true);
             GroundSmashEffect.Simulate(0f, true, true, true);
             GroundSmashEffect.Play(true);
@@ -244,7 +239,7 @@ public class movement : MonoBehaviour
                     if (controller.isGrounded)
                     {
                         velocity.y = Mathf.Sqrt(jumpPower * -2f * gravity);
-                        anim.SetTrigger("Jump");
+                        //anim.SetTrigger("Jump");
                     }
                     headRotQueue.Clear();
                     break;

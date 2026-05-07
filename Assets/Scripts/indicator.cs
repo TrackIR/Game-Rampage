@@ -10,14 +10,7 @@ public class indicator : MonoBehaviour
     void Start()
     {
         canvas = GetComponent<Canvas>();
-        if (gameSettings.useTrackIR)
-        {
-            canvas.worldCamera = trackIRCam;
-        }
-        else
-        {
-            canvas.worldCamera = normal3rdCam;
-        }
+        canvas.worldCamera = trackIRCam;
         cam = canvas.worldCamera;
     }
 
