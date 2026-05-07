@@ -50667,6 +50667,18 @@ PrefabInstance:
       propertyPath: normal3rdCam
       value: 
       objectReference: {fileID: 1586749822}
+    - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: jumpYawThreshold
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: jumpEndAngleThreshold
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: jumpStartAngleThreshold
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6008737871576382134, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: m_LocalPosition.y
       value: 5.19
@@ -50697,7 +50709,7 @@ PrefabInstance:
       objectReference: {fileID: 2051999570}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: ultimateCharged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
