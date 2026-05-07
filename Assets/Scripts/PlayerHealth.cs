@@ -43,7 +43,6 @@ public class PlayerHealth : MonoBehaviour
         // Reduce health
         currentHealth -= damage;
 
-        // THE FIX: Send the new TOTAL health to the UI, not the damage amount!
         if (UImanager != null)
         {
             UImanager.GetComponent<ManageUI>().ChangeHealth(currentHealth);

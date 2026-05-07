@@ -87,7 +87,14 @@ public class headMovement : MonoBehaviour
 
         ManageUI manageUI = UImanager.GetComponent<ManageUI>();
 
-        manageUI.SetTutorialText("Lean forward to move towards the floating TrackIR logo");
+        if (gameSettings.useTrackIR)
+            {
+                UImanager.GetComponent<ManageUI>().SetTutorialText("Lean forward to move towards the floating TrackIR logo");
+            }
+            else
+            {
+                UImanager.GetComponent<ManageUI>().SetTutorialText("Use WASD to move towards the floating TrackIR logo");
+        }
     }
     void zMove()
     {
@@ -180,7 +187,7 @@ public class headMovement : MonoBehaviour
     {
         float moveX = 0f;
         float moveZ = 0f;
-        
+
         if (moveAction != null)
         {
             Vector2 moveInput = moveAction.ReadValue<Vector2>();

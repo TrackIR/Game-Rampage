@@ -71,7 +71,6 @@ public class ManageUI : MonoBehaviour
 
         // Timer starts at 0 and counts up for all modes
         timeRemaining = 0f;
-        ChangeHealth(playerHealth.startingHealth);
 
         // Initialize Ultimate bar to 0 at the start
         UpdateUlt(0, 100);

@@ -7,6 +7,7 @@ public class headTrigger : MonoBehaviour
 {
     public GameSettings gameSettings;
     public GameObject player;
+    public GameObject camTarget;
     public GameObject head;
     public cameraMovement3D cameraController;
     public Collider triggerCollider;
@@ -78,7 +79,14 @@ public class headTrigger : MonoBehaviour
             input.Disable();
             if (UImanager != null)
             {
-                UImanager.GetComponent<ManageUI>().SetTutorialText("Lean forward to move towards the floating TrackIR logo");
+                if (gameSettings.useTrackIR)
+                {
+                    UImanager.GetComponent<ManageUI>().SetTutorialText("Lean forward to move towards the floating TrackIR logo");
+                }
+                else
+                {
+                    UImanager.GetComponent<ManageUI>().SetTutorialText("Use WASD to move towards the floating TrackIR logo");
+                }
             }
         }
     }
@@ -95,10 +103,8 @@ public class headTrigger : MonoBehaviour
         head.SetActive(false);
         if (triggerCollider != null)
         {
-            MeshRenderer meshRenderer = gameObject.GetComponentsInChildren<MeshRenderer>()[0];
-            if (meshRenderer != null)
-            {
-                meshRenderer.enabled = false;
+            for (int i = 0; i < gameObject.GetComponentsInChildren<MeshRenderer>().Length; i++)            {
+                gameObject.GetComponentsInChildren<MeshRenderer>()[i].enabled = false;
             }
             triggerCollider.enabled = false;
         }
@@ -137,8 +143,7 @@ public class headTrigger : MonoBehaviour
 
         if (cameraController != null)
         {
-            cameraController.playerObject = player;
-            cameraController.centerOffset = new Vector3(0f, 24f, 0f);
+            cameraController.playerObject = camTarget;
         }
 
         StartCoroutine(FinishAttach());
@@ -166,6 +171,12 @@ public class headTrigger : MonoBehaviour
             playerController.enabled = true;
         }
 
+        if (cameraController != null)
+        {
+            cameraController.playerObject = player;
+            cameraController.centerOffset = new Vector3(0f, 24f, 0f);
+        }
+        
         if (playerMovement != null)
         {
             playerMovement.enabled = true;
@@ -181,6 +192,7 @@ public class headTrigger : MonoBehaviour
         {
             anim.applyRootMotion = preAttachRootMotion;
         }
+        
 
         isAttaching = false;
     }

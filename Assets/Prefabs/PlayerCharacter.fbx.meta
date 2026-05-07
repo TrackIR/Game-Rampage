@@ -1,9 +1,14 @@
 fileFormatVersion: 2
-guid: 3049f8d865235a640950235d4c975dd8
+guid: 2cddecfd3b08eb74c82d65113c3ea10b
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RobotTexture.png
+    second: {fileID: -4950810724794729932, guid: f5f57b9cf8fb6d6468919568c0c875f2, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -30,7 +35,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 1
+    isReadable: 0
   meshes:
     lODScreenPercentages: []
     globalScale: 1
