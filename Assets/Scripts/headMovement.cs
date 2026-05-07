@@ -32,6 +32,7 @@ public class headMovement : MonoBehaviour
     private Quaternion headRot;
     Vector3 velocity;
     private Animator anim;
+    private int animJumpHash;
 
 
     void Awake()
@@ -86,6 +87,14 @@ public class headMovement : MonoBehaviour
         UImanager = Canvas.GetComponent<Canvas>();
 
         ManageUI manageUI = UImanager.GetComponent<ManageUI>();
+
+        // Set up animations
+        anim = gameObject.GetComponentInChildren<Animator>();
+
+        if (anim != null)
+        {
+            animJumpHash = Animator.StringToHash("Base Layer.HeadJump");
+        }
 
         if (gameSettings.useTrackIR)
         {
@@ -212,7 +221,9 @@ public class headMovement : MonoBehaviour
         Vector3 moveDirection = forward * moveZ + right * moveX;
         controller.Move(speed * Time.deltaTime * moveDirection);
 
-        //float speedPercent = moveDirection.magnitude;
+        // Calculate if player is walking or idling
+        float speedPercent = moveDirection.magnitude;
+        anim.SetFloat("Speed", speedPercent);
 
         if (controller.isGrounded && velocity.y < 0f)
         {

@@ -61,7 +61,6 @@ public class movement : MonoBehaviour
     private Queue<Quaternion> headRotQueue = new Queue<Quaternion>();
 
     private Animator anim;
-    private int animWalkHash;
     private int animJumpHash;
     private bool isAirborn = false;
     private Collider[] enemiesHit;
@@ -124,8 +123,7 @@ public class movement : MonoBehaviour
 
         if (anim != null)
         {
-            animWalkHash = Animator.StringToHash("Base Layer.Walk");
-            //animJumpHash = Animator.StringToHash("Base Layer.Jump");
+            animJumpHash = Animator.StringToHash("Base Layer.Jump");
         }
 
         string savedJumpKey = PlayerPrefs.GetString("JumpKey", "Space");
@@ -240,7 +238,7 @@ public class movement : MonoBehaviour
                     if (controller.isGrounded)
                     {
                         velocity.y = Mathf.Sqrt(jumpPower * -2f * gravity);
-                        //anim.SetTrigger("Jump");
+                        anim.SetTrigger("Jump");
                     }
                     headRotQueue.Clear();
                     break;
