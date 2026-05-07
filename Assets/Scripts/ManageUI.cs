@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class ManageUI : MonoBehaviour
 {
@@ -12,9 +13,17 @@ public class ManageUI : MonoBehaviour
     [Header("Tutorial Variables")]
     public TMP_Text tutorialText;
 
+    [Header("UI Animation Settings")]
+    public float uiAnimationSpeed = 1f; // Controls how fast the bars fill/drain
+    private float currentHealthVisual;  // Tracks the smoothed health value
+    private float currentUltVisual;     // Tracks the smoothed ult value
+    private float targetUlt;            // Tracks the actual ult value
+    private float maxUlt;               // Tracks the max ult value for percentage calculation
+
     [Header("Health Variables")]
     public TMP_Text healthObject;
-    public RectTransform healthBarObject, healthBarObjectFill;
+    public RectTransform healthBarObject;
+    public Image healthBarObjectFill;
     public float maxHealth = 100f;
 
     [HideInInspector]
@@ -22,7 +31,8 @@ public class ManageUI : MonoBehaviour
 
     [Header("Ultimate Variables")]
     public TMP_Text ultObject;
-    public RectTransform ultBarObject, ultBarObjectFill;
+    public RectTransform ultBarObject;
+    public Image ultBarObjectFill;
 
     [Header("Timer & Escalation Variables")]
     public TMP_Text timerObject;
@@ -67,13 +77,43 @@ public class ManageUI : MonoBehaviour
             isTradeShow = false;
         }
 
+        // Set initial visual values so they don't animate on scene load
+        currentHealthVisual = maxHealth;
+        currentUltVisual = 0f;
+        targetUlt = 0f;
+        maxUlt = 100f;
+
         tutorialTextFade = tutorialText.GetComponent<TutorialTextFade>();
 
-        // Timer starts at 0 and counts up for all modes
+        // Timer starts at 0 and counts up for all modes now
         timeRemaining = 0f;
 
         // Initialize Ultimate bar to 0 at the start
         UpdateUlt(0, 100);
+
+        // Force the UI to visually snap to default values immediately on start
+        if (healthObject != null)
+        {
+            int startHealth = Mathf.RoundToInt(maxHealth);
+            healthObject.text = startHealth.ToString();
+
+            // Adjust Pos X based on if health is 100 (3 digits) or 0-99 (1-2 digits)
+            Vector2 pos = healthObject.rectTransform.anchoredPosition;
+            pos.x = (startHealth == 100) ? 161f : 174f;
+            healthObject.rectTransform.anchoredPosition = pos;
+        }
+        if (healthBarObjectFill != null) healthBarObjectFill.fillAmount = 1f;
+
+        if (ultObject != null)
+        {
+            ultObject.text = "0%";
+
+            // Adjust Pos X for starting at 0%
+            Vector2 ultPos = ultObject.rectTransform.anchoredPosition;
+            ultPos.x = 175f;
+            ultObject.rectTransform.anchoredPosition = ultPos;
+        }
+        if (ultBarObjectFill != null) ultBarObjectFill.fillAmount = 0f;
 
         ChangeScore(0);
         timerIsRunning = true;
@@ -107,6 +147,75 @@ public class ManageUI : MonoBehaviour
                 DisplayTime(timeRemaining);
             }
         }
+
+        // Animate Health
+        if (currentHealthVisual != currentHealth)
+        {
+            currentHealthVisual = Mathf.MoveTowards(currentHealthVisual, currentHealth, Time.deltaTime * (uiAnimationSpeed * 20f));
+
+            if (healthObject != null)
+            {
+                int displayHealth = Mathf.RoundToInt(currentHealthVisual);
+                healthObject.text = displayHealth.ToString();
+
+                // Adjust Pos X based on if health is 100
+                Vector2 pos = healthObject.rectTransform.anchoredPosition;
+                pos.x = (displayHealth == 100) ? 161f : 174f;
+                healthObject.rectTransform.anchoredPosition = pos;
+            }
+
+            if (healthBarObjectFill != null)
+            {
+                healthBarObjectFill.fillAmount = currentHealthVisual / maxHealth;
+            }
+        }
+
+        // Animate Ultimate
+        if (currentUltVisual != targetUlt && maxUlt > 0)
+        {
+            currentUltVisual = Mathf.MoveTowards(currentUltVisual, targetUlt, Time.deltaTime * (uiAnimationSpeed * 20f));
+
+            if (ultBarObjectFill != null)
+            {
+                ultBarObjectFill.fillAmount = Mathf.Clamp01(currentUltVisual / maxUlt);
+            }
+
+            if (ultObject != null)
+            {
+                float percent = (currentUltVisual / maxUlt) * 100f;
+                int displayUlt = Mathf.RoundToInt(percent);
+                ultObject.text = displayUlt.ToString() + "%";
+
+                // Adjust Pos X for 100%, 10-99%, and 0-9%
+                ultObject.fontSize = (displayUlt >= 100) ? 41 : 45;
+                Vector2 ultPos = ultObject.rectTransform.anchoredPosition;
+                if (displayUlt >= 100)
+                {
+                    ultPos.x = 142f;
+                }
+                else if (displayUlt >= 10)
+                {
+                    ultPos.x = 154f;
+                }
+                else
+                {
+                    ultPos.x = 175f;
+                }
+                ultObject.rectTransform.anchoredPosition = ultPos;
+            }
+        }
+    }
+
+    public void SetTutorialText(string text)
+    {
+
+        if (tutorialTextFade == null)
+        {
+            tutorialTextFade = tutorialText.GetComponent<TutorialTextFade>();
+        }
+
+        tutorialTextFade.FadeOut();
+        tutorialTextFade.FadeIn(text);
     }
 
     public void SetTutorialText(string text)
@@ -127,48 +236,12 @@ public class ManageUI : MonoBehaviour
         if (health > maxHealth) health = maxHealth;
 
         currentHealth = health;
-
-        if (healthObject != null)
-        {
-            healthObject.text = Mathf.RoundToInt(currentHealth) + "/" + Mathf.RoundToInt(maxHealth);
-        }
-
-        if (healthBarObjectFill != null && healthBarObject != null)
-        {
-            float healthPercent = currentHealth / maxHealth;
-            Vector2 size = healthBarObjectFill.sizeDelta;
-            size.y = healthBarObject.sizeDelta.y * healthPercent;
-            healthBarObjectFill.sizeDelta = size;
-        }
     }
 
     public void UpdateUlt(float currentCharge, float maxCharge)
     {
-        bool isReady = currentCharge >= maxCharge;
-
-        if (ultObject != null)
-        {
-            if (isReady)
-            {
-                ultObject.text = "ULT READY!";
-            }
-            else
-            {
-                float percent = (currentCharge / maxCharge) * 100f;
-                ultObject.text = "ULT: " + Mathf.FloorToInt(percent) + "%";
-            }
-        }
-
-        if (ultBarObjectFill != null && ultBarObject != null)
-        {
-            float fillPercent = currentCharge / maxCharge;
-            fillPercent = Mathf.Clamp01(fillPercent); // Keeps it from drawing outside the box
-
-            // Same logic as health bar! As fillPercent goes from 0 to 1, the bar grows upwards.
-            Vector2 size = ultBarObjectFill.sizeDelta;
-            size.y = ultBarObject.sizeDelta.y * fillPercent;
-            ultBarObjectFill.sizeDelta = size;
-        }
+        targetUlt = currentCharge;
+        maxUlt = maxCharge;
     }
 
     void DisplayWantedLevel()
@@ -196,7 +269,7 @@ public class ManageUI : MonoBehaviour
                     break;
                 case 5:
                 default:
-                    // At max level, make it aggressive
+                    // At max level
                     timerObject.text = "THREAT LEVEL: <color=red>MAXIMUM</color>";
                     timerObject.color = Color.red;
                     break;
@@ -220,5 +293,14 @@ public class ManageUI : MonoBehaviour
         score += scoreToAdd;
         if (scoreObject != null) scoreObject.text = "Score: " + score;
         if (scoreOutline != null) scoreOutline.text = "Score: " + score;
+    }
+
+    void OnDestroy()
+    {
+        // Remove the static reference so the Garbage Collector can sweep the old UI and Player
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 }

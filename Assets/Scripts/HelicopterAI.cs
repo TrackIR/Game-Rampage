@@ -62,22 +62,31 @@ public class HelicopterAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (playerTarget == null)
+        {
+            GameObject playerHeadObj = GameObject.FindGameObjectWithTag("PlayerHead");
+            if (playerHeadObj != null) playerTarget = playerHeadObj.transform;
+            if (playerTarget == null) return;
+        }
+
+        if (agent == null) return;
+
         playerInRange = Physics.CheckSphere(transform.position, fireRange, LayerMask.GetMask("player"));
         playerInSight = Physics.Raycast(transform.position, playerTarget.position - transform.position, out RaycastHit hit, fireRange, LayerMask.GetMask("player", "Default", "Building"));
 
         bool shooting = false; //Used to control animations
 
-        if (playerInRange && playerInSight && hit.collider.CompareTag("Player"))
+        if (playerInRange && playerInSight && hit.collider != null && hit.collider.CompareTag("Player"))
         {
             agent.stoppingDistance = fireRange;
             Shootplayer();
             shooting = true;
         }
-        else if (playerInRange && !hit.collider.CompareTag("Player"))
+        else if (playerInRange)
         {
             agent.stoppingDistance = 0f;
             FindPlayer();
-            audioPlayer.PlayForward();
+            if (audioPlayer != null) audioPlayer.PlayForward();
         }
         else
         {
@@ -88,7 +97,7 @@ public class HelicopterAI : MonoBehaviour
         UpdateAnimation(shooting);
 
         // update audio player for shooting
-        audioPlayer.PlayWaterJet(shooting);
+        if (audioPlayer != null) audioPlayer.PlayWaterJet(shooting);
 
         // Previous Rotation code for the helicopter
         /*
@@ -104,7 +113,8 @@ public class HelicopterAI : MonoBehaviour
 
     void FindPlayer()
     {
-        ParticleSystem.Stop();
+        if (path == null) path = new NavMeshPath();
+        if (ParticleSystem != null) ParticleSystem.Stop();
         elapsed += Time.deltaTime;
         if (elapsed > 1.0f)
         {
@@ -129,13 +139,10 @@ public class HelicopterAI : MonoBehaviour
                     areaMask = agent.areaMask
                 },
                 path);
-            if (path.status == NavMeshPathStatus.PathComplete)
+
+            if (path.status == NavMeshPathStatus.PathComplete || path.status == NavMeshPathStatus.PathPartial)
             {
                 agent.SetPath(path);
-            }
-            else
-            {
-                Debug.LogWarning($"HelicopterAI: path status {path.status}", this);
             }
         }
     }
@@ -262,6 +269,21 @@ public class HelicopterAI : MonoBehaviour
                     anim.Play(animBackwardAttackHash);
                 else
                     anim.Play(animBackwardHash);
+            }
+        }
+    }
+
+    void OnDestroy()
+    {
+        // Find all renderers on the vehicle and its children
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+
+        foreach (Renderer r in renderers)
+        {
+            // Explicitly destroy the cloned materials to free up RAM
+            if (r != null && r.material != null)
+            {
+                Destroy(r.material);
             }
         }
     }
