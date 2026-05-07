@@ -148,7 +148,9 @@ public class headTrigger : MonoBehaviour
         }
 
         StartCoroutine(FinishAttach());
+
         GameManager.Instance.StartGamePhase();
+
     }
 
     private IEnumerator FinishAttach()
@@ -194,7 +196,5 @@ public class headTrigger : MonoBehaviour
             anim.applyRootMotion = preAttachRootMotion;
         }
 
-
-        isAttaching = false;
     }
 }
