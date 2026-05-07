@@ -218,18 +218,6 @@ public class ManageUI : MonoBehaviour
         tutorialTextFade.FadeIn(text);
     }
 
-    public void SetTutorialText(string text)
-    {
-
-        if (tutorialTextFade == null)
-        {
-            tutorialTextFade = tutorialText.GetComponent<TutorialTextFade>();
-        }
-
-        tutorialTextFade.FadeOut();
-        tutorialTextFade.FadeIn(text);
-    }
-
     public void ChangeHealth(float health)
     {
         if (health < 0) health = 0;
