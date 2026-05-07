@@ -28,6 +28,7 @@ public class HelicopterAI : MonoBehaviour
     private int animForwardAttackHash;
     private int animBackwardHash;
     private int animBackwardAttackHash;
+    private float forwardAudioTimer = 0f;
 
     void Start()
     {
@@ -56,6 +57,20 @@ public class HelicopterAI : MonoBehaviour
             animForwardAttackHash = Animator.StringToHash("Base Layer.ForwardAttack");
             animBackwardHash = Animator.StringToHash("Base Layer.Backward");
             animBackwardAttackHash = Animator.StringToHash("Base Layer.BackwardAttack");
+        }
+
+        // play sound when spawned in
+        audioPlayer.PlayForward();
+    }
+
+    void HandleForwardAudio()
+    {
+        forwardAudioTimer += Time.deltaTime;
+
+        if (forwardAudioTimer >= 20f)
+        {
+            forwardAudioTimer = UnityEngine.Random.Range(10f, 20f); // small variation around ~10s
+            audioPlayer.PlayForward();
         }
     }
 
@@ -86,7 +101,6 @@ public class HelicopterAI : MonoBehaviour
         {
             agent.stoppingDistance = 0f;
             FindPlayer();
-            if (audioPlayer != null) audioPlayer.PlayForward();
         }
         else
         {
@@ -108,7 +122,8 @@ public class HelicopterAI : MonoBehaviour
         heliBody.transform.rotation = Quaternion.Slerp(heliBody.transform.rotation, targetRotation, Time.deltaTime * 5f);
         */
 
-
+        // plays copter sound roughly every ~10 seconds
+        HandleForwardAudio();
     }
 
     void FindPlayer()

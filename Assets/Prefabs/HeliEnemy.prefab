@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAudio
   audioSource: {fileID: 4945589567893830199}
+  pitchRange: 0.029
   forwardClip: {fileID: 8300000, guid: e39cf4378f0dee24cbf1bbe516398ef2, type: 3}
   deathClip: {fileID: 8300000, guid: 240b8ceee43da164dafcb4455e13088e, type: 3}
   waterJetClip: {fileID: 8300000, guid: 0c1be1f0e1ee6a14fa0c75107283b0d1, type: 3}
@@ -59,11 +60,11 @@ AudioSource:
   m_GameObject: {fileID: 1211105997058593922}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: ba7ee0cbb65d01040a33fa410c9bfe51, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.718
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -71,8 +72,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
+  MinDistance: 3
+  MaxDistance: 1000
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -107,7 +108,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.816
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -373,6 +374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 100
   enemyAudio: {fileID: 8215854358919526469}
+  deathAudioPrefab: {fileID: 7591722462256364901, guid: 351306b8d52007942a0668f6f639675a, type: 3}
 --- !u!1 &4141259276975455281
 GameObject:
   m_ObjectHideFlags: 0
