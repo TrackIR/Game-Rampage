@@ -9898,10 +9898,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4946148771360881422, guid: 3da7908a329eb5542819955d697ee6ba, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 46ae78e6fc7aa014cab00733cd7703fa, type: 2}
+    - target: {fileID: 301108212930718767, guid: 3da7908a329eb5542819955d697ee6ba, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 46ae78e6fc7aa014cab00733cd7703fa, type: 2}
     - target: {fileID: 919132149155446097, guid: 3da7908a329eb5542819955d697ee6ba, type: 3}
       propertyPath: m_Name
       value: LaserBeam
       objectReference: {fileID: 0}
+    - target: {fileID: 1530622326342952572, guid: 3da7908a329eb5542819955d697ee6ba, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 46ae78e6fc7aa014cab00733cd7703fa, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
