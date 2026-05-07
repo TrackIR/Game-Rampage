@@ -6,22 +6,24 @@ public class EnemyHealth : MonoBehaviour
     public EnemyAudio enemyAudio;
     private int currentHealth;
 
-    // store the renderer and original color to handle the flashing correctly
-    private Renderer enemyRenderer;
-    private Color originalColor;
+    // store the renderers to handle the flashing correctly
+    private Renderer[] enemyRenderers;
+    private MaterialPropertyBlock propBlock;
+    private static readonly int ColorID = Shader.PropertyToID("_BaseColor");
+
+    private static GameObject deathVFX;
+    private static GameObject corpsePrefab;
 
     void Start()
     {
         currentHealth = maxHealth;
 
-        // Grab the Renderer
-        enemyRenderer = GetComponent<Renderer>();
+        if (deathVFX == null) deathVFX = Resources.Load<GameObject>("EnemyDeathEffect");
+        if (corpsePrefab == null) corpsePrefab = Resources.Load<GameObject>("EnemyCorpse");
 
-        // Save the starting color
-        if (enemyRenderer != null)
-        {
-            originalColor = enemyRenderer.material.color;
-        }
+        // Grab all Renderers in children
+        enemyRenderers = GetComponentsInChildren<Renderer>();
+        propBlock = new MaterialPropertyBlock();
     }
 
     public void TakeDamage(int damage)
@@ -39,9 +41,13 @@ public class EnemyHealth : MonoBehaviour
         }
 
         // Flash Red
-        if (enemyRenderer != null)
+        if (enemyRenderers != null && enemyRenderers.Length > 0)
         {
-            enemyRenderer.material.color = Color.red;
+            propBlock.SetColor(ColorID, Color.red);
+            foreach (Renderer r in enemyRenderers)
+            {
+                if (r != null) r.SetPropertyBlock(propBlock);
+            }
             Invoke("ResetColor", 0.2f);
         }
 
@@ -54,17 +60,17 @@ public class EnemyHealth : MonoBehaviour
 
     void ResetColor()
     {
-        // 4. Revert to the exact color we saved in Start()
-        if (enemyRenderer != null)
+        if (enemyRenderers != null)
         {
-            enemyRenderer.material.color = originalColor;
+            foreach (Renderer r in enemyRenderers)
+            {
+                if (r != null) r.SetPropertyBlock(null);
+            }
         }
     }
 
     void Die()
     {
-        GameObject deathVFX = Resources.Load<GameObject>("EnemyDeathEffect");
-
         if (deathVFX != null)
         {
             // Spawn effect at chest height
@@ -72,7 +78,6 @@ public class EnemyHealth : MonoBehaviour
             Destroy(effect, 2f);
         }
 
-        GameObject corpsePrefab = Resources.Load<GameObject>("EnemyCorpse");
         if (corpsePrefab != null)
         {
             Vector3 bodyPos = new Vector3(transform.position.x, 1f, transform.position.z);
@@ -94,10 +99,6 @@ public class EnemyHealth : MonoBehaviour
 
     void OnDestroy()
     {
-        // Explicitly destroy the cloned material to free up RAM
-        if (enemyRenderer != null && enemyRenderer.material != null)
-        {
-            Destroy(enemyRenderer.material);
-        }
+        // No longer need to destroy material as we use PropertyBlocks
     }
 }

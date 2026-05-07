@@ -342,16 +342,6 @@ public class FiretruckAI : MonoBehaviour
 
     void OnDestroy()
     {
-        // Find all renderers on the vehicle and its children
-        Renderer[] renderers = GetComponentsInChildren<Renderer>();
-
-        foreach (Renderer r in renderers)
-        {
-            // Explicitly destroy the cloned materials to free up RAM
-            if (r != null && r.material != null)
-            {
-                Destroy(r.material);
-            }
-        }
+        // Material cleanup is now handled by individual components or avoided via PropertyBlocks
     }
 }

@@ -39,6 +39,14 @@ public class GameManager : MonoBehaviour
         jumpAction = input.KeyboardMouse.Jump;
     }
 
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
+
     public void StartGamePhase()
     {
         if (tutorialCompleted) return;

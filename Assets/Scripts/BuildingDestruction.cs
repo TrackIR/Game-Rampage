@@ -22,12 +22,19 @@ public class BuildingDestruction : MonoBehaviour
     private MaterialPropertyBlock propBlock; // Use material property blocks to avoid z-fighting
     private static readonly int ColorID = Shader.PropertyToID("_BaseColor");
 
+    private static GameObject smokePrefab;
+    private static GameObject rubblePrefab;
+
 
 
 
     void Start()
     {
         currentHealth = maxHealth;
+
+        // Load prefabs once and cache them
+        if (smokePrefab == null) smokePrefab = Resources.Load<GameObject>("SmokeEffect");
+        if (rubblePrefab == null) rubblePrefab = Resources.Load<GameObject>("RubblePile");
 
         // Grab the Renderer
         buildingRenderer = GetComponent<Renderer>();
@@ -59,11 +66,6 @@ public class BuildingDestruction : MonoBehaviour
         }
 
 
-        // Spawn Particles Here
-
-        spawnBuildingParticles();
-
-
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.playAudio(AudioManager.Instance.buildingDestroy);
@@ -74,7 +76,6 @@ public class BuildingDestruction : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            Instantiate(collapseSound);
             Collapse();
         }
     }
@@ -140,8 +141,6 @@ public class BuildingDestruction : MonoBehaviour
         Vector3 rubblePos = new Vector3(finalX_Z.x, 20.2f, finalX_Z.z);
         Vector3 smokePos = new Vector3(finalX_Z.x, 21.5f, finalX_Z.z);
 
-        GameObject smokePrefab = Resources.Load<GameObject>("SmokeEffect");
-        GameObject rubblePrefab = Resources.Load<GameObject>("RubblePile");
 
         if (smokePrefab != null)
         {
