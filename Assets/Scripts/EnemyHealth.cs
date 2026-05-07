@@ -4,6 +4,7 @@ public class EnemyHealth : MonoBehaviour
 {
     public int maxHealth = 100;
     public EnemyAudio enemyAudio;
+    public GameObject deathAudioPrefab;
     private int currentHealth;
 
     // store the renderer and original color to handle the flashing correctly
@@ -47,7 +48,7 @@ public class EnemyHealth : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            enemyAudio.PlayDeath();
+            Instantiate(deathAudioPrefab);
             Die();
         }
     }

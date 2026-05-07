@@ -6668,6 +6668,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 300
   enemyAudio: {fileID: 4205994114010020915}
+  deathAudioPrefab: {fileID: 7591722462256364901, guid: 351306b8d52007942a0668f6f639675a, type: 3}
 --- !u!114 &3211084834730539566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12766,7 +12767,7 @@ AudioSource:
   m_GameObject: {fileID: 8725995370692895021}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: ba7ee0cbb65d01040a33fa410c9bfe51, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
