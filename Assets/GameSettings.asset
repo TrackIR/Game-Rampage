@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameSettings
   difficulty: Normal
   mapIndex: Downtown
-  useTrackIR: 0
+  useTrackIR: 1
