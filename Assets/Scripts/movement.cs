@@ -146,7 +146,8 @@ public class movement : MonoBehaviour
             GroundSmashEffect.Simulate(0f, true, true, true);
             GroundSmashEffect.Play(true);
         }
-        else{
+        else
+        {
             Debug.LogWarning("No ground smash particle system attached to object!");
         }
         foreach (var enemyCollider in enemiesHit)
@@ -312,7 +313,8 @@ public class movement : MonoBehaviour
         float speedPercent = moveDirection.magnitude;
         anim.SetFloat("Speed", speedPercent);
 
-        if (controller.isGrounded && velocity.y < 0f){
+        if (controller.isGrounded && velocity.y < 0f)
+        {
             velocity.y = -2f;
         }
 
@@ -366,14 +368,16 @@ public class movement : MonoBehaviour
             mouseRotatePlayer();
             wasdMove();
         }
-            
-        if(!controller.isGrounded){
+
+        if (!controller.isGrounded)
+        {
             if (!isAirborn)
             {
                 isAirborn = true;
             }
         }
-        else{
+        else
+        {
             if (isAirborn)
             {
                 GroundPound();

@@ -68,7 +68,7 @@ public class EnemyAI : MonoBehaviour
         if (sprayEffect != null) sprayEffect.Stop();
 
         if (enemyAudio == null)
-        enemyAudio = GetComponent<EnemyAudio>();
+            enemyAudio = GetComponent<EnemyAudio>();
     }
 
     void Update()
@@ -125,7 +125,7 @@ public class EnemyAI : MonoBehaviour
             }
 
             if (enemyAudio != null)
-            enemyAudio.PlayWaterJet(false);
+                enemyAudio.PlayWaterJet(false);
         }
     }
 
@@ -153,22 +153,22 @@ public class EnemyAI : MonoBehaviour
 
     void aimAtPlayer()
     {
-    Vector3 directionToPlayer = (playerTarget.position - transform.position).normalized;
-    directionToPlayer.y = 0; // Keep only horizontal rotation
+        Vector3 directionToPlayer = (playerTarget.position - transform.position).normalized;
+        directionToPlayer.y = 0; // Keep only horizontal rotation
 
-    if (directionToPlayer == Vector3.zero) return; // Avoid errors
+        if (directionToPlayer == Vector3.zero) return; // Avoid errors
 
-    // Determine target rotation
-    Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+        // Determine target rotation
+        Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
 
-    // Smoothly rotate towards player
-    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        // Smoothly rotate towards player
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
     void SprayAttack()
     {
         if (enemyAudio != null)
-        enemyAudio.PlayWaterJet(true);
+            enemyAudio.PlayWaterJet(true);
 
         // Branch audio implementation with a small cooldown limit
         // Branch audio implementation with a small cooldown limit
@@ -182,37 +182,37 @@ public class EnemyAI : MonoBehaviour
             }
         }
 
-    if (agent != null)
-    {
-        agent.isStopped = true; // Stop moving
-    }
-
-    // Visuals: Turn on the water spray if it's not already on
-    if (sprayEffect != null && !sprayEffect.isPlaying)
-    {
-        sprayEffect.Play();
-    }
-
-    // Damage Logic: Use a Raycast to see if player is being hit
-    RaycastHit hit;
-    // Cast a ray from firePoint, going forward, for the length of range
-    if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, detectionRange))
-    {
-        // Was the player hit
-        PlayerHealth playerHealth = hit.collider.GetComponentInParent<PlayerHealth>();
-
-        if (playerHealth != null)
+        if (agent != null)
         {
-            // Accumulate Damage
-            damageAccumulator += damagePerSecond * Time.deltaTime;
+            agent.isStopped = true; // Stop moving
+        }
 
-            // Whenever 1 full point of damage is accumulated, deal it
-            if (damageAccumulator >= 1f)
+        // Visuals: Turn on the water spray if it's not already on
+        if (sprayEffect != null && !sprayEffect.isPlaying)
+        {
+            sprayEffect.Play();
+        }
+
+        // Damage Logic: Use a Raycast to see if player is being hit
+        RaycastHit hit;
+        // Cast a ray from firePoint, going forward, for the length of range
+        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, detectionRange))
+        {
+            // Was the player hit
+            PlayerHealth playerHealth = hit.collider.GetComponentInParent<PlayerHealth>();
+
+            if (playerHealth != null)
             {
-                playerHealth.TakeDamage(1); // Deal 1 damage
-                damageAccumulator -= 1f;    // Keep the remainder for next frame
+                // Accumulate Damage
+                damageAccumulator += damagePerSecond * Time.deltaTime;
+
+                // Whenever 1 full point of damage is accumulated, deal it
+                if (damageAccumulator >= 1f)
+                {
+                    playerHealth.TakeDamage(1); // Deal 1 damage
+                    damageAccumulator -= 1f;    // Keep the remainder for next frame
+                }
             }
         }
     }
-}
 }

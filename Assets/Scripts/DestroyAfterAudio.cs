@@ -10,7 +10,8 @@ public class DestroyAfterAudio : MonoBehaviour
         if (audioSource != null)
         {
             soundClipLength = audioSource.clip.length;
-        } else
+        }
+        else
         {
             soundClipLength = 1f;
         }

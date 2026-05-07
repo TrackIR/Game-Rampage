@@ -36,7 +36,7 @@ public class PlayerHealth : MonoBehaviour
     {
 
         if (!isAlive) return;
-        
+
         // ToDo: make player audio work!
         playerAudio.PlayHurt();
 

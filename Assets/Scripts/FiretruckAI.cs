@@ -65,7 +65,8 @@ public class FiretruckAI : MonoBehaviour
         if (playerTarget == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null) {
+            if (playerObj != null)
+            {
                 playerTarget = playerObj.transform;
                 playerHead = GameObject.FindGameObjectWithTag("PlayerHead").transform;
             }
@@ -124,7 +125,7 @@ public class FiretruckAI : MonoBehaviour
 
         if (playerInRange)
         {
-            
+
             if (agent.isOnNavMesh) agent.isStopped = true;
             if (animator != null) animator.SetBool("IsDriving", false);
             AimTurret();
@@ -279,7 +280,7 @@ public class FiretruckAI : MonoBehaviour
 
         Quaternion targetRotation = Quaternion.LookRotation(-launchVelocity);
         firePoint.rotation = Quaternion.Slerp(firePoint.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        currentTurretRotation = firePoint.rotation; 
+        currentTurretRotation = firePoint.rotation;
         turret.rotation = currentTurretRotation;
     }
 

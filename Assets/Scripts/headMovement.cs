@@ -88,12 +88,12 @@ public class headMovement : MonoBehaviour
         ManageUI manageUI = UImanager.GetComponent<ManageUI>();
 
         if (gameSettings.useTrackIR)
-            {
-                UImanager.GetComponent<ManageUI>().SetTutorialText("Lean forward to move towards the floating TrackIR logo");
-            }
-            else
-            {
-                UImanager.GetComponent<ManageUI>().SetTutorialText("Use WASD to move towards the floating TrackIR logo");
+        {
+            UImanager.GetComponent<ManageUI>().SetTutorialText("Lean forward to move towards the floating TrackIR logo");
+        }
+        else
+        {
+            UImanager.GetComponent<ManageUI>().SetTutorialText("Use WASD to move towards the floating TrackIR logo");
         }
     }
     void zMove()
@@ -214,7 +214,8 @@ public class headMovement : MonoBehaviour
 
         //float speedPercent = moveDirection.magnitude;
 
-        if (controller.isGrounded && velocity.y < 0f){
+        if (controller.isGrounded && velocity.y < 0f)
+        {
             velocity.y = -2f;
         }
 

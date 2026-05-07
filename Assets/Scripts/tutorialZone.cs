@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class tutorialZone : MonoBehaviour
 {
-    public  GameObject TutorialTextParent;
+    public GameObject TutorialTextParent;
 
     void Start()
     {

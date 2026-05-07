@@ -103,7 +103,8 @@ public class headTrigger : MonoBehaviour
         head.SetActive(false);
         if (triggerCollider != null)
         {
-            for (int i = 0; i < gameObject.GetComponentsInChildren<MeshRenderer>().Length; i++)            {
+            for (int i = 0; i < gameObject.GetComponentsInChildren<MeshRenderer>().Length; i++)
+            {
                 gameObject.GetComponentsInChildren<MeshRenderer>()[i].enabled = false;
             }
             triggerCollider.enabled = false;
@@ -176,7 +177,7 @@ public class headTrigger : MonoBehaviour
             cameraController.playerObject = player;
             cameraController.centerOffset = new Vector3(0f, 24f, 0f);
         }
-        
+
         if (playerMovement != null)
         {
             playerMovement.enabled = true;
@@ -192,7 +193,7 @@ public class headTrigger : MonoBehaviour
         {
             anim.applyRootMotion = preAttachRootMotion;
         }
-        
+
 
         isAttaching = false;
     }
