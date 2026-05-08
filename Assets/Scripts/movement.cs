@@ -173,6 +173,7 @@ public class movement : MonoBehaviour
             Vector3 move = forward * speed * Time.deltaTime;
             controller.Move(move);
 
+            // Calculate the percentage of movement (Less than 0.1 does idle, greater does walk)
             float speedPercent = move.magnitude;
             anim.SetFloat("Speed", speedPercent);
         }
@@ -192,6 +193,7 @@ public class movement : MonoBehaviour
             Vector3 move = right * speed * Time.deltaTime;
             controller.Move(move);
 
+            // Calculate the percentage of movement (Less than 0.1 does idle, greater does walk)
             float speedPercent = move.magnitude;
             anim.SetFloat("Speed", speedPercent);
         }
