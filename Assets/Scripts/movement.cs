@@ -172,6 +172,9 @@ public class movement : MonoBehaviour
 
             Vector3 move = forward * speed * Time.deltaTime;
             controller.Move(move);
+
+            float speedPercent = move.magnitude;
+            anim.SetFloat("Speed", speedPercent);
         }
     }
 
@@ -188,6 +191,9 @@ public class movement : MonoBehaviour
 
             Vector3 move = right * speed * Time.deltaTime;
             controller.Move(move);
+
+            float speedPercent = move.magnitude;
+            anim.SetFloat("Speed", speedPercent);
         }
     }
 
