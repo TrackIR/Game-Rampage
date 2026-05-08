@@ -276,9 +276,9 @@ namespace NaturalPoint.TrackIR
             const string kExpectedDllSignature = "precise head tracking\n put your head into the game\n now go look around\n\n Copyright EyeControl Technologies";
 
             //if (signature.AppSignature != kExpectedAppSignature || signature.DllSignature != kExpectedDllSignature)
-            {
-                throw new TrackIRException("Unable to verify TrackIR Enhanced signature values.");
-            }
+            //{
+            //    throw new TrackIRException("Unable to verify TrackIR Enhanced signature values.");
+            //}
             //m_clientLib.NP_UnregisterWindowHandle();
             // Register the application window for liveness checks. This allows the TrackIR software to
             // detect situations where e.g. your application crashes and fails to shut down cleanly.
