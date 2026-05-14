@@ -1,20 +1,25 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ApplyLogoImage : MonoBehaviour
 {
 
-    public Material[] materials;
+    public Sprite[] Sprites;
 
-    // Choose a random material from the list of logo materials and apply it to a plane.
+    // Choose a random sprite from the list of logo sprites and apply it to an image.
     void Start()
     {
 
-        if (materials == null || materials.Length == 0)
+        if (Sprites == null || Sprites.Length == 0)
         {
             return;
         }
 
-        int index = Random.Range(0, materials.Length);
-        GetComponent<Renderer>().sharedMaterial = materials[index];
+
+
+        int index = Random.Range(0, Sprites.Length);
+        GetComponent<Image>().sprite = Sprites[index];
+
+
     }
 }
