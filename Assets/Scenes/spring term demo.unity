@@ -50615,6 +50615,10 @@ PrefabInstance:
       propertyPath: deathMenu
       value: 
       objectReference: {fileID: 1538411793}
+    - target: {fileID: 2169317586527919222, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: startingHealth
+      value: 33
+      objectReference: {fileID: 0}
     - target: {fileID: 2834931430190571472, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: m_LocalPosition.x
       value: 461.53
@@ -50709,7 +50713,7 @@ PrefabInstance:
       objectReference: {fileID: 2051999570}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: ultimateCharged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -50739,7 +50743,7 @@ MonoBehaviour:
   overheatColor: {r: 1, g: 0.06137052, b: 0, a: 1}
   maxEmissionIntensity: 5
   minEmissionIntensity: 0.1
-  pulseSpeed: 3
+  pulseSpeed: 4
   overheatThreshold: 0.9
 --- !u!1 &962911460 stripped
 GameObject:
