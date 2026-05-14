@@ -43,3 +43,15 @@ Unzip the folder and run the .exe file.
 Flowchart of gameplay
 
 <img width="400" alt="gameplayflowchart" src="https://github.com/user-attachments/assets/f8e1468f-8727-4ce1-827f-5bf06457e5a7" />
+
+## The Team
+Quinn Roth
+Ryan Waltemate
+Elliot Ousley
+Pranav Kulkarni
+
+## Project Partners
+Ryan Mann
+Anthony Lazzaro
+
+
