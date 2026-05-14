@@ -54,4 +54,6 @@ Pranav Kulkarni
 Ryan Mann
 Anthony Lazzaro
 
+## License
+All non-third party code included in this repository is jointly owned by the team mentioned above and NaturalPoint Inc. DBA OptiTrack.
 
