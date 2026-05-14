@@ -125,6 +125,9 @@ public class BuildingDestruction : MonoBehaviour
 
     void Collapse()
     {
+        // play collapse sound
+        Instantiate(collapseSound);
+
         Vector3 finalX_Z = transform.position; // Default start
 
         // Is this building on a "BuildingTile"?
