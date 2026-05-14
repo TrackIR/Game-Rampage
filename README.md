@@ -16,9 +16,14 @@
 
 <!-- SUMMARY -->
 # Summary
-A simple Rampage-esque game utilizing TrackIR functionality head-tracking.
+A simple Rampage-esque game utilizing TrackIR functionality head-tracking as the primary imput method. 
 
-<img width="400" height="267" alt="Untitled" src="https://github.com/user-attachments/assets/0589deb6-9491-4761-8152-942183c4b22e" />
+<img width="468" height="247" alt="image (3)" src="https://github.com/user-attachments/assets/df598c52-a7e8-4f27-ad4d-efa1c9382641" />
+
+You start the game as a robot coming to life in a garbage dump, then moving to exact your revenge by destroying the city. As you hit buildings they become destroyed. As more of the city is destroyed, the people mobilize to try and destroy the robot. Your goal is to demolish as much of the city as possible. 
+
+<img width="468" height="247" alt="image (2)" src="https://github.com/user-attachments/assets/95ad72bd-c594-44d8-b8fb-5a45990ef59a" />
+
 
  ## Gameplay Loop
  
