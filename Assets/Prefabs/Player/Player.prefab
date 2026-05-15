@@ -162,7 +162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2631850449396558416}
   - component: {fileID: 3240055846879311612}
-  - component: {fileID: 4097880286369557029}
+  - component: {fileID: 1428016784090269191}
   m_Layer: 7
   m_Name: AudioPlayer
   m_TagString: Untagged
@@ -197,12 +197,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bc101f3c58113841bd4d10b5a0a601f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAudio
-  audioSource: {fileID: 4097880286369557029}
+  audioSource: {fileID: 1428016784090269191}
   punchClip: {fileID: 8300000, guid: f7b3a16dc1f819f438bea2c539a27a7d, type: 3}
-  deathClip: {fileID: 8300000, guid: 240b8ceee43da164dafcb4455e13088e, type: 3}
-  ultimateClip: {fileID: 8300000, guid: 6691979fe851a824fada9dac6e8e60a5, type: 3}
+  punchVol: 0.884
+  deathClip: {fileID: 8300000, guid: 62b1916a23df0cf42be3d9596a2c65b0, type: 3}
+  deathVol: 0.855
+  ultimateClip: {fileID: 8300000, guid: c6187fc992d9f1a4f8f6aa5c2b4fb17e, type: 3}
+  ultimateVol: 0.826
   hurtClip: {fileID: 8300000, guid: 1d96106b7f7951f48afb5d1440edaf1e, type: 3}
---- !u!82 &4097880286369557029
+  hurtVol: 0.855
+--- !u!82 &1428016784090269191
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -213,15 +217,15 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: e345944875170154eba04157893c2f78, type: 2}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 3f2cdefbbd3e968418ccdc1b6e77b328, type: 3}
-  m_PlayOnAwake: 0
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 168
+  Priority: 128
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -259,7 +263,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.646
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -891,9 +895,9 @@ MonoBehaviour:
   rollSpeed: 300
   invertRotation: 0
   rotateWithYaw: 1
-  jumpStartAngleThreshold: -5
-  jumpEndAngleThreshold: -25
-  jumpYawThreshold: 10
+  jumpStartAngleThreshold: 0
+  jumpEndAngleThreshold: -20
+  jumpYawThreshold: 15
   groundPoundRadius: 20
 --- !u!114 &2169317586527919222
 MonoBehaviour:
@@ -938,6 +942,8 @@ MonoBehaviour:
   ultimateThreshold: 250
   ultimateLength: 20
   ultimateSlowmoSpeed: 0.25
+  startColor: {r: 1, g: 0.6470588, b: 0, a: 1}
+  endColor: {r: 0, g: 0, b: 1, a: 1}
   beamWeight: 0.025
   ultLaserPrefab: {fileID: 6693682581077919189, guid: 31b595d889ebfe342b9b7777df1d524d, type: 3}
   ultSpawnPoint: {fileID: 6008737871576382134}
@@ -1025,7 +1031,7 @@ Transform:
   m_GameObject: {fileID: 8959080101510429900}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.78, z: 0.182}
+  m_LocalPosition: {x: 0, y: 5.19, z: 0.182}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
