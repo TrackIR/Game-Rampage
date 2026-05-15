@@ -119,7 +119,7 @@ public class PlayerHealth : MonoBehaviour
 
         if (playerHealthCanvas != null) playerHealthCanvas.SetActive(false);
 
-        Invoke("ShowDeathMenu", 1.5f);
+        Invoke("ShowDeathMenu", 2f);
     }
 
     void ShowDeathMenu()
