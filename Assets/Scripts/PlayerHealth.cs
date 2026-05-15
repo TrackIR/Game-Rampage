@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour
     public float startingHealth = 15f;
     private float currentHealth;
     public GameObject Canvas;
+    public GameObject playerHealthCanvas;
     private Canvas UImanager;
     public bool isAlive = true;
 
@@ -30,6 +31,19 @@ public class PlayerHealth : MonoBehaviour
         {
             animDamageHash = Animator.StringToHash("Base Layer.Damage");
             animDestroyHash = Animator.StringToHash("Base Layer.Destroy");
+        }
+
+        // Automatically find the player canvas
+        if (playerHealthCanvas == null)
+        {
+            foreach (Canvas c in GetComponentsInChildren<Canvas>())
+            {
+                if (c.gameObject.name == "Canvas" && c.gameObject != Canvas)
+                {
+                    playerHealthCanvas = c.gameObject;
+                    break;
+                }
+            }
         }
     }
 
@@ -85,7 +99,7 @@ public class PlayerHealth : MonoBehaviour
             AudioManager.Instance.playAudio(AudioManager.Instance.playerHeal);
         }
 
-        // THE FIX: Send the new TOTAL health to the UI, not just the heal amount!
+        // Send the new TOTAL health to the UI, not just the heal amount
         if (UImanager != null)
         {
             UImanager.GetComponent<ManageUI>().ChangeHealth(currentHealth);
@@ -96,13 +110,20 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
-        playerAudio.PlayDeath();
-
-        anim.SetTrigger("Destroy");
-
-        Debug.Log(gameObject.name + " has died!");
+        if (!isAlive) return;
         isAlive = false;
 
+        playerAudio.PlayDeath();
+        anim.SetTrigger("Destroy");
+        Debug.Log(gameObject.name + " has died!");
+
+        if (playerHealthCanvas != null) playerHealthCanvas.SetActive(false);
+
+        Invoke("ShowDeathMenu", 1.5f);
+    }
+
+    void ShowDeathMenu()
+    {
         // Get the Score from ManageUI
         int finalScore = 0;
         if (UImanager != null)
