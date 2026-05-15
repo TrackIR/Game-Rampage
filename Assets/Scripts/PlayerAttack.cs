@@ -285,7 +285,7 @@ public class PlayerAttack : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 1000f, layerMask))
         {
             targetPoint = hit.point;
-            Debug.Log(hit.distance + " hit: " + hit.collider.name);
+            // Debug.Log(hit.distance + " hit: " + hit.collider.name);
         }
         else
         {
@@ -318,6 +318,7 @@ public class PlayerAttack : MonoBehaviour
             {
                 ultScript.damagePerSecond = ultLaserDamage;
                 ultScript.targetLayers = targetLayers;
+                ultScript.duration = ultLaserDuration;
             }
         }
     }
@@ -388,7 +389,10 @@ public class PlayerAttack : MonoBehaviour
 
         foreach( Renderer rend in laserRends)
         {
-            rend.material.color = Color.Lerp(startColor, endColor, lerp);
+            if (rend != null)
+            {
+                rend.material.color = Color.Lerp(startColor, endColor, lerp);
+            }
         }
         
     }
