@@ -52283,6 +52283,10 @@ PrefabInstance:
       propertyPath: deathMenu
       value: 
       objectReference: {fileID: 1538411793}
+    - target: {fileID: 2169317586527919222, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: startingHealth
+      value: 33
+      objectReference: {fileID: 0}
     - target: {fileID: 2432074362356519123, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -52464,6 +52468,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 415627245}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: endColor.g
+      value: 0.58476734
+      objectReference: {fileID: 0}
+    - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: playerHead
       value: 
       objectReference: {fileID: 862690986}
@@ -52477,18 +52485,38 @@ PrefabInstance:
       objectReference: {fileID: 2051999570}
     - target: {fileID: 9170016066220637218, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: ultimateCharged
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8158711526878704080, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 962614915}
   m_SourcePrefab: {fileID: 100100000, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
 --- !u!1 &962614913 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8158711526878704080, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
   m_PrefabInstance: {fileID: 962614911}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &962614915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962614913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b33c004e689809459260f3de77d2c40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RobotOverheat
+  overheatColor: {r: 1, g: 0.21176471, b: 0, a: 1}
+  maxEmissionIntensity: 0.6
+  minEmissionIntensity: 0.1
+  pulseSpeed: 3
+  overheatThreshold: 0.9
 --- !u!1 &962911460 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1699615868229952641, guid: b16e54ceafe80fd418a98d3a5e13c9bc, type: 3}
