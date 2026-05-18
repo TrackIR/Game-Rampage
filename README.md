@@ -30,13 +30,11 @@ Unzip the folder and run the .exe file.
 
 1. Install Unity Hub
 2. Install Unity version ```6000.2.9f1```
-3. Get the source code by entering ```git clone [https://github.com/TrackIR/Game-Rampage.git](https://github.com/TrackIR/Game-Rampage.git)``` into the folder of your choice
-4. In Unity Hub expand the ```Add
-``` drop down and click ```Add from disc```
+3. Get the source code by entering ```git clone https://github.com/TrackIR/Game-Rampage.git``` into the folder of your choice
+4. In Unity Hub expand the ```Add``` drop down and click ```Add from disc```
 5. Select the folder that contains the source code
 6. Open the project in Unity
-7. Once open click the ```File
-``` drop down menu and select ```Build and Run```
+7. Once open click the ```File``` drop down menu and select ```Build and Run```
 
 ## Gameplay Loop
 
