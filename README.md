@@ -47,13 +47,17 @@ Flowchart of gameplay
 ## The Team
 
 Quinn Roth [@QuinnRoth](https://github.com/QuinnRoth)
+
 Ryan Waltemate [@rWaltem](https://github.com/rWaltem)
+
 Elliot Ousley [@ElliotOusley](https://github.com/ElliotOusley)
+
 Pranav Kulkarni [@kulkpranav](https://github.com/kulkpranav)
 
 ## Project Partners
 
 Ryan Mann [@mannry22](https://github.com/mannry22)
+
 Anthony Lazzaro [@skynab](https://github.com/skynab)
 
 ## License
