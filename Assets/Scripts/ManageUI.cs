@@ -26,6 +26,10 @@ public class ManageUI : MonoBehaviour
     public Image healthBarObjectFill;
     public float maxHealth = 100f;
 
+    private Color healthColorRed;
+    private Color healthColorOrange;
+    private Color healthColorGreen;
+
     [HideInInspector]
     public float currentHealth;
 
@@ -57,6 +61,11 @@ public class ManageUI : MonoBehaviour
     {
         // Set up the singleton instance
         Instance = this;
+
+        // Initialize health bar colors
+        ColorUtility.TryParseHtmlString("#b22222", out healthColorRed);
+        ColorUtility.TryParseHtmlString("#fab102", out healthColorOrange);
+        ColorUtility.TryParseHtmlString("#008000", out healthColorGreen);
     }
 
     void Start()
@@ -102,7 +111,11 @@ public class ManageUI : MonoBehaviour
             pos.x = (startHealth == 100) ? 161f : 174f;
             healthObject.rectTransform.anchoredPosition = pos;
         }
-        if (healthBarObjectFill != null) healthBarObjectFill.fillAmount = 1f;
+        if (healthBarObjectFill != null)
+        {
+            healthBarObjectFill.fillAmount = 1f;
+            UpdateHealthBarColor(1f);
+        }
 
         if (ultObject != null)
         {
@@ -166,7 +179,9 @@ public class ManageUI : MonoBehaviour
 
             if (healthBarObjectFill != null)
             {
-                healthBarObjectFill.fillAmount = currentHealthVisual / maxHealth;
+                float healthPercent = currentHealthVisual / maxHealth;
+                healthBarObjectFill.fillAmount = healthPercent;
+                UpdateHealthBarColor(healthPercent);
             }
         }
 
@@ -281,6 +296,24 @@ public class ManageUI : MonoBehaviour
         score += scoreToAdd;
         if (scoreObject != null) scoreObject.text = "Score: " + score;
         if (scoreOutline != null) scoreOutline.text = "Score: " + score;
+    }
+
+    private void UpdateHealthBarColor(float healthPercent)
+    {
+        if (healthBarObjectFill == null) return;
+
+        if (healthPercent <= 0.20f)
+        {
+            healthBarObjectFill.color = healthColorRed;
+        }
+        else if (healthPercent <= 0.60f)
+        {
+            healthBarObjectFill.color = healthColorOrange;
+        }
+        else
+        {
+            healthBarObjectFill.color = healthColorGreen;
+        }
     }
 
     void OnDestroy()

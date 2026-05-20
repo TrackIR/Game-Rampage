@@ -21,7 +21,7 @@ public class UltimateLaser : MonoBehaviour
         float zScale = transform.localScale.z;
         transform.localPosition = new Vector3(0f, 0f, zScale / 2f);
 
-        Destroy(parentTransform.gameObject, duration);
+        Destroy(gameObject, duration);
     }
 
     private void Update()

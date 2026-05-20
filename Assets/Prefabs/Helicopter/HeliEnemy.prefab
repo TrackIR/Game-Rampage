@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAudio
   audioSource: {fileID: 4945589567893830199}
-  pitchRange: 0.029
+  pitchRange: 0.559
   forwardClip: {fileID: 8300000, guid: e39cf4378f0dee24cbf1bbe516398ef2, type: 3}
   deathClip: {fileID: 8300000, guid: 240b8ceee43da164dafcb4455e13088e, type: 3}
   waterJetClip: {fileID: 8300000, guid: 0c1be1f0e1ee6a14fa0c75107283b0d1, type: 3}
@@ -64,13 +64,13 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.718
+  m_Volume: 0.913
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 209
   DopplerLevel: 1
   MinDistance: 3
   MaxDistance: 1000

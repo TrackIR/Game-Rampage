@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class BuildingDestruction : MonoBehaviour
 {
@@ -7,15 +8,16 @@ public class BuildingDestruction : MonoBehaviour
     [Range(0f, 25f)] public int scoreReward = 10; // Amount of score to give player when building is destroyed
     [Range(0f, 10f)] public int healthReward = 5; // Amount of HP to restore when a building is destroyed
 
+    [Header("Animation Settings")]
+    [Range(0.01f, 1f)] public float sinkDuration = 0.2f;
+
     public GameObject collapseSound;
 
     // Get building renderer to apply colors
     private Renderer buildingRenderer;
     private float initialHeight; // Store the initial height to calculate sink amount
 
-    // Future implementation: Add an array (public Mesh[] damageStages) here to swap meshes instead of scaling
-
-    private Renderer[] childRenderers; // TODO: Make flashing red affect all attached meshes, currently looks for one and makes it flash red.
+    private Renderer[] childRenderers; // TODO: Make flashing affect all attached meshes
 
     private ParticleSystem damageParticles; // Particle system that spawns a bunch of gray particles at the building's base
 
@@ -25,6 +27,10 @@ public class BuildingDestruction : MonoBehaviour
     private static GameObject smokePrefab;
     private static GameObject rubblePrefab;
 
+    private Vector3 targetPosition;
+    private Vector3 targetParticleLocalPos;
+    private Coroutine sinkCoroutine;
+
 
 
 
@@ -33,8 +39,15 @@ public class BuildingDestruction : MonoBehaviour
         currentHealth = maxHealth;
 
         // Load prefabs once and cache them
-        if (smokePrefab == null) smokePrefab = Resources.Load<GameObject>("SmokeEffect");
-        if (rubblePrefab == null) rubblePrefab = Resources.Load<GameObject>("RubblePile");
+        if (smokePrefab == null) 
+        {
+            smokePrefab = Resources.Load<GameObject>("SmokeEffect");
+        }
+        
+        if (rubblePrefab == null) 
+        {
+            rubblePrefab = Resources.Load<GameObject>("RubblePile");
+        }
 
         // Grab the Renderer
         buildingRenderer = GetComponent<Renderer>();
@@ -47,7 +60,8 @@ public class BuildingDestruction : MonoBehaviour
         {
             propBlock = new MaterialPropertyBlock();
             initialHeight = buildingRenderer.bounds.size.y;
-
+            targetPosition = transform.position;
+            if (damageParticles != null) targetParticleLocalPos = damageParticles.transform.localPosition;
         }
     }
 
@@ -82,15 +96,48 @@ public class BuildingDestruction : MonoBehaviour
 
     void UpdateDamageVisuals()
     {
-        // Instead of squashing, sink the building into the ground
+        // sink the building into the ground smoothly
         if (buildingRenderer != null && maxHealth > 0)
         {
             // Calculate distance to sink: Total Height divided by hits needed
             float sinkAmount = initialHeight / maxHealth;
 
-            // Move the building down globally
-            transform.position -= new Vector3(0, sinkAmount, 0);
-            damageParticles.transform.localPosition += new Vector3(0, sinkAmount, 0);
+            // Update targets
+            targetPosition -= new Vector3(0, sinkAmount, 0);
+            if (damageParticles != null)
+            {
+                targetParticleLocalPos += new Vector3(0, sinkAmount, 0);
+            }
+
+            // Start smooth animation
+            if (sinkCoroutine != null) StopCoroutine(sinkCoroutine);
+            sinkCoroutine = StartCoroutine(AnimateSink());
+        }
+    }
+
+    IEnumerator AnimateSink()
+    {
+        Vector3 startPos = transform.position;
+        Vector3 startParticleLocalPos = damageParticles != null ? damageParticles.transform.localPosition : Vector3.zero;
+        float elapsed = 0;
+
+        while (elapsed < sinkDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.SmoothStep(0, 1, elapsed / sinkDuration);
+
+            transform.position = Vector3.Lerp(startPos, targetPosition, t);
+            if (damageParticles != null)
+            {
+                damageParticles.transform.localPosition = Vector3.Lerp(startParticleLocalPos, targetParticleLocalPos, t);
+            }
+            yield return null;
+        }
+
+        transform.position = targetPosition;
+        if (damageParticles != null)
+        {
+            damageParticles.transform.localPosition = targetParticleLocalPos;
         }
     }
 
@@ -118,13 +165,16 @@ public class BuildingDestruction : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No particle system attached to object!");
+            Debug.LogWarning("No particle system attached to object");
         }
     }
 
 
     void Collapse()
     {
+        // play collapse sound
+        Instantiate(collapseSound);
+
         Vector3 finalX_Z = transform.position; // Default start
 
         // Is this building on a "BuildingTile"?
@@ -138,8 +188,8 @@ public class BuildingDestruction : MonoBehaviour
             finalX_Z = buildingRenderer.bounds.center;
         }
 
-        Vector3 rubblePos = new Vector3(finalX_Z.x, 20.2f, finalX_Z.z);
-        Vector3 smokePos = new Vector3(finalX_Z.x, 21.5f, finalX_Z.z);
+        Vector3 rubblePos = new Vector3(finalX_Z.x, 20.1f, finalX_Z.z);
+        Vector3 smokePos = new Vector3(finalX_Z.x, 23.5f, finalX_Z.z);
 
 
         if (smokePrefab != null)
