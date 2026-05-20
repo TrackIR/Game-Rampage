@@ -1,18 +1,16 @@
 # Summary
 
 <details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li><a href="#summary">Summary</a></li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#license">License</a></li>
-  </ol>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#how-to-run">How to Run</a></li>
+    <li><a href="#how-to-build">How to Build</a></li>
+    <li><a href="#gameplay-loop">Gameplay Loop</a></li>
+    <li><a href="#the-team">The Team</a></li>
+    <li><a href="#project-partners">Project Partners</a></li>
+    <li><a href="#license">License</a></li>
+  </ol>
 </details>
 
 Unleash classic monster mayhem in this arcadey Rampage inspired brawler. Tear through city blocks, avoid the city's cleaning crew, and steer the action with TrackIR head-tracking for a more immersive rampage.
@@ -43,3 +41,23 @@ Unzip the folder and run the .exe file.
 Flowchart of gameplay
 
 <img width="400" alt="gameplayflowchart" src="https://github.com/user-attachments/assets/f8e1468f-8727-4ce1-827f-5bf06457e5a7" />
+
+## The Team
+
+Quinn Roth [@QuinnRoth](https://github.com/QuinnRoth)
+
+Ryan Waltemate [@rWaltem](https://github.com/rWaltem)
+
+Elliot Ousley [@ElliotOusley](https://github.com/ElliotOusley)
+
+Pranav Kulkarni [@kulkpranav](https://github.com/kulkpranav)
+
+## Project Partners
+
+Ryan Mann [@mannry22](https://github.com/mannry22)
+
+Anthony Lazzaro [@skynab](https://github.com/skynab)
+
+## License
+
+All original code in this repository is jointly owned by the aforementioned team and NaturalPoint Inc. (DBA OptiTrack).
