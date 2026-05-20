@@ -52360,6 +52360,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 2d8a0cbcd204c3745913d5d049e16095, type: 2}
     - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: speed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: trackIRCam
       value: 
       objectReference: {fileID: 468192960}
@@ -52451,6 +52455,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 2d8a0cbcd204c3745913d5d049e16095, type: 2}
+    - target: {fileID: 8960888037886871217, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.89
+      objectReference: {fileID: 0}
     - target: {fileID: 9038687510818706343, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: m_Camera
       value: 

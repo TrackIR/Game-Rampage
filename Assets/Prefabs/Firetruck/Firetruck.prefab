@@ -6573,7 +6573,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 3
-  m_Speed: 3.5
+  m_Speed: 6
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -6640,6 +6640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae8ce502788ebbc4ba9e7a2bf2bfb905, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FiretruckAI
+  gameSettings: {fileID: 0}
   playerTarget: {fileID: 0}
   agent: {fileID: 4900993090106374568}
   animator: {fileID: 1009022131145346649}
@@ -6648,9 +6649,8 @@ MonoBehaviour:
   firePoint: {fileID: 8127909080995172986}
   detectionRange: 50
   rotationSpeed: 5
-  damagePerSecond: 0.5
-  particleDamage: 0.5
-  speed: 7
+  damagePerSecond: 1
+  speed: 10
   normalEnemyPrefab: {fileID: 747386369671831897, guid: 46c560da5bff6ca49b477683bc0fd622, type: 3}
   rearSpawnPoint: {fileID: 1877964532500258226}
   spawnInterval: 7
@@ -6666,7 +6666,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f55ff89e90c1cf43aa2a302bffddd3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHealth: 300
+  maxHealth: 200
   enemyAudio: {fileID: 4205994114010020915}
   deathAudioPrefab: {fileID: 7591722462256364901, guid: 351306b8d52007942a0668f6f639675a, type: 3}
 --- !u!114 &3211084834730539566
@@ -12754,6 +12754,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAudio
   audioSource: {fileID: 6401993002557863507}
+  pitchRange: 0
   forwardClip: {fileID: 0}
   deathClip: {fileID: 8300000, guid: 240b8ceee43da164dafcb4455e13088e, type: 3}
   waterJetClip: {fileID: 8300000, guid: 0c1be1f0e1ee6a14fa0c75107283b0d1, type: 3}

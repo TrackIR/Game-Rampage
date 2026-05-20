@@ -82,7 +82,7 @@ MonoBehaviour:
   fleeRange: 8
   speed: 7
   agent: {fileID: -8947426014907748145}
-  damagePerSecond: 0.5
+  damagePerSecond: 1
   sprayEffect: {fileID: 5088864177294861108}
   firePoint: {fileID: 340802733606060789}
   enemyAudio: {fileID: 5429290037493631791}
@@ -259,6 +259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAudio
   audioSource: {fileID: 5034612183689170476}
+  pitchRange: 0
   forwardClip: {fileID: 0}
   deathClip: {fileID: 8300000, guid: 5c966d9832728e74fa5caecb19e082e3, type: 3}
   waterJetClip: {fileID: 8300000, guid: 0c1be1f0e1ee6a14fa0c75107283b0d1, type: 3}
