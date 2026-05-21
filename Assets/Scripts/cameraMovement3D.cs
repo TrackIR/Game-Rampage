@@ -67,8 +67,8 @@ public class cameraMovement3D : MonoBehaviour
 
             Vector3 headEuler = childRotation.eulerAngles;
 
-            inputYaw = WrapAngle(headEuler.y) * camSen;
-            inputPitch = WrapAngle(headEuler.x) * camSen;
+            inputYaw = WrapAngle(headEuler.y);
+            inputPitch = WrapAngle(headEuler.x);
 
             headRotation = Quaternion.Euler(inputPitch, inputYaw, 0f);
         }
