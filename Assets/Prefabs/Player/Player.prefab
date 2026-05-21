@@ -206,6 +206,10 @@ MonoBehaviour:
   ultimateVol: 0.826
   hurtClip: {fileID: 8300000, guid: 1d96106b7f7951f48afb5d1440edaf1e, type: 3}
   hurtVol: 0.855
+  shockwave: {fileID: 8300000, guid: fa8ae93c29d6bf3498ca5f0dcd506b1c, type: 3}
+  shockwaveVol: 0.87
+  standUp: {fileID: 8300000, guid: bd7d0f55065d97b4e8ea6ef33a752f65, type: 3}
+  standUpVol: 0.884
 --- !u!82 &1428016784090269191
 AudioSource:
   m_ObjectHideFlags: 0
@@ -605,7 +609,7 @@ Transform:
   m_GameObject: {fileID: 4305616560931798971}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.658}
+  m_LocalPosition: {x: 0, y: 2.89, z: 0.658}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -731,6 +735,7 @@ GameObject:
   - component: {fileID: 9170016066220637218}
   - component: {fileID: 9069639554450188572}
   - component: {fileID: 5543154292030078888}
+  - component: {fileID: 5074331816939295384}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -882,7 +887,7 @@ MonoBehaviour:
   trackIRCam: {fileID: 0}
   normal3rdCam: {fileID: 0}
   gravity: -60
-  speed: 10
+  speed: 15
   jumpPower: 6
   TrackIRRoot: {fileID: 0}
   GroundSmashObject: {fileID: 61040824018961995}
@@ -913,8 +918,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   playerAudio: {fileID: 3240055846879311612}
   maxHealth: 100
-  startingHealth: 15
+  startingHealth: 33
   Canvas: {fileID: 0}
+  playerHealthCanvas: {fileID: 0}
   isAlive: 1
   deathMenu: {fileID: 0}
   playMenu: {fileID: 0}
@@ -938,12 +944,12 @@ MonoBehaviour:
     m_Bits: 192
   normalAttackCooldown: 0.25
   ultimateActivationCooldown: 3
-  ultimateCharged: 0
+  ultimateCharged: 1
   ultimateThreshold: 250
   ultimateLength: 20
   ultimateSlowmoSpeed: 0.25
   startColor: {r: 1, g: 0.6470588, b: 0, a: 1}
-  endColor: {r: 0, g: 0, b: 1, a: 1}
+  endColor: {r: 0, g: 0.58476734, b: 1, a: 1}
   beamWeight: 0.025
   ultLaserPrefab: {fileID: 6693682581077919189, guid: 31b595d889ebfe342b9b7777df1d524d, type: 3}
   ultSpawnPoint: {fileID: 6008737871576382134}
@@ -1006,6 +1012,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5074331816939295384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8158711526878704080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b33c004e689809459260f3de77d2c40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RobotOverheat
+  overheatColor: {r: 1, g: 0.21176471, b: 0, a: 1}
+  maxEmissionIntensity: 0.6
+  minEmissionIntensity: 0.1
+  pulseSpeed: 3
+  overheatThreshold: 0.9
 --- !u!1 &8959080101510429900
 GameObject:
   m_ObjectHideFlags: 0

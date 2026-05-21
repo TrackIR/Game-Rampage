@@ -24,6 +24,14 @@ public class PlayerAudio : MonoBehaviour
     [SerializeField, Range(0f, 1f)]
     public float hurtVol;
 
+    public AudioClip shockwave;
+    [SerializeField, Range(0f, 1f)]
+    public float shockwaveVol;
+
+    public AudioClip standUp;
+    [SerializeField, Range(0f, 1f)]
+    public float standUpVol;
+
     public void PlayPunch()
     {
         if (audioSource == null || punchClip == null) return;
@@ -65,6 +73,20 @@ public class PlayerAudio : MonoBehaviour
         if (audioSource == null || hurtClip == null) return;
         audioSource.volume = hurtVol;
         PlayOneShot(hurtClip);
+    }
+
+    public void PlayShockWave()
+    {
+        if (audioSource == null || shockwave == null) return;
+        audioSource.volume = shockwaveVol;
+        PlayOneShot(shockwave);
+    }
+
+    public void PlayStandUp()
+    {
+        if (audioSource == null || standUp == null) return;
+        audioSource.volume = standUpVol;
+        PlayOneShot(standUp);
     }
 
     private void PlayOneShot(AudioClip clip)

@@ -52652,6 +52652,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3240055846879311612, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: standUp
+      value: 
+      objectReference: {fileID: 8300000, guid: bd7d0f55065d97b4e8ea6ef33a752f65, type: 3}
+    - target: {fileID: 3240055846879311612, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: shockwave
+      value: 
+      objectReference: {fileID: 8300000, guid: fa8ae93c29d6bf3498ca5f0dcd506b1c, type: 3}
+    - target: {fileID: 3240055846879311612, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: standUpVol
+      value: 0.884
+      objectReference: {fileID: 0}
+    - target: {fileID: 3240055846879311612, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: shockwaveVol
+      value: 0.87
+      objectReference: {fileID: 0}
     - target: {fileID: 3369061212969113376, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
