@@ -28,6 +28,28 @@ public class TrackIRMenuNav : MonoBehaviour
         return angle;
     }
 
+    GameObject GetSelectableAtPosition(Vector2 screenPos)
+    {
+        if (eventSystem == null) return null;
+
+        if (pointerData == null) pointerData = new PointerEventData(eventSystem);
+        pointerData.position = screenPos;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        eventSystem.RaycastAll(pointerData, results);
+
+        foreach (RaycastResult result in results)
+        {
+            Selectable selectable = result.gameObject.GetComponentInParent<Selectable>();
+            if (selectable != null && selectable.interactable)
+            {
+                return selectable.gameObject;
+            }
+        }
+
+        return null;
+    }
+
     void Start()
     {
         // Search the whole scene for TrackIR, not just this one GameObject
@@ -73,35 +95,7 @@ public class TrackIRMenuNav : MonoBehaviour
             curserObject.transform.position = screenPos;
         }
 
-        // Ensure pointerData exists before assigning position
-        if (pointerData == null) pointerData = new PointerEventData(eventSystem);
-        pointerData.position = screenPos;
-
-        List<RaycastResult> results = new List<RaycastResult>();
-        eventSystem.RaycastAll(pointerData, results);
-
-        if (results.Count == 0)
-        {
-            // Clear the selection so that looking back at the button counts as a new hover
-            if (eventSystem.currentSelectedGameObject != null)
-            {
-                eventSystem.SetSelectedGameObject(null);
-            }
-            return;
-        }
-
-        GameObject uiTarget = null;
-
-        // Find the first actual interactable UI element (ignore text/backgrounds)
-        foreach (RaycastResult result in results)
-        {
-            Selectable selectable = result.gameObject.GetComponentInParent<Selectable>();
-            if (selectable != null && selectable.interactable)
-            {
-                uiTarget = selectable.gameObject;
-                break; // Found a valid interactable button/selectable, stop looking
-            }
-        }
+        GameObject uiTarget = GetSelectableAtPosition(screenPos);
 
         // If hit nothing interactable (like the gap between keys)
         if (uiTarget == null)
@@ -128,20 +122,23 @@ public class TrackIRMenuNav : MonoBehaviour
         // Click on element
         if (Input.GetKeyDown(clickKey))
         {
-            if (Time.time - lastClickTime > clickCooldown)
+            if (eventSystem.currentSelectedGameObject == uiTarget)
             {
-                lastClickTime = Time.time;
-
-                // Play Click Sound
-                if (AudioManager.Instance != null && AudioManager.Instance.menuClick != null)
+                if (Time.time - lastClickTime > clickCooldown)
                 {
-                    AudioManager.Instance.playAudio(AudioManager.Instance.menuClick);
-                }
-            }
+                    lastClickTime = Time.time;
 
-            ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerDownHandler);
-            ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerUpHandler);
-            ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerClickHandler);
+                    // Play Click Sound
+                    if (AudioManager.Instance != null && AudioManager.Instance.menuClick != null)
+                    {
+                        AudioManager.Instance.playAudio(AudioManager.Instance.menuClick);
+                    }
+                }
+
+                ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerDownHandler);
+                ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerUpHandler);
+                ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerClickHandler);
+            }
         }
     }
 
@@ -151,9 +148,11 @@ public class TrackIRMenuNav : MonoBehaviour
         {
             Vector2 mousePos = Input.mousePosition;
             curserObject.transform.position = mousePos;
+
             if (Input.GetKeyDown(clickKey) || Input.GetMouseButtonDown(0))
             {
-                if (AudioManager.Instance != null && AudioManager.Instance.menuClick != null)
+                GameObject uiTarget = GetSelectableAtPosition(mousePos);
+                if (uiTarget != null && AudioManager.Instance != null && AudioManager.Instance.menuClick != null)
                 {
                     AudioManager.Instance.playAudio(AudioManager.Instance.menuClick);
                 }
