@@ -173,7 +173,10 @@ public class BuildingDestruction : MonoBehaviour
     void Collapse()
     {
         // play collapse sound
-        Instantiate(collapseSound);
+        if (collapseSound != null)
+        {
+            Instantiate(collapseSound);
+        }
 
         Vector3 finalX_Z = transform.position; // Default start
 
