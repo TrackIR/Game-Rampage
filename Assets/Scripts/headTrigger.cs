@@ -11,6 +11,7 @@ public class headTrigger : MonoBehaviour
     public GameObject head;
     public cameraMovement3D cameraController;
     public Collider triggerCollider;
+    public PlayerAudio playerAudio;
     private PlayerInput input;
     private InputAction attackAction;
     private int animAttachHash;
@@ -148,6 +149,9 @@ public class headTrigger : MonoBehaviour
         }
 
         StartCoroutine(FinishAttach());
+
+        // play audio
+        playerAudio.PlayStandUp();
 
         GameManager.Instance.StartGamePhase();
 

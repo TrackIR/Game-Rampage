@@ -32,6 +32,7 @@ public class movement : MonoBehaviour
     public GameObject TrackIRRoot;
     public GameObject GroundSmashObject;
     private ParticleSystem GroundSmashEffect;
+    public PlayerAudio playerAudio;
 
     // INPUT SYSTEM
     private PlayerInput input;
@@ -143,6 +144,9 @@ public class movement : MonoBehaviour
             GroundSmashEffect.gameObject.SetActive(true);
             GroundSmashEffect.Simulate(0f, true, true, true);
             GroundSmashEffect.Play(true);
+
+            // play shockwave sfx
+            playerAudio.PlayShockWave();
         }
         else
         {
