@@ -5,6 +5,7 @@ using UnityEngine;
 public class cameraMovement3D : MonoBehaviour
 {
     public GameSettings gameSettings;
+    public float camSen = 2f;
 
     [Header("Camera Settings")]
     TrackIRComponent trackIR;
@@ -66,8 +67,8 @@ public class cameraMovement3D : MonoBehaviour
 
             Vector3 headEuler = childRotation.eulerAngles;
 
-            inputYaw = WrapAngle(headEuler.y);
-            inputPitch = WrapAngle(headEuler.x);
+            inputYaw = WrapAngle(headEuler.y) * camSen;
+            inputPitch = WrapAngle(headEuler.x) * camSen;
 
             headRotation = Quaternion.Euler(inputPitch, inputYaw, 0f);
         }

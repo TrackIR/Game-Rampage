@@ -7,7 +7,7 @@ public class crossHair : MonoBehaviour
     public GameSettings gameSettings;
     public GameObject reticleObject;
     public KeyCode clickKey = KeyCode.Space;
-    public float sensitivity = 1;
+    public float sensitivity = 2;
 
     // private variables
     TrackIRComponent trackIR;
