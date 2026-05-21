@@ -25735,6 +25735,7 @@ GameObject:
   - component: {fileID: 468192957}
   - component: {fileID: 468192961}
   - component: {fileID: 468192962}
+  - component: {fileID: 468192963}
   m_Layer: 0
   m_Name: TrackIR Camera
   m_TagString: MainCamera
@@ -25985,6 +25986,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &468192963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468192955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a09e238a3843784c8836e7ebeab2e0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MusicManager
+  volume: 1
+  songs:
+  - intro: {fileID: 8300000, guid: a313560470a3bf2469402ecd6e7cea7a, type: 3}
+    loop: {fileID: 8300000, guid: 6238f0992044f394fa3c4d577d408db3, type: 3}
 --- !u!1001 &468669874
 PrefabInstance:
   m_ObjectHideFlags: 0
