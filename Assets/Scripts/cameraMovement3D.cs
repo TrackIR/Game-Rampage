@@ -5,6 +5,7 @@ using UnityEngine;
 public class cameraMovement3D : MonoBehaviour
 {
     public GameSettings gameSettings;
+    public float camSen = 2f;
 
     [Header("Camera Settings")]
     TrackIRComponent trackIR;

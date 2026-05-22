@@ -10012,10 +10012,56 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5037045738647218362, guid: 3da7908a329eb5542819955d697ee6ba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6933393545851188134}
+    - targetCorrespondingSourceObject: {fileID: 3982486219131330239, guid: 3da7908a329eb5542819955d697ee6ba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5385985180676068053}
   m_SourcePrefab: {fileID: 100100000, guid: 3da7908a329eb5542819955d697ee6ba, type: 3}
+--- !u!1 &615731216476848042 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3982486219131330239, guid: 3da7908a329eb5542819955d697ee6ba, type: 3}
+  m_PrefabInstance: {fileID: 4597935915997765909}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5385985180676068053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615731216476848042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3569cbaa0403a544a867a994654d0956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LaserColorShift
+  startColor: {r: 0, g: 0.69803923, b: 1, a: 1}
+  endColor: {r: 1, g: 0.5137255, b: 0, a: 1}
+  duration: 1
 --- !u!4 &4054822032384444158 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3da7908a329eb5542819955d697ee6ba, type: 3}
   m_PrefabInstance: {fileID: 4597935915997765909}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8802294489994021295 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5037045738647218362, guid: 3da7908a329eb5542819955d697ee6ba, type: 3}
+  m_PrefabInstance: {fileID: 4597935915997765909}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6933393545851188134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8802294489994021295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3569cbaa0403a544a867a994654d0956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LaserColorShift
+  startColor: {r: 1, g: 0.5117959, b: 0, a: 1}
+  endColor: {r: 0, g: 0.6973052, b: 1, a: 1}
+  duration: 1

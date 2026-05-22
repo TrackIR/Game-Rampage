@@ -22,9 +22,6 @@ public class PlayerAttack : MonoBehaviour
     public int ultimateLength = 20;
     public float ultimateSlowmoSpeed = 0.25f;
 
-    public Color startColor = Color.orange;
-    public Color endColor = Color.blue;
-
     [Range(0f, 1f)]
     public float beamWeight = 0.01f;
 
@@ -63,9 +60,6 @@ public class PlayerAttack : MonoBehaviour
     private KeyCode attackKey;
     // Stores the dynamically remapped ultimate key
     private KeyCode ultimateKey;
-
-    // Laser colors
-    private Renderer[] laserRends;
 
     void Awake()
     {
@@ -140,12 +134,6 @@ public class PlayerAttack : MonoBehaviour
     {
         if (isInUltimate)
         {
-
-            // If the player is using their ultimate and the laser renderers were found, cycle colors
-            if (laserRends != null)
-            {
-                CycleLaser();
-            }
 
             AimLaserAtCursor();
             return;
@@ -311,8 +299,6 @@ public class PlayerAttack : MonoBehaviour
 
             ultObj.transform.SetParent(ultSpawnPoint);
 
-            laserRends = ultObj.GetComponentsInChildren<Renderer>(); // Get the laser renderer
-
             UltimateLaser ultScript = ultObj.GetComponent<UltimateLaser>();
             if (ultScript != null)
             {
@@ -377,23 +363,4 @@ public class PlayerAttack : MonoBehaviour
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 
-    // Cycle the laser material between the start and end colors
-    private void CycleLaser()
-    {
-        // taken from Material.color in unity documentation 
-        // https://docs.unity3d.com/6000.4/Documentation/ScriptReference/Material-color.html
-
-        float duration = 1.0f ;
-
-        float lerp = Mathf.PingPong(Time.time, duration);
-
-        foreach( Renderer rend in laserRends)
-        {
-            if (rend != null)
-            {
-                rend.material.color = Color.Lerp(startColor, endColor, lerp);
-            }
-        }
-        
-    }
 }

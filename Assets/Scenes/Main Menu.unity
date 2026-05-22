@@ -2607,7 +2607,7 @@ MonoBehaviour:
   gameSettings: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
   curserObject: {fileID: 402534306}
   clickKey: 32
-  sensitivity: 1
+  sensitivity: 2
 --- !u!1 &682200749
 GameObject:
   m_ObjectHideFlags: 0
