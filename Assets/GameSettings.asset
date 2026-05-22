@@ -15,3 +15,4 @@ MonoBehaviour:
   difficulty: Trade Show
   mapIndex: Downtown
   useTrackIR: 1
+  camSens: 2

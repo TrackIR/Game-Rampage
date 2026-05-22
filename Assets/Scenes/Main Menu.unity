@@ -7639,7 +7639,7 @@ MonoBehaviour:
   - Hard
   - Super Hard
   - Trade Show
-  defaultDiff: 0
+  defaultDiff: 3
   map:
   - Downtown
   defaultMap: 0
