@@ -46902,12 +46902,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 46560379}
     - target: {fileID: 5632828015545096141, guid: 81a67b02c0518a348a1de1c792712e87, type: 3}
+      propertyPath: debugON
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5632828015545096141, guid: 81a67b02c0518a348a1de1c792712e87, type: 3}
       propertyPath: UImanager
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5632828015545096141, guid: 81a67b02c0518a348a1de1c792712e87, type: 3}
       propertyPath: rollSpeed
-      value: 600
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 5632828015545096141, guid: 81a67b02c0518a348a1de1c792712e87, type: 3}
       propertyPath: trackIRCam
@@ -46927,7 +46931,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5632828015545096141, guid: 81a67b02c0518a348a1de1c792712e87, type: 3}
       propertyPath: headYawThreshold
-      value: 0.25
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6398589349301904515, guid: 81a67b02c0518a348a1de1c792712e87, type: 3}
       propertyPath: m_Name
@@ -52661,7 +52665,7 @@ PrefabInstance:
       objectReference: {fileID: 1586749822}
     - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: headYawThreshold
-      value: 0.25
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8158711526878704080, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: m_Name
