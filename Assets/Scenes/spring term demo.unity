@@ -46907,7 +46907,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5632828015545096141, guid: 81a67b02c0518a348a1de1c792712e87, type: 3}
       propertyPath: rollSpeed
-      value: 200
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 5632828015545096141, guid: 81a67b02c0518a348a1de1c792712e87, type: 3}
       propertyPath: trackIRCam
@@ -46924,6 +46924,10 @@ PrefabInstance:
     - target: {fileID: 5632828015545096141, guid: 81a67b02c0518a348a1de1c792712e87, type: 3}
       propertyPath: rotateWithYaw
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5632828015545096141, guid: 81a67b02c0518a348a1de1c792712e87, type: 3}
+      propertyPath: headYawThreshold
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6398589349301904515, guid: 81a67b02c0518a348a1de1c792712e87, type: 3}
       propertyPath: m_Name
@@ -52628,9 +52632,21 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: debugON
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: rollSpeed
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: trackIRCam
       value: 
       objectReference: {fileID: 468192960}
+    - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: useTrackIR
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: TrackIRRoot
       value: 
@@ -52643,6 +52659,10 @@ PrefabInstance:
       propertyPath: normal3rdCam
       value: 
       objectReference: {fileID: 1586749822}
+    - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: headYawThreshold
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 8158711526878704080, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: m_Name
       value: Player
@@ -108941,7 +108961,7 @@ MonoBehaviour:
   transitionSpeed: 3
   yawRange: 180
   maxPitch: 120
-  orbitSensitivity: 2
+  orbitSensitivity: 1.25
 --- !u!4 &2051999571
 Transform:
   m_ObjectHideFlags: 0
