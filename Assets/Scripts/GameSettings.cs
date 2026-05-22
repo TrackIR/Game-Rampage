@@ -6,4 +6,5 @@ public class GameSettings : ScriptableObject
     public string difficulty = "Normal";
     public string mapIndex;
     public bool useTrackIR = true;
+    public float camSens = 2;
 }
