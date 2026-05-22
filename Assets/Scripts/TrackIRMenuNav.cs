@@ -67,6 +67,9 @@ public class TrackIRMenuNav : MonoBehaviour
 
         eventSystem = EventSystem.current;
         pointerData = new PointerEventData(eventSystem);
+
+        // hide cursor
+        Cursor.visible = false;
     }
 
     void TrackIRCursor()

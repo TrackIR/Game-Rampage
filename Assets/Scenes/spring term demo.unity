@@ -108926,7 +108926,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   gameSettings: {fileID: 11400000, guid: a049e0117b990de4e84d12e0249cf14f, type: 2}
-  camSen: 2
   trackIRRoot: {fileID: 542628271}
   playerObject: {fileID: 862690986}
   is3rdPerson: 1
@@ -108934,7 +108933,7 @@ MonoBehaviour:
   centerOffset: {x: 0, y: 8.5, z: 0}
   yawOrbitWeight: 0.5
   pitchOrbitWeight: -0.75
-  lookRotationWeight: 2
+  lookRotationWeight: 1
   positionSmoothing: 5
   rotationSmoothing: 5
   firstPersonOffset: {x: 0, y: 23, z: 2.5}
@@ -108942,6 +108941,7 @@ MonoBehaviour:
   transitionSpeed: 3
   yawRange: 180
   maxPitch: 120
+  orbitSensitivity: 2
 --- !u!4 &2051999571
 Transform:
   m_ObjectHideFlags: 0

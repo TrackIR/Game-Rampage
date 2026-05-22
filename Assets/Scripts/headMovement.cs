@@ -74,6 +74,7 @@ public class headMovement : MonoBehaviour
         if (gameSettings != null)
         {
             useTrackIR = gameSettings.useTrackIR;
+            useTrackIR = true;
         }
 
         controller = GetComponent<CharacterController>();
@@ -253,7 +254,8 @@ public class headMovement : MonoBehaviour
 
             zMove();
             xMove();
-            rotPlayer();
+            //rotPlayer();
+            mouseRotatePlayer();
 
             // Keep player grounded
             if (controller.isGrounded && velocity.y < 0f)

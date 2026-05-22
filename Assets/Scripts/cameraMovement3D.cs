@@ -5,7 +5,6 @@ using UnityEngine;
 public class cameraMovement3D : MonoBehaviour
 {
     public GameSettings gameSettings;
-    public float camSen = 2f;
 
     [Header("Camera Settings")]
     TrackIRComponent trackIR;
@@ -29,13 +28,17 @@ public class cameraMovement3D : MonoBehaviour
 
     [Header("Transition")]
     [Range(0f, 1f)]
-    public float cameraBlend = 1f;   // 1 = 3rd person, 0 = 1st person
+    public float cameraBlend = 1f;
     public float transitionSpeed = 3f;
     private float targetBlend = 1f;
 
     [Header("Mouse Look (Absolute)")]
-    public float yawRange = 180f;   // full left/right range
-    public float maxPitch = 120f;    // up/down clamp
+    public float yawRange = 180f;
+    public float maxPitch = 120f;
+
+    [Header("Sensitivity")]
+    [Range(0f, 5f)]
+    public float orbitSensitivity = 1f;  // >1 amplifies orbit, <1 damps it
 
     // unified input
     private float inputYaw;
@@ -48,10 +51,7 @@ public class cameraMovement3D : MonoBehaviour
 
     float WrapAngle(float angle)
     {
-        if (angle > 180f)
-        {
-            angle -= 360f;
-        }
+        if (angle > 180f) angle -= 360f;
         return angle;
     }
 
@@ -59,39 +59,36 @@ public class cameraMovement3D : MonoBehaviour
     {
         Quaternion headRotation;
 
-        // input layer -- still testing, likely needs extra rotation
         if (gameSettings.useTrackIR)
         {
-            // USING TRACK-IR
             Quaternion childRotation = trackIR.LatestPoseOrientation;
-
             Vector3 headEuler = childRotation.eulerAngles;
 
-            inputYaw = WrapAngle(headEuler.y);
+            inputYaw   = WrapAngle(headEuler.y);
             inputPitch = WrapAngle(headEuler.x);
 
             headRotation = Quaternion.Euler(inputPitch, inputYaw, 0f);
         }
         else
         {
-            // USING MOUSE
-            float nx = (Input.mousePosition.x / Screen.width - 0.5f) * 2f;
+            float nx = (Input.mousePosition.x / Screen.width  - 0.5f) * 2f;
             float ny = -(Input.mousePosition.y / Screen.height - 0.5f) * 2f;
 
-            inputYaw = nx * yawRange;
+            inputYaw   = nx * yawRange;
             inputPitch = Mathf.Clamp(ny * maxPitch, -maxPitch, maxPitch);
 
-            Quaternion yawRot = Quaternion.AngleAxis(inputYaw, Vector3.up);
+            Quaternion yawRot   = Quaternion.AngleAxis(inputYaw,   Vector3.up);
             Quaternion pitchRot = Quaternion.AngleAxis(inputPitch, Vector3.right);
 
             headRotation = yawRot * pitchRot;
         }
 
-        // 3rd person
-        float orbitYaw = inputYaw * yawOrbitWeight;
-        float orbitPitch = inputPitch * pitchOrbitWeight;
+        // --- 3rd person ---
+        // Scale the orbit angles by sensitivity independently of raw input
+        float orbitYaw   = inputYaw   * yawOrbitWeight   * orbitSensitivity;
+        float orbitPitch = inputPitch * pitchOrbitWeight  * orbitSensitivity;
 
-        float yawRad = orbitYaw * Mathf.Deg2Rad;
+        float yawRad   = orbitYaw   * Mathf.Deg2Rad;
         float pitchRad = orbitPitch * Mathf.Deg2Rad;
 
         Vector3 localOrbit;
@@ -121,14 +118,27 @@ public class cameraMovement3D : MonoBehaviour
         Quaternion thirdPersonRot;
         if (gameSettings.useTrackIR)
         {
-            thirdPersonRot = worldLookRotation * Quaternion.Inverse(headRotation);
+            // worldLookRotation already points back at centerPoint based on the
+            // *scaled* orbit position.  The physical head tracker will rotate the
+            // camera object on top of this, so we pre-cancel the raw head rotation
+            // and re-apply only the sensitivity-scaled portion so the net rotation
+            // the tracker adds equals (scaled - raw), keeping the view centred.
+            Quaternion rawHead    = Quaternion.Euler(inputPitch, inputYaw, 0f);
+            Quaternion scaledHead = Quaternion.Euler(
+                inputPitch * orbitSensitivity,
+                inputYaw   * orbitSensitivity,
+                0f
+            );
+            // Remove raw, re-add scaled: net correction the tracker must fight
+            Quaternion compensation = Quaternion.Inverse(rawHead) * scaledHead;
+            thirdPersonRot = worldLookRotation * compensation;
         }
         else
         {
             thirdPersonRot = worldLookRotation;
         }
 
-        // 1st person
+        // --- 1st person ---
         Vector3 firstPersonPos =
             playerObject.transform.position +
             playerObject.transform.rotation * firstPersonOffset;
@@ -136,7 +146,7 @@ public class cameraMovement3D : MonoBehaviour
         Quaternion firstPersonRot =
             playerObject.transform.rotation * headRotation;
 
-        // blending
+        // --- blend ---
         Vector3 blendedPos = Vector3.Lerp(
             firstPersonPos,
             thirdPersonPos,
