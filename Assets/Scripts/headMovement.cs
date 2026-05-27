@@ -254,8 +254,8 @@ public class headMovement : MonoBehaviour
 
             zMove();
             xMove();
-            //rotPlayer();
-            mouseRotatePlayer();
+            rotPlayer();
+            //mouseRotatePlayer();
 
             // Keep player grounded
             if (controller.isGrounded && velocity.y < 0f)

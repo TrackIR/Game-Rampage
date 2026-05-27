@@ -365,7 +365,7 @@ public class movement : MonoBehaviour
             zMove();
             xMove();
             rotPlayer();
-            jump();
+            
 
             if (controller.isGrounded && velocity.y < 0f)
             {
@@ -373,6 +373,7 @@ public class movement : MonoBehaviour
             }
             velocity.y += gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
+            jump();
         }
         else
         {
