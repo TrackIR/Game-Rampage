@@ -21,6 +21,7 @@ public class PlayerAttack : MonoBehaviour
     public int ultimateThreshold = 250;
     public int ultimateLength = 20;
     public float ultimateSlowmoSpeed = 0.25f;
+    public int ultimateScore = 0;
 
     [Range(0f, 1f)]
     public float beamWeight = 0.01f;
@@ -29,6 +30,7 @@ public class PlayerAttack : MonoBehaviour
     public Transform ultSpawnPoint;
     public float ultLaserDuration = 7f;
     public int ultLaserDamage = 10;
+    
 
     [Header("Movement / Player References")]
     public movement movement;
@@ -190,18 +192,20 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    public void IncreaseUltimateScore(int score)
+    {
+        if (!isInUltimate) ultimateScore += score;
+    }
+
     void checkScore()
     {
         if (uiManager == null) return;
 
-        int score = uiManager.score;
-        int currentLevel = score / ultimateThreshold;
-
-        if (currentLevel > lastUltimateLevel)
+        if (!ultimateCharged && ultimateScore >= ultimateThreshold)
         {
             ultimateCharged = true;
+            ultimateScore = 0;
             Debug.Log("Ult ready");
-            lastUltimateLevel = currentLevel;
         }
 
         float progressPercent = 0f;
@@ -216,7 +220,7 @@ public class PlayerAttack : MonoBehaviour
         else
         {
             // Calculate how far along the player is to the NEXT ultimate charge
-            int progress = score - (lastUltimateLevel * ultimateThreshold);
+            int progress = ultimateScore / ultimateThreshold * 100;
             if (progress < 0) progress = 0;
 
             uiManager.UpdateUlt(progress, ultimateThreshold);
