@@ -74,7 +74,6 @@ public class headMovement : MonoBehaviour
         if (gameSettings != null)
         {
             useTrackIR = gameSettings.useTrackIR;
-            useTrackIR = true;
         }
 
         controller = GetComponent<CharacterController>();
