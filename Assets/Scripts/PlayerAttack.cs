@@ -205,7 +205,6 @@ public class PlayerAttack : MonoBehaviour
         {
             ultimateCharged = true;
             ultimateScore = 0;
-            Debug.Log("Ult ready");
         }
 
         float progressPercent = 0f;
@@ -220,11 +219,8 @@ public class PlayerAttack : MonoBehaviour
         else
         {
             // Calculate how far along the player is to the NEXT ultimate charge
-            int progress = ultimateScore / ultimateThreshold * 100;
-            if (progress < 0) progress = 0;
-
-            uiManager.UpdateUlt(progress, ultimateThreshold);
-            progressPercent = (float)progress / ultimateThreshold;
+            uiManager.UpdateUlt(ultimateScore, ultimateThreshold);
+            progressPercent = (float)ultimateScore / ultimateThreshold;
         }
 
         UpdateOverheat(progressPercent);
