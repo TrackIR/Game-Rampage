@@ -129,7 +129,6 @@ public class ManageUI : MonoBehaviour
         if (ultBarObjectFill != null) ultBarObjectFill.fillAmount = 0f;
 
         ChangeScore(0);
-        timerIsRunning = true;
     }
 
     void Update()
@@ -151,8 +150,8 @@ public class ManageUI : MonoBehaviour
 
             if (isTradeShow)
             {
-                // ESCALATION LOGIC: Threat Level increases every 20 seconds. Max is 5.
-                wantedLevel = Mathf.Min(5, 1 + Mathf.FloorToInt(timeRemaining / 20f));
+                // ESCALATION LOGIC: Threat Level increases every 30 seconds. Max is 5.
+                wantedLevel = Mathf.Min(5, 1 + Mathf.FloorToInt(timeRemaining / 30f));
                 DisplayWantedLevel();
             }
             else
@@ -273,7 +272,7 @@ public class ManageUI : MonoBehaviour
                 case 5:
                 default:
                     // At max level
-                    timerObject.text = "THREAT LEVEL: <color=red>MAXIMUM</color>";
+                    timerObject.text = "THREAT LEVEL: <color=red>MAX</color>";
                     timerObject.color = Color.red;
                     break;
             }

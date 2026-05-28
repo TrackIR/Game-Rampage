@@ -56,6 +56,11 @@ public class TrackIRMenuNav : MonoBehaviour
 
     void Start()
     {
+        if (input == null)
+        {
+            input = new PlayerInput();
+        }
+
         // Search the whole scene for TrackIR, not just this one GameObject
         trackIR = GetComponent<TrackIRComponent>();
         if (trackIR == null)

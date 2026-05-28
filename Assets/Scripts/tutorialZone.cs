@@ -14,5 +14,6 @@ public class tutorialZone : MonoBehaviour
         {
             TutorialTextParent.SetActive(false);
         }
+        GameManager.Instance.StartSecondGamePhase();
     }
 }

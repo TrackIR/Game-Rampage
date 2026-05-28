@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public GameSettings gameSettings;
-    public GameObject[] gamePhaseObjects;
+    public GameObject[] secondPhaseObjects;
     public GameObject camTarget;
     public GameObject indicatorObject;
     public GameObject InvisibleWalls;
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
         }
         UImanager = Canvas.GetComponent<Canvas>();
         camScript = TrackIRCam.GetComponent<cameraMovement3D>();
-        foreach (GameObject obj in gamePhaseObjects)
+        foreach (GameObject obj in secondPhaseObjects)
         {
             obj.SetActive(false);
         }
@@ -47,16 +47,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartGamePhase()
+    public void StartFirstGamePhase()
     {
         if (tutorialCompleted) return;
 
         tutorialCompleted = true;
 
-        foreach (GameObject obj in gamePhaseObjects)
-        {
-            obj.SetActive(true);
-        }
         indicatorObject.SetActive(false);
         InvisibleWalls.SetActive(false);
         if (gameSettings.useTrackIR)
@@ -67,5 +63,14 @@ public class GameManager : MonoBehaviour
         {
             UImanager.GetComponent<ManageUI>().SetTutorialText(jumpAction.GetBindingDisplayString() + " to jump over the wall");
         }
+    }
+
+    public void StartSecondGamePhase()
+    {
+        foreach (GameObject obj in secondPhaseObjects)
+        {
+            obj.SetActive(true);
+        }
+        UImanager.GetComponent<ManageUI>().timerIsRunning = true;
     }
 }
