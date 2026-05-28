@@ -1971,7 +1971,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 712188103}
   - {fileID: 981979787}
   - {fileID: 414299502}
   - {fileID: 415627246}
@@ -1979,6 +1978,7 @@ RectTransform:
   - {fileID: 1795611745}
   - {fileID: 1092899292}
   - {fileID: 3508497}
+  - {fileID: 712188103}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -46911,12 +46911,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5632828015545096141, guid: 81a67b02c0518a348a1de1c792712e87, type: 3}
       propertyPath: rollSpeed
-      value: 1000
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 5632828015545096141, guid: 81a67b02c0518a348a1de1c792712e87, type: 3}
       propertyPath: trackIRCam
       value: 
       objectReference: {fileID: 468192960}
+    - target: {fileID: 5632828015545096141, guid: 81a67b02c0518a348a1de1c792712e87, type: 3}
+      propertyPath: useTrackIR
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5632828015545096141, guid: 81a67b02c0518a348a1de1c792712e87, type: 3}
       propertyPath: TrackIRRoot
       value: 
@@ -46941,6 +46945,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 2d8a0cbcd204c3745913d5d049e16095, type: 2}
+    - target: {fileID: 8716708455178891206, guid: 81a67b02c0518a348a1de1c792712e87, type: 3}
+      propertyPath: m_StepOffset
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4148375254171495637, guid: 81a67b02c0518a348a1de1c792712e87, type: 3}
@@ -52649,7 +52657,7 @@ PrefabInstance:
       objectReference: {fileID: 468192960}
     - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: useTrackIR
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: TrackIRRoot
@@ -52670,6 +52678,14 @@ PrefabInstance:
     - target: {fileID: 8158711526878704080, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8580594950694288102, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: m_Height
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8580594950694288102, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: m_StepOffset
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9038687510818706343, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: m_Camera
