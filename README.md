@@ -4,11 +4,14 @@
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#summary">Summary</a></li>
-    <li><a href="#how-to-run">How to Run</a></li>
-    <li><a href="#how-to-build">How to Build</a></li>
-    <li><a href="#gameplay-loop">Gameplay Loop</a></li>
-    <li><a href="#the-team">The Team</a></li>
-    <li><a href="#project-partners">Project Partners</a></li>
+    <li><a href="#our-team">Summary</a></li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
     <li><a href="#license">License</a></li>
   </ol>
 </details>
@@ -54,10 +57,14 @@ Pranav Kulkarni [@kulkpranav](https://github.com/kulkpranav)
 
 ## Project Partners
 
-Ryan Mann [@mannry22](https://github.com/mannry22)
+Ryan Mann [@manry22](https://github.com/manry22)
 
 Anthony Lazzaro [@skynab](https://github.com/skynab)
 
+<!-- LICENSE -->
 ## License
+All non-third party code included in this repository is jointly owned by the team mentioned above and NaturalPoint Inc. DBA OptiTrack.
 
-All original code in this repository is jointly owned by the aforementioned team and NaturalPoint Inc. (DBA OptiTrack).
+See `LICENSE.txt` in the "licenses" folder for more information.
+
+Third party licenses can also be found in the "licenses" folder named accordingly.
