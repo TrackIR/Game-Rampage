@@ -3,30 +3,18 @@ using System.IO;
 
 public class ManageScoreFile : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void WriteScoreFile(string playerName, int score)
     {
-        WriteScoreFile(10000); // Temp value to test, use function in other scripts in practice
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void WriteScoreFile(int score)
-    {
-        string path = Application.dataPath + "/score.txt";
+        string path = Application.dataPath + "/leaderboard.csv";
 
         if (!File.Exists(path))
         {
-            File.WriteAllText(path, "Score Log:\n\n");
+            File.WriteAllText(path, "name,score,time");
         }
 
-        string content = "Score of run on " + System.DateTime.Now + ": " + score + "\n";
+        // CSV format: Name, Score, Time
+        string content = $"\n{playerName},{score},{System.DateTime.Now}";
 
         File.AppendAllText(path, content);
     }
-
 }

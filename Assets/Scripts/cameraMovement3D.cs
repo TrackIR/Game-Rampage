@@ -1,5 +1,4 @@
 using System;
-using Mono.Cecil;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -13,18 +12,24 @@ public class cameraMovement3D : MonoBehaviour
     public GameObject playerObject;
     public bool is3rdPerson = true;
 
-    [Header("3rd Person Settings")]
-    public float distance = 5;
-    public float verticalOffset = 8;
-    public float horizontalOffsetWeight = 20;
-    public float verticalOffsetWeight = 20;
-    public float depthOffsetWeight = 25;
-    public float smoothing = 5;
+    [Header("3rd Person Orbit Settings")]
+    public float distance = 5f;
+    public Vector3 centerOffset = new Vector3(0f, 2f, 0f);
+    public float yawOrbitWeight = 1f;
+    public float pitchOrbitWeight = 1f;
+    public float lookRotationWeight = 1f;
+
+    public float positionSmoothing = 5f;
+    public float rotationSmoothing = 5f;
 
     [Header("1st Person Settings")]
-    public float xOffset;
-    public float yOffset;
-    public float zOffset;
+    public Vector3 firstPersonOffset;
+
+    [Header("Transition")]
+    [Range(0f, 1f)]
+    public float cameraBlend = 1f;   // 1 = 3rd person, 0 = 1st person
+    public float transitionSpeed = 3f;
+    private float targetBlend = 1f;
 
     void Start()
     {
@@ -41,64 +46,90 @@ public class cameraMovement3D : MonoBehaviour
         return angle;
     }
 
-    // moves the camera target's empty
-    void Move3rdCamTargetTransform()
+    void MoveBlendedCamera()
     {
-        Vector3 headRot = trackIR.LatestPoseOrientation.eulerAngles; // data from trackIR
-        Vector3 targetPos;                                           // target position for camera
+        // 3rd person
 
-        // wrap all angles from trackIR to (-180, 180)
-        headRot.x = WrapAngle(trackIRRoot.transform.rotation.x);
-        headRot.y = WrapAngle(trackIRRoot.transform.rotation.y);
-        headRot.z = WrapAngle(trackIRRoot.transform.rotation.z);
+        Quaternion childRotation = trackIR.LatestPoseOrientation;
 
-        // move target position based on head rotation
-        targetPos.x = -headRot.y * horizontalOffsetWeight; // horizonal
-        targetPos.y = headRot.x * verticalOffsetWeight;    // vertical
-        targetPos.z = headRot.x * depthOffsetWeight;       // depth
+        Vector3 headEuler = childRotation.eulerAngles;
+        float headYaw = WrapAngle(headEuler.y);
+        float headPitch = WrapAngle(headEuler.x);
 
-        // orbit position offset
-        float yawRads = math.radians(playerObject.transform.eulerAngles.y); // get y axis rotation in radians
-        float xOffset = math.sin(yawRads) * distance;
-        float zOffset = math.cos(yawRads) * distance;
+        float orbitYaw = headYaw * yawOrbitWeight;
+        float orbitPitch = headPitch * pitchOrbitWeight;
 
-        Vector3 orbitOffset = new Vector3(xOffset, verticalOffset, zOffset);
+        float yawRad = orbitYaw * Mathf.Deg2Rad;
+        float pitchRad = orbitPitch * Mathf.Deg2Rad;
 
-        // transforms the target position into proper rotated world space
-        targetPos = playerObject.transform.rotation * targetPos;
+        Vector3 localOrbit;
+        localOrbit.x = distance * Mathf.Cos(pitchRad) * Mathf.Sin(yawRad);
+        localOrbit.y = distance * Mathf.Sin(pitchRad);
+        localOrbit.z = distance * Mathf.Cos(pitchRad) * Mathf.Cos(yawRad);
 
-        // take into account player's position and orbit offset
-        targetPos = playerObject.transform.position + targetPos + orbitOffset;
+        Vector3 centerPoint =
+            playerObject.transform.position +
+            playerObject.transform.rotation * centerOffset;
 
-        // clamp target position above ground
-        targetPos.y = Mathf.Clamp(targetPos.y, 0.1f, 100f);
+        Vector3 worldOrbitOffset =
+            playerObject.transform.rotation * localOrbit;
 
-        // smoothly lerp position to target position
-        Vector3 smoothPos = Vector3.Lerp(transform.position, targetPos, smoothing * Time.deltaTime);
+        Vector3 thirdPersonPos = centerPoint + worldOrbitOffset;
 
-        // set position to smoothed position
-        transform.position = smoothPos;
+        Vector3 lookDir = (centerPoint - thirdPersonPos).normalized;
+        Quaternion worldLookRotation =
+            Quaternion.LookRotation(lookDir, Vector3.up);
 
-        // copies player's y axis rotation to camera rotation
-        transform.rotation = Quaternion.Euler(0f, playerObject.transform.rotation.eulerAngles.y, 0f);
-    }
+        worldLookRotation = Quaternion.Slerp(
+            Quaternion.identity,
+            worldLookRotation,
+            lookRotationWeight
+        );
+
+        Quaternion thirdPersonRot =
+            worldLookRotation * Quaternion.Inverse(childRotation);
 
 
-    void Move1stCamTargetTransform()
-    {
-        Vector3 targetPos = new Vector3(xOffset, yOffset, zOffset);
-        transform.position = playerObject.transform.position + targetPos;
+        // 1st person
+
+        Vector3 firstPersonPos =
+            playerObject.transform.position +
+            playerObject.transform.rotation * firstPersonOffset;
+
+        Quaternion firstPersonRot =
+            playerObject.transform.rotation;
+
+
+        // blend
+
+        Vector3 blendedPos = Vector3.Lerp(
+            firstPersonPos,
+            thirdPersonPos,
+            cameraBlend
+        );
+
+        Quaternion blendedRot = Quaternion.Slerp(
+            firstPersonRot,
+            thirdPersonRot,
+            cameraBlend
+        );
+
+        transform.position = blendedPos;
+        transform.rotation = blendedRot;
     }
 
     void Update()
     {
-        if (is3rdPerson)
-        {
-            Move3rdCamTargetTransform();
-        }
-        else
-        {
-            Move1stCamTargetTransform();
-        }
+        // determine target blend
+        targetBlend = is3rdPerson ? 1f : 0f;
+
+        // smooth blend value
+        cameraBlend = Mathf.MoveTowards(
+            cameraBlend,
+            targetBlend,
+            transitionSpeed * Time.deltaTime
+        );
+
+        MoveBlendedCamera();
     }
 }

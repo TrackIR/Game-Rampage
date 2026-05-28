@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 3
   tags:
   - BuildingTile
+  - PlayerHead
+  - HeliBody
   layers:
   - Default
   - TransparentFX
@@ -12,13 +14,13 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Building
+  - Enemy
+  - UI Clickable
+  - player
+  - enemySpawner
+  - Flight
+  - Projectile
   - 
   - 
   - 

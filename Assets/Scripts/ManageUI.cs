@@ -3,15 +3,6 @@ using TMPro; //Using this to update text
 
 public class ManageUI : MonoBehaviour
 {
-
-    // Audio Sources and Settings
-    [Header("Audio")]
-    public AudioSource scoreAudio; // Listing them like this so only one header is displayed in the editor
-    public AudioSource healthGainAudio, healthLostAudio;
-
-    [Range(0f, 1f)]
-    public float volume = 1f; // Change the sound of the audio sources
-
     // Health Variables
     [Header("Health  Variables")]
     public TMP_Text healthObject;
@@ -19,7 +10,7 @@ public class ManageUI : MonoBehaviour
     public int maxHealth = 100;
 
     [HideInInspector] // Can be used by other scripts, but doesnt show up
-    private int health = 100;
+    private float health = 100f;
 
     // Score Variables
     [Header("Score Variables")]
@@ -56,14 +47,7 @@ public class ManageUI : MonoBehaviour
         }
     }
 
-    public void SetVolunm(float amount)
-    {
-        print("Setting the volume to " + amount + "\n");
-        volume = amount;
-    }
-
-
-    public void ChangeHealth(int amount)
+    public void ChangeHealth(float amount)
     {
         health += amount;
 
@@ -74,17 +58,6 @@ public class ManageUI : MonoBehaviour
         if (health > maxHealth)
         {
             health = maxHealth;
-        }
-
-        if (amount > 0) // Play the sound for gaining health
-        {
-            healthGainAudio.volume = volume;
-            healthGainAudio.Play(0);
-        }
-        else if (amount < 0) // Play the sound for losing health
-        {
-            healthLostAudio.volume = volume;
-            healthLostAudio.Play(0);
         }
 
         UpdateHealthBar();
@@ -112,8 +85,10 @@ public class ManageUI : MonoBehaviour
 
         if (amount != 0)
         {
-            scoreAudio.volume = volume;
-            scoreAudio.Play(0);
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.playAudio(AudioManager.Instance.gainScore);
+            }
         }
 
         string scoreString = "Score: " + score;
@@ -163,6 +138,7 @@ public class ManageUI : MonoBehaviour
     public void SetDifficulty(float amount)
     {
         difficulty = amount;
+
     }
 
 
