@@ -111,7 +111,6 @@ public class movement : MonoBehaviour
         if (gameSettings != null)
         {
             useTrackIR = gameSettings.useTrackIR;
-            useTrackIR = true;
         }
 
         controller = GetComponent<CharacterController>();
