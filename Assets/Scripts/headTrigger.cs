@@ -153,7 +153,7 @@ public class headTrigger : MonoBehaviour
         // play audio
         playerAudio.PlayStandUp();
 
-        GameManager.Instance.StartGamePhase();
+        GameManager.Instance.StartFirstGamePhase();
 
     }
 
