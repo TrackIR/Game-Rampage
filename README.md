@@ -57,6 +57,10 @@ Pranav Kulkarni [@kulkpranav](https://github.com/kulkpranav)
 
 ## Project Partners
 
+Ryan Mann [@manry22](https://github.com/manry22)
+
+Anthony Lazzaro [@skynab](https://github.com/skynab)
+
 <!-- LICENSE -->
 ## License
 All non-third party code included in this repository is jointly owned by the team mentioned above and NaturalPoint Inc. DBA OptiTrack.
