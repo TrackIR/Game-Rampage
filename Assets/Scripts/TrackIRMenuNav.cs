@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class TrackIRMenuNav : MonoBehaviour
 {
@@ -11,13 +12,17 @@ public class TrackIRMenuNav : MonoBehaviour
     public GameObject curserObject;
     public KeyCode clickKey = KeyCode.Space;
     public float sensitivity = 1;
-
+    private PlayerInput input;
+    private InputAction click;
     TrackIRComponent trackIR;
     EventSystem eventSystem;
     PointerEventData pointerData;
 
     private float lastClickTime = 0f;
     private float clickCooldown = 0.1f;
+
+    private string TIRclickKeyPath = "<Keyboard>/pgDown";
+    private string mouseClickPath = "<Mouse>/leftButton";
 
     float WrapAngle(float angle)
     {
@@ -67,6 +72,16 @@ public class TrackIRMenuNav : MonoBehaviour
 
         eventSystem = EventSystem.current;
         pointerData = new PointerEventData(eventSystem);
+
+        input.Menu.Enable();
+        if (gameSettings != null && gameSettings.useTrackIR)
+        {
+           input.Menu.Click.ApplyBindingOverride(TIRclickKeyPath);
+        }
+        else
+        {
+            input.Menu.Click.ApplyBindingOverride(mouseClickPath);
+        }
 
         // hide cursor
         Cursor.visible = false;
@@ -123,7 +138,7 @@ public class TrackIRMenuNav : MonoBehaviour
         }
 
         // Click on element
-        if (Input.GetKeyDown(clickKey))
+        if (click.triggered)
         {
             if (eventSystem.currentSelectedGameObject == uiTarget)
             {
@@ -152,7 +167,7 @@ public class TrackIRMenuNav : MonoBehaviour
             Vector2 mousePos = Input.mousePosition;
             curserObject.transform.position = mousePos;
 
-            if (Input.GetKeyDown(clickKey) || Input.GetMouseButtonDown(0))
+            if (click.triggered)
             {
                 GameObject uiTarget = GetSelectableAtPosition(mousePos);
                 if (uiTarget != null && AudioManager.Instance != null && AudioManager.Instance.menuClick != null)

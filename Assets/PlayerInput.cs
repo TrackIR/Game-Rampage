@@ -148,17 +148,37 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""cca6a2e2-a878-4ade-9694-e4aff715c823"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
                     ""id"": ""f82642df-cd0a-42ac-98b8-30597e118069"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Keyboard>/pageDown"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d3309dba-85ad-4393-be4c-b01785cd5f02"",
+                    ""path"": ""<Keyboard>/pageUp"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -392,6 +412,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         // TrackIR
         m_TrackIR = asset.FindActionMap("TrackIR", throwIfNotFound: true);
         m_TrackIR_Attack = m_TrackIR.FindAction("Attack", throwIfNotFound: true);
+        m_TrackIR_Jump = m_TrackIR.FindAction("Jump", throwIfNotFound: true);
         // KeyboardMouse
         m_KeyboardMouse = asset.FindActionMap("KeyboardMouse", throwIfNotFound: true);
         m_KeyboardMouse_LookDelta = m_KeyboardMouse.FindAction("Look Delta", throwIfNotFound: true);
@@ -589,6 +610,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_TrackIR;
     private List<ITrackIRActions> m_TrackIRActionsCallbackInterfaces = new List<ITrackIRActions>();
     private readonly InputAction m_TrackIR_Attack;
+    private readonly InputAction m_TrackIR_Jump;
     /// <summary>
     /// Provides access to input actions defined in input action map "TrackIR".
     /// </summary>
@@ -604,6 +626,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "TrackIR/Attack".
         /// </summary>
         public InputAction @Attack => m_Wrapper.m_TrackIR_Attack;
+        /// <summary>
+        /// Provides access to the underlying input action "TrackIR/Jump".
+        /// </summary>
+        public InputAction @Jump => m_Wrapper.m_TrackIR_Jump;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -633,6 +659,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
         }
 
         /// <summary>
@@ -647,6 +676,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
         }
 
         /// <summary>
@@ -856,6 +888,13 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAttack(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Jump" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnJump(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "KeyboardMouse" which allows adding and removing callbacks.
