@@ -7,10 +7,16 @@ public class RobotOverheat : MonoBehaviour
     public float maxEmissionIntensity = 5f;
     public float minEmissionIntensity = 0.1f;
     public float pulseSpeed = 3f; // Speed of the pulsation
-    public float overheatThreshold = 0.9f; // Start pulsating at 90% charge
+    public float overheatThreshold = 0.75f; // Start pulsating at 75% charge
 
     private Renderer[] robotRenderers;
     private float currentPercent = 0f;
+
+    // Base settings for calculating how much visuals should scale
+    // Visual effects will increase intensity as ultimate bar increases
+    private float basePulseSpeed = 0.0f;
+    private float baseMaxEmissionIntensity = 0.0f;
+    private float baseMinEmissionIntensity = 0.0f;
 
     void Start()
     {
@@ -23,6 +29,8 @@ public class RobotOverheat : MonoBehaviour
                 m.EnableKeyword("_EMISSION");
             }
         }
+
+        basePulseSpeed = pulseSpeed;
     }
 
     void Update()
@@ -42,8 +50,15 @@ public class RobotOverheat : MonoBehaviour
         float intensity = 0f;
 
         // If above the threshold, start pulsating
+        
         if (currentPercent >= overheatThreshold)
         {
+
+            // Scale overheat visuals by current percent, building up to max
+            pulseSpeed = basePulseSpeed * currentPercent;
+            minEmissionIntensity = baseMinEmissionIntensity * currentPercent;
+            maxEmissionIntensity = baseMaxEmissionIntensity * currentPercent;
+
             // Use a sine wave to create a pulse effect
             float pulse = (Mathf.Sin(Time.time * pulseSpeed) + 1f) / 2f;
             
