@@ -273,7 +273,7 @@ public class ManageUI : MonoBehaviour
                 case 5:
                 default:
                     // At max level
-                    timerObject.text = "THREAT LEVEL: <color=red>MAXIMUM</color>";
+                    timerObject.text = "THREAT LEVEL: <color=red>MAX</color>";
                     timerObject.color = Color.red;
                     break;
             }
