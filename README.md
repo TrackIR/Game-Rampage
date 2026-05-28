@@ -58,13 +58,9 @@ Pranav Kulkarni [@kulkpranav](https://github.com/kulkpranav)
 ## Project Partners
 
 <!-- LICENSE -->
-# License
+## License
 All non-third party code included in this repository is jointly owned by the team mentioned above and NaturalPoint Inc. DBA OptiTrack.
 
 See `LICENSE.txt` in the "licenses" folder for more information.
 
 Third party licenses can also be found in the "licenses" folder named accordingly.
-
-## License
-
-All original code in this repository is jointly owned by the aforementioned team and NaturalPoint Inc. (DBA OptiTrack).
