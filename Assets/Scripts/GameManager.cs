@@ -6,7 +6,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public GameSettings gameSettings;
-    public GameObject[] secondPhaseObjects;
     public GameObject camTarget;
     public GameObject indicatorObject;
     public GameObject InvisibleWalls;
@@ -31,10 +30,6 @@ public class GameManager : MonoBehaviour
         }
         UImanager = Canvas.GetComponent<Canvas>();
         camScript = TrackIRCam.GetComponent<cameraMovement3D>();
-        foreach (GameObject obj in secondPhaseObjects)
-        {
-            obj.SetActive(false);
-        }
         input = new PlayerInput();
         jumpAction = input.KeyboardMouse.Jump;
     }
@@ -67,10 +62,7 @@ public class GameManager : MonoBehaviour
 
     public void StartSecondGamePhase()
     {
-        foreach (GameObject obj in secondPhaseObjects)
-        {
-            obj.SetActive(true);
-        }
         UImanager.GetComponent<ManageUI>().timerIsRunning = true;
+        
     }
 }
