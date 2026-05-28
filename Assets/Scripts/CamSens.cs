@@ -1,21 +1,28 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro; // Add this for TextMeshPro
 
 public class CamSens : MonoBehaviour
 {
-    private Slider camSens;
     public GameSettings gameSettings;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private TextMeshProUGUI valueText; // Drag your text component here
+
     void Start()
-    {   
-        camSens = GetComponent<Slider>();
+    {
+        Slider camSens = GetComponent<Slider>();
         camSens.value = gameSettings.camSens;
+
+        // Initialize the text display right away
+        updateGameSettings(camSens.value);
+
         camSens.onValueChanged.AddListener(updateGameSettings);
     }
 
-    // Update is called once per frame
     public void updateGameSettings(float sensitivity)
     {
-            gameSettings.camSens = sensitivity;
+        gameSettings.camSens = sensitivity;
+
+        // Short, single-line text update (formatted to 2 decimal places)
+        if (valueText != null) valueText.text = $"Sens: {sensitivity:F2}";
     }
 }
