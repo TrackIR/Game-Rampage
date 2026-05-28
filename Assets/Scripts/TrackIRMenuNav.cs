@@ -20,7 +20,7 @@ public class TrackIRMenuNav : MonoBehaviour
     private float lastClickTime = 0f;
     private float clickCooldown = 0.1f;
 
-    private string TIRclickKeyPath = "<Keyboard>/pgDown";
+    private string TIRclickKeyPath = "<Keyboard>/pageDown";
     private string mouseClickPath = "<Mouse>/leftButton";
 
     float WrapAngle(float angle)
@@ -60,7 +60,7 @@ public class TrackIRMenuNav : MonoBehaviour
         trackIR = GetComponent<TrackIRComponent>();
         if (trackIR == null)
         {
-            trackIR = FindObjectOfType<TrackIRComponent>();
+            trackIR = FindFirstObjectByType<TrackIRComponent>();
         }
 
         // Warn if GameSettings is missing
