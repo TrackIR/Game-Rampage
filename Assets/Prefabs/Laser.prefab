@@ -10038,7 +10038,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LaserColorShift
   startColor: {r: 0, g: 0.69803923, b: 1, a: 1}
-  endColor: {r: 1, g: 0.5137255, b: 0, a: 1}
+  endColor: {r: 0, g: 0.4366951, b: 1, a: 1}
   duration: 1
 --- !u!4 &4054822032384444158 stripped
 Transform:
@@ -10063,5 +10063,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LaserColorShift
   startColor: {r: 1, g: 0.5117959, b: 0, a: 1}
-  endColor: {r: 0, g: 0.6973052, b: 1, a: 1}
+  endColor: {r: 1, g: 0.23089883, b: 0, a: 1}
   duration: 1
