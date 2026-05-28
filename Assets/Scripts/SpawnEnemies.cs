@@ -25,7 +25,6 @@ public class SpawnEnemies : MonoBehaviour
     void Start()
     {
         navMeshSurface.BuildNavMesh();
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         scalingFactor = settings.difficulty == "Easy" ? 1 : settings.difficulty == "Hard" ? 3 : 2;
         spawnCount = Mathf.FloorToInt(scalingFactor * 2); // Adjust spawn count based on difficulty
         spawnTimer = spawnRate; // So enemies start spawning immediately
@@ -33,9 +32,15 @@ public class SpawnEnemies : MonoBehaviour
 
     void Update()
     {
-        SpawnOnTimer();
+        if (ui.timerIsRunning)
+        {
+            if(playerTransform == null)
+            {
+                playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+            }
+            SpawnOnTimer();
+        }
     }
-
     void SpawnOnTimer()
     {
         // Default settings for standard game modes
