@@ -10,10 +10,9 @@ public class TrackIRMenuNav : MonoBehaviour
     [Header("Settings")]
     public GameSettings gameSettings;
     public GameObject curserObject;
-    public KeyCode clickKey = KeyCode.Space;
     public float sensitivity = 1;
     private PlayerInput input;
-    private InputAction click;
+    private InputAction Click;
     TrackIRComponent trackIR;
     EventSystem eventSystem;
     PointerEventData pointerData;
@@ -82,6 +81,7 @@ public class TrackIRMenuNav : MonoBehaviour
         {
             input.Menu.Click.ApplyBindingOverride(mouseClickPath);
         }
+        Click = input.Menu.Click;
 
         // hide cursor
         Cursor.visible = false;
@@ -138,7 +138,7 @@ public class TrackIRMenuNav : MonoBehaviour
         }
 
         // Click on element
-        if (click.triggered)
+        if (Click.triggered)
         {
             if (eventSystem.currentSelectedGameObject == uiTarget)
             {
@@ -167,7 +167,7 @@ public class TrackIRMenuNav : MonoBehaviour
             Vector2 mousePos = Input.mousePosition;
             curserObject.transform.position = mousePos;
 
-            if (click.triggered)
+            if (Click.triggered)
             {
                 GameObject uiTarget = GetSelectableAtPosition(mousePos);
                 if (uiTarget != null && AudioManager.Instance != null && AudioManager.Instance.menuClick != null)
