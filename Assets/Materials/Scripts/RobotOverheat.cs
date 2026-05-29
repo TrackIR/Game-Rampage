@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class RobotOverheat : MonoBehaviour
 {
@@ -7,9 +8,9 @@ public class RobotOverheat : MonoBehaviour
     public float maxEmissionIntensity = 5f;
     public float minEmissionIntensity = 0.1f;
     public float pulseSpeed = 3f; // Speed of the pulsation
-    public float overheatThreshold = 0.75f; // Start pulsating at 75% charge
+    public float overheatThreshold = 0.9f; // Start pulsating at 90% charge
 
-    private Renderer[] robotRenderers;
+    private List<Material> robotMaterials = new List<Material>();
     private float currentPercent = 0f;
 
     // Base settings for calculating how much visuals should scale
@@ -21,16 +22,20 @@ public class RobotOverheat : MonoBehaviour
     void Start()
     {
         // Get all renderers to apply the overheat effect
-        robotRenderers = GetComponentsInChildren<Renderer>();
+        Renderer[] robotRenderers = GetComponentsInChildren<Renderer>();
         foreach (Renderer r in robotRenderers)
         {
             foreach (Material m in r.materials)
             {
                 m.EnableKeyword("_EMISSION");
+                robotMaterials.Add(m);
             }
         }
 
+        // Store base values for scaling later
         basePulseSpeed = pulseSpeed;
+        baseMaxEmissionIntensity = maxEmissionIntensity;
+        baseMinEmissionIntensity = minEmissionIntensity;
     }
 
     void Update()
@@ -45,7 +50,7 @@ public class RobotOverheat : MonoBehaviour
 
     private void UpdateVisuals()
     {
-        if (robotRenderers == null) return;
+        if (robotMaterials.Count == 0) return;
 
         float intensity = 0f;
 
@@ -69,12 +74,9 @@ public class RobotOverheat : MonoBehaviour
         // Apply the overheat color with the calculated intensity
         Color finalColor = overheatColor * intensity;
 
-        foreach (Renderer r in robotRenderers)
+        foreach (Material m in robotMaterials)
         {
-            foreach (Material m in r.materials)
-            {
-                m.SetColor("_EmissionColor", finalColor);
-            }
+            m.SetColor("_EmissionColor", finalColor);
         }
     }
 }
