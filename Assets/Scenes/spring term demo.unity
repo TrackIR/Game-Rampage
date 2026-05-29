@@ -1973,12 +1973,12 @@ RectTransform:
   m_Children:
   - {fileID: 981979787}
   - {fileID: 414299502}
-  - {fileID: 415627246}
   - {fileID: 207788492}
   - {fileID: 1795611745}
   - {fileID: 1092899292}
   - {fileID: 3508497}
   - {fileID: 712188103}
+  - {fileID: 415627246}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
