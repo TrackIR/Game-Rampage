@@ -66,7 +66,7 @@ public class PlayerHealth : MonoBehaviour
             UImanager.GetComponent<ManageUI>().ChangeHealth(currentHealth);
         }
 
-        Debug.Log(gameObject.name + " health: " + currentHealth);
+        // Debug.Log(gameObject.name + " health: " + currentHealth);
 
         // Play damage animation
         anim.SetTrigger("Damage");
@@ -107,7 +107,7 @@ public class PlayerHealth : MonoBehaviour
             UImanager.GetComponent<ManageUI>().ChangeHealth(currentHealth);
         }
 
-        Debug.Log("Restored " + amount + " Health. Current: " + currentHealth);
+        // Debug.Log("Restored " + amount + " Health. Current: " + currentHealth);
     }
 
     void Die()
@@ -117,7 +117,7 @@ public class PlayerHealth : MonoBehaviour
 
         playerAudio.PlayDeath();
         anim.SetTrigger("Destroy");
-        Debug.Log(gameObject.name + " has died!");
+        // Debug.Log(gameObject.name + " has died!");
 
         if (playerHealthCanvas != null) playerHealthCanvas.SetActive(false);
 
