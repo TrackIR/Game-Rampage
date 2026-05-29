@@ -34,6 +34,7 @@ public class PlayerAttack : MonoBehaviour
     public movement movement;
     public cameraMovement3D cameraMovement;
     public GameObject playerHead;
+    private PlayerHealth playerHealth;
 
     [Header("References / Animation")]
     public PlayerAudio playerAudio;
@@ -128,6 +129,7 @@ public class PlayerAttack : MonoBehaviour
 
         // Get the overheat script component
         robotOverheat = GetComponent<RobotOverheat>();
+        playerHealth = GetComponent<PlayerHealth>();
     }
 
     void Update()
@@ -312,6 +314,7 @@ public class PlayerAttack : MonoBehaviour
     private IEnumerator UltimateSequence()
     {
         isInUltimate = true;
+        if (playerHealth != null) playerHealth.isInvincible = true;
 
         if (cameraMovement != null)
             cameraMovement.transitionSpeed = 3;
@@ -350,6 +353,8 @@ public class PlayerAttack : MonoBehaviour
 
         if (movement != null)
             movement.enabled = true;
+
+        if (playerHealth != null) playerHealth.isInvincible = false;
 
         ultimateCharged = false;
         ultimateCooldownTimer = ultimateActivationCooldown;

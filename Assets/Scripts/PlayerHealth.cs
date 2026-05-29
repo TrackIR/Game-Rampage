@@ -15,6 +15,8 @@ public class PlayerHealth : MonoBehaviour
     public GameObject deathMenu;
     public GameObject playMenu;
 
+    public bool isInvincible = false;
+
     private Animator anim;
     private int animDamageHash;
     private int animDestroyHash;
@@ -51,7 +53,7 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(float damage)
     {
 
-        if (!isAlive) return;
+        if (!isAlive || isInvincible) return;
 
         // ToDo: make player audio work!
         playerAudio.PlayHurt();
