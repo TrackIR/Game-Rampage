@@ -474,9 +474,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e541a44f78b074a42bab0a5fec67ea4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingDestruction
-  maxHealth: 5
+  maxHealth: 4
   scoreReward: 10
   healthReward: 5
+  sinkDuration: 0.2
   collapseSound: {fileID: 7591722462256364901, guid: 8f60f82f207a31347b5738e2b3d707e6, type: 3}
 --- !u!65 &7065360287935005185
 BoxCollider:
