@@ -221,6 +221,12 @@ public class BuildingDestruction : MonoBehaviour
             player.Heal(healthReward);
         }
 
+        PlayerAttack playerAttack = FindFirstObjectByType<PlayerAttack>();
+        if (playerAttack != null)
+        {
+            playerAttack.IncreaseUltimateScore(scoreReward);
+        }
+
         Destroy(gameObject);
     }
 }
