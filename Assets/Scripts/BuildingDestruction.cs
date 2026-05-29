@@ -204,7 +204,7 @@ public class BuildingDestruction : MonoBehaviour
         if (rubblePrefab != null)
         {
             GameObject rubble = Instantiate(rubblePrefab, rubblePos, Quaternion.identity);
-            Destroy(rubble, 15f); // free up RAM
+            Destroy(rubble, 45f); // free up RAM
         }
 
         // Score

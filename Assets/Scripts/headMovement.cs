@@ -267,8 +267,8 @@ public class headMovement : MonoBehaviour
         }
         else
         {
-            mouseRotatePlayer();
             wasdMove();
+            mouseRotatePlayer();
         }
     }
 

@@ -25,7 +25,6 @@ public class helicopterSpawner : MonoBehaviour
     void Start()
     {
         navMeshSurface.BuildNavMesh();
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         scalingFactor = settings.difficulty == "Easy" ? 1 : settings.difficulty == "Hard" ? 3 : 2;
         spawnCount = Mathf.FloorToInt(scalingFactor); // Adjust spawn count based on difficulty
         spawnTimer = spawnRate; // So enemy spawns immediatly once player reaches score threshold
@@ -33,9 +32,15 @@ public class helicopterSpawner : MonoBehaviour
 
     void Update()
     {
-        if (ui.score >= spawnThreshold)
-        {
-            SpawnOnTimer();
+        if(ui.timerIsRunning){
+            if(playerTransform == null)
+            {
+                playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+            }
+            if (ui.score >= spawnThreshold)
+            {
+                SpawnOnTimer();
+            }
         }
     }
 
