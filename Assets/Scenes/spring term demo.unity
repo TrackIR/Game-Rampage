@@ -52639,6 +52639,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5074331816939295384, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
+      propertyPath: pulseSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5074331816939295384, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: overheatColor.g
       value: 0.16521282
       objectReference: {fileID: 0}
@@ -52648,7 +52652,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5074331816939295384, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: maxEmissionIntensity
-      value: 0.6
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5422387770691132287, guid: 6e53f6933cbf7c7458835ef4cc6e2849, type: 3}
       propertyPath: debugON
