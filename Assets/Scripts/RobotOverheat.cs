@@ -10,25 +10,31 @@ public class RobotOverheat : MonoBehaviour
     public float pulseSpeed = 3f; // Speed of the pulsation
     public float overheatThreshold = 0.9f; // Start pulsating at 90% charge
 
-    private List<Material> robotMaterials = new List<Material>();
+    private List<Renderer> robotRenderers = new List<Renderer>();
     private float currentPercent = 0f;
+    private MaterialPropertyBlock propBlock;
+    private static readonly int EmissionColorId = Shader.PropertyToID("_EmissionColor");
 
     // Base settings for calculating how much visuals should scale
-    // Visual effects will increase intensity as ultimate bar increases
     private float basePulseSpeed = 0.0f;
     private float baseMaxEmissionIntensity = 0.0f;
     private float baseMinEmissionIntensity = 0.0f;
 
     void Start()
     {
+        propBlock = new MaterialPropertyBlock();
+        
         // Get all renderers to apply the overheat effect
-        Renderer[] robotRenderers = GetComponentsInChildren<Renderer>();
-        foreach (Renderer r in robotRenderers)
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+        foreach (Renderer r in renderers)
         {
-            foreach (Material m in r.materials)
+            robotRenderers.Add(r);
+            
+            // In URP/Builds, we often need to ensure the keyword is active on the base materials
+            // Doing it once here to help the renderer know it should look for emission
+            foreach (Material m in r.sharedMaterials)
             {
-                m.EnableKeyword("_EMISSION");
-                robotMaterials.Add(m);
+                if (m != null) m.EnableKeyword("_EMISSION");
             }
         }
 
@@ -50,33 +56,39 @@ public class RobotOverheat : MonoBehaviour
 
     private void UpdateVisuals()
     {
-        if (robotMaterials.Count == 0) return;
+        if (robotRenderers.Count == 0) return;
 
         float intensity = 0f;
 
         // If above the threshold, start pulsating
-        
         if (currentPercent >= overheatThreshold)
         {
-
             // Scale overheat visuals by current percent, building up to max
-            pulseSpeed = basePulseSpeed * currentPercent;
-            minEmissionIntensity = baseMinEmissionIntensity * currentPercent;
-            maxEmissionIntensity = baseMaxEmissionIntensity * currentPercent;
+            // Normalizing percent from threshold..1.0 to 0..1.0 for better scaling
+            float normalizedOverheat = (currentPercent - overheatThreshold) / (1f - overheatThreshold);
+            
+            float currentPulseSpeed = basePulseSpeed * (1f + normalizedOverheat);
+            float currentMin = baseMinEmissionIntensity + (baseMaxEmissionIntensity * 0.2f * normalizedOverheat);
+            float currentMax = baseMaxEmissionIntensity;
 
             // Use a sine wave to create a pulse effect
-            float pulse = (Mathf.Sin(Time.time * pulseSpeed) + 1f) / 2f;
+            float pulse = (Mathf.Sin(Time.time * currentPulseSpeed) + 1f) / 2f;
             
             // This lerps between min and max intensity
-            intensity = Mathf.Lerp(minEmissionIntensity, maxEmissionIntensity, pulse);
+            intensity = Mathf.Lerp(currentMin, currentMax, pulse);
         }
 
         // Apply the overheat color with the calculated intensity
+        // Using HDR color multiplication
         Color finalColor = overheatColor * intensity;
 
-        foreach (Material m in robotMaterials)
+        // Update each renderer using the PropertyBlock
+        // This is much more efficient and reliable in builds than modifying .material
+        foreach (Renderer r in robotRenderers)
         {
-            m.SetColor("_EmissionColor", finalColor);
+            r.GetPropertyBlock(propBlock);
+            propBlock.SetColor(EmissionColorId, finalColor);
+            r.SetPropertyBlock(propBlock);
         }
     }
 }
