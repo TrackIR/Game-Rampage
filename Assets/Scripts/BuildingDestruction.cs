@@ -204,7 +204,7 @@ public class BuildingDestruction : MonoBehaviour
         if (rubblePrefab != null)
         {
             GameObject rubble = Instantiate(rubblePrefab, rubblePos, Quaternion.identity);
-            Destroy(rubble, 15f); // free up RAM
+            Destroy(rubble, 45f); // free up RAM
         }
 
         // Score
@@ -219,6 +219,12 @@ public class BuildingDestruction : MonoBehaviour
         if (player != null)
         {
             player.Heal(healthReward);
+        }
+
+        PlayerAttack playerAttack = FindFirstObjectByType<PlayerAttack>();
+        if (playerAttack != null)
+        {
+            playerAttack.IncreaseUltimateScore(scoreReward);
         }
 
         Destroy(gameObject);

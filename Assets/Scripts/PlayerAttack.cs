@@ -21,6 +21,7 @@ public class PlayerAttack : MonoBehaviour
     public int ultimateThreshold = 250;
     public int ultimateLength = 20;
     public float ultimateSlowmoSpeed = 0.25f;
+    public int ultimateScore = 0;
 
     [Range(0f, 1f)]
     public float beamWeight = 0.01f;
@@ -29,11 +30,13 @@ public class PlayerAttack : MonoBehaviour
     public Transform ultSpawnPoint;
     public float ultLaserDuration = 7f;
     public int ultLaserDamage = 10;
+    
 
     [Header("Movement / Player References")]
     public movement movement;
     public cameraMovement3D cameraMovement;
     public GameObject playerHead;
+    private PlayerHealth playerHealth;
 
     [Header("References / Animation")]
     public PlayerAudio playerAudio;
@@ -128,6 +131,7 @@ public class PlayerAttack : MonoBehaviour
 
         // Get the overheat script component
         robotOverheat = GetComponent<RobotOverheat>();
+        playerHealth = GetComponent<PlayerHealth>();
     }
 
     void Update()
@@ -190,18 +194,19 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    public void IncreaseUltimateScore(int score)
+    {
+        if (!isInUltimate) ultimateScore += score;
+    }
+
     void checkScore()
     {
         if (uiManager == null) return;
 
-        int score = uiManager.score;
-        int currentLevel = score / ultimateThreshold;
-
-        if (currentLevel > lastUltimateLevel)
+        if (!ultimateCharged && ultimateScore >= ultimateThreshold)
         {
             ultimateCharged = true;
-            Debug.Log("Ult ready");
-            lastUltimateLevel = currentLevel;
+            ultimateScore = 0;
         }
 
         float progressPercent = 0f;
@@ -216,11 +221,8 @@ public class PlayerAttack : MonoBehaviour
         else
         {
             // Calculate how far along the player is to the NEXT ultimate charge
-            int progress = score - (lastUltimateLevel * ultimateThreshold);
-            if (progress < 0) progress = 0;
-
-            uiManager.UpdateUlt(progress, ultimateThreshold);
-            progressPercent = (float)progress / ultimateThreshold;
+            uiManager.UpdateUlt(ultimateScore, ultimateThreshold);
+            progressPercent = (float)ultimateScore / ultimateThreshold;
         }
 
         UpdateOverheat(progressPercent);
@@ -312,6 +314,7 @@ public class PlayerAttack : MonoBehaviour
     private IEnumerator UltimateSequence()
     {
         isInUltimate = true;
+        if (playerHealth != null) playerHealth.isInvincible = true;
 
         if (cameraMovement != null)
             cameraMovement.transitionSpeed = 3;
@@ -350,6 +353,8 @@ public class PlayerAttack : MonoBehaviour
 
         if (movement != null)
             movement.enabled = true;
+
+        if (playerHealth != null) playerHealth.isInvincible = false;
 
         ultimateCharged = false;
         ultimateCooldownTimer = ultimateActivationCooldown;

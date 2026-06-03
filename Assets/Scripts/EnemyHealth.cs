@@ -34,7 +34,7 @@ public class EnemyHealth : MonoBehaviour
 
         currentHealth -= damage;
 
-        Debug.Log("Enemy hit for " + damage + " damage! Remaining Health: " + currentHealth);
+        // Debug.Log("Enemy hit for " + damage + " damage! Remaining Health: " + currentHealth);
 
         if (AudioManager.Instance != null)
         {
@@ -94,7 +94,7 @@ public class EnemyHealth : MonoBehaviour
             Destroy(corpse, 10f);
         }
 
-        Debug.Log("Enemy killed");
+        // Debug.Log("Enemy killed");
         Destroy(gameObject);
     }
 

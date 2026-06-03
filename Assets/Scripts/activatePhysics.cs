@@ -14,7 +14,7 @@ public class activatePhysics : MonoBehaviour
             rb.useGravity = true;
             rb.isKinematic = false;
             rb.AddForce(transform.forward * 7f, ForceMode.Impulse);
-            print("Collision detected with player, gravity activated.");
+            // print("Collision detected with player, gravity activated.");
 
             Destroy(collision.gameObject, 5f);
         }
