@@ -31,7 +31,14 @@ public class GameManager : MonoBehaviour
         UImanager = Canvas.GetComponent<Canvas>();
         camScript = TrackIRCam.GetComponent<cameraMovement3D>();
         input = new PlayerInput();
-        jumpAction = input.KeyboardMouse.Jump;
+        if (gameSettings != null && gameSettings.useTrackIR)
+        {
+            jumpAction = input.TrackIR.Jump;
+        }
+        else
+        {
+            jumpAction = input.KeyboardMouse.Jump;
+        }
     }
 
     void OnDestroy()
@@ -52,7 +59,7 @@ public class GameManager : MonoBehaviour
         InvisibleWalls.SetActive(false);
         if (gameSettings.useTrackIR)
         {
-            UImanager.GetComponent<ManageUI>().SetTutorialText("Nod up to jump over the wall");
+            UImanager.GetComponent<ManageUI>().SetTutorialText("Nod up or press " + jumpAction.GetBindingDisplayString() + " to jump over the wall");
         }
         else
         {
