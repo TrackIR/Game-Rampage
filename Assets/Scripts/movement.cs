@@ -76,7 +76,7 @@ public class movement : MonoBehaviour
         if (gameSettings != null && gameSettings.useTrackIR)
         {
             moveAction = null; // TrackIR handles movement
-            jumpAction = null;
+            jumpAction = input.TrackIR.Jump;
         }
         else
         {
@@ -373,6 +373,10 @@ public class movement : MonoBehaviour
             velocity.y += gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
             jump();
+            if (jumpAction != null && jumpAction.triggered && controller.isGrounded)
+            {
+                velocity.y = Mathf.Sqrt(jumpPower * -2f * gravity);
+            }
         }
         else
         {
