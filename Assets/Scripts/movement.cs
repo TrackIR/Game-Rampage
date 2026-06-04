@@ -364,7 +364,6 @@ public class movement : MonoBehaviour
             zMove();
             xMove();
             rotPlayer();
-            
 
             if (controller.isGrounded && velocity.y < 0f)
             {

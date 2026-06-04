@@ -6,7 +6,7 @@ public class tutorialZone : MonoBehaviour
 
     void Start()
     {
-        
+
     }
     void OnTriggerExit(Collider other)
     {

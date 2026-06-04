@@ -44,7 +44,7 @@ public class ReadLeaderboardFile : MonoBehaviour
             // Add ScrollRect to handle the actual scrolling
             ScrollRect scrollRect = viewport.GetComponent<ScrollRect>();
             if (scrollRect == null) scrollRect = viewport.gameObject.AddComponent<ScrollRect>();
-            
+
             scrollRect.content = textRect;
             scrollRect.horizontal = false;
             scrollRect.vertical = true;

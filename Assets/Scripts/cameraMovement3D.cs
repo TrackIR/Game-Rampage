@@ -64,20 +64,20 @@ public class cameraMovement3D : MonoBehaviour
             Quaternion childRotation = trackIR.LatestPoseOrientation;
             Vector3 headEuler = childRotation.eulerAngles;
 
-            inputYaw   = WrapAngle(headEuler.y);
+            inputYaw = WrapAngle(headEuler.y);
             inputPitch = WrapAngle(headEuler.x);
 
             headRotation = Quaternion.Euler(inputPitch, inputYaw, 0f);
         }
         else
         {
-            float nx = (Input.mousePosition.x / Screen.width  - 0.5f) * 2f;
+            float nx = (Input.mousePosition.x / Screen.width - 0.5f) * 2f;
             float ny = -(Input.mousePosition.y / Screen.height - 0.5f) * 2f;
 
-            inputYaw   = nx * yawRange;
+            inputYaw = nx * yawRange;
             inputPitch = Mathf.Clamp(ny * maxPitch, -maxPitch, maxPitch);
 
-            Quaternion yawRot   = Quaternion.AngleAxis(inputYaw,   Vector3.up);
+            Quaternion yawRot = Quaternion.AngleAxis(inputYaw, Vector3.up);
             Quaternion pitchRot = Quaternion.AngleAxis(inputPitch, Vector3.right);
 
             headRotation = yawRot * pitchRot;
@@ -85,10 +85,10 @@ public class cameraMovement3D : MonoBehaviour
 
         // --- 3rd person ---
         // Scale the orbit angles by sensitivity independently of raw input
-        float orbitYaw   = inputYaw   * yawOrbitWeight   * orbitSensitivity;
-        float orbitPitch = inputPitch * pitchOrbitWeight  * orbitSensitivity;
+        float orbitYaw = inputYaw * yawOrbitWeight * orbitSensitivity;
+        float orbitPitch = inputPitch * pitchOrbitWeight * orbitSensitivity;
 
-        float yawRad   = orbitYaw   * Mathf.Deg2Rad;
+        float yawRad = orbitYaw * Mathf.Deg2Rad;
         float pitchRad = orbitPitch * Mathf.Deg2Rad;
 
         Vector3 localOrbit;
@@ -123,10 +123,10 @@ public class cameraMovement3D : MonoBehaviour
             // camera object on top of this, so we pre-cancel the raw head rotation
             // and re-apply only the sensitivity-scaled portion so the net rotation
             // the tracker adds equals (scaled - raw), keeping the view centred.
-            Quaternion rawHead    = Quaternion.Euler(inputPitch, inputYaw, 0f);
+            Quaternion rawHead = Quaternion.Euler(inputPitch, inputYaw, 0f);
             Quaternion scaledHead = Quaternion.Euler(
                 inputPitch * orbitSensitivity,
-                inputYaw   * orbitSensitivity,
+                inputYaw * orbitSensitivity,
                 0f
             );
             // Remove raw, re-add scaled: net correction the tracker must fight

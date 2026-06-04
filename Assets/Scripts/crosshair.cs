@@ -39,7 +39,8 @@ public class crossHair : MonoBehaviour
         {
             input.Menu.Click.ApplyBindingOverride(TIRclickKeyPath);
         }
-        else         {
+        else
+        {
             input.Menu.Click.ApplyBindingOverride(mouseClickPath);
         }
         Click = input.Menu.Click;

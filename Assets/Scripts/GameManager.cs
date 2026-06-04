@@ -70,6 +70,6 @@ public class GameManager : MonoBehaviour
     public void StartSecondGamePhase()
     {
         UImanager.GetComponent<ManageUI>().timerIsRunning = true;
-        
+
     }
 }

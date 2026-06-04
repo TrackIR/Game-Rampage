@@ -32,8 +32,9 @@ public class helicopterSpawner : MonoBehaviour
 
     void Update()
     {
-        if(ui.timerIsRunning){
-            if(playerTransform == null)
+        if (ui.timerIsRunning)
+        {
+            if (playerTransform == null)
             {
                 playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
             }

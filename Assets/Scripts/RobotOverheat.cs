@@ -23,13 +23,13 @@ public class RobotOverheat : MonoBehaviour
     void Start()
     {
         propBlock = new MaterialPropertyBlock();
-        
+
         // Get all renderers to apply the overheat effect
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
         foreach (Renderer r in renderers)
         {
             robotRenderers.Add(r);
-            
+
             // In URP/Builds, we often need to ensure the keyword is active on the base materials
             // Doing it once here to help the renderer know it should look for emission
             foreach (Material m in r.sharedMaterials)
@@ -66,14 +66,14 @@ public class RobotOverheat : MonoBehaviour
             // Scale overheat visuals by current percent, building up to max
             // Normalizing percent from threshold..1.0 to 0..1.0 for better scaling
             float normalizedOverheat = (currentPercent - overheatThreshold) / (1f - overheatThreshold);
-            
+
             float currentPulseSpeed = basePulseSpeed * (1f + normalizedOverheat);
             float currentMin = baseMinEmissionIntensity + (baseMaxEmissionIntensity * 0.2f * normalizedOverheat);
             float currentMax = baseMaxEmissionIntensity;
 
             // Use a sine wave to create a pulse effect
             float pulse = (Mathf.Sin(Time.time * currentPulseSpeed) + 1f) / 2f;
-            
+
             // This lerps between min and max intensity
             intensity = Mathf.Lerp(currentMin, currentMax, pulse);
         }

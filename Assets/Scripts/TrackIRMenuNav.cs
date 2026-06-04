@@ -80,7 +80,7 @@ public class TrackIRMenuNav : MonoBehaviour
         input.Menu.Enable();
         if (gameSettings != null && gameSettings.useTrackIR)
         {
-           input.Menu.Click.ApplyBindingOverride(TIRclickKeyPath);
+            input.Menu.Click.ApplyBindingOverride(TIRclickKeyPath);
         }
         else
         {

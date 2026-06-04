@@ -3,8 +3,8 @@ using UnityEngine;
 public class SplashBounce : MonoBehaviour
 {
     private Vector3 originalScale;
-    public float bounceSpeed = 8f;     
-    public float bounceAmount = 0.1f;   
+    public float bounceSpeed = 8f;
+    public float bounceAmount = 0.1f;
 
     void Awake()
     {

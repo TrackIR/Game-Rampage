@@ -30,7 +30,6 @@ public class PlayerAttack : MonoBehaviour
     public Transform ultSpawnPoint;
     public float ultLaserDuration = 7f;
     public int ultLaserDamage = 10;
-    
 
     [Header("Movement / Player References")]
     public movement movement;

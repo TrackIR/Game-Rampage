@@ -39,12 +39,12 @@ public class BuildingDestruction : MonoBehaviour
         currentHealth = maxHealth;
 
         // Load prefabs once and cache them
-        if (smokePrefab == null) 
+        if (smokePrefab == null)
         {
             smokePrefab = Resources.Load<GameObject>("SmokeEffect");
         }
-        
-        if (rubblePrefab == null) 
+
+        if (rubblePrefab == null)
         {
             rubblePrefab = Resources.Load<GameObject>("RubblePile");
         }

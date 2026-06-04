@@ -34,7 +34,7 @@ public class SpawnEnemies : MonoBehaviour
     {
         if (ui.timerIsRunning)
         {
-            if(playerTransform == null)
+            if (playerTransform == null)
             {
                 playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
             }
