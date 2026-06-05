@@ -14,6 +14,7 @@ public class SpawnEnemies : MonoBehaviour
     public float spawnRate = 10f; //How often enemies spawn in seconds
     private float spawnTimer = 0f;
     public int spawnCount; // How many enemies to spawn each time
+    public float maxEnemies = 3;
     private float scalingFactor = 2;
     public int radiusFromPlayer = 200; // How far from the player the enemies should spawn
     public float randomOffset = 10; // How spread out enemy spawns are
@@ -24,7 +25,6 @@ public class SpawnEnemies : MonoBehaviour
     void Start()
     {
         navMeshSurface.BuildNavMesh();
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         scalingFactor = settings.difficulty == "Easy" ? 1 : settings.difficulty == "Hard" ? 3 : 2;
         spawnCount = Mathf.FloorToInt(scalingFactor * 2); // Adjust spawn count based on difficulty
         spawnTimer = spawnRate; // So enemies start spawning immediately
@@ -32,15 +32,37 @@ public class SpawnEnemies : MonoBehaviour
 
     void Update()
     {
-        SpawnOnTimer();
+        if (ui.timerIsRunning)
+        {
+            if (playerTransform == null)
+            {
+                playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+            }
+            SpawnOnTimer();
+        }
     }
-
     void SpawnOnTimer()
     {
+        // Default settings for standard game modes
+        float activeDifficultyModifier = ui.difficulty;
+        float activeMaxEnemies = maxEnemies;
+
+        // TRADE SHOW SCALING
+        if (ui.isTradeShow)
+        {
+            // Threat level 1-5 aggressively reduces the wait time between spawns
+            activeDifficultyModifier = ui.wantedLevel * 1.5f;
+
+            // Threat level dynamically increases the swarm size! (Level 5 adds 5 extra max enemies)
+            activeMaxEnemies = maxEnemies + ui.wantedLevel;
+        }
+
+        // Calculate the interval, clamping it so it never fires faster than twice a second
+        float interval = Mathf.Clamp(spawnRate - activeDifficultyModifier, 0.5f, 20f);
 
         spawnTimer += Time.deltaTime;
 
-        if (spawnTimer >= spawnRate)
+        if (spawnTimer >= interval)
         {
             Vector3 center = new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z);
             float angleStep = 360f / Mathf.Max(1, spawnCount);

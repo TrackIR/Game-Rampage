@@ -66,5 +66,5 @@
     "explorer.fileNesting.patterns": {
         "*.sln": "*.csproj"
     },
-    "dotnet.defaultSolution": "Game-Rampage.sln"
+    "dotnet.defaultSolution": "Game-Rampage.slnx"
 }

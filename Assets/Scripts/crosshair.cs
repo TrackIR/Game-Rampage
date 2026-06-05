@@ -1,12 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class crossHair : MonoBehaviour
 {
+    public GameSettings gameSettings;
     public GameObject reticleObject;
-    public KeyCode clickKey = KeyCode.Space;
-    public float sensitivity = 1;
+    private PlayerInput input;
+    private InputAction Click;
+    private string TIRclickKeyPath = "<Keyboard>/pageDown";
+    private string mouseClickPath = "<Mouse>/leftButton";
+    public float sensitivity = 2;
 
     // private variables
     TrackIRComponent trackIR;
@@ -28,12 +33,21 @@ public class crossHair : MonoBehaviour
         trackIR = GetComponent<TrackIRComponent>();
         eventSystem = EventSystem.current;
         pointerData = new PointerEventData(eventSystem);
+
+        input.Menu.Enable();
+        if (gameSettings.useTrackIR)
+        {
+            input.Menu.Click.ApplyBindingOverride(TIRclickKeyPath);
+        }
+        else
+        {
+            input.Menu.Click.ApplyBindingOverride(mouseClickPath);
+        }
+        Click = input.Menu.Click;
     }
 
-    void Update()
+    void TrackIRCursor()
     {
-        // cursor movement
-
         // get head rotation data
         Vector3 headRot = trackIR.LatestPoseOrientation.eulerAngles;
 
@@ -80,7 +94,7 @@ public class crossHair : MonoBehaviour
         }
 
         // click on element
-        if (Input.GetKeyDown(clickKey))
+        if (Click.triggered)
         {
             ExecuteEvents.Execute(
                 uiTarget,
@@ -88,6 +102,22 @@ public class crossHair : MonoBehaviour
                 ExecuteEvents.pointerClickHandler
             );
         }
+    }
 
+    void MouseCursor()
+    {
+
+    }
+
+    void Update()
+    {
+        if (gameSettings.useTrackIR)
+        {
+            TrackIRCursor();
+        }
+        else
+        {
+            MouseCursor();
+        }
     }
 }

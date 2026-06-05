@@ -6,6 +6,7 @@ public class HelicopterAI : MonoBehaviour
 {
 
     public Transform playerTarget;
+    public EnemyAudio audioPlayer;
     private bool playerInRange;
     private bool playerInSight;
     public float fireRange = 60f;
@@ -27,6 +28,7 @@ public class HelicopterAI : MonoBehaviour
     private int animForwardAttackHash;
     private int animBackwardHash;
     private int animBackwardAttackHash;
+    private float forwardAudioTimer = 0f;
 
     void Start()
     {
@@ -56,23 +58,46 @@ public class HelicopterAI : MonoBehaviour
             animBackwardHash = Animator.StringToHash("Base Layer.Backward");
             animBackwardAttackHash = Animator.StringToHash("Base Layer.BackwardAttack");
         }
+
+        // play sound when spawned in
+        audioPlayer.PlayForward();
+    }
+
+    void HandleForwardAudio()
+    {
+        forwardAudioTimer += Time.deltaTime;
+
+        if (forwardAudioTimer >= 20f)
+        {
+            forwardAudioTimer = UnityEngine.Random.Range(10f, 20f); // small variation around ~10s
+            audioPlayer.PlayForward();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (playerTarget == null)
+        {
+            GameObject playerHeadObj = GameObject.FindGameObjectWithTag("PlayerHead");
+            if (playerHeadObj != null) playerTarget = playerHeadObj.transform;
+            if (playerTarget == null) return;
+        }
+
+        if (agent == null) return;
+
         playerInRange = Physics.CheckSphere(transform.position, fireRange, LayerMask.GetMask("player"));
         playerInSight = Physics.Raycast(transform.position, playerTarget.position - transform.position, out RaycastHit hit, fireRange, LayerMask.GetMask("player", "Default", "Building"));
 
         bool shooting = false; //Used to control animations
 
-        if (playerInRange && playerInSight && hit.collider.CompareTag("Player"))
+        if (playerInRange && playerInSight && hit.collider != null && hit.collider.CompareTag("Player"))
         {
             agent.stoppingDistance = fireRange;
             Shootplayer();
             shooting = true;
         }
-        else if (playerInRange && !hit.collider.CompareTag("Player"))
+        else if (playerInRange)
         {
             agent.stoppingDistance = 0f;
             FindPlayer();
@@ -85,6 +110,9 @@ public class HelicopterAI : MonoBehaviour
 
         UpdateAnimation(shooting);
 
+        // update audio player for shooting
+        if (audioPlayer != null) audioPlayer.PlayWaterJet(shooting);
+
         // Previous Rotation code for the helicopter
         /*
         Vector3 forward = agent.velocity.normalized;
@@ -94,12 +122,14 @@ public class HelicopterAI : MonoBehaviour
         heliBody.transform.rotation = Quaternion.Slerp(heliBody.transform.rotation, targetRotation, Time.deltaTime * 5f);
         */
 
-
+        // plays copter sound roughly every ~10 seconds
+        HandleForwardAudio();
     }
 
     void FindPlayer()
     {
-        ParticleSystem.Stop();
+        if (path == null) path = new NavMeshPath();
+        if (ParticleSystem != null) ParticleSystem.Stop();
         elapsed += Time.deltaTime;
         if (elapsed > 1.0f)
         {
@@ -124,13 +154,10 @@ public class HelicopterAI : MonoBehaviour
                     areaMask = agent.areaMask
                 },
                 path);
-            if (path.status == NavMeshPathStatus.PathComplete)
+
+            if (path.status == NavMeshPathStatus.PathComplete || path.status == NavMeshPathStatus.PathPartial)
             {
                 agent.SetPath(path);
-            }
-            else
-            {
-                Debug.LogWarning($"HelicopterAI: path status {path.status}", this);
             }
         }
     }
@@ -259,5 +286,10 @@ public class HelicopterAI : MonoBehaviour
                     anim.Play(animBackwardHash);
             }
         }
+    }
+
+    void OnDestroy()
+    {
+        // Material cleanup is now handled by individual components or avoided via PropertyBlocks
     }
 }

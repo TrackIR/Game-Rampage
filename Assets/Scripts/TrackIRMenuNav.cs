@@ -1,20 +1,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class TrackIRMenuNav : MonoBehaviour
 {
+    [Header("Settings")]
+    public GameSettings gameSettings;
     public GameObject curserObject;
-    public KeyCode clickKey = KeyCode.Space;
     public float sensitivity = 1;
-
+    private PlayerInput input;
+    private InputAction Click;
     TrackIRComponent trackIR;
     EventSystem eventSystem;
     PointerEventData pointerData;
 
     private float lastClickTime = 0f;
     private float clickCooldown = 0.1f;
+
+    private string TIRclickKeyPath = "<Keyboard>/pageDown";
+    private string mouseClickPath = "<Mouse>/leftButton";
 
     float WrapAngle(float angle)
     {
@@ -25,17 +32,75 @@ public class TrackIRMenuNav : MonoBehaviour
         return angle;
     }
 
-    void Start()
+    GameObject GetSelectableAtPosition(Vector2 screenPos)
     {
-        trackIR = GetComponent<TrackIRComponent>();
-        eventSystem = EventSystem.current;
-        pointerData = new PointerEventData(eventSystem);
+        if (eventSystem == null) return null;
+
+        if (pointerData == null) pointerData = new PointerEventData(eventSystem);
+        pointerData.position = screenPos;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        eventSystem.RaycastAll(pointerData, results);
+
+        foreach (RaycastResult result in results)
+        {
+            Selectable selectable = result.gameObject.GetComponentInParent<Selectable>();
+            if (selectable != null && selectable.interactable)
+            {
+                return selectable.gameObject;
+            }
+        }
+
+        return null;
     }
 
-    void Update()
+    void Start()
+    {
+        if (input == null)
+        {
+            input = new PlayerInput();
+        }
+
+        // Search the whole scene for TrackIR, not just this one GameObject
+        trackIR = GetComponent<TrackIRComponent>();
+        if (trackIR == null)
+        {
+            trackIR = FindFirstObjectByType<TrackIRComponent>();
+        }
+
+        // Warn if GameSettings is missing
+        if (gameSettings == null)
+        {
+            Debug.LogError("TrackIRMenuNav: GameSettings is not assigned");
+        }
+
+        eventSystem = EventSystem.current;
+        pointerData = new PointerEventData(eventSystem);
+
+        input.Menu.Enable();
+        if (gameSettings != null && gameSettings.useTrackIR)
+        {
+            input.Menu.Click.ApplyBindingOverride(TIRclickKeyPath);
+        }
+        else
+        {
+            input.Menu.Click.ApplyBindingOverride(mouseClickPath);
+        }
+        Click = input.Menu.Click;
+
+        // hide cursor
+        Cursor.visible = false;
+    }
+
+    void TrackIRCursor()
     {
         // Safety check to prevent null reference spam
-        if (trackIR == null || eventSystem == null) return;
+        if (trackIR == null)
+        {
+            Debug.LogWarning("TrackIRMenuNav: Cannot find TrackIRComponent in scene");
+            return;
+        }
+        if (eventSystem == null) return;
 
         Vector3 headRot = trackIR.LatestPoseOrientation.eulerAngles;
         float aspect = (float)Screen.width / Screen.height;
@@ -52,33 +117,8 @@ public class TrackIRMenuNav : MonoBehaviour
         {
             curserObject.transform.position = screenPos;
         }
-        pointerData.position = screenPos;
 
-        List<RaycastResult> results = new List<RaycastResult>();
-        eventSystem.RaycastAll(pointerData, results);
-
-        if (results.Count == 0)
-        {
-            // Clear the selection so that looking back at the button counts as a new hover
-            if (eventSystem.currentSelectedGameObject != null)
-            {
-                eventSystem.SetSelectedGameObject(null);
-            }
-            return;
-        }
-
-        GameObject uiTarget = null;
-
-        // Find the first actual interactable UI element (ignore text/backgrounds)
-        foreach (RaycastResult result in results)
-        {
-            Selectable selectable = result.gameObject.GetComponentInParent<Selectable>();
-            if (selectable != null && selectable.interactable)
-            {
-                uiTarget = selectable.gameObject;
-                break; // Found a valid interactable button/selectable, stop looking
-            }
-        }
+        GameObject uiTarget = GetSelectableAtPosition(screenPos);
 
         // If hit nothing interactable (like the gap between keys)
         if (uiTarget == null)
@@ -103,22 +143,58 @@ public class TrackIRMenuNav : MonoBehaviour
         }
 
         // Click on element
-        if (Input.GetKeyDown(clickKey))
+        if (Click.triggered)
         {
-            if (Time.time - lastClickTime > clickCooldown)
+            if (eventSystem.currentSelectedGameObject == uiTarget)
             {
-                lastClickTime = Time.time;
+                if (Time.time - lastClickTime > clickCooldown)
+                {
+                    lastClickTime = Time.time;
 
-                // Play Click Sound
-                if (AudioManager.Instance != null && AudioManager.Instance.menuClick != null)
+                    // Play Click Sound
+                    if (AudioManager.Instance != null && AudioManager.Instance.menuClick != null)
+                    {
+                        AudioManager.Instance.playAudio(AudioManager.Instance.menuClick);
+                    }
+                }
+
+                ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerDownHandler);
+                ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerUpHandler);
+                ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerClickHandler);
+            }
+        }
+    }
+
+    void MouseCursor()
+    {
+        if (curserObject != null)
+        {
+            Vector2 mousePos = Input.mousePosition;
+            curserObject.transform.position = mousePos;
+
+            if (Click.triggered)
+            {
+                GameObject uiTarget = GetSelectableAtPosition(mousePos);
+                if (uiTarget != null && AudioManager.Instance != null && AudioManager.Instance.menuClick != null)
                 {
                     AudioManager.Instance.playAudio(AudioManager.Instance.menuClick);
                 }
             }
+        }
+    }
 
-            ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerDownHandler);
-            ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerUpHandler);
-            ExecuteEvents.Execute(uiTarget, pointerData, ExecuteEvents.pointerClickHandler);
+    void Update()
+    {
+        // Safe check for useTrackIR in case GameSettings was left blank
+        bool isUsingTrackIR = (gameSettings != null) ? gameSettings.useTrackIR : true;
+
+        if (isUsingTrackIR)
+        {
+            TrackIRCursor();
+        }
+        else
+        {
+            MouseCursor();
         }
     }
 }

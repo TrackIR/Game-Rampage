@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayMenu : MonoBehaviour
 {
     public GameSettings settings;
-    public string[] difficulty = { "Easy", "Normal", "Hard" };
+    public string[] difficulty = { "Easy", "Normal", "Hard", "Trade Show" };
     public int defaultDiff;
 
     public string[] map = { "Downtown" };

@@ -242,9 +242,6 @@ PrefabInstance:
       addedObject: {fileID: 5669367918535864486}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ce294ff03246f404f80f9340f12e7c69, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6585819394530620270}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ce294ff03246f404f80f9340f12e7c69, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 7865638968141585682}
   m_SourcePrefab: {fileID: 100100000, guid: ce294ff03246f404f80f9340f12e7c69, type: 3}
 --- !u!1 &4681338645857191174 stripped
@@ -274,21 +271,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -939061152623264921, guid: ce294ff03246f404f80f9340f12e7c69, type: 3}
---- !u!114 &6585819394530620270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4681338645857191174}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e541a44f78b074a42bab0a5fec67ea4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BuildingDestruction
-  maxHealth: 3
-  scoreReward: 10
-  healthReward: 5
 --- !u!114 &7865638968141585682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,6 +286,7 @@ MonoBehaviour:
   maxHealth: 3
   scoreReward: 10
   healthReward: 5
+  collapseSound: {fileID: 7591722462256364901, guid: 8f60f82f207a31347b5738e2b3d707e6, type: 3}
 --- !u!4 &5457417299521707964 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ce294ff03246f404f80f9340f12e7c69, type: 3}
@@ -335,11 +318,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1692137574875598918, guid: eb47a14300af6d1439430bf96aaa7ab5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.014900171
+      value: 0.0149
       objectReference: {fileID: 0}
     - target: {fileID: 1692137574875598918, guid: eb47a14300af6d1439430bf96aaa7ab5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.020115089
+      value: -0.0112
       objectReference: {fileID: 0}
     - target: {fileID: 1692137574875598918, guid: eb47a14300af6d1439430bf96aaa7ab5, type: 3}
       propertyPath: m_LocalRotation.w

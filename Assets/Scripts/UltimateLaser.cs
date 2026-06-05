@@ -21,7 +21,7 @@ public class UltimateLaser : MonoBehaviour
         float zScale = transform.localScale.z;
         transform.localPosition = new Vector3(0f, 0f, zScale / 2f);
 
-        Destroy(parentTransform.gameObject, duration);
+        Destroy(gameObject, duration);
     }
 
     private void Update()
@@ -31,8 +31,8 @@ public class UltimateLaser : MonoBehaviour
         elapsedTime += Time.deltaTime;
 
         // lock to main cam forward
-        Transform cam = Camera.main.transform;
-        parentTransform.rotation = Quaternion.LookRotation(cam.forward);
+        //Transform cam = Camera.main.transform;
+        //parentTransform.rotation = Quaternion.LookRotation(cam.forward);
 
         Spin(gameObject, laserSpin);
         //if (highlights != null)

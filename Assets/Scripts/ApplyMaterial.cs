@@ -25,7 +25,7 @@ public class ApplyMaterial : MonoBehaviour
 
         foreach (Renderer r in renderers)
         {
-            r.material = material;  // Apply the material to the object's children
+            r.sharedMaterial = material;  // Apply the material to the object's children
         }
     }
 }

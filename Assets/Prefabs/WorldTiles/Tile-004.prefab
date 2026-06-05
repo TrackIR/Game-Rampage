@@ -147,7 +147,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1692137574875598918, guid: eb47a14300af6d1439430bf96aaa7ab5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.28465718
+      value: 0.545
       objectReference: {fileID: 0}
     - target: {fileID: 1692137574875598918, guid: eb47a14300af6d1439430bf96aaa7ab5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -324,6 +324,7 @@ MonoBehaviour:
   maxHealth: 3
   scoreReward: 10
   healthReward: 5
+  collapseSound: {fileID: 7591722462256364901, guid: 8f60f82f207a31347b5738e2b3d707e6, type: 3}
 --- !u!23 &5477752536598571242
 MeshRenderer:
   m_ObjectHideFlags: 0

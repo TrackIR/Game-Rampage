@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -7,6 +8,50 @@ using System.IO;
 public class ReadLeaderboardFile : MonoBehaviour
 {
     public TextMeshProUGUI leaderboardTxt;
+
+    void Start()
+    {
+        SetupScrolling();
+    }
+
+    private void SetupScrolling()
+    {
+        if (leaderboardTxt == null) return;
+
+        // 1. Ensure the text object can expand to fit all content
+        ContentSizeFitter fitter = leaderboardTxt.gameObject.GetComponent<ContentSizeFitter>();
+        if (fitter == null) fitter = leaderboardTxt.gameObject.AddComponent<ContentSizeFitter>();
+        fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        fitter.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
+
+        // Set pivot to top so it expands downwards
+        RectTransform textRect = leaderboardTxt.rectTransform;
+        textRect.pivot = new Vector2(0.5f, 1f);
+        textRect.anchorMin = new Vector2(0, 1);
+        textRect.anchorMax = new Vector2(1, 1);
+        textRect.anchoredPosition = Vector2.zero;
+
+        // 2. The parent needs to be the "Viewport" with a Mask and ScrollRect
+        Transform viewport = leaderboardTxt.transform.parent;
+        if (viewport != null)
+        {
+            // Add Mask to hide text that goes outside the background
+            if (viewport.GetComponent<RectMask2D>() == null && viewport.GetComponent<Mask>() == null)
+            {
+                viewport.gameObject.AddComponent<RectMask2D>();
+            }
+
+            // Add ScrollRect to handle the actual scrolling
+            ScrollRect scrollRect = viewport.GetComponent<ScrollRect>();
+            if (scrollRect == null) scrollRect = viewport.gameObject.AddComponent<ScrollRect>();
+
+            scrollRect.content = textRect;
+            scrollRect.horizontal = false;
+            scrollRect.vertical = true;
+            scrollRect.movementType = ScrollRect.MovementType.Clamped;
+            scrollRect.viewport = viewport as RectTransform;
+        }
+    }
 
     public void ReadLatest()
     {
