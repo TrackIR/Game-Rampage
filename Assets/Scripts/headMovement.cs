@@ -108,7 +108,7 @@ public class headMovement : MonoBehaviour
     void zMove()
     {
         //when head moves forward past threshhold, move player forward
-        if (Mathf.Abs(headPos.z) > headZThreshold)
+        if (Mathf.Abs(headPos.z) > gameSettings.movementDeadzone/2)
         {
             // Determine forward direction relative to player's orientation
             Vector3 forward = transform.forward;
@@ -125,7 +125,7 @@ public class headMovement : MonoBehaviour
     void xMove()
     {
         //when head moves to the side past threshhold, move player sideways
-        if (Mathf.Abs(headPos.x) > headXThreshold)
+        if (Mathf.Abs(headPos.x) > gameSettings.movementDeadzone/2)
         {
             // Determine right direction relative to player's orientation
             Vector3 right = transform.right;

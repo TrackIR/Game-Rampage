@@ -24,6 +24,6 @@ public class CamSens : MonoBehaviour
         Debug.Log($"Camera Sensitivity updated to: {gameSettings.camSens}");
 
         // Short, single-line text update (formatted to 2 decimal places)
-        if (valueText != null) valueText.text = $"Sens: {sensitivity:F2}";
+        if (valueText != null) valueText.text = $"{sensitivity:F2}";
     }
 }

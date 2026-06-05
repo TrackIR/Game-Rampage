@@ -16,3 +16,4 @@ MonoBehaviour:
   mapIndex: Downtown
   useTrackIR: 1
   camSens: 1
+  movementDeadzone: 0.2
