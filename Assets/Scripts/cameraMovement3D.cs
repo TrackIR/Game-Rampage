@@ -9,7 +9,6 @@ public class cameraMovement3D : MonoBehaviour
     [Header("Camera Settings")]
     TrackIRComponent trackIR;
     public GameObject trackIRRoot;
-
     public GameObject playerObject;
     public bool is3rdPerson = true;
 
@@ -88,8 +87,8 @@ public class cameraMovement3D : MonoBehaviour
         float orbitYaw = inputYaw * yawOrbitWeight * orbitSensitivity;
         float orbitPitch = inputPitch * pitchOrbitWeight * orbitSensitivity;
 
-        float yawRad = orbitYaw * Mathf.Deg2Rad;
-        float pitchRad = orbitPitch * Mathf.Deg2Rad;
+        float yawRad = orbitYaw * Mathf.Deg2Rad * gameSettings.camSens;
+        float pitchRad = orbitPitch * Mathf.Deg2Rad * gameSettings.camSens;
 
         Vector3 localOrbit;
         localOrbit.x = distance * Mathf.Cos(pitchRad) * Mathf.Sin(yawRad);
