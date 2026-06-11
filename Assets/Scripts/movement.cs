@@ -166,7 +166,7 @@ public class movement : MonoBehaviour
     void zMove()
     {
         //when head moves forward past threshhold, move player forward
-        if (Mathf.Abs(headPos.z) > headZThreshold)
+        if (Mathf.Abs(headPos.z) > gameSettings.movementDeadzone / 2)
         {
             Vector3 forward = transform.forward;
             forward.y = 0; // keep movement horizontal
@@ -186,7 +186,7 @@ public class movement : MonoBehaviour
     void xMove()
     {
         //when head moves to the side past threshhold, move player sideways
-        if (Mathf.Abs(headPos.x) > headXThreshold)
+        if (Mathf.Abs(headPos.x) > gameSettings.movementDeadzone / 2)
         {
             Vector3 right = transform.right;
             right.y = 0; // keep movement horizontal

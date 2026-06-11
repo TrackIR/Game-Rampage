@@ -10,7 +10,6 @@ public class TrackIRMenuNav : MonoBehaviour
     [Header("Settings")]
     public GameSettings gameSettings;
     public GameObject curserObject;
-    public float sensitivity = 1;
     private PlayerInput input;
     private InputAction Click;
     TrackIRComponent trackIR;
@@ -105,8 +104,8 @@ public class TrackIRMenuNav : MonoBehaviour
         Vector3 headRot = trackIR.LatestPoseOrientation.eulerAngles;
         float aspect = (float)Screen.width / Screen.height;
 
-        float normHorizontal = ((WrapAngle(headRot.y) * sensitivity) + 90f) / 180f;
-        float normVertical = 1f - (((WrapAngle(headRot.x) * sensitivity * aspect) + 90f) / 180f);
+        float normHorizontal = ((WrapAngle(headRot.y) * gameSettings.camSens) + 90f) / 180f;
+        float normVertical = 1f - (((WrapAngle(headRot.x) * gameSettings.camSens * aspect) + 90f) / 180f);
 
         Vector2 screenPos = new Vector2(
             normHorizontal * Screen.width,

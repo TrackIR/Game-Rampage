@@ -7,4 +7,5 @@ public class GameSettings : ScriptableObject
     public string mapIndex;
     public bool useTrackIR = true;
     public float camSens = 2;
+    public float movementDeadzone = 0.2f;
 }
